@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="bs-datastructure">
+  <ClassDiagramComponents>
+    <Class name="Gangs" package="" visibility="public" xPosition="116.0" yPosition="237.0">
+      <Fields>
+        <Field name="gangs" type="List&lt;Gang&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="get_Gang_By_Name" returnType="String" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="add_gang" returnType="Gang" visibility="public">
+          <Argument type="Gang" name="gang"/>
+        </Method>
+        <Method name="get_gangs" returnType="List&lt;gang&gt;" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Gang" package="" visibility="public" xPosition="460.0" yPosition="237.0">
+      <Fields>
+        <Field name="gang_name" type="String" visibility="private"/>
+        <Field name="users" type="List&lt;Gangster&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="get_Gang_Name" returnType="String" visibility="public"/>
+        <Method name="set_Gang_Name" returnType="String" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="add_gangster" returnType="Gangster" visibility="public">
+          <Argument type="Gangster" name="gangster"/>
+        </Method>
+        <Method name="get_gangster_by_name" returnType="Gangster" visibility="public"/>
+        <Method name="get_gangster_by_hash" returnType="Gangster" visibility="public"/>
+        <Method name="create_gang" returnType="String" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Gangster" package="" visibility="public" xPosition="844.0" yPosition="220.0">
+      <Fields>
+        <Field name="username" type="String" visibility="private"/>
+        <Field name="in_game_username" type="String" visibility="private"/>
+        <Field name="UTC_offset" type="Float" visibility="private"/>
+        <Field name="location" type="String" visibility="private"/>
+        <Field name="name_hashes" type="String&lt;String&gt;" visibility="private"/>
+        <Field name="cars_pic" type="byte[]" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="create_User" returnType="String" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="get_Username" returnType="String" visibility="public"/>
+        <Method name="set_Username" returnType="void" visibility="public"/>
+        <Method name="get_in_game_username" returnType="String" visibility="public"/>
+        <Method name="set_in_game_username" returnType="void" visibility="public"/>
+        <Method name="get_UTC_offset" returnType="Float" visibility="public"/>
+        <Method name="set_UTC_offset" returnType="Float" visibility="public">
+          <Argument type="Float" name="offset"/>
+        </Method>
+        <Method name="get_location" returnType="String" visibility="public"/>
+        <Method name="set_location" returnType="String" visibility="public">
+          <Argument type="String" name="location"/>
+        </Method>
+        <Method name="add_hash" returnType="String" visibility="public">
+          <Argument type="String" name="hash"/>
+        </Method>
+        <Method name="get_hashes" returnType="List&lt;String&gt;" visibility="public"/>
+        <Method name="get_car_badge" returnType="byte[]" visibility="public"/>
+        <Method name="set_car_badge" returnType="byte[]" visibility="public">
+          <Argument type="byte[]" name="badge"/>
+        </Method>
+        <Method name="write_badge_to_www_file" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GangTools" package="" visibility="public" xPosition="246.0" yPosition="51.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="load_gangs" returnType="Gangs" visibility="public">
+          <Argument type="String" name="Location"/>
+        </Method>
+        <Method name="save_gangs" returnType="void" visibility="public">
+          <Argument type="String" name="location"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="gangsters" source="Gang" target="Gangster" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
+    <UseRelation name="load/store" source="GangTools" target="Gangs" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="gang" source="Gangs" target="Gang" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
