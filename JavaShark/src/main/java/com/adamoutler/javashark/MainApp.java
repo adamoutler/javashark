@@ -41,7 +41,7 @@ public class MainApp extends ParametersImpl {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/test", new TestHandler());
-        server.createContext("/testjson", new JsonTestHandler());
+        server.createContext("/json", new JsonTestHandler());
 
         server.setExecutor(null); // creates a default executor
         server.start();
