@@ -27,11 +27,11 @@ public class MainApp extends ParametersImpl {
 
     public static void main(String[] args) {
         MainApp server = new MainApp(args);
-        String port = server.getNamed().getOrDefault("port", "53329");
+        String port = server.getNamed().getOrDefault("port", "8000");
         try {
             server.startServer(Integer.parseInt(port));
         } catch (IOException ex) {
-            System.err.print("Could not start server due to port error");
+            System.err.print("Could not start server due to port error. please specify --port=8382 or whatever. ");
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -39,7 +39,7 @@ public class MainApp extends ParametersImpl {
     private void startServer(int portNumber) throws IOException {
         System.out.println(this.getRaw());
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
         server.createContext("/json", new JsonTestHandler());
 
