@@ -22,6 +22,7 @@ public class LocationTime {
                 + "&inputtype=textquery&input=" + location;
         JsonElement jes = new JsonParser().parse(new RestTemplate()
                 .getForEntity(locationRequest, String.class).getBody());
+        System.out.println(jes.toString());
         String placeID = jes.getAsJsonObject().get("candidates")
                 .getAsJsonArray().get(0).getAsJsonObject().get("place_id")
                 .toString();
@@ -42,13 +43,12 @@ public class LocationTime {
 
     static String check = "/time ";
 
-    public String  getDetails(String apiKey, String command) {
+    public String  getDetails(String apiKey, String place) {
  
-        int index = command.indexOf(check);
-        String area = command.substring(index + check.length());
+     
 
         try {
-            DetailsResult dr = getLocation(area, apiKey);
+            DetailsResult dr = getLocation(place, apiKey);
             return dr.getCurrentTime() + " in " + dr.getLongName() + "(" + dr.getShortName() + ").";
 
         } catch (Exception ex) {

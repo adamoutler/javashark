@@ -7,6 +7,7 @@ package com.adamoutler.javashark;
 
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
+import com.adamoutler.javashark.handlers.TimeHandler;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -31,7 +32,7 @@ public class MainApp extends ParametersImpl {
         MainApp server = new MainApp(args);
         String port = server.getNamed().getOrDefault("port", "8000");
         try {
-            System.out.println("Starting server on "+port);
+            System.out.println("Starting server on " + port);
             server.startServer(Integer.parseInt(port));
         } catch (IOException ex) {
             System.err.print("Could not start server due to port error. please specify --port=8382 or whatever. ");
@@ -45,11 +46,10 @@ public class MainApp extends ParametersImpl {
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
         server.createContext("/json", new JsonTestHandler());
-
+        server.createContext("/time", new TimeHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
 
     }
 
-   
 }
