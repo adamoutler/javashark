@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.adamoutler.javashark;
+package com.adamoutler.javashark.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,7 +14,7 @@ import java.io.OutputStream;
  *
  * @author adamo
  */
-public class TestHandler implements HttpHandler {
+public class TestHandler extends AbstractPapaHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
@@ -36,14 +36,8 @@ public class TestHandler implements HttpHandler {
                 .append(n).append("---end of request---").append(n);
 
         sb.append(n).append(response).append(n);
-        t.sendResponseHeaders(200, sb.toString().length());
-        try (OutputStream os = t.getResponseBody()) {
-            os.write(sb.toString().getBytes());
-        }
+        sendSucessString(t, sb.toString());
+
     }
 
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
 }

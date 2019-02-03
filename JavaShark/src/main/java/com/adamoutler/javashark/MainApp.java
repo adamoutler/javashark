@@ -5,6 +5,8 @@
  */
 package com.adamoutler.javashark;
 
+import com.adamoutler.javashark.handlers.TestHandler;
+import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

@@ -1,4 +1,4 @@
-package com.adamoutler.javashark;
+package com.adamoutler.javashark.handlers;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +18,7 @@ import java.io.OutputStream;
  *
  * @author adamo
  */
-public class JsonTestHandler implements HttpHandler {
+public class JsonTestHandler extends AbstractPapaHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
@@ -26,20 +26,12 @@ public class JsonTestHandler implements HttpHandler {
         
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("alert")
-                        .setBuilding(
-                                Integer.toString((int)(Math.random() * 6) + 1))
+                        .setBuilding(Integer.toString((int)(Math.random() * 6) + 1))
                         .setMessage("just a test, but more stuff can go here"));
-        String response=message.toJson();
-        t.sendResponseHeaders(200, response.length());
-
-        try (OutputStream os = t.getResponseBody()) {
-            os.write(response.getBytes());
-        }
-    
+        sendSucessMessage(t, message);    
     }
 
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
+ 
+
+
 }
