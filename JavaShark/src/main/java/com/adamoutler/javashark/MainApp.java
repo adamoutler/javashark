@@ -29,6 +29,7 @@ public class MainApp extends ParametersImpl {
         MainApp server = new MainApp(args);
         String port = server.getNamed().getOrDefault("port", "8000");
         try {
+            System.out.println("Starting server on "+port);
             server.startServer(Integer.parseInt(port));
         } catch (IOException ex) {
             System.err.print("Could not start server due to port error. please specify --port=8382 or whatever. ");
