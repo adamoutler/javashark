@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.springframework.web.client.RestTemplate;
 
-
 /**
  *
  * @author adamo
@@ -43,20 +42,16 @@ public class LocationTime {
 
     static String check = "/time ";
 
-    public String  getDetails(String apiKey, String place) {
- 
-     
+    public String getDetails(String apiKey, String place) {
 
         try {
             DetailsResult dr = getLocation(place, apiKey);
-            return dr.getCurrentTime() + " in " + dr.getLongName() + "(" + dr.getShortName() + ").";
+            return "It is " + dr.getCurrentTime() + " in " + dr.getLongName() + "(" + dr.getShortName() + ").";
 
         } catch (Exception ex) {
-          return  "I don't know that place.";
+            return "I don't know that place.";
 
         }
-
-        
 
     }
 
