@@ -14,6 +14,7 @@ import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 /**
  *
@@ -28,6 +29,7 @@ public class TimeHandler extends AbstractPapaHandler implements HttpHandler {
         String uri=t.getRequestURI().toASCIIString();
         System.out.println(t.getRequestURI());
         String place=uri.substring(uri.lastIndexOf("/")+1,uri.length());
+        place=URLDecoder.decode(place, "UTF-8");
         String s=new LocationTime().getDetails("REPLACE_ME", place);
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("speak")
