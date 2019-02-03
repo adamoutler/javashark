@@ -21,23 +21,27 @@ public class Message {
 
     private String command;
     private String building;
-    private String response;
-    private String yearday;
+    private MessageData data=new MessageData();
+    private String timestamp;
 
+    public Message(){
+                generateTimeStamp();
+
+    }
     
     /**
      * @return the message
      */
-    public String getMessage() {
-        return response;
+    public MessageData getData() {
+        return data;
     }
 
     /**
-     * @param message the message to set
+     * @param data the data to be set 
      * @return reference to this object
      */
-    public Message setMessage(String message) {
-        this.response = message;
+    public Message setData( MessageData data) {
+        this.data = data;
         return this;
     }
 
@@ -57,10 +61,12 @@ public class Message {
         return this;
     }
     
-    public String getYearDate(){
-        Date date=new Date();
-        SimpleDateFormat d = new SimpleDateFormat("YYYY D");
-        return d.format(date);
+    final void generateTimeStamp(){
+        this.timestamp=Long.toString(System.currentTimeMillis() / 1000L);
+    }
+    
+    public String getTimestamp(){
+        return timestamp;
     }
     
     
@@ -84,7 +90,7 @@ public class Message {
     
     public String toJson(){
         Gson gson=new GsonBuilder().setLenient().setPrettyPrinting().create();
-        this.yearday=getYearDate();
+        this.timestamp=getTimestamp();
         return gson.toJson(this);
     }
     

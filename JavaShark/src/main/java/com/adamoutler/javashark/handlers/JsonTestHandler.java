@@ -9,10 +9,10 @@ package com.adamoutler.javashark.handlers;
 
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  *
@@ -26,8 +26,13 @@ public class JsonTestHandler extends AbstractPapaHandler implements HttpHandler 
         
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("alert")
-                        .setBuilding(Integer.toString((int)(Math.random() * 6) + 1))
-                        .setMessage("just a test, but more stuff can go here"));
+                        .setData(new MessageData()
+                               
+                                .setEmoji("this crashes when I use emoji...")
+                                .setNobodyOwns("3,4").setTheyOwn("5,6")
+                                .setWeOwn("1,2").setText("help!")
+                                .setReason("alert")
+                                .setBuildings(new String[]{Integer.toString((int)(Math.random() * 6) + 1)})));
         sendSucessMessage(t, message);    
     }
 

@@ -10,10 +10,10 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.googletools.LocationTime;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  *
@@ -31,7 +31,8 @@ public class TimeHandler extends AbstractPapaHandler implements HttpHandler {
         String s=new LocationTime().getDetails("REPLACE_ME", place);
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("speak")
-                        .setMessage(s));
+                        .setData(new MessageData().setText(s)));
+
         sendSucessMessage(t, message);    
     }
 

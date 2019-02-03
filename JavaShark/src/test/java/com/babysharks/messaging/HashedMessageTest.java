@@ -44,7 +44,7 @@ public class HashedMessageTest {
     @Test
     public void testToJson() {
         System.out.println("toJson");
-        HashedMessage instance = new HashedMessage(new Message().setCommand("foo").setMessage("bar"));
+        HashedMessage instance = new HashedMessage(new Message().setCommand("foo"));
         String result = instance.toJson();
         System.out.println(result);
     }
