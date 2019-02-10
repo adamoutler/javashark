@@ -23,6 +23,7 @@ public class MessageData {
     private String emoji;
     private String reason;
     private String[] buildings;
+    private Object resultObject;
 
     /**
      * @return the weOwn
@@ -168,6 +169,22 @@ public class MessageData {
      */
     public MessageData setBuildings(String[] buildings) {
         this.buildings = buildings;
+        return this;
+    }
+
+    /**
+     * @return the resultObject
+     */
+    public Object getResultObject() {
+        return resultObject;
+    }
+
+    /**
+     * @param resultObject the resultObject to set
+     * @return representation of this MessageData object
+     */
+    public MessageData setResultObject(Object resultObject) {
+        this.resultObject = resultObject;
         return this;
     }
 }

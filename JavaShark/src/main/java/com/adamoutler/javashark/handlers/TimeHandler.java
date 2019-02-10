@@ -33,7 +33,9 @@ public class TimeHandler extends AbstractPapaHandler implements HttpHandler {
         String s=new LocationTime().getDetails("REPLACE_ME", place);
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("speak")
-                        .setData(new MessageData().setText(s)));
+                        .setData(new MessageData().setText(s)
+                                .setResultObject(LocationTime.getDateTimeObject( place,"REPLACE_ME"))));
+        
 
         sendSucessMessage(t, message);    
     }

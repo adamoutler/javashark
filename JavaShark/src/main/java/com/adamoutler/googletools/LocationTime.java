@@ -5,9 +5,13 @@
  */
 package com.adamoutler.googletools;
 
+import com.adamoutler.time.UserTimeCalculator;
+import com.babysharks.datastructures.DateTimeResult;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.springframework.web.client.RestTemplate;
+import com.babysharks.datastructures.google.GooglePlaceDetail;
+import com.babysharks.datastructures.google.GooglePlaceDetailObject;
 
 /**
  *
@@ -15,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class LocationTime {
 
-    public static DetailsResult getLocation(String location, String apiKey) {
+    public static GooglePlaceDetail getLocation(String location, String apiKey) {
         String locationRequest = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
                 + "?key=" + apiKey
                 + "&inputtype=textquery&input=" + location;
@@ -27,14 +31,13 @@ public class LocationTime {
                 .toString();
         String detailsRequest = "https://maps.googleapis.com/maps/api/place/details/json"
                 + "?placeid=" + placeID.replace("\"", "").replace("\\\"", "")
-                + "&fields=name,address_components,utc_offset"
+                + "&fields=name,address_components,utc_offset,url"
                 + "&inputtype=textquery"
                 + "&key=" + apiKey;
         String dsr = new RestTemplate().getForEntity(detailsRequest, String.class)
                 .getBody();
 
-        DetailsResult dr = new RestTemplate().getForEntity(detailsRequest, DetailsResult.class)
-                .getBody();
+        GooglePlaceDetail dr = new RestTemplate().getForEntity(detailsRequest, GooglePlaceDetailObject.class).getBody().getResult();
 
         return dr;
 
@@ -42,21 +45,45 @@ public class LocationTime {
 
     static String check = "/time ";
 
-    public String getDetails(String apiKey, String place) {
+    public String  getDetails(String apiKey, String place) {
+ 
+     
 
         try {
-            DetailsResult dr = getLocation(place, apiKey);
-            return "It is " + dr.getCurrentTime() + " in " + dr.getLongName() + "(" + dr.getShortName() + ").";
+            GooglePlaceDetail dr = getLocation(place, apiKey);
+            return getFriendlyTime(dr);
 
         } catch (Exception ex) {
-            return "I don't know that place.";
+          return  "I don't know that place.";
 
         }
 
+        
+
+    }
+
+    private static String getFriendlyTime(GooglePlaceDetail dr) {
+        return "It is "+getCurrentTime(dr) + " in " + dr.getAddressComponents().get(0).getLongName()+ "(" +dr.getAddressComponents().get(0).getShortName() + ").";
+    }
+    
+    public static DateTimeResult getDateTimeObject(String place,String apiKey){
+        DateTimeResult dtr =new DateTimeResult(getLocation(place, apiKey));
+        dtr.setFriendlyTime(getFriendlyTime(dtr.getDetails()));
+        return dtr;
     }
 
     public static boolean isTimeExtractionCommand(String value) {
         return value.toLowerCase().contains(check);
     }
-
+public static String getCurrentTime(GooglePlaceDetail result){
+        
+        long offset=getUtcOffset( result);
+        String curDate=UserTimeCalculator.calculateUTCTimeWithOffset(offset);
+        return curDate;
+        
+    }
+ public static int getUtcOffset(GooglePlaceDetail result) {
+        
+       return result.getUtcOffset();
+    }
 }
