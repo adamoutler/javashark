@@ -14,8 +14,9 @@ import java.io.OutputStream;
  *
  * @author adamo
  */
-public class TestHandler extends AbstractPapaHandler implements HttpHandler {
+public class TestHandler extends AbstractPapaHandler {
 
+    
     @Override
     public void handle(HttpExchange t) throws IOException {
         String response = "This is the response";

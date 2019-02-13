@@ -7,6 +7,8 @@ package com.babysharks.messaging;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,14 +23,16 @@ public class Message {
 
     private String command;
     private String building;
-    private MessageData data=new MessageData();
+    private MessageData data = new MessageData();
     private String timestamp;
+    
+    
 
-    public Message(){
-                generateTimeStamp();
+    public Message() {
+        generateTimeStamp();
 
     }
-    
+
     /**
      * @return the message
      */
@@ -37,10 +41,10 @@ public class Message {
     }
 
     /**
-     * @param data the data to be set 
+     * @param data the data to be set
      * @return reference to this object
      */
-    public Message setData( MessageData data) {
+    public Message setData(MessageData data) {
         this.data = data;
         return this;
     }
@@ -54,22 +58,20 @@ public class Message {
 
     /**
      * @param command the command to set1
-      * @return reference to this object
+     * @return reference to this object
      */
     public Message setCommand(String command) {
         this.command = command;
         return this;
     }
-    
-    final void generateTimeStamp(){
-        this.timestamp=Long.toString(System.currentTimeMillis() / 1000L);
+
+    final void generateTimeStamp() {
+        this.timestamp = Long.toString(System.currentTimeMillis() / 1000L);
     }
-    
-    public String getTimestamp(){
+
+    public String getTimestamp() {
         return timestamp;
     }
-    
-    
 
     /**
      * @return the building
@@ -86,12 +88,11 @@ public class Message {
         this.building = building;
         return this;
     }
-    
-    
-    public String toJson(){
-        Gson gson=new GsonBuilder().setLenient().setPrettyPrinting().create();
-        this.timestamp=getTimestamp();
+
+    public String toJson() {
+        Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
+        this.timestamp = getTimestamp();
         return gson.toJson(this);
     }
-    
+
 }

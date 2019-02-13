@@ -12,6 +12,8 @@ import com.google.gson.JsonParser;
 import org.springframework.web.client.RestTemplate;
 import com.babysharks.datastructures.google.GooglePlaceDetail;
 import com.babysharks.datastructures.google.GooglePlaceDetailObject;
+import com.google.gson.JsonSyntaxException;
+import org.springframework.web.client.RestClientException;
 
 /**
  *
@@ -23,24 +25,38 @@ public class LocationTime {
         String locationRequest = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
                 + "?key=" + apiKey
                 + "&inputtype=textquery&input=" + location;
-        JsonElement jes = new JsonParser().parse(new RestTemplate()
-                .getForEntity(locationRequest, String.class).getBody());
+        JsonElement jes = getLocation(locationRequest);
         System.out.println(jes.toString());
+        if (jes.toString().contains("ZERO_RESULTS")){
+            GooglePlaceDetail gpd= new GooglePlaceDetail();
+            gpd.setName("I don't know that place");
+            return gpd;
+        }
         String placeID = jes.getAsJsonObject().get("candidates")
                 .getAsJsonArray().get(0).getAsJsonObject().get("place_id")
                 .toString();
         String detailsRequest = "https://maps.googleapis.com/maps/api/place/details/json"
                 + "?placeid=" + placeID.replace("\"", "").replace("\\\"", "")
-                + "&fields=name,address_components,utc_offset,url"
+                + "&fields=name,address_components,utc_offset"
                 + "&inputtype=textquery"
                 + "&key=" + apiKey;
-        String dsr = new RestTemplate().getForEntity(detailsRequest, String.class)
-                .getBody();
+        getDetails(detailsRequest);
 
         GooglePlaceDetail dr = new RestTemplate().getForEntity(detailsRequest, GooglePlaceDetailObject.class).getBody().getResult();
 
         return dr;
 
+    }
+
+    private static void getDetails(String detailsRequest) throws RestClientException {
+        String dsr = new RestTemplate().getForEntity(detailsRequest, String.class)
+                .getBody();
+    }
+
+    private static JsonElement getLocation(String locationRequest) throws JsonSyntaxException, RestClientException {
+        JsonElement jes = new JsonParser().parse(new RestTemplate()
+                .getForEntity(locationRequest, String.class).getBody());
+        return jes;
     }
 
     static String check = "/time ";
@@ -68,7 +84,6 @@ public class LocationTime {
     
     public static DateTimeResult getDateTimeObject(String place,String apiKey){
         DateTimeResult dtr =new DateTimeResult(getLocation(place, apiKey));
-        dtr.setFriendlyTime(getFriendlyTime(dtr.getDetails()));
         return dtr;
     }
 

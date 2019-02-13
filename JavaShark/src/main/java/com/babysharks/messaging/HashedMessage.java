@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * @author adamo
  */
 public class HashedMessage {
-
+    public String service="JavaShark";
     private Message message;
     private String hash;
 
@@ -67,5 +67,8 @@ public class HashedMessage {
         return hash;
     }
 
-
+    public static HashedMessage decode(String json){
+        Gson gson=new GsonBuilder().create();
+        return gson.fromJson(json, HashedMessage.class);
+    }
 }

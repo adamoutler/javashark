@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark;
 
+import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
@@ -43,13 +44,17 @@ public class MainApp extends ParametersImpl {
     private void startServer(int portNumber) throws IOException {
         System.out.println(this.getRaw());
 
+        CommandDistributor commandDistributor=new CommandDistributor();
+        commandDistributor.register("time", new TimeHandler());
+        commandDistributor.register("json", new JsonTestHandler());
+        commandDistributor.register("test", new TestHandler());
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
-        server.createContext("/json", new JsonTestHandler());
-        server.createContext("/time", new TimeHandler());
+        server.createContext("/command", commandDistributor);
         server.setExecutor(null); // creates a default executor
         server.start();
 
     }
 
+  
 }

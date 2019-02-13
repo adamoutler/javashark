@@ -7,13 +7,39 @@ package com.babysharks.messaging;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  * @author adamo
  */
 public class MessageData {
-
+@SerializedName("0")
+    @Expose
+    private String arg0;
+    @SerializedName("1")
+    @Expose
+    private String arg1;
+    @SerializedName("2")
+    @Expose
+    private String arg2;
+    @SerializedName("3")
+    @Expose
+    private String arg3;
+    @SerializedName("4")
+    @Expose
+    private String arg4;
+    @SerializedName("5")
+    @Expose
+    private String arg5;
+    @SerializedName("args")
+    @Expose
+    private String args;
+   
+    @SerializedName("method")
+    @Expose
+    private String method;
     private String weOwn;
     private String theyOwn;
     private String nobodyOwns;
@@ -186,5 +212,117 @@ public class MessageData {
     public MessageData setResultObject(Object resultObject) {
         this.resultObject = resultObject;
         return this;
+    }
+
+    /**
+     * @return the arg0
+     */
+    public String getArg0() {
+        return arg0;
+    }
+
+    /**
+     * @param arg0 the arg0 to set
+     */
+    public void setArg0(String arg0) {
+        this.arg0 = arg0;
+    }
+
+    /**
+     * @return the arg1
+     */
+    public String getArg1() {
+        return arg1;
+    }
+
+    /**
+     * @param arg1 the arg1 to set
+     */
+    public void setArg1(String arg1) {
+        this.arg1 = arg1;
+    }
+
+    /**
+     * @return the arg2
+     */
+    public String getArg2() {
+        return arg2;
+    }
+
+    /**
+     * @param arg2 the arg2 to set
+     */
+    public void setArg2(String arg2) {
+        this.arg2 = arg2;
+    }
+
+    /**
+     * @return the arg3
+     */
+    public String getArg3() {
+        return arg3;
+    }
+
+    /**
+     * @param arg3 the arg3 to set
+     */
+    public void setArg3(String arg3) {
+        this.arg3 = arg3;
+    }
+
+    /**
+     * @return the arg4
+     */
+    public String getArg4() {
+        return arg4;
+    }
+
+    /**
+     * @param arg4 the arg4 to set
+     */
+    public void setArg4(String arg4) {
+        this.arg4 = arg4;
+    }
+
+    /**
+     * @return the arg5
+     */
+    public String getArg5() {
+        return arg5;
+    }
+
+    /**
+     * @param arg5 the arg5 to set
+     */
+    public void setArg5(String arg5) {
+        this.arg5 = arg5;
+    }
+
+    /**
+     * @return the method
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * @param method the method to set
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
+     * @return the args
+     */
+    public String getArgs() {
+        return args;
+    }
+
+    /**
+     * @param args the args to set
+     */
+    public void setArgs(String args) {
+        this.args = args;
     }
 }

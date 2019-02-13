@@ -8,21 +8,22 @@ package com.babysharks.datastructures.google;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
 
 public class GooglePlaceDetail {
 
     @SerializedName("address_components")
     @Expose
-    private List<AddressComponent> addressComponents = null;
+    private List<AddressComponent> addressComponents = new ArrayList<>();
     @SerializedName("utc_offset")
     @Expose
-    private Integer utcOffset;
+    private Integer utcOffset=99999999;
     @SerializedName("url")
     @Expose
-    private String url;
+    private String url="0.0.0.0";
     @SerializedName("name")
     @Expose
-    private String name;
+    private String name="Unknown Place";
     public List<AddressComponent> getAddressComponents() {
         return addressComponents;
     }

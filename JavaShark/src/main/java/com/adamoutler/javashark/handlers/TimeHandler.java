@@ -20,23 +20,21 @@ import java.net.URLDecoder;
  *
  * @author adamo
  */
-public class TimeHandler extends AbstractPapaHandler implements HttpHandler {
+public class TimeHandler extends AbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        
+        ///init(t);
         
         String uri=t.getRequestURI().toASCIIString();
         System.out.println(t.getRequestURI());
-        String place=uri.substring(uri.lastIndexOf("/")+1,uri.length());
-        place=URLDecoder.decode(place, "UTF-8");
-        String s=new LocationTime().getDetails("REPLACE_ME", place);
+        String place=message.getData().getArgs();
         HashedMessage message=new HashedMessage(
-                new Message().setCommand("speak")
-                        .setData(new MessageData().setText(s)
+                new Message().setCommand("time")
+                        .setData(new MessageData()
                                 .setResultObject(LocationTime.getDateTimeObject( place,"REPLACE_ME"))));
         
-
+        System.out.println("sending message: "+message.getMessage().getData().getResultObject());
         sendSucessMessage(t, message);    
     }
 

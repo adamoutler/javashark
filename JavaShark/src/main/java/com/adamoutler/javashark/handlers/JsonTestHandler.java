@@ -11,14 +11,13 @@ import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
  *
  * @author adamo
  */
-public class JsonTestHandler extends AbstractPapaHandler implements HttpHandler {
+public class JsonTestHandler extends AbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {

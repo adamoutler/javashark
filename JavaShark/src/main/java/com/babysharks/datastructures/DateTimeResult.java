@@ -31,6 +31,7 @@ public class DateTimeResult {
         details=result;
         utcOffset=result.getUtcOffset();
         List<AddressComponent> ac=result.getAddressComponents();
+        if (ac.isEmpty()) return;
         StringBuilder sb=new StringBuilder().append(ac.get(0).getLongName());
         if (ac.size()>1){
             sb.append(" (");
