@@ -22,6 +22,14 @@ import java.net.URLDecoder;
  */
 public class TimeHandler extends AbstractPapaHandler {
 
+    final String key="REPLACE_ME";
+    
+    public TimeHandler(){
+        new Thread(()->{
+            LocationTime.getDateTimeObject( "fez's Mom's house",key);
+        }).start();
+    }
+    
     @Override
     public void handle(HttpExchange t) throws IOException {
         ///init(t);
@@ -32,7 +40,7 @@ public class TimeHandler extends AbstractPapaHandler {
         HashedMessage message=new HashedMessage(
                 new Message().setCommand("time")
                         .setData(new MessageData()
-                                .setResultObject(LocationTime.getDateTimeObject( place,"REPLACE_ME"))));
+                                .setResultObject(LocationTime.getDateTimeObject( place,key))));
         
         System.out.println("sending message: "+message.getMessage().getData().getResultObject());
         sendSucessMessage(t, message);    
