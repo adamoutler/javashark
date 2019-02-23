@@ -29,6 +29,7 @@ public class VirtualBoxScreenShot {
         ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
         Process p = pb.start();
         p.waitFor(30000,TimeUnit.SECONDS);
+        f.setReadable(true, true);
 
         return f;
     }
