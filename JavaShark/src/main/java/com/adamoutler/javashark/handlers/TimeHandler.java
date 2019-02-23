@@ -5,16 +5,12 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import com.adamoutler.googletools.LocationTime;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.net.URLDecoder;
 
 /**
  *
@@ -22,32 +18,30 @@ import java.net.URLDecoder;
  */
 public class TimeHandler extends AbstractPapaHandler {
 
-    final String key="REPLACE_ME";
-    
-    public TimeHandler(){
-        new Thread(()->{
-            LocationTime.getDateTimeObject( "fez's Mom's house",key);
-        }).start();
+    final String key = "REPLACE_ME";
+
+    public TimeHandler() {
+        firstContactGoogle();
     }
-    
+
     @Override
     public void handle(HttpExchange t) throws IOException {
-        ///init(t);
-                System.out.println(message.toJson());
+        String place = getRequest().getData().getLocation();
 
-        String uri=t.getRequestURI().toASCIIString();
-        System.out.println(t.getRequestURI());
-        String place=message.getData().getArgs();
-        HashedMessage message=new HashedMessage(
+        //remove this when possible. 
+        if (place.isEmpty()) {
+            place = getRequest().getData().getArgs();
+        }
+        HashedMessage message = new HashedMessage(
                 new Message().setCommand("time")
                         .setData(new MessageData()
-                                .setResultObject(LocationTime.getDateTimeObject( place,key))));
-        
-        System.out.println("sending message: "+message.getMessage().getData().getResultObject());
-        sendSucessMessage(t, message);    
+                                .setResultObject(LocationTime.getDateTimeObject(place, key))));
+        sendSucessMessage(t, message);
     }
 
- 
-
-
+    private void firstContactGoogle() {
+        new Thread(() -> {
+            LocationTime.getDateTimeObject("fez's Mom's house", key);
+        }).start();
+    }
 }

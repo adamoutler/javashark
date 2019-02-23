@@ -6,7 +6,7 @@ package com.adamoutler.javashark.handlers;
  * and open the template in the editor.
  */
 import com.adamoutler.googletools.LocationTime;
-import com.adamoutler.imaging.VirtualBoxScreenShot;
+import virtualbox.VirtualBoxScreenShot;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -40,7 +40,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
 
-        String vmname = message.getData().getUsername();
+        String vmname = getRequest().getData().getUsername();
         String name = this.getScreenshot(vmname, time);
 
         Message message = new Message().setCommand("screenshot")

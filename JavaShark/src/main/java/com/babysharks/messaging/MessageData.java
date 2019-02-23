@@ -15,30 +15,10 @@ import com.google.gson.annotations.SerializedName;
  * @author adamo
  */
 public class MessageData {
-@SerializedName("0")
-    @Expose
-    private String arg0;
-    @SerializedName("1")
-    @Expose
-    private String arg1;
-    @SerializedName("2")
-    @Expose
-    private String arg2;
-    @SerializedName("3")
-    @Expose
-    private String arg3;
-    @SerializedName("4")
-    @Expose
-    private String arg4;
-    @SerializedName("5")
-    @Expose
-    private String arg5;
+
     @SerializedName("args")
     @Expose
     private String args;
-   
-    @SerializedName("method")
-    @Expose
     private String method;
     private String weOwn;
     private String theyOwn;
@@ -46,12 +26,17 @@ public class MessageData {
     private String alertBuilding;
     private String text;
     private String[] buildingStates;
-    private String emoji;
     private String reason;
     private String[] buildings;
     private Object resultObject;
     private String username;
     private String url;
+    private String gang;
+    private String active;
+    private String available;
+    private String location;
+    
+            
 
     /**
      * @return the weOwn
@@ -133,23 +118,7 @@ public class MessageData {
         return this;
     }
 
-    /**
-     * @return the emoji
-     */
-    public String getEmoji() {
-        return emoji;
-    }
-
-    /**
-     * @param emoji the emoji to set
-     * @return representation of this MessageData object
-     */
-    public MessageData setEmoji(String emoji) {
-        this.emoji = emoji;
-        return this;
-    }
-
-    /**
+     /**
      * @return the buildingStates
      */
     public String[] getBuildingStates() {
@@ -217,90 +186,6 @@ public class MessageData {
     }
 
     /**
-     * @return the arg0
-     */
-    public String getArg0() {
-        return arg0;
-    }
-
-    /**
-     * @param arg0 the arg0 to set
-     */
-    public void setArg0(String arg0) {
-        this.arg0 = arg0;
-    }
-
-    /**
-     * @return the arg1
-     */
-    public String getArg1() {
-        return arg1;
-    }
-
-    /**
-     * @param arg1 the arg1 to set
-     */
-    public void setArg1(String arg1) {
-        this.arg1 = arg1;
-    }
-
-    /**
-     * @return the arg2
-     */
-    public String getArg2() {
-        return arg2;
-    }
-
-    /**
-     * @param arg2 the arg2 to set
-     */
-    public void setArg2(String arg2) {
-        this.arg2 = arg2;
-    }
-
-    /**
-     * @return the arg3
-     */
-    public String getArg3() {
-        return arg3;
-    }
-
-    /**
-     * @param arg3 the arg3 to set
-     */
-    public void setArg3(String arg3) {
-        this.arg3 = arg3;
-    }
-
-    /**
-     * @return the arg4
-     */
-    public String getArg4() {
-        return arg4;
-    }
-
-    /**
-     * @param arg4 the arg4 to set
-     */
-    public void setArg4(String arg4) {
-        this.arg4 = arg4;
-    }
-
-    /**
-     * @return the arg5
-     */
-    public String getArg5() {
-        return arg5;
-    }
-
-    /**
-     * @param arg5 the arg5 to set
-     */
-    public void setArg5(String arg5) {
-        this.arg5 = arg5;
-    }
-
-    /**
      * @return the method
      */
     public String getMethod() {
@@ -357,10 +242,74 @@ public class MessageData {
 
     /**
      * @param url the url to set
-     * @return 
+     * @return
      */
     public MessageData setUrl(String url) {
         this.url = url;
+        return this;
+    }
+
+    /**
+     * @return the gang
+     */
+    public String getGang() {
+        return gang;
+    }
+
+    /**
+     * @param gang the gang to set
+     * @return reference to this object
+     */
+    public MessageData setGang(String gang) {
+        this.gang = gang;
+        return this;
+    }
+
+    /**
+     * @return the active
+     */
+    public String getActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     * @return
+     */
+    public MessageData setActive(String active) {
+        this.active = active;
+        return this;
+    }
+
+    /**
+     * @return the available
+     */
+    public String getAvailable() {
+        return available;
+    }
+
+    /**
+     * @param available the available to set
+     * @return reference to this object
+     */
+    public MessageData setAvailable(String available) {
+        this.available = available;
+        return this;
+    }
+
+    /**
+     * @return the location
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * @param location the location to set
+     * @return reference to this object
+     */
+    public MessageData setLocation(String location) {
+        this.location = location;
         return this;
     }
 }

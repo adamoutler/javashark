@@ -38,6 +38,7 @@ public class CommandDistributor implements HttpHandler {
                 AbstractPapaHandler aph = entryPair.getValue();
                 aph.setMessage(m);
             try {
+                System.out.println("handling with "+t.getClass());
                 aph.handle(t);
             } catch (IOException ex) {
                 Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,8 +56,8 @@ public class CommandDistributor implements HttpHandler {
         if (!t.getRequestMethod().equals("PATCH")) {
             throw new MessagingException("IMPROPER COMMUNICATIONS!");
         }
-        System.out.println("Received "+t.getProtocol()+" command.");
         String json = convertStreamToString(t.getRequestBody());
+        System.out.println("Received new Command\n"+json);
         return HashedMessage.decode(json).getMessage();
     }
 

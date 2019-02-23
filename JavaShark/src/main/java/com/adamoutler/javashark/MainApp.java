@@ -9,6 +9,7 @@ import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
+import com.adamoutler.javashark.handlers.SentryStatus;
 import com.adamoutler.javashark.handlers.TimeHandler;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpExchange;
@@ -50,6 +51,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("screenshot", new ScreenshotHandler());
         commandDistributor.register("json", new JsonTestHandler());
         commandDistributor.register("test", new TestHandler());
+        commandDistributor.register("sentrystatus", new SentryStatus());
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
         server.createContext("/command", commandDistributor);

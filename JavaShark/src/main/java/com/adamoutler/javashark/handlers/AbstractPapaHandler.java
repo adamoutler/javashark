@@ -7,7 +7,6 @@ package com.adamoutler.javashark.handlers;
 
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
-import com.babysharks.messaging.MessagingException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
@@ -19,10 +18,10 @@ import java.io.OutputStream;
  */
 public abstract class AbstractPapaHandler implements  HttpHandler {
 
-    Message message;
+    Message request;
     
     public void setMessage(Message m){
-        this.message=m;
+        this.setRequest(m);
     }
 
     public void sendSucessMessage(HttpExchange t, Message message) throws IOException {
@@ -35,6 +34,7 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
     
     public void sendSucessMessage(HttpExchange t, HashedMessage message) throws IOException {
         String response = message.toJson();
+        System.out.println("Sending response  "+ response);
         t.sendResponseHeaders(200, response.length());
         writeOutResponse(t, response);
     }
@@ -65,4 +65,19 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         }
     }
 
+    /**
+     * @return the request
+     */
+    public Message getRequest() {
+        return request;
+    }
+
+    /**
+     * @param request the request to set
+     */
+    public void setRequest(Message request) {
+        this.request = request;
+    }
+
+    
 }

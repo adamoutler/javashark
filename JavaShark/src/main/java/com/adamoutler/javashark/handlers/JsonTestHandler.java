@@ -27,7 +27,6 @@ public class JsonTestHandler extends AbstractPapaHandler {
                 new Message().setCommand("alert")
                         .setData(new MessageData()
                                
-                                .setEmoji("this crashes when I use emoji...")
                                 .setNobodyOwns("3,4").setTheyOwn("5,6")
                                 .setWeOwn("1,2").setText("help!")
                                 .setReason("alert")
