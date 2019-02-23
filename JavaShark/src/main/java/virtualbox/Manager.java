@@ -38,8 +38,9 @@ public class Manager {
 //    }
     public String getUserMachine(String gang, String user) {
         for (String s : getMachinesList()) {
-            if (s.startsWith(gang) && s.contains(user)) {
-                return s;
+            if (s.toLowerCase().startsWith(gang.toLowerCase()) && s.contains(user.toLowerCase())) {
+                return s.replaceFirst(gang.toLowerCase(), "");
+
             }
         }
         return "null";
@@ -48,8 +49,8 @@ public class Manager {
     public List<String> getGangMachines(String gang) {
         ArrayList returnValue = new ArrayList<>();
         for (String s : getMachinesList()) {
-            if (s.startsWith(gang)) {
-                returnValue.add(s);
+            if (s.toLowerCase().startsWith(gang.toLowerCase())) {
+                returnValue.add(s.toLowerCase());
             }
         }
         return returnValue;
@@ -58,8 +59,8 @@ public class Manager {
     public List<String> getActiveGangMachines(String gang) {
         ArrayList returnValue = new ArrayList<>();
         for (String s : getActiveMachines()) {
-            if (s.startsWith(gang)) {
-                returnValue.add(s);
+            if (s.toLowerCase().startsWith(gang.toLowerCase())) {
+                returnValue.add(s.replaceFirst(gang, "").toLowerCase());
             }
         }
         return returnValue;
@@ -107,7 +108,7 @@ public class Manager {
                 return;
             }
             String[] row = vm.split("\"");
-            al.add(row[1]);
+            al.add(row[1].toLowerCase());
         }
     }
 }
