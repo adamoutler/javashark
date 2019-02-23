@@ -50,8 +50,8 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         String name=this.getScreenshot(vmname, time);
         
         Message message = new Message().setCommand("screenshot")
-                        .setData(new MessageData().setUsername(name)
-                                .setUrl("https://baby-sharks.adamoutler.com/screenshots/"+name));
+                        .setData(new MessageData().setUsername(vmname)
+                                .setUrl((name.isEmpty())?"null":"https://baby-sharks.adamoutler.com/screenshots/"+name));
 
         System.out.println("sending message: " + message.getData().getResultObject());
         sendSucessMessage(t, message);
@@ -74,7 +74,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         if (outputFile.exists()){
             return safeName;
         }
-        return null;       
+        return "";       
         
     }
  
