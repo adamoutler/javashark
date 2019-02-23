@@ -22,20 +22,20 @@ public class Manager {
 
     final static String VBOX = "VBoxManage";
 
-    public static void main(String[] args) {
-        List<String> allMachines = new Manager().getMachinesList();
-        System.out.println("All machines : " + allMachines);
-        List<String> gang = new Manager().getGangMachines("Android");
-        System.out.println("Searching for gang 'Android' : " + gang);
-        String usermachine = new Manager().getUserMachine("Debian", "esting");
-        System.out.println("Searching for gang 'Debian', user 'esting : " + usermachine);
-        List<String> activeMachines=new Manager().getActiveMachines();
-        System.out.println("Active Machines : "+activeMachines);
-        List<String> activeGangMachines=new Manager().getActiveGangMachines("adam");
-         System.out.println("Active gang 'adam' Machines : "+activeGangMachines);
-
-
-    }
+//    public static void main(String[] args) {
+//        List<String> allMachines = new Manager().getMachinesList();
+//        System.out.println("All machines : " + allMachines);
+//        List<String> gang = new Manager().getGangMachines("Android");
+//        System.out.println("Searching for gang 'Android' : " + gang);
+//        String usermachine = new Manager().getUserMachine("Debian", "esting");
+//        System.out.println("Searching for gang 'Debian', user 'esting : " + usermachine);
+//        List<String> activeMachines=new Manager().getActiveMachines();
+//        System.out.println("Active Machines : "+activeMachines);
+//        List<String> activeGangMachines=new Manager().getActiveGangMachines("adam");
+//         System.out.println("Active gang 'adam' Machines : "+activeGangMachines);
+//
+//
+//    }
 
     public String getUserMachine(String gang, String user) {
         for (String s : getMachinesList()) {
