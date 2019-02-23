@@ -8,6 +8,7 @@ package com.adamoutler.javashark;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
+import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpExchange;
@@ -46,6 +47,7 @@ public class MainApp extends ParametersImpl {
 
         CommandDistributor commandDistributor=new CommandDistributor();
         commandDistributor.register("time", new TimeHandler());
+        commandDistributor.register("screenshot", new ScreenshotHandler());
         commandDistributor.register("json", new JsonTestHandler());
         commandDistributor.register("test", new TestHandler());
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);

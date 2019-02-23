@@ -25,6 +25,14 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         this.message=m;
     }
 
+    public void sendSucessMessage(HttpExchange t, Message message) throws IOException {
+        
+        HashedMessage hm=new HashedMessage(message);
+        String response = hm.toJson();
+        t.sendResponseHeaders(200, response.length());
+        writeOutResponse(t, response);
+    }
+    
     public void sendSucessMessage(HttpExchange t, HashedMessage message) throws IOException {
         String response = message.toJson();
         t.sendResponseHeaders(200, response.length());

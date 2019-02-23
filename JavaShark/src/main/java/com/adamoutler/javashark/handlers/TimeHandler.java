@@ -33,7 +33,8 @@ public class TimeHandler extends AbstractPapaHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
         ///init(t);
-        
+                System.out.println(message.toJson());
+
         String uri=t.getRequestURI().toASCIIString();
         System.out.println(t.getRequestURI());
         String place=message.getData().getArgs();

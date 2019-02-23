@@ -50,6 +50,8 @@ public class MessageData {
     private String reason;
     private String[] buildings;
     private Object resultObject;
+    private String username;
+    private String url;
 
     /**
      * @return the weOwn
@@ -307,9 +309,11 @@ public class MessageData {
 
     /**
      * @param method the method to set
+     * @return reference to this object
      */
-    public void setMethod(String method) {
+    public MessageData setMethod(String method) {
         this.method = method;
+        return this;
     }
 
     /**
@@ -321,8 +325,42 @@ public class MessageData {
 
     /**
      * @param args the args to set
+     * @return reference to this object
      */
-    public void setArgs(String args) {
+    public MessageData setArgs(String args) {
         this.args = args;
+        return this;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     * @return reference to this object
+     */
+    public MessageData setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     * @return 
+     */
+    public MessageData setUrl(String url) {
+        this.url = url;
+        return this;
     }
 }
