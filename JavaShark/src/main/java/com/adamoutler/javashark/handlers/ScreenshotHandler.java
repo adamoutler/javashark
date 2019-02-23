@@ -28,7 +28,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
 
     final String key = "REPLACE_ME";
 
-    final static String output = "/var/www/babysharks/screenshots/";
+    final static String output = "/var/www/baby-sharks/screenshots/";
 
     public ScreenshotHandler() {
 
