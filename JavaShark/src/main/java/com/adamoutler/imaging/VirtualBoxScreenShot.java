@@ -21,15 +21,14 @@ public class VirtualBoxScreenShot {
     String vmName;
     final static String VBOX = "VBoxManage";
 
-   
-
-
     public static synchronized File getScreenshot(String vmName, File f) throws IOException, InterruptedException {
         System.out.println(f.getAbsolutePath());
         ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
         Process p = pb.start();
-        p.waitFor(30000,TimeUnit.SECONDS);
-        f.setReadable(true, true);
+        p.waitFor(30000, TimeUnit.SECONDS);
+        f.setReadable(true, false);
+        f.setExecutable(true, false);
+        f.setWritable(true, false);
 
         return f;
     }
