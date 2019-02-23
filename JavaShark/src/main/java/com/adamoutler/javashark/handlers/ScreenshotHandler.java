@@ -28,55 +28,49 @@ public class ScreenshotHandler extends AbstractPapaHandler {
 
     final String key = "REPLACE_ME";
 
-    final static String output="/var/www/babysharks/screenshots/";
+    final static String output = "/var/www/babysharks/screenshots/";
+
     public ScreenshotHandler() {
 
     }
 
-    public static void main(String[] args){
-        System.out.println(new ScreenshotHandler().getScreenshot("adamoutler",6546546564l));
-    }
-    
-
-    
-    
     @Override
     public void handle(HttpExchange t) throws IOException {
         ///init(t);
-        long time=System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
-        
-        String vmname=message.getData().getUsername();
-        String name=this.getScreenshot(vmname, time);
-        
+
+        String vmname = message.getData().getUsername();
+        String name = this.getScreenshot(vmname, time);
+
         Message message = new Message().setCommand("screenshot")
-                        .setData(new MessageData().setUsername(vmname)
-                                .setUrl((name.isEmpty())?"null":"https://baby-sharks.adamoutler.com/screenshots/"+name));
+                .setData(new MessageData().setUsername(vmname)
+                        .setUrl((name.isEmpty()) ? "null" : "https://baby-sharks.adamoutler.com/screenshots/" + name));
 
         System.out.println("sending message: " + message.getData().getResultObject());
         sendSucessMessage(t, message);
     }
- public static String getOnlyStrings(String s) {
-    Pattern pattern = Pattern.compile("[^a-z A-Z]");
-    Matcher matcher = pattern.matcher(s);
-    String number = matcher.replaceAll("");
-    return number;
- }
- 
-     private String getScreenshot(String name,long uniquepic){
-        String safeName=getOnlyStrings(name)+uniquepic+".png";
-        File outputFile=new File(output+safeName);
+
+    public static String getOnlyStrings(String s) {
+        Pattern pattern = Pattern.compile("[^a-z A-Z]");
+        Matcher matcher = pattern.matcher(s);
+        String number = matcher.replaceAll("");
+        return number;
+    }
+
+    private String getScreenshot(String name, long uniquepic) {
+        String safeName = getOnlyStrings(name) + uniquepic + ".png";
+        File outputFile = new File(output + safeName);
         try {
-            VirtualBoxScreenShot.getScreenshot(name,outputFile);
+            VirtualBoxScreenShot.getScreenshot(name, outputFile);
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(ScreenshotHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (outputFile.exists()){
+        if (outputFile.exists()) {
             return safeName;
         }
-        return "";       
-        
+        return "";
+
     }
- 
- 
+
 }
