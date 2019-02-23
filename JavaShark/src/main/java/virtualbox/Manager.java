@@ -36,7 +36,6 @@ public class Manager {
 //
 //
 //    }
-
     public String getUserMachine(String gang, String user) {
         for (String s : getMachinesList()) {
             if (s.startsWith(gang) && s.contains(user)) {
@@ -46,8 +45,6 @@ public class Manager {
         return "null";
     }
 
-    
-    
     public List<String> getGangMachines(String gang) {
         ArrayList returnValue = new ArrayList<>();
         for (String s : getMachinesList()) {
@@ -57,6 +54,7 @@ public class Manager {
         }
         return returnValue;
     }
+
     public List<String> getActiveGangMachines(String gang) {
         ArrayList returnValue = new ArrayList<>();
         for (String s : getActiveMachines()) {
@@ -73,25 +71,17 @@ public class Manager {
         return al;
     }
 
-    private ArrayList<String> getFormattedMachines(ProcessBuilder pb) {
-        ArrayList<String> al = new ArrayList<>();
-        String value = getStringValueFromProcess(pb);
-        processVMList(value, al);
-        return al;
-    }
-
     public List<String> getMachinesList() {
         ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "list", "vms"});
         ArrayList<String> al = getFormattedMachines(pb);
         return al;
     }
 
-    private void processVMList(String value, ArrayList<String> al) {
-        String[] vms = value.split("\n");
-        for (String vm : vms) {
-            String[] row = vm.split("\"");
-            al.add(row[1]);
-        }
+    private ArrayList<String> getFormattedMachines(ProcessBuilder pb) {
+        ArrayList<String> al = new ArrayList<>();
+        String value = getStringValueFromProcess(pb);
+        processVMList(value, al);
+        return al;
     }
 
     private String getStringValueFromProcess(ProcessBuilder pb) {
@@ -107,4 +97,17 @@ public class Manager {
         return "";
     }
 
+    private void processVMList(String value, ArrayList<String> al) {
+        String[] vms = value.split("\n");
+        if (vms.length == 0) {
+            return;
+        }
+        for (String vm : vms) {
+            if (!vm.contains("\"")) {
+                return;
+            }
+            String[] row = vm.split("\"");
+            al.add(row[1]);
+        }
+    }
 }
