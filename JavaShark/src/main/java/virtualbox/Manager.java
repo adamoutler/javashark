@@ -50,7 +50,7 @@ public class Manager {
         ArrayList returnValue = new ArrayList<>();
         for (String s : getMachinesList()) {
             if (s.toLowerCase().startsWith(gang.toLowerCase())) {
-                returnValue.add(s.toLowerCase());
+                returnValue.add(s.replaceFirst(gang, "").toLowerCase());
             }
         }
         return returnValue;
