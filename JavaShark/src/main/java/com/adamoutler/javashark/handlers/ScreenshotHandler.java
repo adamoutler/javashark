@@ -39,12 +39,14 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         ///init(t);
         long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
+        String username=getRequest().getData().getUsername();
 
-        String vmname = getRequest().getData().getUsername();
-        String name = this.getScreenshot(vmname, time);
+        String vmname =  getRequest().getData().getGang()
+                +"_"+getRequest().getData().getUsername();
+        String name = this.getScreenshot(vmname.toLowerCase(), time);
 
         Message message = new Message().setCommand("screenshot")
-                .setData(new MessageData().setUsername(vmname)
+                .setData(new MessageData().setUsername(username)
                         .setUrl((name.isEmpty()) ? "null" : "https://baby-sharks.adamoutler.com/screenshots/" + name));
 
         System.out.println("sending message: " + message.getData().getResultObject());
