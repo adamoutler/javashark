@@ -5,16 +5,12 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.adamoutler.googletools.LocationTime;
 import virtualbox.VirtualBoxScreenShot;
-import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -28,7 +24,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
 
     final String key = "REPLACE_ME";
 
-    final static String output = "/var/www/baby-sharks/screenshots/";
+    final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
 
     public ScreenshotHandler() {
 
@@ -39,10 +35,10 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         ///init(t);
         long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
-        String username=getRequest().getData().getUsername();
+        String username = getRequest().getData().getUsername();
 
-        String vmname =  getRequest().getData().getGang()
-                +"_"+getRequest().getData().getUsername();
+        String vmname = getRequest().getData().getGang()
+                + "_" + getRequest().getData().getUsername();
         String name = this.getScreenshot(vmname.toLowerCase(), time);
 
         Message message = new Message().setCommand("screenshot")
@@ -62,7 +58,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
 
     private String getScreenshot(String name, long uniquepic) {
         String safeName = getOnlyStrings(name) + uniquepic + ".png";
-        File outputFile = new File(output + safeName);
+        File outputFile = new File(OUTPUT + safeName);
         try {
             VirtualBoxScreenShot.getScreenshot(name, outputFile);
         } catch (IOException | InterruptedException ex) {
