@@ -20,38 +20,34 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
 
     Message request;
     
+
     public void setMessage(Message m){
         this.setRequest(m);
     }
 
     public void sendSucessMessage(HttpExchange t, Message message) throws IOException {
-        
         HashedMessage hm=new HashedMessage(message);
         String response = hm.toJson();
-        t.sendResponseHeaders(200, response.length());
-        writeOutResponse(t, response);
+        writeOutResponse(t, response,200);
     }
     
     public void sendSucessMessage(HttpExchange t, HashedMessage message) throws IOException {
         String response = message.toJson();
         System.out.println("Sending response  "+ response);
-        t.sendResponseHeaders(200, response.length());
-        writeOutResponse(t, response);
+        writeOutResponse(t, response,200);
     }
 
     public void sendSucessString(HttpExchange t, String response) throws IOException {
-        t.sendResponseHeaders(200, response.length());
-        writeOutResponse(t, response);
+        
+        writeOutResponse(t, response,200);
     }
 
     public void sendBadReq(HttpExchange t, String response) throws IOException {
-        t.sendResponseHeaders(400, response.length());
-        writeOutResponse(t, response);
+        writeOutResponse(t, response, 400);
     }
 
     public void sendArbitrary(int code, HttpExchange t, String response) throws IOException {
-        t.sendResponseHeaders(code, response.length());
-        writeOutResponse(t, response);
+        writeOutResponse(t, response, code);
     }
 
     static String convertStreamToString(java.io.InputStream is) {
@@ -59,9 +55,11 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         return s.hasNext() ? s.next() : "";
     }
 
-    private void writeOutResponse(HttpExchange t, String response) throws IOException {
-        try (OutputStream os = t.getResponseBody()) {
-            os.write(response.getBytes());
+    private void writeOutResponse(HttpExchange t, String response, int code) throws IOException {
+        byte[] responseBytes=response.getBytes("UTF-8");
+        t.sendResponseHeaders(code, responseBytes.length);
+        try (OutputStream responseStream = t.getResponseBody()) {
+            responseStream.write(responseBytes);
         }
     }
 
