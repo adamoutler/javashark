@@ -27,8 +27,8 @@ public class JsonTestHandler extends AbstractPapaHandler {
                 new Message().setCommand("alert")
                         .setData(new MessageData()
                                
-                                .setNobodyOwns("3,4").setTheyOwn("5,6")
-                                .setWeOwn("1,2").setText("help!")
+                                .setNobodyOwns(new int[] {3,4}).setTheyOwn(new int[]{5,6})
+                                .setWeOwn(new int[] {1,2}).setText("help!")
                                 .setReason("alert")
                                 .setBuildings(new String[]{Integer.toString((int)(Math.random() * 6) + 1)})));
         sendSucessMessage(t, message);    

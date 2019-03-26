@@ -28,10 +28,6 @@ public class TimeHandler extends AbstractPapaHandler {
     public void handle(HttpExchange t) throws IOException {
         String place = getRequest().getData().getLocation();
 
-        //remove this when possible. 
-        if (place.isEmpty()) {
-            place = getRequest().getData().getArgs();
-        }
         HashedMessage message = new HashedMessage(
                 new Message().setCommand("time")
                         .setData(new MessageData()

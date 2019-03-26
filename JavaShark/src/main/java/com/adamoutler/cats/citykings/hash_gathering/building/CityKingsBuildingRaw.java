@@ -1,0 +1,257 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.adamoutler.cats.citykings.hash_gathering.building;
+
+import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.Navigation;
+import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.imagerecognition.XYCoords;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.LinkedList;
+import se.vidstige.jadb.JadbDevice;
+import se.vidstige.jadb.JadbException;
+
+/**
+ *
+ * @author adamo
+ */
+public final class CityKingsBuildingRaw extends Navigation {
+
+    transient final public static XYCoords BUILDINGOWNERLOCATION = new XYCoords(507, 139);
+    transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
+    transient private byte[] buildingNamePic = new byte[0];
+    transient private PicCoords cityKingsBuildingScreenCoordinates = new PicCoords(0, 0, 0, 0);
+    private String buildingName = "";
+    private int buildingNumber = 0;
+    private OwnedBy buildingOwnedBy = OwnedBy.NOBODY;
+    private int slotsTotal=0;
+    private int slotsTheirs=0;
+    private int slotsOurs=0;
+    private int slotsUnowned=0;
+    private byte[] buildingSizePic = new byte[0];
+    private boolean isLinked=false;
+    private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
+    transient private TeamOwnershipPercentageBar tosb;
+
+    public CityKingsBuildingRaw(JadbDevice jadb, int buildingNumber) {
+        super(jadb);
+        this.buildingNumber = buildingNumber;
+    }
+
+    public CityKingsBuildingRaw(JadbDevice jadb, int buildingNumber, byte[] screenshot) {
+        super(jadb);
+        this.buildingNumber = buildingNumber;
+        tosb = new TeamOwnershipPercentageBar(screenshot);
+        gatherVariablesFromTosb();
+    }
+
+    private void gatherVariablesFromTosb() {
+        setBuildingOwner(tosb.buildingOwnedBy());
+        slotsTotal=tosb.getTotalSlots();
+        slotsTheirs=tosb.numberTheyOwn();
+        slotsOurs=tosb.numberWeOwn();
+        slotsUnowned=tosb.getNumberNobodyOwn();
+        System.out.println("Owner:"+this.getBuildingOwner("Us","Them")+ "slots- total:"+slotsTotal+" us:"+slotsOurs+" them:"+slotsTheirs+" unowned:"+slotsUnowned);
+    }
+
+    /**
+     * @return the buildingName
+     */
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String s) {
+        buildingName = s;
+    }
+
+    /**
+     * @return the cars
+     */
+    public LinkedList<CityKingsCarRaw> getCars() {
+        return cars;
+    }
+
+    public void addCar(CityKingsCarRaw car) {
+        cars.add(car);
+    }
+
+    /**
+     * @return the buildingNamePic
+     */
+    public BufferedImage getBuildingNamePic() {
+        return ByteImage.getImageFromBytes(buildingNamePic);
+    }
+
+    /**
+     * @param buildingNamePic the buildingNamePic to set
+     */
+    public void setBuildingNamePic(BufferedImage buildingNamePic) {
+        this.buildingNamePic = ByteImage.getPngBytes(buildingNamePic);
+    }
+
+    /**
+     * @return the buildingSizePic
+     */
+    public BufferedImage getBuildingSizePic() {
+        return ByteImage.getImageFromBytes(buildingSizePic);
+    }
+
+    /**
+     * @param buildingSizePic the buildingSizePic to set
+     */
+    public void setBuildingSizePic(BufferedImage buildingSizePic) {
+        this.buildingSizePic = ByteImage.getPngBytes(buildingSizePic);
+    }
+
+    public void navigateToBuilding() throws IOException, JadbException {
+        //Navigation.adbNavigateToCityKings(getJadb());
+        Navigation.tapLocation(getJadb(), this.getCityKingsBuildingScreenCoordinates());
+        sleep(3000);
+        Navigation.tapLocation(getJadb(), DEFENDBUTTON);
+        sleep(3000);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        String n = "\n";
+        sb.append("Building Name: ").append(this.getBuildingName()).append(n);
+        sb.append("Building Size: ").append(tosb.getTotalSlots()).append(n);
+        sb.append("Their Spots: ").append(tosb.numberTheyOwn()).append(n);
+        sb.append("Our Spots: ").append(tosb.numberWeOwn()).append(n);
+        sb.append("Not Taken: ").append(tosb.numberUnowned()).append(n);
+        sb.append("Owned By: ").append(tosb.buildingOwnedBy()).append(n);
+        sb.append("X: ").append(this.cityKingsBuildingScreenCoordinates.getX())
+                .append(" Y: ")
+                .append(this.cityKingsBuildingScreenCoordinates.getY())
+                .append(n);
+        getCars().forEach((c) -> {
+            sb.append(c).append(n);
+        });
+
+        return sb.toString().trim();
+    }
+
+    public String getBuildingOwner(String ourTeamName, String otherTeamName) {
+        int color = this.getPixelColor(BUILDINGOWNERLOCATION);
+        int red = (color & 0x00ff0000) >> 16;
+        int green = (color & 0x0000ff00) >> 8;
+        int blue = color & 0x000000ff;
+        if (red < 200 && green < 200 && blue < 200) {
+            return "Nobody";
+        } else if (red > 200) {
+            return otherTeamName;
+        } else {
+            return ourTeamName;
+        }
+
+    }
+
+    /**
+     * @return the mainScreenCoordinates
+     */
+    public PicCoords getCityKingsBuildingScreenCoordinates() {
+        return cityKingsBuildingScreenCoordinates;
+    }
+
+    /**
+     * @param cityKingsBuildingScreenCoordinates
+     */
+    public void setCityKingsBuildingScreenCoordinates(PicCoords cityKingsBuildingScreenCoordinates) {
+        this.cityKingsBuildingScreenCoordinates = cityKingsBuildingScreenCoordinates;
+    }
+
+    public void scan() throws IOException, InterruptedException, JadbException {
+        CarFactory bf = new CarFactory(getJadb(), this);
+        this.cars = bf.buildCars(this.getBuildingNumber());
+        // this.cars = removeDuplicates(cars);
+        
+    }
+
+    private LinkedList<CityKingsCarRaw> removeDuplicates(LinkedList<CityKingsCarRaw> cars) {
+        LinkedList<CityKingsCarRaw> newCars = new LinkedList<>();
+        if (cars.isEmpty()) {
+            return cars;
+        }
+        newCars.add(cars.get(0));
+        for (int i = 0; i < cars.size(); i++) {
+            boolean add = true;
+            newCars.forEach((newCar) -> {
+                System.out.println(newCar);
+            });
+            newCars.add(cars.get(i));
+        }
+        return newCars;
+    }
+
+    public static void deleteDups(LinkedList<CityKingsCarRaw> n) {
+
+    }
+
+   
+
+  
+    void setBuildingOwner(OwnedBy buildingOwnedBy) {
+        this.buildingOwnedBy = buildingOwnedBy;
+    }
+
+    /**
+     * @return the buildingOwnedBy
+     */
+    public OwnedBy getBuildingOwnedBy() {
+        return buildingOwnedBy;
+    }
+
+    /**
+     * @return the tosb
+     */
+    public TeamOwnershipPercentageBar getOwnershipBar() {
+        return tosb;
+    }
+
+    /**
+     *sets the tosb
+     * @param tosb the bar to set
+     */
+    public void setOwnershipBar(TeamOwnershipPercentageBar tosb){
+        this.tosb=tosb;
+    }
+
+    /**
+     * @param tosb the tosb to set
+     */
+    public void setTosb(TeamOwnershipPercentageBar tosb) {
+        this.tosb = tosb;
+        gatherVariablesFromTosb();
+    }
+
+    /**
+     * @return the buildingNumber
+     */
+    public int getBuildingNumber() {
+        return buildingNumber;
+    }
+
+    /**
+     * @param buildingNumber the buildingNumber to set
+     */
+    public void setBuildingNumber(int buildingNumber) {
+        this.buildingNumber = buildingNumber;
+    }
+
+    /**
+     * @param isLinked the isLinked to set
+     */
+    public void setIsLinked(boolean isLinked) {
+        this.isLinked = isLinked;
+    }
+
+}

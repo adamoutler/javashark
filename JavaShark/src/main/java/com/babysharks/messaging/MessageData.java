@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 
 /**
  *
@@ -18,30 +21,29 @@ public class MessageData {
 
     @SerializedName("args")
     @Expose
-    private String args;
-    private String method;
-    private String weOwn;
-    private String theyOwn;
-    private String nobodyOwns;
-    private String alertBuilding;
+    private int[]  weOwn;
+    private int[]  theyOwn;
+    private int[]  nobodyOwns;
+    private int[]  alertBuilding;
     private String text;
-    private String[] buildingStates;
     private String reason;
+    private String ScreenName;
     private String[] buildings;
     private Object resultObject;
     private String username;
     private String url;
     private String gang;
-    private String active;
-    private String available;
+    private ArrayList<VirtualBoxMachine> active;
+    private ArrayList<VirtualBoxMachine> available;
     private String location;
+    private TaskType[] tasks;
     
             
 
     /**
      * @return the weOwn
      */
-    public String getWeOwn() {
+    public int[]  getWeOwn() {
         return weOwn;
     }
 
@@ -49,7 +51,7 @@ public class MessageData {
      * @param weOwn the weOwn to set
      * @return representation of this MessageData object
      */
-    public MessageData setWeOwn(String weOwn) {
+    public MessageData setWeOwn(int[]  weOwn) {
         this.weOwn = weOwn;
         return this;
     }
@@ -57,7 +59,7 @@ public class MessageData {
     /**
      * @return the theyOwn
      */
-    public String getTheyOwn() {
+    public int[]  getTheyOwn() {
         return theyOwn;
     }
 
@@ -65,7 +67,7 @@ public class MessageData {
      * @param theyOwn the theyOwn to set
      * @return representation of this MessageData object
      */
-    public MessageData setTheyOwn(String theyOwn) {
+    public MessageData setTheyOwn(int[]  theyOwn) {
         this.theyOwn = theyOwn;
         return this;
     }
@@ -73,7 +75,7 @@ public class MessageData {
     /**
      * @return the nobodyOwns
      */
-    public String getNobodyOwns() {
+    public int[]  getNobodyOwns() {
         return nobodyOwns;
     }
 
@@ -81,7 +83,7 @@ public class MessageData {
      * @param nobodyOwns the nobodyOwns to set
      * @return representation of this MessageData object
      */
-    public MessageData setNobodyOwns(String nobodyOwns) {
+    public MessageData setNobodyOwns(int[]  nobodyOwns) {
         this.nobodyOwns = nobodyOwns;
         return this;
     }
@@ -89,7 +91,7 @@ public class MessageData {
     /**
      * @return the alertBuilding
      */
-    public String getAlertBuilding() {
+    public int[]  getAlertBuilding() {
         return alertBuilding;
     }
 
@@ -97,7 +99,7 @@ public class MessageData {
      * @param alertBuilding the alertBuilding to set
      * @return representation of this MessageData object
      */
-    public MessageData setAlertBuilding(String alertBuilding) {
+    public MessageData setAlertBuilding(int[]  alertBuilding) {
         this.alertBuilding = alertBuilding;
         return this;
     }
@@ -118,19 +120,7 @@ public class MessageData {
         return this;
     }
 
-     /**
-     * @return the buildingStates
-     */
-    public String[] getBuildingStates() {
-        return buildingStates;
-    }
-
-    /**
-     * @param buildingStates the buildingStates to set
-     */
-    public void setBuildingStates(String[] buildingStates) {
-        this.buildingStates = buildingStates;
-    }
+    
 
     public String toJson() {
         Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
@@ -185,43 +175,14 @@ public class MessageData {
         return this;
     }
 
-    /**
-     * @return the method
-     */
-    public String getMethod() {
-        return method;
-    }
-
-    /**
-     * @param method the method to set
-     * @return reference to this object
-     */
-    public MessageData setMethod(String method) {
-        this.method = method;
-        return this;
-    }
-
-    /**
-     * @return the args
-     */
-    public String getArgs() {
-        return args;
-    }
-
-    /**
-     * @param args the args to set
-     * @return reference to this object
-     */
-    public MessageData setArgs(String args) {
-        this.args = args;
-        return this;
-    }
+  
+    
 
     /**
      * @return the username
      */
     public String getUsername() {
-        return username;
+        return username.replaceAll("_", "");
     }
 
     /**
@@ -242,7 +203,7 @@ public class MessageData {
 
     /**
      * @param url the url to set
-     * @return
+     * @return reference to this object
      */
     public MessageData setUrl(String url) {
         this.url = url;
@@ -268,15 +229,15 @@ public class MessageData {
     /**
      * @return the active
      */
-    public String getActive() {
+    public ArrayList<VirtualBoxMachine> getActive() {
         return active;
     }
 
     /**
      * @param active the active to set
-     * @return
+     * @return reference to this object
      */
-    public MessageData setActive(String active) {
+    public MessageData setActive(ArrayList<VirtualBoxMachine> active) {
         this.active = active;
         return this;
     }
@@ -284,7 +245,7 @@ public class MessageData {
     /**
      * @return the available
      */
-    public String getAvailable() {
+    public ArrayList<VirtualBoxMachine> getAvailable() {
         return available;
     }
 
@@ -292,7 +253,7 @@ public class MessageData {
      * @param available the available to set
      * @return reference to this object
      */
-    public MessageData setAvailable(String available) {
+    public MessageData setAvailable(ArrayList<VirtualBoxMachine> available) {
         this.available = available;
         return this;
     }
@@ -310,6 +271,35 @@ public class MessageData {
      */
     public MessageData setLocation(String location) {
         this.location = location;
+        return this;
+    }
+
+    /**
+     * @return the ScreenName
+     */
+    public String getScreenName() {
+        return ScreenName;
+    }
+
+    /**
+     * @param ScreenName the ScreenName to set
+     * @return reference to this object.
+     */
+    public MessageData setScreenName(String ScreenName) {
+        this.ScreenName = ScreenName;
+        return this;
+    }
+
+    public TaskType[] getTasks() {
+        return tasks;
+    }
+
+    /**
+     * @param tasks the tasks to set
+     * @return reference to this object
+     */
+    public MessageData setTasks(TaskType[] tasks) {
+        this.tasks = tasks;
         return this;
     }
 }

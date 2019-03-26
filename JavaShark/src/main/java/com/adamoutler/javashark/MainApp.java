@@ -10,7 +10,11 @@ import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.SentryStatus;
+import com.adamoutler.javashark.handlers.StartSentry;
+import com.adamoutler.javashark.handlers.StopSentry;
+import com.adamoutler.javashark.handlers.TaskHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
+import com.adamoutler.virtualbox.task.TaskManager;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -33,6 +37,7 @@ public class MainApp extends ParametersImpl {
 
     public static void main(String[] args) {
         MainApp server = new MainApp(args);
+        TaskManager.start();
         String port = server.getNamed().getOrDefault("port", "8000");
         try {
             System.out.println("Starting server on " + port);
@@ -52,6 +57,10 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("json", new JsonTestHandler());
         commandDistributor.register("test", new TestHandler());
         commandDistributor.register("sentrystatus", new SentryStatus());
+        commandDistributor.register("sentrystart",new StartSentry());
+        commandDistributor.register("sentrystop",new StopSentry());
+        commandDistributor.register("addtask",new TaskHandler());
+
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
         server.createContext("/command", commandDistributor);

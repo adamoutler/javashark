@@ -57,6 +57,7 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
 
     private void writeOutResponse(HttpExchange t, String response, int code) throws IOException {
         byte[] responseBytes=response.getBytes("UTF-8");
+        System.out.println(new String(responseBytes));
         t.sendResponseHeaders(code, responseBytes.length);
         try (OutputStream responseStream = t.getResponseBody()) {
             responseStream.write(responseBytes);

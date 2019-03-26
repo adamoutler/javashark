@@ -25,6 +25,10 @@ public class HashedMessage {
         this.hash = getSha512(message.toJson());
 
     }
+    
+    public static HashedMessage hash(Message m){
+        return new HashedMessage(m);
+    }
 
     private static String getSha512(String string) {
         try {

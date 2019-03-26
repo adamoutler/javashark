@@ -5,7 +5,7 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import virtualbox.VirtualBoxScreenShot;
+import com.adamoutler.virtualbox.VirtualBoxScreenShot;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.adamoutler.virtualbox.VirtualBox;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 
 /**
  *
@@ -22,7 +24,6 @@ import java.util.regex.Pattern;
  */
 public class ScreenshotHandler extends AbstractPapaHandler {
 
-    final String key = "REPLACE_ME";
 
     final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
 
@@ -37,8 +38,9 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         System.out.println(t.getRequestURI());
         String username = getRequest().getData().getUsername();
 
-        String vmname = getRequest().getData().getGang()
-                + "_" + getRequest().getData().getUsername();
+        
+        VirtualBoxMachine machine=new VirtualBox().getUserMachine(getRequest().getData().getGang(), getRequest().getData().getUsername());
+        String vmname = machine.getVMName();
         String name = this.getScreenshot(vmname.toLowerCase(), time);
 
         Message message = new Message().setCommand("screenshot")
@@ -60,7 +62,7 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         String safeName = getOnlyStrings(name) + uniquepic + ".png";
         File outputFile = new File(OUTPUT + safeName);
         try {
-            VirtualBoxScreenShot.getScreenshot(name, outputFile);
+            VirtualBoxScreenShot.getScreenshotFile(name, outputFile);
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(ScreenshotHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

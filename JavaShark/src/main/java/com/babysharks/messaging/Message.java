@@ -22,7 +22,6 @@ import java.util.Date;
 public class Message {
 
     private String command;
-    private String building;
     private MessageData data = new MessageData();
     private String timestamp;
     
@@ -73,23 +72,7 @@ public class Message {
         return timestamp;
     }
 
-    /**
-     * @return the building
-     */
-    public String getBuilding() {
-        return building;
-    }
-
-    /**
-     * @param building the building to set
-     * @return reference to this object
-     */
-    public Message setBuilding(String building) {
-        this.building = building;
-        return this;
-    }
-
-    public String toJson() {
+      public String toJson() {
         Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
         this.timestamp = getTimestamp();
         return gson.toJson(this);

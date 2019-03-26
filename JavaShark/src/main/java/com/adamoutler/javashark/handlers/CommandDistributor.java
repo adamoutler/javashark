@@ -12,7 +12,9 @@ import com.babysharks.messaging.MessagingException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,42 +24,57 @@ import java.util.logging.Logger;
  */
 public class CommandDistributor implements HttpHandler {
 
-    private  HashMap<String, AbstractPapaHandler> commands = new HashMap<>();
+    private HashMap<String, AbstractPapaHandler> commands = new HashMap<>();
 
-    public  void register(String command, AbstractPapaHandler clazz) {
+    public void register(String command, AbstractPapaHandler clazz) {
         commands.put(command, clazz);
 
     }
 
-    public  void parseCommand(HttpExchange t) throws MessagingException {
+    public void parseCommand(HttpExchange t) throws MessagingException {
         Message m = init(t);
-
-        commands.entrySet().stream().filter((entryPair) -> 
-                (entryPair.getKey().equals(m.getCommand())))
-                .forEachOrdered((entryPair) -> {
+        for (Entry<String, AbstractPapaHandler> entryPair : commands.entrySet()) {
+            if (entryPair.getKey().equals(m.getCommand())) {
                 AbstractPapaHandler aph = entryPair.getValue();
                 aph.setMessage(m);
-            try {
-                System.out.println("handling with "+t.getClass());
-                aph.handle(t);
-            } catch (IOException ex) {
-                Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ex);
+                handleCommand(aph, t);
             }
-           
-        });
+        }
+    }
+
+    private void handleCommand(AbstractPapaHandler aph, HttpExchange t) {
+        try {
+            System.out.println("handling with " + aph.getClass().getTypeName());
+            aph.handle(t);
+        } catch (Exception ex) {
+            Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            t.close();
+        }
+    }
+
+    private void sendErrorMessage(HttpExchange t) {
+        try {
+            System.out.println("System exited improperly.  maybe disconnect on other side?");
+            t.getResponseBody().write("I just rolled all giveable fucks into a large ball, molded it into a person who looks just like you, and kicked it in the balls.".getBytes("UTF-8"));
+        } catch (IOException ex) {
+            System.out.println("What? I couldn't even send the snide message");
+        } finally {
+            t.close();
+        }
     }
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-       parseCommand(he);
+        parseCommand(he);
     }
 
-    public  Message init(HttpExchange t) throws MessagingException {
+    public Message init(HttpExchange t) throws MessagingException {
         if (!t.getRequestMethod().equals("PATCH")) {
             throw new MessagingException("IMPROPER COMMUNICATIONS!");
         }
         String json = convertStreamToString(t.getRequestBody());
-        System.out.println("Received new Command\n"+json);
+        System.out.println(new Date() + " Received new Command\n" + json);
         return HashedMessage.decode(json).getMessage();
     }
 
