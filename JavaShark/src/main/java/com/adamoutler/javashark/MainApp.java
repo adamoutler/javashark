@@ -36,6 +36,7 @@ public class MainApp extends ParametersImpl {
     }
 
     public static void main(String[] args) {
+        startADB();        
         MainApp server = new MainApp(args);
         TaskManager.start();
         String port = server.getNamed().getOrDefault("port", "8000");
@@ -46,6 +47,18 @@ public class MainApp extends ParametersImpl {
             System.err.print("Could not start server due to port error. please specify --port=8382 or whatever. ");
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void startADB() {
+        new Thread(()->{
+            ProcessBuilder pb=new ProcessBuilder(new String[]{"adb","devices"});
+            try {
+                pb.start();
+            } catch (IOException ex) {
+                Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }).start();
     }
 
     private void startServer(int portNumber) throws IOException {

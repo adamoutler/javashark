@@ -19,8 +19,7 @@ import com.adamoutler.virtualbox.task.TaskType;
  */
 public class MessageData {
 
-    @SerializedName("args")
-    @Expose
+
     private int[]  weOwn;
     private int[]  theyOwn;
     private int[]  nobodyOwns;

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.Message;
 import java.util.ArrayList;
 
@@ -30,23 +31,11 @@ public class StartSentry extends SentryAbstractPapaHandler {
         ArrayList<VirtualBoxMachine> al = new ArrayList<>();
         al.add(vm);
         Message m = new Message().setCommand("sentrystart").setData(this.getRequest().getData().setActive(al).setReason("Starting machine"));
-        new Thread(() -> {
-            try {
-                this.setMessage(m);
-                this.sendSucessMessage(he, m);
-                VirtualBoxControl vmControl = new VirtualBoxControl(vm);
-                vmControl.startVirtualMachine();
-                while (time < System.currentTimeMillis() + 120000) {
-                    if (isBooted(vm)) {
-                        break;
-                    }
-                }
-                
-                vmControl.startCats();
-            } catch (IOException ex) {
-                Logger.getLogger(StartSentry.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).start();
+        this.sendSucessMessage(he, m);
+        TaskType[] tasks=new TaskType[]{TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.SENTRY};
+        for (TaskType task:tasks){
+            vm.addTask(task);
+        }
 
     }
 

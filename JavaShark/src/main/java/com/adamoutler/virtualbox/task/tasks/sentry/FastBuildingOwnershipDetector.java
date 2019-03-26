@@ -47,11 +47,6 @@ public class FastBuildingOwnershipDetector {
         this.gang = vm.getGang();
         this.username = vm.getUsername();
         this.vm=vm;
-        vm.getData().current=new OwnedBy[]{US,US,US,THEM,NOBODY,US};
-        vm.getData().previous=new OwnedBy[]{US,US,US,US,NOBODY,US};
-                
-        freakOut(new int[]{3});
-
     }
 
     /**
@@ -88,6 +83,7 @@ public class FastBuildingOwnershipDetector {
                     }
                     if (vm.getData().nullCount++ > 9) {
                         vm.setTaskComplete(true);
+                        SendPapaAsynch.reasonWarning(vm, "offline");
 
                     }
                     return;
