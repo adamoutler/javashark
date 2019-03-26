@@ -24,7 +24,7 @@ public class MessageData {
     private int[]  weOwn;
     private int[]  theyOwn;
     private int[]  nobodyOwns;
-    private int[]  alertBuilding;
+    private int[]  alertBuildings;
     private String text;
     private String reason;
     private String ScreenName;
@@ -92,7 +92,7 @@ public class MessageData {
      * @return the alertBuilding
      */
     public int[]  getAlertBuilding() {
-        return alertBuilding;
+        return alertBuildings;
     }
 
     /**
@@ -100,7 +100,7 @@ public class MessageData {
      * @return representation of this MessageData object
      */
     public MessageData setAlertBuilding(int[]  alertBuilding) {
-        this.alertBuilding = alertBuilding;
+        this.alertBuildings = alertBuilding;
         return this;
     }
 

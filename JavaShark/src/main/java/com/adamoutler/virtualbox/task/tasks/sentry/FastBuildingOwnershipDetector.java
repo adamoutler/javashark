@@ -76,7 +76,6 @@ public class FastBuildingOwnershipDetector {
     /**
      * runs the FastBuildingOwnershipDetector. Sends notifications to Papa.
      *
-     * @param vm vm to perform operations
      */
     public void run() {
         try {

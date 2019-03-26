@@ -74,7 +74,6 @@ public class OCR extends EasyOCR {
      *
      * @param f File reference to the picture to be OCR'd
      * @return text representation of the picture provided
-     * @throws TesseractNotFoundException if the Tesseract binary is not found
      */
     public String getTextFromPicture(File f) {
         this.setTesseractPath(tesseractLocation);

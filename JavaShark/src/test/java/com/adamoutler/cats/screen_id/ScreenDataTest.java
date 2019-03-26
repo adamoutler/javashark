@@ -81,7 +81,10 @@ public class ScreenDataTest {
                             
                         }
                     }
-                    assert(expResult.toString().contains(result.toString()));
+                    if (expResult.name().equals("ULTIMATEGARAGE")){
+                        System.out.println(expResult);
+                    }
+                    assertEquals(expResult.name(),result.name());
                     //assertEquals(expResult, result);
                 }
                 if (id.equals(result.name())) {

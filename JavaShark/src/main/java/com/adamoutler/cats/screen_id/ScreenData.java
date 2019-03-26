@@ -63,7 +63,6 @@ public enum ScreenData {
     TOPGANGS(new HashedPicCoords[]{new HashedPicCoords(701,30,178,42,1779073125)}, new ColoredXYCoords[]{}, "Top Gangs scoreboard screen"),
     TOPPLAYERS(new HashedPicCoords[]{new HashedPicCoords(440,15,176,28,-1643148680)}, new ColoredXYCoords[]{}, "Top Players scoreboard creen"),
     TOPULTIMATELEAGE(new HashedPicCoords[]{new HashedPicCoords(166,15,214,29,-452886606)}, new ColoredXYCoords[]{}, "Top Ultimate League scoreboard screen"),
-    ULTIMATEGARAGE(new HashedPicCoords[]{new HashedPicCoords(26,594,260,11,-1394165371)}, new ColoredXYCoords[]{}, "Ultimate League garage screen, working on car"),
     ZEPTOSCREEN(new HashedPicCoords[]{new HashedPicCoords(472,545,75,22,-1841029738)}, new ColoredXYCoords[]{}, "Zeptolab icon loading screen"),
     OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430,577,173,47,-1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button");
 

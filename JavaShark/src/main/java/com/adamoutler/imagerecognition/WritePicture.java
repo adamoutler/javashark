@@ -39,7 +39,7 @@ public class WritePicture {
      * colored.
      * @param backColor color of background
      * @param foreColor color of foreground
-     * @param fontSize
+     * @param font font to use
      * @return bufferedImage with text
      */
     public static BufferedImage createImage(PicCoords size, XYCoords xyLocation, String text, boolean skipBackground, Color backColor, Color foreColor, Font font) {
