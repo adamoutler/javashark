@@ -5,23 +5,25 @@
  */
 package com.adamoutler.javashark;
 
+import com.adamoutler.chat.MinimalChatExtreme;
 import com.adamoutler.javashark.handlers.CommandDistributor;
-import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.SentryStatus;
 import com.adamoutler.javashark.handlers.StartSentry;
 import com.adamoutler.javashark.handlers.StopSentry;
 import com.adamoutler.javashark.handlers.TaskHandler;
+import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
 import com.adamoutler.virtualbox.task.TaskManager;
+import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
+import com.babysharks.messaging.SendPapaAsynch;
 import com.sun.javafx.application.ParametersImpl;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,12 +33,25 @@ import java.util.logging.Logger;
  */
 public class MainApp extends ParametersImpl {
 
+    public static MinimalChatExtreme chat = new MinimalChatExtreme("JavaShark", generateRandom("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"));
+
+    private static void notifyPapa() {
+       Message message=new Message().setCommand("JavaSharkOnline")
+                .setData(new MessageData()
+                        .setReason("Javashark Has Come Online. "
+                                + "Please silence notifications "
+                                + "for 10 seconds"));
+
+        SendPapaAsynch.sendToPapa(message);
+    }
+
     MainApp(String[] args) {
         super(args);
     }
 
     public static void main(String[] args) {
-        startADB();        
+        startADB();
+        notifyPapa();
         MainApp server = new MainApp(args);
         TaskManager.start();
         String port = server.getNamed().getOrDefault("port", "8000");
@@ -50,29 +65,29 @@ public class MainApp extends ParametersImpl {
     }
 
     private static void startADB() {
-        new Thread(()->{
-            ProcessBuilder pb=new ProcessBuilder(new String[]{"adb","devices"});
+        new Thread(() -> {
+            ProcessBuilder pb = new ProcessBuilder(new String[]{"adb", "devices"});
             try {
                 pb.start();
             } catch (IOException ex) {
                 Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }).start();
     }
 
     private void startServer(int portNumber) throws IOException {
         System.out.println(this.getRaw());
 
-        CommandDistributor commandDistributor=new CommandDistributor();
+        CommandDistributor commandDistributor = new CommandDistributor();
         commandDistributor.register("time", new TimeHandler());
         commandDistributor.register("screenshot", new ScreenshotHandler());
         commandDistributor.register("json", new JsonTestHandler());
         commandDistributor.register("test", new TestHandler());
         commandDistributor.register("sentrystatus", new SentryStatus());
-        commandDistributor.register("sentrystart",new StartSentry());
-        commandDistributor.register("sentrystop",new StopSentry());
-        commandDistributor.register("addtask",new TaskHandler());
+        commandDistributor.register("sentrystart", new StartSentry());
+        commandDistributor.register("sentrystop", new StopSentry());
+        commandDistributor.register("addtask", new TaskHandler());
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
@@ -82,5 +97,13 @@ public class MainApp extends ParametersImpl {
 
     }
 
-  
+    private static String generateRandom(String aToZ) {
+        Random rand = new Random();
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < 17; i++) {
+            int randIndex = rand.nextInt(aToZ.length());
+            res.append(aToZ.charAt(randIndex));
+        }
+        return res.toString();
+    }
 }

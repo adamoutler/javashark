@@ -47,6 +47,7 @@ public class HashedPicCoords extends PicCoords {
         debug = aDebug;
     }
     
+    @Override
      public  BufferedImage getImageAtCoords(BufferedImage bi){
         BufferedImage subImage=bi.getSubimage(x, y, getW(), getH());
         return subImage;

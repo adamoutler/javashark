@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 
@@ -17,6 +18,7 @@ public class PoweroffTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         new VirtualBoxControl(vm).stopVM();
+        vm.setScreenID(ScreenData.OFF);
         ready(vm);
     }
 

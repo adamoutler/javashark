@@ -62,6 +62,7 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         try (OutputStream responseStream = t.getResponseBody()) {
             responseStream.write(responseBytes);
         }
+        t.close();
     }
 
     /**

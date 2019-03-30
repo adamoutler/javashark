@@ -5,14 +5,12 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.cats.screen_id.ScreenData;
-import com.sun.net.httpserver.HttpExchange;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.Message;
+import com.sun.net.httpserver.HttpExchange;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +30,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
         this.sendSucessMessage(he, m);
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
         vmControl.stopVM();
+        vm.addTask(TaskType.CLEAR);
 
     }
 

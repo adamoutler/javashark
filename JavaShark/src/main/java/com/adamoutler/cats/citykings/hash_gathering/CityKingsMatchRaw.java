@@ -5,25 +5,22 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
-import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import static com.adamoutler.cats.citykings.hash_gathering.building.BuildingOwnershipDetector.isNumeric;
-import com.adamoutler.imagerecognition.ByteImage;
-
+import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.imagerecognition.Screenshottable;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import se.vidstige.jadb.JadbDevice;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,17 +34,17 @@ public class CityKingsMatchRaw {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void main(String[] args) { //main method
-        JadbDevice jadb = new se.vidstige.jadb.JadbConnection().getAnyDevice();
-        new CityKingsMatchRaw().scanBuildings(jadb);
+  //      JadbDevice jadb = new se.vidstige.jadb.JadbConnection().getAnyDevice();
+//        new CityKingsMatchRaw().scanBuildings(jadb);
     }
 
-    public CityKingsMatchRaw scanBuildings(JadbDevice jadb) {
+    public CityKingsMatchRaw scanBuildings(VirtualBoxMachine vm) {
 
         try {
+            
             //CityKingsScreen.navigateTo(jadb);
-            screenshot = ByteImage.getPngBytes(Screenshottable.getScreenshot());
-            Screenshottable.writePic(ByteImage.getImageFromBytes(screenshot), "PictureUsedForCreateBuildings");
-            setBuildings(BuildingFactory.createBuildings(jadb, ByteImage.getImageFromBytes(screenshot)));
+            Screenshottable.writePic(vm.screenshot(), "PictureUsedForCreateBuildings");
+            setBuildings(BuildingFactory.createBuildings(vm));
 
             getBuildings().stream().map((building) -> {
                 return building;
@@ -66,12 +63,12 @@ public class CityKingsMatchRaw {
             });
             String outputFile = getBuildingOwnershipFileName(-1);
             System.out.println("Writing " + outputFile);
-            FileWriter fw = new FileWriter(outputFile);
-            gson.toJson(this, fw);
-            fw.flush();
-            fw.close();
+            try (FileWriter fw = new FileWriter(outputFile)) {
+                gson.toJson(this, fw);
+                fw.flush();
+            }
             return this;
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(CityKingsMatchRaw.class.getName()).log(Level.SEVERE, null, ex);
         }
 

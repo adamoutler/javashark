@@ -43,6 +43,14 @@ public class XYCoords {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + this.x;
+        hash = 37 * hash + this.y;
+        return hash;
+    }
     @Override
     public String toString(){
         return "x:"+x+"  y:"+y;

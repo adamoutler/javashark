@@ -15,8 +15,7 @@ import java.util.ArrayList;
  * and open the template in the editor.
  */
 /**
- * curl -X PATCH -d '{"message":{"command":"sentrystatus","data":{"gang":"development","username":"adamoutler"}}}'
- * https://baby-sharks.adamoutler.com/api/dev/command
+ * curl -X PATCH -d '{"message":{"command":"sentrystatus","data":{"gang":"development","username":"adamoutler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
  *
  * @author adamo
  */
@@ -26,14 +25,13 @@ public class SentryStatus extends SentryAbstractPapaHandler {
     public void handle(HttpExchange t) throws IOException {
         VirtualBox vbox = new VirtualBox();
 
-        ArrayList<VirtualBoxMachine> active = vbox.getActiveGangMachines(gang);
+        ArrayList<VirtualBoxMachine> active = vbox.getGangMachines(gang);
         Message response = new Message().setCommand("sentrystatus")
                 .setData(new MessageData().setGang(gang)
-                        .setActive(active)
-                        .setAvailable(vbox.getGangMachines(gang)));
+                        .setAvailable(active));
         for (VirtualBoxMachine v : active) {
-            ScreenData sd = ScreenData.identifyScreen(v.screenshot());
-            v.setScreenID(sd);
+            ScreenData sd = v.getScreen();
+         
             v.setScreenDescription(sd.getDescription());
         }
         sendSucessMessage(t, response);

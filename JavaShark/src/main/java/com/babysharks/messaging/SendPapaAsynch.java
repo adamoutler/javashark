@@ -5,9 +5,9 @@
  */
 package com.babysharks.messaging;
 
+import com.adamoutler.javashark.MainApp;
+import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
@@ -21,6 +21,16 @@ public class SendPapaAsynch {
 
     final private static String PAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async";
     
+//    public static void main(String[] args){
+//        Message m=new Message().setCommand("test");
+//        m.getData().setReason("testing");
+//        new VirtualBox().getMachinesList().get(0);
+//        m.setData(new MessageData().setActive(new VirtualBox().getMachinesList()));
+//        SendPapaAsynch.sendToPapa(m);
+//        //onlineWarning(new VirtualBox().getMachinesList().get(0));
+//    }
+    
+    
     public static void onlineWarning(VirtualBoxMachine vm) {
         vm.updateStatuses();
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
@@ -28,6 +38,9 @@ public class SendPapaAsynch {
         HashedMessage hm=new HashedMessage(getM(vm).setData(
                 getData(vm).setReason("online"))
                 .setCommand("sentry"));
+        MainApp.chat.clear();
+        MainApp.chat.sendMessage("I'm online!");
+        MainApp.chat.sendMessage("Please be quiet.  Use the 3-dots at the top right to enable notifications.  Leave this window open and I will notify when a building is taken, as long as I'm online.");
         System.out.println(sendToPapa(hm));
         
     }
@@ -36,6 +49,7 @@ public class SendPapaAsynch {
     public static void reasonWarning(VirtualBoxMachine vm,String reason) {
         HashedMessage hm =new HashedMessage(getM(vm).setCommand("sentry")
                 .setData(getData(vm).setReason(reason)));
+        MainApp.chat.sendMessage("Announcement:"+reason);
         Object s = new RestTemplate().postForObject("https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async", hm.toJson(), String.class);
         System.out.println(s);
         
@@ -50,6 +64,11 @@ public class SendPapaAsynch {
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
         vms.add(vm);
         return new MessageData().setActive(vms).setGang(vm.getGang()).setUsername(vm.getUsername());
+    }
+    
+    public static String sendToPapa(Message message){
+        HashedMessage hm=new HashedMessage(message);
+        return sendToPapa(hm);
     }
     
     public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {

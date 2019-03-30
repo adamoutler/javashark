@@ -10,7 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
 /**
- * curl -X PATCH -d '{"message":{"command":"addtask","data":{"gang":"development","username":"adamoutler","tasks",["SKIP","SENTRY"]}}}' https://baby-sharks.adamoutler.com/api/dev/command
+ *  curl -X PATCH -d '{"message":{"command":"addtask","data":{"gang":"development","username":"adamoutler","tasks":["SKIP","SENTRY"]}}}' https://baby-sharks.adamoutler.com/api/dev/command
  *
  * @author adamo
  */

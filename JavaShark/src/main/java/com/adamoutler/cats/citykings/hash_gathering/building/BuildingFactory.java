@@ -7,18 +7,16 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
 
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.imagerecognition.ByteImage;
-
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import se.vidstige.jadb.JadbDevice;
 import se.vidstige.jadb.JadbException;
 
 /**
@@ -40,8 +38,8 @@ public class BuildingFactory {
     final public static PicCoords BUILDING6NAME = new PicCoords(832, 328, 110, 25);
     final public static PicCoords BUILDING6SIZE = new PicCoords(968, 329, 36, 22);
 
-    static private CityKingsBuildingRaw createBuilding(JadbDevice dev, BufferedImage screenshot, int buildingNumber) {
-        CityKingsBuildingRaw ckb = new CityKingsBuildingRaw(dev, buildingNumber, ByteImage.getPngBytes(screenshot));
+    static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber) {
+        CityKingsBuildingRaw ckb = new CityKingsBuildingRaw(vm, buildingNumber, ByteImage.getPngBytes(screenshot));
         setbuildingNamePic(buildingNumber, screenshot, ckb);
         setBuildingSizePic(buildingNumber, screenshot, ckb);
         setBuildingXY(buildingNumber, ckb);
@@ -78,11 +76,11 @@ public class BuildingFactory {
         }
     }
 
-    static public LinkedList<CityKingsBuildingRaw> createBuildings(JadbDevice dev, BufferedImage screenshot) {
+    static public LinkedList<CityKingsBuildingRaw> createBuildings(VirtualBoxMachine vm) {
         LinkedList<CityKingsBuildingRaw> buildings = new LinkedList<>();
 
         for (int i = 1; i <= 6; i++) {
-            CityKingsBuildingRaw building = BuildingFactory.createBuilding(dev, screenshot, i);
+            CityKingsBuildingRaw building = BuildingFactory.createBuilding(vm, vm.screenshot(), i);
 
             buildings.add(building);
 

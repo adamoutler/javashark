@@ -5,15 +5,7 @@
  */
 package com.adamoutler.googletools;
 
-import com.google.api.gax.paging.Page;
-import com.google.auth.appengine.AppEngineCredentials;
-import com.google.auth.oauth2.ComputeEngineCredentials;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.common.collect.Lists;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 

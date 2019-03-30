@@ -5,8 +5,6 @@
  */
 package com.adamoutler.imagerecognition;
 
-import com.adamoutler.imagerecognition.Navigation;
-import com.adamoutler.imagerecognition.Screenshottable;
 import static com.adamoutler.imagerecognition.Navigation.sleep;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

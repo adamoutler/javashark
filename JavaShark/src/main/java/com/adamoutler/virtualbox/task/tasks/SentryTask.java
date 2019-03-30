@@ -26,7 +26,7 @@ public class SentryTask extends Task {
         try {
             FastBuildingOwnershipDetector fbod=new FastBuildingOwnershipDetector(vm);
             SendPapaAsynch.onlineWarning(vm);
-            vm.getData().previous = fbod.scan(vm.screenshot());
+            vm.getTaskData().previous = fbod.scan(vm.screenshot());
             ready(vm);
         } catch (Exception ex) {
             Logger.getLogger(SentryTask.class.getName()).log(Level.SEVERE, null, ex);

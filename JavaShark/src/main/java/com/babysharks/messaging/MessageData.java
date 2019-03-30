@@ -5,13 +5,11 @@
  */
 package com.babysharks.messaging;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import java.util.ArrayList;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
 
 /**
  *
@@ -36,7 +34,7 @@ public class MessageData {
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
-    
+    private boolean debug=true;
             
 
     /**

@@ -33,8 +33,7 @@ public class PowerOnTask extends Task {
 
     @Override
     void runTask(VirtualBoxMachine vm) {
-        BufferedImage screenshot = vm.screenshot();
-        ScreenData sd=ScreenData.identifyScreen(screenshot);
+        ScreenData sd=ScreenData.identifyScreen(vm);
         if (sd.equals(ScreenData.BOOTED)){
             complete(vm);
         } else {

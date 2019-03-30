@@ -12,6 +12,7 @@ import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -45,8 +46,8 @@ public final class CityKingsBuildingRaw extends Navigation {
         this.buildingNumber = buildingNumber;
     }
 
-    public CityKingsBuildingRaw(JadbDevice jadb, int buildingNumber, byte[] screenshot) {
-        super(jadb);
+    public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber, byte[] screenshot) {
+        super(vm.getJadb());
         this.buildingNumber = buildingNumber;
         tosb = new TeamOwnershipPercentageBar(screenshot);
         gatherVariablesFromTosb();

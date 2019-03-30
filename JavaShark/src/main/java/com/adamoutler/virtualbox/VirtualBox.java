@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class VirtualBox {
         System.out.println("Searching for gang 'Debian', user 'esting : " + usermachine);
         List<VirtualBoxMachine> activeMachines = new VirtualBox().getActiveMachines();
         System.out.println("Active Machines : " + activeMachines);
-        List<VirtualBoxMachine> activeGangMachines = new VirtualBox().getActiveGangMachines("development");
+        List<VirtualBoxMachine> activeGangMachines = new VirtualBox().getGangMachines("development");
         System.out.println("Active gang 'adam' Machines : " + activeGangMachines);
 
     }
@@ -52,37 +53,49 @@ public class VirtualBox {
         ArrayList<VirtualBoxMachine> returnValue = new ArrayList<>();
         for (VirtualBoxMachine m : getMachinesList()) {
             if (m.getGang().toLowerCase().startsWith(gang.toLowerCase())) {
+                m.updateStatuses();
                 returnValue.add(m);
             }
         }
         return returnValue;
     }
 
-    public ArrayList<VirtualBoxMachine> getActiveGangMachines(String gang) {
-        ArrayList<VirtualBoxMachine> returnValue = new ArrayList<>();
-        for (VirtualBoxMachine machine : getActiveMachines()) {
-            if (machine.getGang().toLowerCase().startsWith(gang.toLowerCase())) {
-                returnValue.add(machine);
-            }
-        }
-        return returnValue;
-    }
-
     public ArrayList<VirtualBoxMachine> getActiveMachines() {
-        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "list", "runningvms"});
-        ArrayList<VirtualBoxMachine> al = getFormattedMachines(pb);
-        return al;
+        return getMachinesList();
     }
 
- 
-    
     public ArrayList<VirtualBoxMachine> getMachinesList() {
         if (machines.size() < 1) {
             ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "list", "vms"});
             ArrayList<VirtualBoxMachine> al = getFormattedMachines(pb);
-            machines=al;
+            machines = al;
         }
         return machines;
+    }
+
+    public boolean isMachineOn(VirtualBoxMachine vm) {
+
+        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "list", "runningvms"});
+        pb.redirectError();
+        try {
+            Process p = pb.start();
+            try (BufferedInputStream is = new BufferedInputStream(p.getInputStream())) {
+                p.waitFor(1, TimeUnit.SECONDS);
+                StringBuilder sb = new StringBuilder();
+
+                while (is.available() > 0) {
+                    sb.append((char) is.read());
+                }
+                if (sb.toString().contains(vm.getVMName())) {
+                    return true;
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(VirtualBox.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(VirtualBox.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     private ArrayList<VirtualBoxMachine> getFormattedMachines(ProcessBuilder pb) {
@@ -106,7 +119,7 @@ public class VirtualBox {
         return "";
     }
 
-      void processVMList(String value, ArrayList<VirtualBoxMachine> recognizedMachines) {
+    void processVMList(String value, ArrayList<VirtualBoxMachine> recognizedMachines) {
         String[] vmList = value.split("\n");
         if (vmList.length == 0) {
             return;

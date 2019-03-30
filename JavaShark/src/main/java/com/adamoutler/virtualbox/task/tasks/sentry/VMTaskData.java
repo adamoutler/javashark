@@ -20,6 +20,20 @@ public class VMTaskData {
     public OwnedBy[] current;
     long machineBootUpTime=0;
     long gameBootUpTime=0;
-    
+    private long lastStartCats=0;
+
+    /**
+     * @return the lastStartCats
+     */
+    public long getLastStartCats() {
+        return lastStartCats;
+    }
+
+    /**
+     * @param lastStartCats the lastStartCats to set
+     */
+    public void setLastStartCats(long lastStartCats) {
+        this.lastStartCats = lastStartCats;
+    }
    
 }

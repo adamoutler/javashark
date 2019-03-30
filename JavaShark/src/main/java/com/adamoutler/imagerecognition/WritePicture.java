@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 
 public class WritePicture {
@@ -100,7 +99,7 @@ public class WritePicture {
         int r = getRed(colorOfBackground);
         int g = getGreen(colorOfBackground);
         int b = getBlue(colorOfBackground);
-        int y = 0;
+        int y;
         int x = 0;
         boolean found = false;
         while (!found && x < picture.getWidth()-1) {
@@ -118,7 +117,6 @@ public class WritePicture {
         BufferedImage picture2 = picture.getSubimage(getLeftMargin(picture, x, sideMarginsPixels), picture.getMinY(), getLeftCropWidth(picture, x), picture.getHeight());
         found = false;
         x = picture2.getWidth();
-        y = 0;
         while (!found && x > 0) {
             x--;
             for (y = 0; y < picture2.getHeight(); y++) {

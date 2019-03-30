@@ -6,13 +6,9 @@
 package com.adamoutler.cats.citykings.hash_gathering.building.car;
 
 import com.adamoutler.imagerecognition.ByteImage;
-import com.adamoutler.imagerecognition.ImageJoiner;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
-import com.adamoutler.imagerecognition.WritePicture;
-import com.adamoutler.imagerecognition.XYCoords;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

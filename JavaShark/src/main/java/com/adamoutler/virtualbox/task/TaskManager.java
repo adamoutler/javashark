@@ -5,12 +5,13 @@
  */
 package com.adamoutler.virtualbox.task;
 
-import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
+import com.babysharks.messaging.SendPapaAsynch;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +45,7 @@ public class TaskManager {
     private static void performTasks() {
         getMachines().stream().forEachOrdered((vm) -> {
             if (vm.isTaskComplete()){
-                vm.removeCurrentTask();
+                vm.performTaskListMaintenance();
             }
             initializeTask(vm);
         });
@@ -75,7 +76,7 @@ public class TaskManager {
             while (running.get()) {
                 try {
                     getStates();
-                    sleep(500);
+                    sleep(1000);
                     performTasks();
                 } catch (Exception ex) {
                     Logger.getLogger(TaskManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +146,14 @@ public class TaskManager {
     }
 
     private static void sendPapaUpdate(VirtualBoxMachine vm ){
-        
+        vm.updateStatuses();
+        Message message=new Message().setCommand("TaskUpdate")
+                .setData(new MessageData()
+                        .setGang(vm.getGang())
+                        .setUsername(vm.getUsername())
+                        .setReason("A new task was started")
+                        .setResultObject(vm));
+        SendPapaAsynch.sendToPapa(message);
 
     }
 
@@ -167,6 +175,7 @@ public class TaskManager {
     private static void initializeTask(VirtualBoxMachine vm) {
         if (!vm.isTaskInitialized()) {
             System.out.println("Performing "+vm.getCurrentTask().name()+ " on "+ vm.getUsername()+" "+vm.getGang());
+            vm.getCurrentTaskTime().setTimeStarted();
             sendPapaUpdate(vm);
             vm.getCurrentTask().getTask().init(vm);
         }

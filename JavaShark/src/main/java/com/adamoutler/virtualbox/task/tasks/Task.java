@@ -6,7 +6,6 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.IfaceTask;
 import static com.adamoutler.virtualbox.task.TaskManager.getTaskMachine;
 

@@ -7,13 +7,13 @@ package com.adamoutler.googletools;
 
 import com.adamoutler.time.UserTimeCalculator;
 import com.babysharks.datastructures.DateTimeResult;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import org.springframework.web.client.RestTemplate;
 import com.babysharks.datastructures.google.GooglePlaceDetail;
 import com.babysharks.datastructures.google.GooglePlaceDetailObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *

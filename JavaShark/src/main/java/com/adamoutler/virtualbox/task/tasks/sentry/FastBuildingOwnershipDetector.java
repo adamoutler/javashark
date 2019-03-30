@@ -10,10 +10,9 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.NOBO
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import com.adamoutler.imagerecognition.PicColors;
-import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -25,7 +24,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -46,7 +44,7 @@ public class FastBuildingOwnershipDetector {
     public FastBuildingOwnershipDetector(VirtualBoxMachine vm) {
         this.gang = vm.getGang();
         this.username = vm.getUsername();
-        this.vm=vm;
+        this.vm = vm;
     }
 
     /**
@@ -74,26 +72,26 @@ public class FastBuildingOwnershipDetector {
      */
     public void run() {
         try {
-           
-                vm.getData().current = scan(vm.screenshot());
-                if (anyAreNull(vm.getData().current, vm.getData().previous)) {
-                    System.out.println("Null detected!!!!!!");
-                    for (int i = 0; i < 6; i++) {
-                        System.out.println("C: " + vm.getData().current[i] + " P: " + vm.getData().previous[i]);
-                    }
-                    if (vm.getData().nullCount++ > 9) {
-                        vm.setTaskComplete(true);
-                        SendPapaAsynch.reasonWarning(vm, "offline");
 
-                    }
-                    return;
+            vm.getTaskData().current = scan(vm.screenshot());
+            if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
+                System.out.println("Null detected!!!!!!");
+                for (int i = 0; i < 6; i++) {
+                    System.out.println("C: " + vm.getTaskData().current[i] + " P: " + vm.getTaskData().previous[i]);
                 }
-                vm.getData().current = vm.getData().previous;
-                vm.getData().nullCount = 0;
+                if (vm.getTaskData().nullCount++ > 9) {
+                    vm.setTaskComplete(true);
+                    SendPapaAsynch.reasonWarning(vm, "offline");
+                    MainApp.chat.sendMessage("I'm going down. user logged in.");
 
-                reactToChangesInBuildingOwnership();
-                vm.getData().previous = vm.getData().current;
+                }
+                return;
+            }
+            vm.getTaskData().current = vm.getTaskData().previous;
+            vm.getTaskData().nullCount = 0;
 
+            reactToChangesInBuildingOwnership();
+            vm.getTaskData().previous = vm.getTaskData().current;
 
         } catch (Exception ex) {
             Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,12 +100,10 @@ public class FastBuildingOwnershipDetector {
     }
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
-        System.out.println(new Date() + " " + Arrays.asList(vm.getData().current));
-        ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getData().current, vm.getData().previous);
+        System.out.println("Ownership/"+vm.getGang()+"/"+vm.getUsername()+": "+new Date() + " " + Arrays.asList(vm.getTaskData().current));
+        ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getTaskData().current, vm.getTaskData().previous);
         maybeFreakOut(alertBuildings);
     }
-
-
 
     private void maybeFreakOut(ArrayList<Integer> alertBuildings) throws RestClientException {
         if (alertBuildings.size() > 0) {
@@ -136,17 +132,14 @@ public class FastBuildingOwnershipDetector {
                 || previous[4] == null || previous[5] == null;
     }
 
-   
-
-   
-
     void freakOut(int[] buildings) throws RestClientException {
         MessageData data = configureData(buildings, vm);
         System.out.println("TIME TO FREAK OUT!!!!! OMFG");
         //https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
         Message message = new Message();
         HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
-        String s=SendPapaAsynch.sendToPapa(hm);
+        MainApp.chat.sendMessage("ALERT in building(s)" + Arrays.toString(data.getAlertBuilding()));
+        String s = SendPapaAsynch.sendToPapa(hm);
         System.out.println(s);
 
     }
@@ -154,12 +147,12 @@ public class FastBuildingOwnershipDetector {
     MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
         MessageData data = new MessageData().setAlertBuilding(alertBuildings)
                 .setText("Help").setReason("alert").setBuildings(new String[]{
-            vm.getData().current[0].getFriendlyname(),
-            vm.getData().current[1].getFriendlyname(),
-            vm.getData().current[2].getFriendlyname(), 
-            vm.getData().current[3].getFriendlyname(),
-            vm.getData().current[4].getFriendlyname(), 
-            vm.getData().current[5].getFriendlyname()}
+            vm.getTaskData().current[0].getFriendlyname(),
+            vm.getTaskData().current[1].getFriendlyname(),
+            vm.getTaskData().current[2].getFriendlyname(),
+            vm.getTaskData().current[3].getFriendlyname(),
+            vm.getTaskData().current[4].getFriendlyname(),
+            vm.getTaskData().current[5].getFriendlyname()}
         ).setGang(gang).setActive(new ArrayList<>(Arrays.asList(vm)))
                 .setUsername(username);
 
@@ -167,7 +160,7 @@ public class FastBuildingOwnershipDetector {
         ArrayList<Integer> theyOwn = new ArrayList<>();
         ArrayList<Integer> nobodyOwns = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            switch (vm.getData().current[i]) {
+            switch (vm.getTaskData().current[i]) {
                 case THEM:
                     theyOwn.add(i);
                     break;
@@ -179,9 +172,9 @@ public class FastBuildingOwnershipDetector {
                     break;
             }
         }
-        data.setWeOwn(weOwn.stream().mapToInt(i->i).toArray());
-        data.setTheyOwn(theyOwn.stream().mapToInt(i->i).toArray());
-        data.setNobodyOwns(nobodyOwns.stream().mapToInt(i->i).toArray());
+        data.setWeOwn(weOwn.stream().mapToInt(i -> i).toArray());
+        data.setTheyOwn(theyOwn.stream().mapToInt(i -> i).toArray());
+        data.setNobodyOwns(nobodyOwns.stream().mapToInt(i -> i).toArray());
         return data;
     }
 
@@ -190,13 +183,18 @@ public class FastBuildingOwnershipDetector {
     }
 
     private OwnedBy getOwnership(PicColors screenshot1, XYCoords coords) throws Exception {
-        if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.US.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-            return OwnedBy.US;
-        } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-            return OwnedBy.THEM;
-        } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.NOBODY.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-            return OwnedBy.NOBODY;
+        try {
+            if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.US.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.US;
+            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.THEM;
+            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.NOBODY.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.NOBODY;
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("Could not analyze screenshot");
         }
+
         return null;
     }
 

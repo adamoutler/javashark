@@ -44,12 +44,12 @@ public class VirtualBoxControl {
 
     public  void main(String[] args) {
 
-        VirtualBoxMachine vm = new VirtualBox().getUserMachine("development", "adamoutler");
-        VirtualBoxControl vbox = new VirtualBoxControl(vm);
-        //vbox.stopVM();
-        vbox.startVirtualMachine();
-        vbox.startCats();
-        vbox.startSentry(9999999);
+//        VirtualBoxMachine vm = new VirtualBox().getUserMachine("development", "adamoutler");
+//        VirtualBoxControl vbox = new VirtualBoxControl(vm);
+//        //vbox.stopVM();
+//        vbox.startVirtualMachine();
+//        vbox.startCats();
+//        vbox.startSentry(9999999);
 
     }
 
@@ -147,10 +147,7 @@ public class VirtualBoxControl {
             return true;
         }
 
-        if (!executed.contains("0%") && !executed.contains("not currently")) {
-            return false;
-        }
-        return true;
+        return !(!executed.contains("0%") && !executed.contains("not currently"));
     }
 
     // adb kill-server
@@ -191,6 +188,8 @@ public class VirtualBoxControl {
      * General corrective action to be taken before scanning or other event
      * occurs.
      *
+     * @throws java.io.IOException
+     * @throws se.vidstige.jadb.JadbException
      */
     public void performCorrectiveActionOnVM() throws IOException, JadbException {
 
@@ -258,13 +257,13 @@ public class VirtualBoxControl {
         try {
             final Runtime re = Runtime.getRuntime();
             Process process = re.exec(args.toArray(new String[args.size()]));
-            BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            BufferedReader stdin = new BufferedReader(new InputStreamReader(process.getInputStream()));
             //todo test timing
             process.waitFor(timeToWait, TimeUnit.SECONDS);
             StringBuilder sb = new StringBuilder();
-            readBufferedReader(in, sb);
-            readBufferedReader(error, sb);
+            readBufferedReader(stdin, sb);
+            readBufferedReader(stderr, sb);
             return sb.toString();
 
         } catch (IOException | InterruptedException ex) {

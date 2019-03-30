@@ -7,7 +7,8 @@ package com.adamoutler.imagerecognition;
 
 
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
-import java.awt.image.BufferedImage;import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -7,12 +7,11 @@ package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
-import com.adamoutler.virtualbox.task.tasks.SentryTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
+import com.adamoutler.virtualbox.task.tasks.SentryTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
-import com.adamoutler.virtualbox.task.tasks.Task;
 
 /**
  *
@@ -27,6 +26,7 @@ public enum TaskType {
     STARTCATS(new StartCatsTask(),"Start CATS"),
     POWEROFF(new PoweroffTask(),"Machine is powered off"),
     SKIP(new ForceRemoveTask(),"Skip the current task"),
+    CLEAR(new IdleTask(), "Clearing all tasks"),
     CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK");
     
     

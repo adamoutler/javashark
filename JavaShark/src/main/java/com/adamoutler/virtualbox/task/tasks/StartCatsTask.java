@@ -7,37 +7,40 @@ package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import java.awt.image.BufferedImage;
 
 /**
  *
  * @author adamo
  */
-public class StartCatsTask extends Task{
+public class StartCatsTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
-        if (!vm.getScreen().equals(ScreenData.BOOTED)){
+        if (!vm.getScreen().equals(ScreenData.BOOTED)) {
             vm.setTaskInitialized(false);
-            vm.adbShell(new String[]{"input","keyevent","KEYCODE_HOME"});
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
             return;
         }
-        vm.adbShell(new String[]{"am","start","com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+        vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
         ready(vm);
     }
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
-
-        ScreenData sd=ScreenData.identifyScreen(vm.screenshot());
-        if (sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN)||
-                sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN)||
-                sd.equals(ScreenData.CITYKINGS)||
-                sd.equals(ScreenData.RECONNECT)){
-            complete(vm);
-        } else {
-            vm.adbShell(new String[]{"input","keyevent","KEYCODE_BACK"});
+        if (vm.getTaskData().getLastStartCats() < System.currentTimeMillis() + 100000) {
+            vm.getTaskData().setLastStartCats(System.currentTimeMillis());
+            ScreenData sd = vm.getScreen();
+            if (sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN)
+                    || sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN)
+                    || sd.equals(ScreenData.CITYKINGS)
+                    || sd.equals(ScreenData.RECONNECT)) {
+                complete(vm);
+            } else {
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
+                vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+            }
         }
     }
-    
 }
