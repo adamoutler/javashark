@@ -64,21 +64,21 @@ public class MinimalChatExtreme {
         filename = new File(System.getProperty("java.io.tmpdir") + "/" + room + ".cht");
         System.out.println("Initalizing chat as " + user + " to "+serverUrl+"/?room=" + room);
     }
-    public static void main(String[] args) {
-
-        System.out.println("New data available: " + new MinimalChatExtreme("test", "badazzeshypersecure").isNewDataAvailable());
-        Long currentLength = new MinimalChatExtreme("test", "badazzeshypersecure").getContentLength();
-        System.out.println("Last update from site:" + currentLength);
-        MinimalChatExtreme mc = new MinimalChatExtreme("test", "badazzeshypersecure");
-        // mc.acknowledgeMessage();
-        // mc.sendMessage("test");
-        // String s = mc.getText();
-
-        Object o = mc.getContent();
-
-        // System.out.println(s);
-        System.out.println();
-    }
+//    public static void main(String[] args) {
+//
+//        System.out.println("New data available: " + new MinimalChatExtreme("test", "badazzeshypersecure").isNewDataAvailable());
+//        Long currentLength = new MinimalChatExtreme("test", "badazzeshypersecure").getContentLength();
+//        System.out.println("Last update from site:" + currentLength);
+//        MinimalChatExtreme mc = new MinimalChatExtreme("test", "badazzeshypersecure");
+//        // mc.acknowledgeMessage();
+//        // mc.sendMessage("test");
+//        // String s = mc.getText();
+//
+//        Object o = mc.getContent();
+//
+//        // System.out.println(s);
+//        System.out.println();
+//    }
 
     public long getContentLength() {
         try {
