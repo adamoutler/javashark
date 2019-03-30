@@ -72,7 +72,6 @@ public class FastBuildingOwnershipDetector {
      */
     public void run() {
         try {
-
             vm.getTaskData().current = scan(vm.screenshot());
             if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
                 System.out.println("Null detected!!!!!!");
@@ -87,10 +86,10 @@ public class FastBuildingOwnershipDetector {
                 }
                 return;
             }
-            vm.getTaskData().current = vm.getTaskData().previous;
             vm.getTaskData().nullCount = 0;
 
             reactToChangesInBuildingOwnership();
+            
             vm.getTaskData().previous = vm.getTaskData().current;
 
         } catch (Exception ex) {
