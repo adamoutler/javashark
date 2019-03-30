@@ -5,6 +5,7 @@
  */
 package com.babysharks.messaging;
 
+import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,6 +61,8 @@ public class SendPapaAsynchTest {
     public void tearDown() {
     }
 
+    VirtualBoxMachine vm = new VirtualBox().getMachinesList().get(1);
+
     @Test
     public void testFormat() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -85,10 +88,7 @@ public class SendPapaAsynchTest {
     @Test
     public void testOnlineWarning() {
         System.out.println("onlineWarning");
-        VirtualBoxMachine vm = null;
         SendPapaAsynch.onlineWarning(vm);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -97,11 +97,9 @@ public class SendPapaAsynchTest {
     @Test
     public void testReasonWarning() {
         System.out.println("reasonWarning");
-        VirtualBoxMachine vm = null;
-        String reason = "";
+
+        String reason = "PERFORMING UNIT TESTING";
         SendPapaAsynch.reasonWarning(vm, reason);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -110,12 +108,11 @@ public class SendPapaAsynchTest {
     @Test
     public void testSendToPapa_Message() {
         System.out.println("sendToPapa");
-        Message message = null;
-        String expResult = "";
+        Message message = new Message().setCommand("UNIT TESTING");
+        String expResult = "{\"error\":\"command failed processing\"}";
         String result = SendPapaAsynch.sendToPapa(message);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -124,12 +121,62 @@ public class SendPapaAsynchTest {
     @Test
     public void testSendToPapa_HashedMessage() {
         System.out.println("sendToPapa");
-        HashedMessage hm = null;
-        String expResult = "";
+        Message mess = new Message().setCommand("alert").setData(new MessageData().setReason("UNIT TESTING"));
+        HashedMessage hm = new HashedMessage(mess);
+        String expResult = "{\"status\":\"success\"}";
         String result = SendPapaAsynch.sendToPapa(hm);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        mess.getData().setAlertBuilding(new int[]{7});
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setAlertBuilding(new int[]{-1});
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setAlertBuilding(new int[]{7});
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setAlertBuilding(new int[]{3});
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setAlertBuilding(new int[]{3})
+                .setTheyOwn(new int[]{3, 4})
+                .setWeOwn(new int[]{1, 2}).setNobodyOwns(new int[]{5, 6});
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setGang("development");
+        mess.getData().setUsername("AdamOutler");
+
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
+        mess.getData().setText("help");
+        mess.getData().setReason("alert");
+        mess.getData().setGang("development");
+        mess.getData().setUsername("AdamOutler");
+
+        hm = new HashedMessage(mess);
+        expResult = "{\"status\":\"success\"}";
+        result = SendPapaAsynch.sendToPapa(hm);
+        assertEquals(expResult, result);
+
     }
 
 }

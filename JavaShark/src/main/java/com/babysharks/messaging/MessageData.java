@@ -34,7 +34,7 @@ public class MessageData {
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
-    private boolean debug=true;
+    private boolean debug=false;
             
 
     /**

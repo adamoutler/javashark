@@ -44,6 +44,7 @@ public enum ScreenData {
     CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 290854650)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),
     CITYKINGSGANGINFO(new HashedPicCoords[]{new HashedPicCoords(412, 574, 181, 46, -459207574)}, new ColoredXYCoords[]{}, "City Kings, gang info screen"),
     CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
+    CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(433,132,174,79,968001389)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
     EXITSCREEN(new HashedPicCoords[]{new HashedPicCoords(387, 576, 238, 43, -1304481246)}, new ColoredXYCoords[]{}, "Are you sure you want to quit?"),
     FRIENDS(new HashedPicCoords[]{new HashedPicCoords(843, 44, 144, 15, -91234188)}, new ColoredXYCoords[]{}, "Gang Friends screen"),
     GANGFIGHTS(new HashedPicCoords[]{new HashedPicCoords(826, 698, 81, 37, 905255899)}, new ColoredXYCoords[]{}, "Gang Fights, ready for action screen"),
