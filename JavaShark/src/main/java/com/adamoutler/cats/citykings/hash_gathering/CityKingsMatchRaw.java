@@ -100,7 +100,7 @@ public class CityKingsMatchRaw {
         if (!path.exists()){
             path.mkdirs();
         }
-        new CityKingsJsonOutput().createExcelFile(new File(path.getAbsolutePath()+filename), this);
+        new CityKingsJsonOutput().createExcelFile(new File(path.getAbsolutePath()+"/"+filename), this);
     }
 
     private static String getBuildingOwnershipFileName(int numberToGoBack) {
