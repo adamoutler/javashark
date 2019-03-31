@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 
 /**
  *
@@ -15,11 +16,15 @@ public class IdleTask  extends Task{
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
+        vm.getTaskData().setIdleNow();
         ready(vm);
+        complete(vm);
     }
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        complete(vm);
+        if (vm.getTaskData().getIdleTime()+3000<System.currentTimeMillis()){
+            vm.addTask(TaskType.POWEROFF);
+        }
     }
 }

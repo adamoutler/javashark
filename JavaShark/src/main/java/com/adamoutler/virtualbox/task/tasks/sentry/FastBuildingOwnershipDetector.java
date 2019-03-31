@@ -152,7 +152,7 @@ public class FastBuildingOwnershipDetector {
             vm.getTaskData().current[3].getFriendlyname(),
             vm.getTaskData().current[4].getFriendlyname(),
             vm.getTaskData().current[5].getFriendlyname()}
-        ).setGang(gang).setActive(new ArrayList<>(Arrays.asList(vm)))
+        ).setGang(gang).setAvailable(new ArrayList<>(Arrays.asList(vm)))
                 .setUsername(username);
 
         ArrayList<Integer> weOwn = new ArrayList<>();

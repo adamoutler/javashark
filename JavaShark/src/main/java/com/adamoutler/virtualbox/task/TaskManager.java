@@ -37,42 +37,43 @@ public class TaskManager {
 
     private static AtomicBoolean testmode = new AtomicBoolean(false);
 
-    
     /**
      * loops through machines. Finds machines which are not idle, and executes
      * tasks as long as the machine is ready.
      */
     private static void performTasks() {
         getMachines().stream().forEachOrdered((vm) -> {
-            if (vm.isTaskComplete()){
+            if (vm.isTaskComplete()) {
                 vm.performTaskListMaintenance();
             }
             initializeTask(vm);
+
         });
-        getMachines().stream().filter((vm) -> (
-                vm.isTaskInitialized() && 
-                vm.isTaskReady() && !vm.isTaskComplete())
+        getMachines().stream().filter((vm) -> (vm.getCurrentTask().equals(TaskType.IDLE)
+                && vm.isTaskComplete())).forEachOrdered((vm) -> {
+            executeCurrentTask(vm);
+        });
+        getMachines().stream().filter((vm) -> (vm.isTaskInitialized()
+                && vm.isTaskReady() && !vm.isTaskComplete())
         ).forEachOrdered((vm) -> {
             runTemporaryTask(vm);
             executeCurrentTask(vm);
         });
     }
-    
-    
-    
-    
+
     /**
      * Starts the task manager
      */
     static public void start() {
-        if (running.get()) {
-            return;
-        }
         ArrayList<VirtualBoxMachine> al = new VirtualBox().getMachinesList();
         al.forEach((mac) -> {
             machines.add((VirtualBoxMachine) mac);
         });
+        if (running.get()) {
+            return;
+        }
         Thread t = new Thread(() -> {
+
             while (running.get()) {
                 try {
                     getStates();
@@ -85,8 +86,8 @@ public class TaskManager {
         });
         t.setName("Machine Monitor");
         t.setDaemon(true);
-        t.start();
         running.set(true);
+        t.start();
     }
 
     /**
@@ -109,8 +110,6 @@ public class TaskManager {
         running.set(false);
     }
 
-    
-
     /**
      * Runs the assigned task for the VM
      *
@@ -125,7 +124,6 @@ public class TaskManager {
         getMachines().forEach((vm) -> {
             newList.put(vm, vm.getCurrentTask());
         });
-    
 
         lastList.clear();
         lastList = newList;
@@ -145,9 +143,9 @@ public class TaskManager {
         machines = aMachines;
     }
 
-    private static void sendPapaUpdate(VirtualBoxMachine vm ){
+    private static void sendPapaUpdate(VirtualBoxMachine vm) {
         vm.updateStatuses();
-        Message message=new Message().setCommand("TaskUpdate")
+        Message message = new Message().setCommand("TaskUpdate")
                 .setData(new MessageData()
                         .setGang(vm.getGang())
                         .setUsername(vm.getUsername())
@@ -174,7 +172,7 @@ public class TaskManager {
 
     private static void initializeTask(VirtualBoxMachine vm) {
         if (!vm.isTaskInitialized()) {
-            System.out.println("Performing "+vm.getCurrentTask().name()+ " on "+ vm.getUsername()+" "+vm.getGang());
+            System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
             sendPapaUpdate(vm);
             vm.getCurrentTask().getTask().init(vm);

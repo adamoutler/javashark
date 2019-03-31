@@ -26,7 +26,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         ArrayList<VirtualBoxMachine> al = new ArrayList<>();
         al.add(vm);
-        Message m = getRequest().setCommand("stopsentry").setData(this.getRequest().getData().setActive(al).setReason("Stopping machine"));
+        Message m = getRequest().setCommand("stopsentry").setData(this.getRequest().getData().setAvailable(al).setReason("Stopping machine"));
         this.sendSucessMessage(he, m);
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
         vmControl.stopVM();

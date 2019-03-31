@@ -8,37 +8,37 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import java.awt.image.BufferedImage;
 
 /**
  *
  * @author adamo
  */
 public class PowerOnTask extends Task {
-
+    
     @Override
     void initializeTask(final VirtualBoxMachine vm) {
         VirtualBoxControl vc = new VirtualBoxControl(vm);
-        new Thread(() -> {
+        Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});
             if (value.equals("")) {
                 vc.startVirtualMachine();
             }
-            vm.adbShell(new String[]{"input","keyevent","KEYCODE_HOME"});
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             ready(vm);
-        }).start();
-
-
+        });
+        startMachine.setName("Start VM " + vm.getGang() + " " + vm.getUsername());
+        startMachine.start();
+        
     }
-
+    
     @Override
     void runTask(VirtualBoxMachine vm) {
-        ScreenData sd=ScreenData.identifyScreen(vm);
-        if (sd.equals(ScreenData.BOOTED)){
+        ScreenData sd = ScreenData.identifyScreen(vm);
+        if (sd.equals(ScreenData.BOOTED)) {
             complete(vm);
         } else {
-            vm.adbShell(new String[]{"input","keyevent","KEYCODE_HOME"});
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
         }
-
+        
     }
 }

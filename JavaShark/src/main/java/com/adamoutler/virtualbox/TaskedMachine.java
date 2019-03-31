@@ -36,7 +36,7 @@ public class TaskedMachine {
         if ((taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1){
             return;
         //this is a task to be removed and there are more tasks to be donet. 
-        } else if (this.isTaskComplete() && taskList.size() > 1) {
+        } else if ((this.taskList.get(0).equals(TaskType.IDLE)||this.taskList.get(0).equals(TaskType.POWEROFF)||this.isTaskComplete()) && taskList.size() > 1) {
             System.out.println("Done with task " + taskList.get(0).name());
             currentTaskTimes.setTimeComplete();
             this.completedTasks.put(taskList.get(0), getCurrentTaskTime());
@@ -210,5 +210,14 @@ public class TaskedMachine {
     public TaskTime getCurrentTaskTime() {
         return currentTaskTimes;
     }
+    
+    
+    public void clearTasks(){
+        this.addTask(TaskType.CLEAR);
+    }
+    
+  
+    
+    
     
 }

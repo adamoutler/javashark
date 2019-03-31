@@ -36,8 +36,10 @@ public class TimeHandler extends AbstractPapaHandler {
     }
 
     private void firstContactGoogle() {
-        new Thread(() -> {
+        Thread googleInit=new Thread(() -> {
             LocationTime.getDateTimeObject("fez's Mom's house", key);
-        }).start();
+        });
+        googleInit.setName("Google Security Establishment");
+        googleInit.start();
     }
 }

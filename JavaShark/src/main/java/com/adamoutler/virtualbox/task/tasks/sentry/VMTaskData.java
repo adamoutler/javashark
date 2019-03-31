@@ -21,6 +21,7 @@ public class VMTaskData {
     long machineBootUpTime=0;
     long gameBootUpTime=0;
     private long lastStartCats=0;
+    private long idleTime;
 
     /**
      * @return the lastStartCats
@@ -34,6 +35,17 @@ public class VMTaskData {
      */
     public void setLastStartCats(long lastStartCats) {
         this.lastStartCats = lastStartCats;
+    }
+    
+    public void setIdleNow(){
+        this.idleTime=System.currentTimeMillis();
+    }
+
+    /**
+     * @return the idleTime
+     */
+    public long getIdleTime() {
+        return idleTime;
     }
    
 }

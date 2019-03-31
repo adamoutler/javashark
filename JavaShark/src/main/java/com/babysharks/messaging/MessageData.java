@@ -30,7 +30,6 @@ public class MessageData {
     private String username;
     private String url;
     private String gang;
-    private ArrayList<VirtualBoxMachine> active;
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
@@ -223,21 +222,7 @@ public class MessageData {
         return this;
     }
 
-    /**
-     * @return the active
-     */
-    public ArrayList<VirtualBoxMachine> getActive() {
-        return active;
-    }
-
-    /**
-     * @param active the active to set
-     * @return reference to this object
-     */
-    public MessageData setActive(ArrayList<VirtualBoxMachine> active) {
-        this.active = active;
-        return this;
-    }
+   
 
     /**
      * @return the available

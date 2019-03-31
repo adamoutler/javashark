@@ -63,7 +63,7 @@ public class SendPapaAsynch {
     private static MessageData getData(VirtualBoxMachine vm){
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
         vms.add(vm);
-        return new MessageData().setActive(vms).setGang(vm.getGang()).setUsername(vm.getUsername());
+        return new MessageData().setAvailable(vms).setGang(vm.getGang()).setUsername(vm.getUsername());
     }
     
     public static String sendToPapa(Message message){

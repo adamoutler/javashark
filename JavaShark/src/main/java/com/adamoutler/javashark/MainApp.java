@@ -24,6 +24,7 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Random;
+import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,13 +37,17 @@ public class MainApp extends ParametersImpl {
     public static MinimalChatExtreme chat = new MinimalChatExtreme("JavaShark", generateRandom("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"));
 
     private static void notifyPapa() {
-       Message message=new Message().setCommand("JavaSharkOnline")
-                .setData(new MessageData()
-                        .setReason("Javashark Has Come Online. "
-                                + "Please silence notifications "
-                                + "for 10 seconds"));
+        Thread t = new Thread(() -> {
+            Message message = new Message().setCommand("JavaSharkOnline")
+                    .setData(new MessageData()
+                            .setReason("Javashark Has Come Online. "
+                                    + "Please silence notifications "
+                                    + "for 10 seconds"));
 
-        SendPapaAsynch.sendToPapa(message);
+            SendPapaAsynch.sendToPapa(message);
+        });
+        t.setName("Notify Papa Online");
+        t.start();
     }
 
     MainApp(String[] args) {
@@ -65,7 +70,7 @@ public class MainApp extends ParametersImpl {
     }
 
     private static void startADB() {
-        new Thread(() -> {
+        Thread adb = new Thread(() -> {
             ProcessBuilder pb = new ProcessBuilder(new String[]{"adb", "devices"});
             try {
                 pb.start();
@@ -73,12 +78,13 @@ public class MainApp extends ParametersImpl {
                 Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }).start();
+        });
+        adb.setName("Starting ADB");
+        adb.start();
     }
 
     private void startServer(int portNumber) throws IOException {
         System.out.println(this.getRaw());
-
         CommandDistributor commandDistributor = new CommandDistributor();
         commandDistributor.register("time", new TimeHandler());
         commandDistributor.register("screenshot", new ScreenshotHandler());
@@ -92,7 +98,7 @@ public class MainApp extends ParametersImpl {
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
         server.createContext("/command", commandDistributor);
-        server.setExecutor(null); // creates a default executor
+        server.setExecutor(new DefaultExecutor()); // creates a default executor
         server.start();
 
     }
@@ -105,5 +111,18 @@ public class MainApp extends ParametersImpl {
             res.append(aToZ.charAt(randIndex));
         }
         return res.toString();
+    }
+
+    private static class DefaultExecutor implements Executor {
+
+        DefaultExecutor() {
+            Thread.currentThread().setName("Default Executor");
+
+        }
+
+        public void execute(Runnable task) {
+            
+            task.run();
+        }
     }
 }
