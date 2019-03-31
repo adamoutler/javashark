@@ -23,7 +23,7 @@ public class IdleTask  extends Task{
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        if (vm.getTaskData().getIdleTime()+3000<System.currentTimeMillis()){
+        if (vm.getTaskData().getIdleTime()+300000<System.currentTimeMillis()){
             vm.addTask(TaskType.POWEROFF);
         }
     }

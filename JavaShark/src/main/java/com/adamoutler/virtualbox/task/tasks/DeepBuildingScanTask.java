@@ -25,10 +25,10 @@ public class DeepBuildingScanTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         try {
-             new CityKingsMatchRaw().scanBuildings(vm);
-            FastBuildingOwnershipDetector fbod=new FastBuildingOwnershipDetector(vm);
-            SendPapaAsynch.onlineWarning(vm,false);
-            vm.getTaskData().previous = fbod.scan(vm.screenshot());
+            Thread t=new Thread(()->{
+            new CityKingsMatchRaw().scanBuildings(vm);
+            });
+            t.start();
             ready(vm);
         } catch (Exception ex) {
             Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
@@ -37,7 +37,7 @@ public class DeepBuildingScanTask extends Task {
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        new FastBuildingOwnershipDetector(vm).run();
+        
     }
 
 }

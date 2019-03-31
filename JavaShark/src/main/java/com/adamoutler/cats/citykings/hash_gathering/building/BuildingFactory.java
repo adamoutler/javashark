@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering.building;
 
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
@@ -46,17 +47,23 @@ public class BuildingFactory {
         ckb.setBuildingNumber(buildingNumber);
 
         try {
-            ckb.navigateToBuilding();
+            for (int i=0;i<5; i++){
+                ckb.navigateToBuilding();
+                ScreenData sd = vm.getScreen();
+                if (sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
+                    break;
+                }
+            }
             //required to set the size of the building before inspection. 
-            BufferedImage newScreenshot=Screenshottable.getScreenshot();
-            ckb.setIsLinked(isLinkedBuilding(ckb,newScreenshot));
+            BufferedImage newScreenshot = vm.screenshot();
+            ckb.setIsLinked(isLinkedBuilding(ckb, newScreenshot));
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(newScreenshot)));
-            ensureTeamOwnershipPercentageBarIsSet(ckb);
+            ensureTeamOwnershipPercentageBarIsSet(ckb, vm);
             ckb.scan();
         } catch (IOException | InterruptedException | JadbException ex) {
             Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ckb.writePics("Building" + buildingNumber);
+        //ckb.writePics("Building" + buildingNumber);
 //        try {
 //           // CityKingsScreen.navigateTo(dev);
 //        } catch (JadbException ex) {
@@ -65,14 +72,19 @@ public class BuildingFactory {
         return ckb;
     }
 
-    private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb) throws IOException, InterruptedException, JadbException {
+    private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb, VirtualBoxMachine vm) throws IOException, InterruptedException, JadbException {
         int retries = 0;
         while (ckb.getOwnershipBar().getTotalSlots() < 5) {
             if (retries++ > 3) {
                 throw new JadbException("Machine is not responding!  I couldn't acquire data from the building.");
             }
             ckb.navigateToBuilding();
-            ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(Screenshottable.getScreenshot())));
+            try {
+                ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
+            } catch (NullPointerException ex) {
+                System.out.println("Retrying to set TOSB");
+
+            }
         }
     }
 
@@ -127,11 +139,11 @@ public class BuildingFactory {
     }
 
     private static boolean isLinkedBuilding(CityKingsBuildingRaw ckb, BufferedImage newScreenshot) {
-        PicCoords coords=ckb.getCityKingsBuildingScreenCoordinates();
-        int startX=coords.getX();
-        int y=coords.getY()+7;
-        int foundLoc=new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int)0xECAD21, startX, y, startX+110, 10);
-        return foundLoc>0;
+        PicCoords coords = ckb.getCityKingsBuildingScreenCoordinates();
+        int startX = coords.getX();
+        int y = coords.getY() + 7;
+        int foundLoc = new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int) 0xECAD21, startX, y, startX + 110, 10);
+        return foundLoc > 0;
     }
 
 }

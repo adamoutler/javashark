@@ -8,6 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
@@ -17,6 +18,7 @@ public class PowerOnTask extends Task {
     
     @Override
     void initializeTask(final VirtualBoxMachine vm) {
+        final boolean power=vm.isPoweredOn();
         VirtualBoxControl vc = new VirtualBoxControl(vm);
         Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});
@@ -25,6 +27,9 @@ public class PowerOnTask extends Task {
             }
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             ready(vm);
+            if (! power){
+                SendPapaAsynch.onlineWarning(vm, false);
+            }
         });
         startMachine.setName("Start VM " + vm.getGang() + " " + vm.getUsername());
         startMachine.start();

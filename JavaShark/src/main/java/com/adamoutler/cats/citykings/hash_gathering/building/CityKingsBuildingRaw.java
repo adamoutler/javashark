@@ -10,20 +10,22 @@ import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
+import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
-import se.vidstige.jadb.JadbDevice;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import se.vidstige.jadb.JadbException;
 
 /**
  *
  * @author adamo
  */
-public final class CityKingsBuildingRaw extends Navigation {
+public final class CityKingsBuildingRaw{
 
     transient final public static XYCoords BUILDINGOWNERLOCATION = new XYCoords(507, 139);
     transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
@@ -40,20 +42,21 @@ public final class CityKingsBuildingRaw extends Navigation {
     private boolean isLinked=false;
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
+    VirtualBoxMachine vm;
 
-    public CityKingsBuildingRaw(JadbDevice jadb, int buildingNumber) {
-        super(jadb);
+    public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
         this.buildingNumber = buildingNumber;
+        this.vm=vm;
     }
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber, byte[] screenshot) {
-        super(vm.getJadb());
+        this.vm=vm;
         this.buildingNumber = buildingNumber;
         tosb = new TeamOwnershipPercentageBar(screenshot);
-        gatherVariablesFromTosb();
+        gatherVariablesFromTosb(vm);
     }
 
-    private void gatherVariablesFromTosb() {
+    private void gatherVariablesFromTosb(VirtualBoxMachine vm) {
         setBuildingOwner(tosb.buildingOwnedBy());
         slotsTotal=tosb.getTotalSlots();
         slotsTheirs=tosb.numberTheyOwn();
@@ -113,13 +116,23 @@ public final class CityKingsBuildingRaw extends Navigation {
     }
 
     public void navigateToBuilding() throws IOException, JadbException {
-        //Navigation.adbNavigateToCityKings(getJadb());
-        Navigation.tapLocation(getJadb(), this.getCityKingsBuildingScreenCoordinates());
+        
+        Navigation.navigateToCityKings(vm);
+        sleep(4000);
+        Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
         sleep(3000);
-        Navigation.tapLocation(getJadb(), DEFENDBUTTON);
+        Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
         sleep(3000);
     }
 
+    private void sleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CityKingsBuildingRaw.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -142,7 +155,7 @@ public final class CityKingsBuildingRaw extends Navigation {
     }
 
     public String getBuildingOwner(String ourTeamName, String otherTeamName) {
-        int color = this.getPixelColor(BUILDINGOWNERLOCATION);
+        int color = new PicColors(vm.screenshot()).getColor(BUILDINGOWNERLOCATION);
         int red = (color & 0x00ff0000) >> 16;
         int green = (color & 0x0000ff00) >> 8;
         int blue = color & 0x000000ff;
@@ -171,7 +184,7 @@ public final class CityKingsBuildingRaw extends Navigation {
     }
 
     public void scan() throws IOException, InterruptedException, JadbException {
-        CarFactory bf = new CarFactory(getJadb(), this);
+        CarFactory bf = new CarFactory(vm, this);
         this.cars = bf.buildCars(this.getBuildingNumber());
         // this.cars = removeDuplicates(cars);
         
@@ -231,7 +244,7 @@ public final class CityKingsBuildingRaw extends Navigation {
      */
     public void setTosb(TeamOwnershipPercentageBar tosb) {
         this.tosb = tosb;
-        gatherVariablesFromTosb();
+        gatherVariablesFromTosb(vm);
     }
 
     /**

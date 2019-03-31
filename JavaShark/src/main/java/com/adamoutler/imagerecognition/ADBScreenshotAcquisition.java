@@ -7,6 +7,7 @@ package com.adamoutler.imagerecognition;
 
 
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,12 +34,12 @@ public class ADBScreenshotAcquisition {
     private transient JadbDevice jadb;
 
     
-    public CityKingsCarRaw acquireCityKingsImage(JadbDevice jadb){
+    public CityKingsCarRaw acquireCityKingsImage(VirtualBoxMachine vm){
         this.jadb=jadb;
         try {
             ADBScreenshotAcquisition asa = new ADBScreenshotAcquisition();
             BufferedImage bi=asa.acquire(ADB, "fuzy");
-            CityKingsCarRaw images=asa.createCarProfile(bi,jadb);
+            CityKingsCarRaw images=asa.createCarProfile(bi,vm);
             return images;
         } catch (IOException ex) {
             Logger.getLogger(ADBScreenshotAcquisition.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,10 +58,10 @@ public class ADBScreenshotAcquisition {
         return f;
     }
     
-    CityKingsCarRaw createCarProfile(BufferedImage screenShot,JadbDevice jadb){
+    CityKingsCarRaw createCarProfile(BufferedImage screenShot,VirtualBoxMachine vm){
        
         
-        CityKingsCarRaw car=new CityKingsCarRaw(jadb,ByteImage.getPngBytes(new BufferedImage(0,0,0)),1,1);
+        CityKingsCarRaw car=new CityKingsCarRaw(ByteImage.getPngBytes(new BufferedImage(0,0,0)),1,1);
 
         return car;
     }

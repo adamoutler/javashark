@@ -9,6 +9,7 @@ import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
+import com.adamoutler.imagerecognition.XYCoords;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -26,12 +27,12 @@ import se.vidstige.jadb.JadbDevice;
  */
 public final class CityKingsCarRaw implements Cloneable {
 
+    transient public final static XYCoords NEXTBUTTON = new XYCoords(302, 576);
     transient public final static PicCoords NAMECOORDS = new PicCoords(6, 6, 300, 38);
     transient public final static PicCoords UNIQUECOORDS = new PicCoords(6, 232, 300, 38);
     transient final private static int SWORDCOLOR = 0x48a1b8;
     transient private final static PicCoords SMALL = new PicCoords(0, 0, 100, 300);
     transient final static Font FONT = new Font("Arial", Font.PLAIN, 35);
-    transient private JadbDevice jadb;
 
     private String nameHash = "";
     private String uniqueHash = "";
@@ -41,8 +42,7 @@ public final class CityKingsCarRaw implements Cloneable {
     private int building;
     private byte[] carBadge = new byte[]{};
 
-    public CityKingsCarRaw(JadbDevice jadb, byte[] screenshot, int building, int location) {
-        this.jadb = jadb;
+    public CityKingsCarRaw(byte[] screenshot, int building, int location) {
         this.building = building;
         this.location = location;
         setCarScreenshot(screenshot);
@@ -77,11 +77,13 @@ public final class CityKingsCarRaw implements Cloneable {
      */
     public BufferedImage getUniquePic() {
         BufferedImage bi = ByteImage.getImageFromBytes(carBadge);
-        PicColors pc=new PicColors(bi);
-        int startX=pc.scanRightXCoordinateForColorAtYCoordinate(SWORDCOLOR, 150, 253, 300);
-        if (startX==-1)return null;
-        PicCoords attackImage=new PicCoords(startX,UNIQUECOORDS.getY(),bi.getWidth()-startX,UNIQUECOORDS.getH());
-        BufferedImage retval=getSubImage(bi, attackImage);
+        PicColors pc = new PicColors(bi);
+        int startX = pc.scanRightXCoordinateForColorAtYCoordinate(SWORDCOLOR, 150, 253, 300);
+        if (startX == -1) {
+            return null;
+        }
+        PicCoords attackImage = new PicCoords(startX, UNIQUECOORDS.getY(), bi.getWidth() - startX, UNIQUECOORDS.getH());
+        BufferedImage retval = getSubImage(bi, attackImage);
         Screenshottable.writePic(retval, "testing image generation");
 
         return retval;
@@ -114,6 +116,9 @@ public final class CityKingsCarRaw implements Cloneable {
         this.location = location;
     }
 
+
+    
+    
     /**
      * @return the row
      */
@@ -157,7 +162,7 @@ public final class CityKingsCarRaw implements Cloneable {
     @Override
     public CityKingsCarRaw clone() throws CloneNotSupportedException {
         super.clone();
-        CityKingsCarRaw car = new CityKingsCarRaw(jadb, this.carBadge, this.building, location);
+        CityKingsCarRaw car = new CityKingsCarRaw( this.carBadge, this.building, location);
         return car;
     }
 

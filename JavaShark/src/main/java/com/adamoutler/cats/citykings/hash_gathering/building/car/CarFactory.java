@@ -7,13 +7,14 @@ package com.adamoutler.cats.citykings.hash_gathering.building.car;
 
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
+import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.NEXTBUTTON;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import static com.adamoutler.imagerecognition.Navigation.sleep;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.imagerecognition.Swipe;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -64,11 +65,11 @@ public class CarFactory {
     final static int[] SWIPEREQUIRED = new int[]{10, 18};
 
     private final CityKingsBuildingRaw building;
-    private final JadbDevice jadb;
     private BufferedImage screenshot;
+    private VirtualBoxMachine vm;
 
-    public CarFactory(JadbDevice jadb, CityKingsBuildingRaw building) {
-        this.jadb = jadb;
+    public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
+        this.vm=vm;
         this.building = building;
     }
 
@@ -77,13 +78,14 @@ public class CarFactory {
             return false;
         }
 
-        XYCoords xy = getXY(carPosition);
-        Navigation.tapLocation(jadb, xy);
-        Thread.sleep(1200);
-        if (((carPosition) % 9) == 0 && carPosition != 1) {
-            Navigation.swipe(jadb, SWIPE);
-            sleep(8000);
-        }
+//        XYCoords xy = getXY(carPosition);
+//        Navigation.tapLocation(vm.getJadb(), xy);
+//        Thread.sleep(1200);
+//        if (((carPosition) % 9) == 0 && carPosition != 1) {
+//            Navigation.swipe(vm.getJadb(), SWIPE);
+//            sleep(8000);
+//        }
+         this.setNextCar();
         return true;
     }
 
@@ -130,7 +132,7 @@ public class CarFactory {
                             }
                             if (!swiped && correction == 11) {
                                 System.out.println("Level 2 correction initiated. Swiping back to start and searching for car again.");
-                                Navigation.swipe(jadb, BACKSWIPE);
+                                Navigation.swipe(vm.getJadb(), BACKSWIPE);
                                 correction = 1;
                                 swiped = true;
                             }
@@ -148,14 +150,24 @@ public class CarFactory {
     }
 
     private void setOwnershipBar() throws IOException, InterruptedException {
-        this.building.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(Screenshottable.getScreenshot())));
+        this.building.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
     }
 
     private CityKingsCarRaw createCar(int buildingNumber, int i) throws InterruptedException, IOException {
-        CityKingsCarRaw playerCar = new CityKingsCarRaw(jadb, ByteImage.getPngBytes(getSubImage(Screenshottable.getScreenshot(), carPic)), buildingNumber, i);
+        CityKingsCarRaw playerCar = new CityKingsCarRaw( ByteImage.getPngBytes(getSubImage(vm.screenshot(), carPic)), buildingNumber, i);
         return playerCar;
     }
-
+    public void setNextCar(){
+        
+        try {
+            Navigation.tapLocation(vm.getJadb(), NEXTBUTTON);
+            Thread.sleep(1000);
+        } catch (IOException | JadbException ex) {
+            Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CarFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public XYCoords getXY(int i) {
         XYCoords xy = null;
         try {

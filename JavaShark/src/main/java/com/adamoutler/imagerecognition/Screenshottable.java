@@ -23,20 +23,19 @@ import javax.imageio.ImageIO;
 public class Screenshottable {
 
     private static String virtualMachineName;
-    
-    public static void setVMName(String vmName){
-        virtualMachineName=vmName;
+
+    public static void setVMName(String vmName) {
+        virtualMachineName = vmName;
     }
-    
-    
-    final public static String PICSDIR =  System.getProperty("java.io.tmpdir")+"/catsscores/";
+
+    final public static String PICSDIR = System.getProperty("java.io.tmpdir") + "/catsscores/";
 
     private static String getTempDir() {
-       File tempdir=new File(PICSDIR);
-       if (!tempdir.isDirectory()){
-           tempdir.mkdirs();
-       }
-       return tempdir.getAbsolutePath()+"/";
+        File tempdir = new File(PICSDIR);
+        if (!tempdir.isDirectory()) {
+            tempdir.mkdirs();
+        }
+        return tempdir.getAbsolutePath() + "/";
     }
 
     final public static BufferedImage getScreenshot() throws IOException, InterruptedException {
@@ -46,21 +45,20 @@ public class Screenshottable {
         return screenshot;
     }
 
-    final public static  BufferedImage getFromPic(BufferedImage pic, PicCoords coords) {
+    final public static BufferedImage getFromPic(BufferedImage pic, PicCoords coords) {
         return pic.getSubimage(coords.getX(), coords.getY(), coords.getW(), coords.getH());
     }
 
- 
-
-    final static public File[] writePics(List<BufferedImage> bi, String name){
-        ArrayList<File> files =new ArrayList<>();
-        for (int i=0; i<bi.size(); i++){
-            files.add(writePic(bi.get(i),name+(i+1)));
+    final static public File[] writePics(List<BufferedImage> bi, String name) {
+        ArrayList<File> files = new ArrayList<>();
+        for (int i = 0; i < bi.size(); i++) {
+            files.add(writePic(bi.get(i), name + (i + 1)));
         }
         return files.toArray(new File[files.size()]);
     }
+
     final static public File writePic(BufferedImage bi, String name) {
-        File out = new File(getTempDir()+name+".png");
+        File out = new File(getTempDir() + name + ".png");
         try {
             try (FileOutputStream fos = new FileOutputStream(out)) {
                 ImageIO.write(bi, "png", fos);
@@ -85,7 +83,7 @@ public class Screenshottable {
                 f.setAccessible(true);
                 try {
                     BufferedImage bi = (BufferedImage) f.get(this);
-                    File out = new File(getTempDir()+ getClass().getSimpleName() + identifier + f.getName() + ".jpg");
+                    File out = new File(getTempDir() + getClass().getSimpleName() + identifier + f.getName() + ".jpg");
                     if (!new File(out.getParent()).exists()) {
                         new File(out.getParent()).mkdirs();
                     }
@@ -100,7 +98,7 @@ public class Screenshottable {
     }
 
     public int getPixelColor(XYCoords xy) {
-        int i=0;
+        int i = 0;
         try {
             i = getScreenshot().getRGB(xy.getX(), xy.getY());
         } catch (IOException | InterruptedException ex) {

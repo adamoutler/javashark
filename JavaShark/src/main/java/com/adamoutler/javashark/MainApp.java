@@ -10,6 +10,7 @@ import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.SentryStatus;
+import com.adamoutler.javashark.handlers.StartDeepBuildingScan;
 import com.adamoutler.javashark.handlers.StartSentry;
 import com.adamoutler.javashark.handlers.StopSentry;
 import com.adamoutler.javashark.handlers.TaskHandler;
@@ -92,6 +93,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("test", new TestHandler());
         commandDistributor.register("sentrystatus", new SentryStatus());
         commandDistributor.register("sentrystart", new StartSentry());
+        commandDistributor.register("deepbuildingscan", new StartDeepBuildingScan());
         commandDistributor.register("sentrystop", new StopSentry());
         commandDistributor.register("addtask", new TaskHandler());
 
