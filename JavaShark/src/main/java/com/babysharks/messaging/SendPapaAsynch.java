@@ -31,13 +31,16 @@ public class SendPapaAsynch {
 //    }
     
     
-    public static void onlineWarning(VirtualBoxMachine vm) {
+    public static void onlineWarning(VirtualBoxMachine vm,boolean unitTesting) {
         vm.updateStatuses();
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
         vms.add(vm);
-        HashedMessage hm=new HashedMessage(getM(vm).setData(
+        Message message=getM(vm).setData(
                 getData(vm).setReason("online"))
-                .setCommand("sentry"));
+                .setCommand("sentry");
+        if (unitTesting) message.getData().setReason("UNIT TESTING");
+        HashedMessage hm=new HashedMessage(message);
+        
         MainApp.chat.clear();
         MainApp.chat.sendMessage("I'm online!");
         MainApp.chat.sendMessage("Please be quiet.  Use the 3-dots at the top right to enable notifications.  Leave this window open and I will notify when a building is taken, as long as I'm online.");

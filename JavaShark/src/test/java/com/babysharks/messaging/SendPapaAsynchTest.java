@@ -88,7 +88,7 @@ public class SendPapaAsynchTest {
     @Test
     public void testOnlineWarning() {
         System.out.println("onlineWarning");
-        SendPapaAsynch.onlineWarning(vm);
+        SendPapaAsynch.onlineWarning(vm,true);
     }
 
     /**

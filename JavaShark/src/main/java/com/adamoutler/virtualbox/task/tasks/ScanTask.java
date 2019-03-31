@@ -25,7 +25,7 @@ public class ScanTask extends Task {
     public void initializeTask(VirtualBoxMachine vm) {
         try {
             FastBuildingOwnershipDetector fbod=new FastBuildingOwnershipDetector(vm);
-            SendPapaAsynch.onlineWarning(vm);
+            SendPapaAsynch.onlineWarning(vm,false);
             vm.getTaskData().previous = fbod.scan(vm.screenshot());
             ready(vm);
         } catch (Exception ex) {

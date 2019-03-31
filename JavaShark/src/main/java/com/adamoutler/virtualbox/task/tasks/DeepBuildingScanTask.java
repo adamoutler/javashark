@@ -27,7 +27,7 @@ public class DeepBuildingScanTask extends Task {
         try {
              new CityKingsMatchRaw().scanBuildings(vm);
             FastBuildingOwnershipDetector fbod=new FastBuildingOwnershipDetector(vm);
-            SendPapaAsynch.onlineWarning(vm);
+            SendPapaAsynch.onlineWarning(vm,false);
             vm.getTaskData().previous = fbod.scan(vm.screenshot());
             ready(vm);
         } catch (Exception ex) {
