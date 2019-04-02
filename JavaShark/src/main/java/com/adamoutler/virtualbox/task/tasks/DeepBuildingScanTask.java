@@ -38,7 +38,8 @@ public class DeepBuildingScanTask extends Task {
                 m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://baby-sharks.adamoutler.com/excel/"+s);
                 SendPapaAsynch.sendToPapa(m);
 
-                File f=new File(report.getExcelFile().replaceAll(".xls", ".json"));
+                File f=new File("/var/www/baby-sharks/excel/"+report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
+                System.out.println();
                 try {
                     report.writeJson(f);
                 } catch (IOException ex) {
