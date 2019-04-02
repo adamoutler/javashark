@@ -18,10 +18,7 @@ public class TaskHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        TaskType[] tasks=this.request.getData().getTasks();
-        for (TaskType task:tasks){
-            vm.addTask(task);
-        }
+        addTasks(this.request.getData().getTasks());
         request.getData().setResultObject(vm).setReason("updated task list");
         this.sendSucessMessage(he, request);
     }

@@ -23,7 +23,7 @@ public enum TaskType {
     
     IDLE(new IdleTask(), "Machine is idle"),
     SENTRY(new SentryTask(), "Machine is on Sentry Duty"),
-    DEEPBUILDINGSCAN(new DeepBuildingScanTask(), "Machine is on Sentry Duty"),
+    DEEPBUILDINGSCAN(new DeepBuildingScanTask(), "Deep Building Scanning, Friendly Machines"),
     POWERON(new PowerOnTask(),"Turn the machine on"),
     STARTCATS(new StartCatsTask(),"Start CATS"),
     POWEROFF(new PoweroffTask(),"Machine is powered off"),

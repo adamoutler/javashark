@@ -7,8 +7,12 @@ package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector;
+import com.babysharks.messaging.Message;
 import com.babysharks.messaging.SendPapaAsynch;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +29,24 @@ public class DeepBuildingScanTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         try {
-            Thread t=new Thread(()->{
-            new CityKingsMatchRaw().scanBuildings(vm);
+            Thread t = new Thread(() -> {
+                CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
+                report.clearScreenshots();
+                String s=report.getExcelFile();
+                report.setExcelFile("https://baby-sharks.adamoutler.com/excel/"+s);
+                Message m = new Message().setCommand("deepbuildingscancomplete");
+                m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://baby-sharks.adamoutler.com/excel/"+s);
+                SendPapaAsynch.sendToPapa(m);
+
+                File f=new File(report.getExcelFile().replaceAll(".xls", ".json"));
+                try {
+                    report.writeJson(f);
+                } catch (IOException ex) {
+                    Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                m.getData().setReason("Scan Complete json").setResultObject("https://baby-sharks.adamoutler.com/excel/"+s.replaceAll(".xls",".json"));
+                SendPapaAsynch.sendToPapa(m);
+
             });
             t.start();
             ready(vm);
@@ -37,7 +57,7 @@ public class DeepBuildingScanTask extends Task {
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        
+
     }
 
 }

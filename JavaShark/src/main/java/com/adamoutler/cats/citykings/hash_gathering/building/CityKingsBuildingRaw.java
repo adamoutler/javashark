@@ -42,7 +42,7 @@ public final class CityKingsBuildingRaw{
     private boolean isLinked=false;
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
-    VirtualBoxMachine vm;
+    transient VirtualBoxMachine vm;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
         this.buildingNumber = buildingNumber;
@@ -99,6 +99,10 @@ public final class CityKingsBuildingRaw{
      */
     public void setBuildingNamePic(BufferedImage buildingNamePic) {
         this.buildingNamePic = ByteImage.getPngBytes(buildingNamePic);
+    }
+    public void clearBuildingPics(){
+        this.buildingSizePic=null;
+        this.buildingNamePic=null;
     }
 
     /**

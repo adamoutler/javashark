@@ -45,8 +45,15 @@ public class CityKingsJsonOutput {
     public String createExcelFile(File f, CityKingsMatchRaw match) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
-        HSSFSheet carsByHash = workbook.createSheet("Cars By User");
+        createCarsByHashSheet(workbook, match);
 
+        writeSheet(f, workbook);
+        return "";
+    }
+
+    private void createCarsByHashSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
+        HSSFSheet carsByHash = workbook.createSheet("Cars By User");
+        
         HashMap<String, ArrayList<CityKingsCarRaw>> hm = getCarHashmapByHash(match);
         Row header = carsByHash.createRow(0);
         header.createCell(0).setCellValue("Car 1");
@@ -56,7 +63,6 @@ public class CityKingsJsonOutput {
         header.createCell(4).setCellValue("Telegram Username");
         carsByHash.setColumnWidth(3, 2500);
         carsByHash.setColumnWidth(4, 6000);
-
         int row = 1;
         for (Entry<String, ArrayList<CityKingsCarRaw>> entry : hm.entrySet()) {
             int carPos = 0;
@@ -67,9 +73,6 @@ public class CityKingsJsonOutput {
             carsByHash.getRow(row).createCell(3).setCellValue(entry.getKey());
             row++;
         }
-
-        writeSheet(f, workbook);
-        return "";
     }
 
     private HashMap<String, ArrayList<CityKingsCarRaw>> getCarHashmapByHash(CityKingsMatchRaw match) {

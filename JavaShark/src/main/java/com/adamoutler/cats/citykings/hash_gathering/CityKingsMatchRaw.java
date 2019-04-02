@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering;
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import static com.adamoutler.cats.citykings.hash_gathering.building.BuildingOwnershipDetector.isNumeric;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
@@ -22,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +36,8 @@ public class CityKingsMatchRaw {
     private final long time = System.currentTimeMillis();
     private LinkedList<CityKingsBuildingRaw> buildings;
     byte[] screenshot;
+    private String excelFile = "";
+    private String jsonFile = "";
     transient private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void main(String[] args) { //main method
@@ -69,9 +71,8 @@ public class CityKingsMatchRaw {
             });
             vm.setTaskComplete(true);
             writeLocalJsonFile();
-            String filename=System.currentTimeMillis()+".xlsx";
-            writeToWebServer(filename);
-            sendToPapa(vm, filename);
+            String filename = System.currentTimeMillis() + ".xls";
+            this.excelFile = writeToWebServer(filename);
             return this;
         } catch (IOException ex) {
             Logger.getLogger(CityKingsMatchRaw.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,18 +90,32 @@ public class CityKingsMatchRaw {
         }
     }
 
-    private void sendToPapa(VirtualBoxMachine vm, String filename) {
-        Message m=new Message().setCommand("deepbuildingscan");
-        m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete").setUrl("https://baby-sharks.adamoutler.com/excel/"+filename);
-        SendPapaAsynch.sendToPapa(m);
+    public void writeJson(File f) throws IOException{
+        try (FileWriter fw = new FileWriter(f.getAbsolutePath())) {
+            gson.toJson(this, fw);
+            fw.flush();
+        }
+        
     }
-
-    private void writeToWebServer(String filename) throws IOException {
-        File path=new File("/var/www/baby-sharks/excel/");
-        if (!path.exists()){
+    
+    private String writeToWebServer(String filename) throws IOException {
+        File path = new File("/var/www/baby-sharks/excel/");
+        if (!path.exists()) {
             path.mkdirs();
         }
-        new CityKingsJsonOutput().createExcelFile(new File(path.getAbsolutePath()+"/"+filename), this);
+        File f = new File(path.getAbsolutePath() + "/" + filename);
+        new CityKingsJsonOutput().createExcelFile(f, this);
+        return f.getName();
+    }
+
+    public void clearScreenshots() {
+        this.screenshot = null;
+        for (CityKingsBuildingRaw building : this.getBuildings()) {
+            building.clearBuildingPics();
+            for (CityKingsCarRaw car : building.getCars()) {
+                car.clearCarScreenshot();
+            }
+        }
     }
 
     private static String getBuildingOwnershipFileName(int numberToGoBack) {
@@ -157,6 +172,20 @@ public class CityKingsMatchRaw {
      */
     public long getTime() {
         return time;
+    }
+
+    /**
+     * @return the excelFile
+     */
+    public String getExcelFile() {
+        return excelFile;
+    }
+
+    /**
+     * @param excelFile the excelFile to set
+     */
+    public void setExcelFile(String excelFile) {
+        this.excelFile = excelFile;
     }
 
 }

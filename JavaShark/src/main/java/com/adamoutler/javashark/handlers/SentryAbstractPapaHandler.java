@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
+import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.Message;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
@@ -30,11 +31,14 @@ abstract class SentryAbstractPapaHandler extends AbstractPapaHandler {
         this.setRequest(m);
         gang = m.getData().getGang();
         username = m.getData().getUsername();
-        VirtualBoxMachine myVm=new VirtualBox().getUserMachine(gang, username);
-        vm =TaskManager.getTaskMachine(myVm);
-        
-        
-        
+        VirtualBoxMachine myVm = new VirtualBox().getUserMachine(gang, username);
+        vm = TaskManager.getTaskMachine(myVm);
+
     }
 
+    void addTasks(TaskType... tasks) {
+        for (TaskType task : tasks) {
+            vm.addTask(task);
+        }
+    }
 }

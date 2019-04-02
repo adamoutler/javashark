@@ -239,7 +239,20 @@ public class MessageData {
         this.available = available;
         return this;
     }
+/**
+     * @param available the available to set
+     * @return reference to this object
+     */
+    public MessageData addAvailable(VirtualBoxMachine vm) {
+        if (this.available==null) {
+            this.available=new ArrayList<>();
+        }
+        this.available.add(vm);
+        return this;
+    }
 
+    
+    
     /**
      * @return the location
      */

@@ -23,17 +23,11 @@ public class SentryStatus extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        VirtualBox vbox = new VirtualBox();
-
-        ArrayList<VirtualBoxMachine> active = vbox.getGangMachines(gang);
-        Message response = new Message().setCommand("sentrystatus")
-                .setData(new MessageData().setGang(gang)
-                        .setAvailable(active));
+        ArrayList<VirtualBoxMachine> active = new VirtualBox().getGangMachines(gang);
+        request.getData().setGang(gang).setAvailable(active);
         for (VirtualBoxMachine v : active) {
-            ScreenData sd = v.getScreen();
-         
-            v.setScreenDescription(sd.getDescription());
+            v.getScreen();
         }
-        sendSucessMessage(t, response);
+        sendSucessMessage(t, request);
     }
 }

@@ -43,6 +43,7 @@ public class PowerOnTask extends Task {
             complete(vm);
         } else {
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
         }
         
     }

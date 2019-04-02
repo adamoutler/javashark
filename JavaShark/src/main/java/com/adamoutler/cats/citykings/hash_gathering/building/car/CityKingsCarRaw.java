@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import se.vidstige.jadb.JadbDevice;
 
 /**
  *
@@ -70,6 +69,10 @@ public final class CityKingsCarRaw implements Cloneable {
         Screenshottable.writePic(bi, "CarInBuilding" + this.building + "Slot" + this.location);
 
         return this;
+    }
+    
+    public void clearCarScreenshot(){
+        this.carBadge=null;
     }
 
     /**

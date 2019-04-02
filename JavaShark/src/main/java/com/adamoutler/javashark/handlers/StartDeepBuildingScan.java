@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * curl -X PATCH -d '{"message":{"command":"addtask","data":{"tasks":["DEEPBUILDINGSCAN"],"gang":"development","username":"adamoutler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
+ * curl -X PATCH -d
+ * '{"message":{"command":"deepbuildingscan","data":{"gang":"development","username":"adamoutler"}}}'
+ * https://baby-sharks.adamoutler.com/api/dev/command
  *
  * @author adamo
  */
@@ -22,26 +24,9 @@ public class StartDeepBuildingScan extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        long time = System.currentTimeMillis();
-        ArrayList<VirtualBoxMachine> al = new ArrayList<>();
-        al.add(vm);
         vm.clearTasks();
-        TaskType[] tasks=new TaskType[]{TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.DEEPBUILDINGSCAN};
-        for (TaskType task:tasks){
-            vm.addTask(task);
-        }
-        Message m = new Message().setCommand("sentrystart").setData(this.getRequest().getData().setAvailable(al).setReason("Starting machine"));
-        this.sendSucessMessage(he, m);
-
+        addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGSCAN);
+        request.getData().addAvailable(vm).setReason("Starting machine");
+        this.sendSucessMessage(he, request);
     }
-
-    private boolean isBooted(VirtualBoxMachine vm) throws IOException {
-        ScreenData sd = vm.getScreen() ;
-        if (sd.equals(sd.BOOTED)) {
-            return true;
-        }
-        return false;
-    }
-
-   
 }
