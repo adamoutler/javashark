@@ -46,7 +46,7 @@ public class StartCatsTask extends Task {
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
                 vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
                 if (vm.getTaskData().startCatsRetries++==200){
-                    vm.writeBabySharksDebug(vm, "Tried starting CATS"+vm.getTaskData()+" times.");
+                    vm.writeBabySharksDebug(vm, "Tried starting CATS"+vm.getTaskData().startCatsRetries+" times.");
                 }
             }
         }
