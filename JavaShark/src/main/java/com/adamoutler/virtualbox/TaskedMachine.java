@@ -7,6 +7,9 @@ package com.adamoutler.virtualbox;
 
 import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.VMTaskData;
+import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
+import com.babysharks.messaging.SendPapaAsynch;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -216,8 +219,8 @@ public class TaskedMachine {
         this.addTask(TaskType.CLEAR);
     }
     
-  
-    
-    
-    
+    public void writeBabySharksDebug(VirtualBoxMachine vm,String comment){
+        String name=VirtualBoxScreenShot.writeScreenshot(vm, "/var/www/baby-sharks/screenshots");
+        SendPapaAsynch.sendToPapa(new Message().setCommand("screenshot").setData(new MessageData().setUrl("https://baby-sharks.adamoutler.com/screenshots/"+name).setComment(comment)));
+    }
 }

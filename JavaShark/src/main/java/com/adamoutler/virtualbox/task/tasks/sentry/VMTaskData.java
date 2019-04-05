@@ -22,6 +22,7 @@ public class VMTaskData {
     long gameBootUpTime=0;
     private long lastStartCats=0;
     private long idleTime;
+    public int startCatsRetries=0;
 
     /**
      * @return the lastStartCats

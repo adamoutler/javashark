@@ -8,8 +8,13 @@ package com.adamoutler.virtualbox;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -21,7 +26,7 @@ public class VirtualBoxScreenShot {
     String vmName;
     final static String VBOX = "VBoxManage";
 
-    public static synchronized File getScreenshotFile(String vmName, File f) throws IOException, InterruptedException {
+    final public static synchronized File getScreenshotFile(String vmName, File f) throws IOException, InterruptedException {
         System.out.println(f.getAbsolutePath());
         ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
         Process p = pb.start();
@@ -34,7 +39,7 @@ public class VirtualBoxScreenShot {
         return f;
     }
 
-    public static synchronized BufferedImage getScreenshot(VirtualBoxMachine vm) throws IOException, InterruptedException {
+    final public static synchronized BufferedImage getScreenshot(VirtualBoxMachine vm) throws IOException, InterruptedException {
         File f = getVboxScreenshot(vm.getVMName());
         BufferedImage bi;
         try (FileInputStream fis = new FileInputStream(f)) {
@@ -61,4 +66,27 @@ public class VirtualBoxScreenShot {
 
         return f;
     }
+
+    private static void writeToFile(BufferedImage bi, String f) {
+        try {
+            ImageIO.write(bi, "PNG", new File(f));
+        } catch (IOException ex) {
+            Logger.getLogger(VirtualBoxScreenShot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public synchronized static String writeScreenshot(VirtualBoxMachine vm, String baseFolder) {
+        try {
+            BufferedImage screenshot = getScreenshot(vm);
+            StringBuilder sb = new StringBuilder();
+            sb.append("/").append(vm.getUsername()).append("-").append(vm.getGang()).append("-").append(vm.getCurrentTask()).append(UUID.randomUUID()).append(".png");
+            writeToFile(screenshot,baseFolder+sb.toString());
+            return sb.toString();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(VirtualBoxScreenShot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "";
+    }
+
 }

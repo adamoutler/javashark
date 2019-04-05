@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
+import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
@@ -29,6 +30,7 @@ public enum TaskType {
     POWEROFF(new PoweroffTask(),"Machine is powered off"),
     SKIP(new ForceRemoveTask(),"Skip the current task"),
     CLEAR(new IdleTask(), "Clearing all tasks"),
+    FACEBOOK(new CorrectiveActionFacebook(), "Opening Facebook Screen"),
     CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK");
     
     

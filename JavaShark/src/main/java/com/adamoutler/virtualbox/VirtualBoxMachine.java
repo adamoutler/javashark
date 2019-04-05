@@ -312,4 +312,9 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.poweredOn = poweredOn;
     }
 
+    public void debugScreenshot(){
+        BufferedImage screenshot=this.screenshot();
+        
+    }
+    
 }

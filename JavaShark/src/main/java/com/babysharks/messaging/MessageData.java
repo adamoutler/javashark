@@ -33,6 +33,7 @@ public class MessageData {
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
+    private String comment;
     private boolean debug=false;
             
 
@@ -295,6 +296,16 @@ public class MessageData {
      */
     public MessageData setTasks(TaskType[] tasks) {
         this.tasks = tasks;
+        return this;
+    }
+
+    /**
+     * sets the comment
+     * @param comment
+     * @return reference to this object
+     */
+    public MessageData setComment(String comment) {
+        this.comment=comment;
         return this;
     }
 }

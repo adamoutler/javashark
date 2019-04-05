@@ -6,7 +6,10 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,9 +40,13 @@ public class StartCatsTask extends Task {
                     || sd.equals(ScreenData.RECONNECT)) {
                 complete(vm);
             } else {
+
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
                 vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+                if (vm.getTaskData().startCatsRetries++==200){
+                    vm.writeBabySharksDebug(vm, "Tried starting CATS"+vm.getTaskData()+" times.");
+                }
             }
         }
     }
