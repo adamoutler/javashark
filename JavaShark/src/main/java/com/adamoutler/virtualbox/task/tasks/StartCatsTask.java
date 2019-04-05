@@ -19,6 +19,7 @@ public class StartCatsTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
+        vm.getTaskData().startCatsRetries=0;
         if (!vm.getScreen().equals(ScreenData.BOOTED)) {
             vm.setTaskInitialized(false);
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
