@@ -19,7 +19,7 @@ import org.junit.Test;
 public class SharkSheetTest {
     
     public SharkSheetTest() {
-        f=new File(System.getProperty("user.home")+"/userContent/average activity.xlsx");
+        f=new File(System.getProperty("user.home")+"/userContent/average activity.xls");
     }
     
     File f;

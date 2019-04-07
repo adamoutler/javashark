@@ -108,11 +108,11 @@ public class CityKingsMatchRaw {
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        File f = new File(folder.getAbsolutePath() + "/" + outputUUID+".xlsx");
+        File f = new File(folder.getAbsolutePath() + "/" + outputUUID+".xls");
         new CityKingsJsonOutput().createOutputFiles(f, this);
         writeJson(new File(outputFolder+outputUUID+".json"));
         this.jsonFile=f.getAbsolutePath();
-        this.excelFile="https://baby-sharks.adamoutler.com/"+outputUUID+".xlsx";
+        this.excelFile="https://baby-sharks.adamoutler.com/"+outputUUID+".xls";
         return f.getName();
     }
 
