@@ -26,7 +26,7 @@ public class TaskedMachine {
     transient private boolean taskInitialized = false;
     transient private boolean taskReady = false;
     transient private boolean taskComplete = false;
-    private VMTaskData vmTaskData = new VMTaskData();
+    transient private VMTaskData vmTaskData = new VMTaskData();
     private String taskDescription = "";
     private TaskTime currentTaskTimes=new TaskTime();
     

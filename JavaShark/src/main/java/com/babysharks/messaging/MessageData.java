@@ -16,8 +16,6 @@ import java.util.ArrayList;
  * @author adamo
  */
 public class MessageData {
-
-
     private int[]  weOwn;
     private int[]  theyOwn;
     private int[]  nobodyOwns;

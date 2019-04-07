@@ -76,7 +76,7 @@ public class CityKingsJsonOutputTest {
         File f = File.createTempFile("excel", ".xls");
         CityKingsMatchRaw match = testSomeMethod();
         CityKingsJsonOutput instance = new CityKingsJsonOutput();
-        String result = instance.createExcelFile(f, match);
+        String result = instance.createOutputFiles(f, match);
         if (!GraphicsEnvironment.isHeadless()){
             instance.openSheet(f);
         }

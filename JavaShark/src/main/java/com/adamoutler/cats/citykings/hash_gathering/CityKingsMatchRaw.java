@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,9 +72,11 @@ public class CityKingsMatchRaw {
 
             });
             vm.setTaskComplete(true);
-            writeLocalJsonFile();
-            String filename = System.currentTimeMillis() + ".xls";
+            
+            String filename = System.currentTimeMillis() +"-"+ vm.getGang()+"-"+vm.getUsername()+"-" + UUID.randomUUID().toString();
             this.excelFile = writeToWebServer(filename);
+            writeLocalJsonFile("/var/www/baby-sharks/excel/"+filename);
+
             return this;
         } catch (IOException ex) {
             Logger.getLogger(CityKingsMatchRaw.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,8 +85,8 @@ public class CityKingsMatchRaw {
         return null;
     }
 
-    private void writeLocalJsonFile() throws IOException, JsonIOException {
-        String outputFile = getBuildingOwnershipFileName(-1);
+    private void writeLocalJsonFile(String file) throws IOException, JsonIOException {
+        String outputFile = file;
         System.out.println("Writing " + outputFile);
         try (FileWriter fw = new FileWriter(outputFile)) {
             gson.toJson(this, fw);
@@ -98,13 +102,17 @@ public class CityKingsMatchRaw {
         
     }
     
-    private String writeToWebServer(String filename) throws IOException {
-        File path = new File("/var/www/baby-sharks/excel/");
-        if (!path.exists()) {
-            path.mkdirs();
+    private String writeToWebServer(String outputUUID) throws IOException {
+        String outputFolder = "/var/www/baby-sharks/excel/";
+        File folder=new File(outputFolder);
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
-        File f = new File(path.getAbsolutePath() + "/" + filename);
-        new CityKingsJsonOutput().createExcelFile(f, this);
+        File f = new File(folder.getAbsolutePath() + "/" + outputUUID+".xlsx");
+        new CityKingsJsonOutput().createOutputFiles(f, this);
+        writeJson(new File(outputFolder+outputUUID+".json"));
+        this.jsonFile=f.getAbsolutePath();
+        this.excelFile="https://baby-sharks.adamoutler.com/"+outputUUID+".xlsx";
         return f.getName();
     }
 
@@ -118,40 +126,6 @@ public class CityKingsMatchRaw {
         }
     }
 
-    private static String getBuildingOwnershipFileName(int numberToGoBack) {
-        String tempdir = System.getProperty("java.io.tmpdir");
-        String tempName = "BuildingDetailReport";
-        String[] fileNames = new File(tempdir).list();
-        ArrayList<String> list = new ArrayList<>();
-        int ownershipObjectNumber = 1;
-        for (int i = 1; i < fileNames.length; i++) {
-            if (fileNames[i].startsWith(tempName) && !fileNames[i].startsWith(tempName + "+")) {
-                String testName = fileNames[i].replace("/tmp/", "").replace(tempName, "").replace(".json", "");
-                if (isNumeric(testName)) {
-                    list.add(testName);
-                }
-            }
-        }
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return extractInt(o1) - extractInt(o2);
-            }
-
-            int extractInt(String s) {
-                String num = s.replaceAll("\\D", "");
-                // return 0 if no digits found
-                return num.isEmpty() ? 0 : Integer.parseInt(num);
-            }
-        });
-        Collections.reverse(list);
-
-        try {
-            return tempdir + File.separator + tempName + (Long.parseLong(list.get(0)) - numberToGoBack) + ".json";
-        } catch (NumberFormatException | IndexOutOfBoundsException ex) {
-            return tempdir + File.separator + tempName + "0.json";
-        }
-    }
 
     /**
      * @return the buildings

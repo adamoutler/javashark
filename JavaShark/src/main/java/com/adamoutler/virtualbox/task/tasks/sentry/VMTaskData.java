@@ -14,14 +14,13 @@ import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
  * @author adamo
  */
 public class VMTaskData {
-
     int nullCount = 0;
     public OwnedBy[] previous;
     public OwnedBy[] current;
     long machineBootUpTime=0;
     long gameBootUpTime=0;
     private long lastStartCats=0;
-    private long idleTime;
+    private long idleTime=System.currentTimeMillis();
     public int startCatsRetries=0;
 
     /**

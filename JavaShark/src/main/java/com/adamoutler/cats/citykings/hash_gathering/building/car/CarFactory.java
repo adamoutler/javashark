@@ -127,6 +127,7 @@ public class CarFactory {
                                 correctedCar.setLocation(i);
                                 playerCar=correctedCar;
                                 break;
+                                
                             } else {
                                 System.out.println("This car is not unique.");
                             }

@@ -35,7 +35,7 @@ public class CityKingsJsonOutput {
 
     }
 
-    public String createExcelFile(File f, CityKingsMatchRaw match) throws IOException {
+    public String createOutputFiles(File f, CityKingsMatchRaw match) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
         createCarsByHashSheet(workbook, match);

@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
  * @author adamo
  */
 public class Message {
-
     private String command;
     private MessageData data = new MessageData();
     private String timestamp;

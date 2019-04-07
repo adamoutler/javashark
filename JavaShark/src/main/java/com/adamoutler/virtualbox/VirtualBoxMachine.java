@@ -27,7 +27,6 @@ import se.vidstige.jadb.JadbException;
  * @author adamo
  */
 public class VirtualBoxMachine extends TaskedMachine {
-
     private String machineName;
     final private String gang;
     final private String user;
@@ -37,7 +36,6 @@ public class VirtualBoxMachine extends TaskedMachine {
     transient private String rdpPort;
     private ScreenData screenID = ScreenData.OFF;
     private String screenDescription;
-
     private String adamoutlerchat = "";
     transient private byte[] screenshot = new byte[]{};
 
