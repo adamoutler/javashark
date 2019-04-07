@@ -47,7 +47,7 @@ public class SentryTask extends Task {
             if (testVm.getGang().equals(vm.getGang())
                     && testVm.getCurrentTask().equals(TaskType.SENTRY)) {
                 testVm.clearTasks();
-                new VirtualBoxControl(testVm).stopVM();
+                testVm.addTask(TaskType.POWEROFF);
             }
         }
     }
