@@ -112,7 +112,7 @@ public class CityKingsMatchRaw {
         new CityKingsJsonOutput().createOutputFiles(f, this);
         writeJson(new File(outputFolder+outputUUID+".json"));
         this.jsonFile=f.getAbsolutePath();
-        this.excelFile="https://baby-sharks.adamoutler.com/"+outputUUID+".xls";
+        this.excelFile="https://javashark.baby-sharks.com/"+outputUUID+".xls";
         return f.getName();
     }
 
