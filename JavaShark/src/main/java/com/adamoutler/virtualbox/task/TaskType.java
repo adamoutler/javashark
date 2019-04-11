@@ -12,8 +12,10 @@ import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
 import com.adamoutler.virtualbox.task.tasks.DeepBuildingScanTask;
+import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.SentryTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
+import com.adamoutler.virtualbox.task.tasks.UpdateCatsTask;
 
 /**
  *
@@ -31,7 +33,10 @@ public enum TaskType {
     SKIP(new ForceRemoveTask(),"Skip the current task"),
     CLEAR(new IdleTask(), "Clearing all tasks"),
     FACEBOOK(new CorrectiveActionFacebook(), "Opening Facebook Screen"),
-    CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK");
+    CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK"),
+    IDLE1MINUTE(new IdleMinuteTask(),"Waiting for one minute"),
+    
+    UPDATECATS(new UpdateCatsTask(),"Updating CATS.");
     
     
     

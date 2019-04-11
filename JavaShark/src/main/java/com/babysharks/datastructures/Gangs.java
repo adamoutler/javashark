@@ -5,6 +5,8 @@
  */
 package com.babysharks.datastructures;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,35 +15,39 @@ import java.util.List;
  */
 public class Gangs {
 
-    List<Gang> gangs;
+    HashMap<String, Gang> gangs = new HashMap<>();
 
     /**
      * adds a gang to the list
+     *
      * @param gang gang to add
      */
-    void add_gang(Gang gang) {
-        gangs.add(gang);
+    public Gang add_gang(Gang gang) {
+        gangs.put(gang.gang_name, gang);
+        return gang;
     }
 
     /**
      * retrieves a gang from the list
+     *
      * @param name name to search
      * @return Gang object representing search
      */
-    Gang get_Gang_By_Name(String name) {
-        for (Gang gang : gangs) {
-            if (gang.gang_name.equals(name)) {
-                return gang;
-            }
+    public Gang get_Gang_By_Name(String name) {
+
+        if (gangs.get(name).gang_name.equals(name)) {
+            return gangs.get(name);
         }
-        return null;
+
+        return add_gang(new Gang(""));
     }
 
     /**
      * retrieves a list of all gangs
+     *
      * @return all gangs
      */
-    List<Gang> get_gangs() {
+    HashMap<String,Gang> get_gangs() {
         return gangs;
     }
 }

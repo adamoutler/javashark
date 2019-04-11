@@ -52,7 +52,7 @@ public final class CityKingsCarRaw implements Cloneable {
      * @return the namePic
      */
     public BufferedImage getNamePic() {
-        return getSubImage(ByteImage.getImageFromBytes(carBadge), NAMECOORDS);
+        return getSubImage(ByteImage.getImageFromBytes(getCarBadge()), NAMECOORDS);
     }
 
     /**
@@ -61,25 +61,25 @@ public final class CityKingsCarRaw implements Cloneable {
      * @return
      */
     private CityKingsCarRaw setCarScreenshot(byte[] carScreenshot) {
-        this.carBadge = carScreenshot;
+        this.setCarBadge(carScreenshot);
         BufferedImage bi = ByteImage.getImageFromBytes(carScreenshot);
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(bi)));
         this.setCarHash(Integer.toHexString(CarBadgeHash.getCarHash(getUniquePic())));
 
-        Screenshottable.writePic(bi, "CarInBuilding" + this.building + "Slot" + this.location);
+        Screenshottable.writePic(bi, "CarInBuilding" + this.getBuilding() + "Slot" + this.location);
 
         return this;
     }
     
     public void clearCarScreenshot(){
-        this.carBadge=null;
+        this.setCarBadge(null);
     }
 
     /**
      * @return the uniquePic
      */
     public BufferedImage getUniquePic() {
-        BufferedImage bi = ByteImage.getImageFromBytes(carBadge);
+        BufferedImage bi = ByteImage.getImageFromBytes(getCarBadge());
         PicColors pc = new PicColors(bi);
         int startX = pc.scanRightXCoordinateForColorAtYCoordinate(SWORDCOLOR, 150, 253, 300);
         if (startX == -1) {
@@ -137,14 +137,14 @@ public final class CityKingsCarRaw implements Cloneable {
     }
 
     public byte[] getCarJpg() {
-        return ByteImage.getJpgBytes(carBadge);
+        return ByteImage.getJpgBytes(getCarBadge());
     }
 
     /**
      * @return the carScreenshot
      */
     public BufferedImage getCarScreenshot() {
-        return ByteImage.getImageFromBytes(carBadge);
+        return ByteImage.getImageFromBytes(getCarBadge());
     }
 
     /**
@@ -165,7 +165,7 @@ public final class CityKingsCarRaw implements Cloneable {
     @Override
     public CityKingsCarRaw clone() throws CloneNotSupportedException {
         super.clone();
-        CityKingsCarRaw car = new CityKingsCarRaw( this.carBadge, this.building, location);
+        CityKingsCarRaw car = new CityKingsCarRaw( this.getCarBadge(), this.getBuilding(), location);
         return car;
     }
 
@@ -228,14 +228,46 @@ public final class CityKingsCarRaw implements Cloneable {
     }
 
     public void convertCarPicToJpg() {
-        ByteArrayInputStream bais = new ByteArrayInputStream(this.carBadge);
+        ByteArrayInputStream bais = new ByteArrayInputStream(this.getCarBadge());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             BufferedImage image = ImageIO.read(bais);
             ImageIO.write(image, "jpg", baos);
-            carBadge = baos.toByteArray();
+            setCarBadge(baos.toByteArray());
         } catch (IOException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * @return the building
+     */
+    public int getBuilding() {
+        return building;
+    }
+
+    /**
+     * @param building the building to set
+     * @return reference to this object
+     */
+    public CityKingsCarRaw setBuilding(int building) {
+        this.building = building;
+        return this;
+    }
+
+    /**
+     * @return the carBadge
+     */
+    public byte[] getCarBadge() {
+        return carBadge;
+    }
+
+    /**
+     * @param carBadge the carBadge to set
+     * @return reference to this object
+     */
+    public CityKingsCarRaw setCarBadge(byte[] carBadge) {
+        this.carBadge = carBadge;
+        return this;
     }
 }

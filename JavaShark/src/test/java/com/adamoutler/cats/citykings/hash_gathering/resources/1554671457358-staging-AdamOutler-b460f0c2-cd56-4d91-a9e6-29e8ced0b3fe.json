@@ -1,0 +1,575 @@
+{
+  "time": 1554671220176,
+  "buildings": [
+    {
+      "buildingName": "",
+      "buildingNumber": 1,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 15,
+      "slotsTheirs": 6,
+      "slotsOurs": 9,
+      "slotsUnowned": 0,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "4ab3ceba",
+          "uniqueHash": "1bd593d3",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 1
+        },
+        {
+          "nameHash": "f13e4cbb",
+          "uniqueHash": "6f69d27b",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 1
+        },
+        {
+          "nameHash": "ff0f1490",
+          "uniqueHash": "a60035c6",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 1
+        },
+        {
+          "nameHash": "b7ed3cf7",
+          "uniqueHash": "3baf3a5b",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 1
+        },
+        {
+          "nameHash": "38a74ecd",
+          "uniqueHash": "7992d17e",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 1
+        },
+        {
+          "nameHash": "824904d5",
+          "uniqueHash": "1fb50c92",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 1
+        },
+        {
+          "nameHash": "e32dcebb",
+          "uniqueHash": "87afa5e1",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 1
+        },
+        {
+          "nameHash": "76a3f7d6",
+          "uniqueHash": "c96e456f",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 1
+        },
+        {
+          "nameHash": "6d0a0c3c",
+          "uniqueHash": "1990b081",
+          "location": 9,
+          "row": 3,
+          "column": 3,
+          "building": 1
+        }
+      ]
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 2,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 21,
+      "slotsTheirs": 9,
+      "slotsOurs": 12,
+      "slotsUnowned": 0,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "cba37769",
+          "uniqueHash": "bd8f367e",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 2
+        },
+        {
+          "nameHash": "2503c891",
+          "uniqueHash": "2e56767b",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 2
+        },
+        {
+          "nameHash": "e32dcebb",
+          "uniqueHash": "3b9a6c7b",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 2
+        },
+        {
+          "nameHash": "5363e852",
+          "uniqueHash": "77b3dd3f",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 2
+        },
+        {
+          "nameHash": "2503c891",
+          "uniqueHash": "7d28beb1",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 2
+        },
+        {
+          "nameHash": "9bfae85e",
+          "uniqueHash": "77b3dd3f",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 2
+        },
+        {
+          "nameHash": "9bfae85e",
+          "uniqueHash": "cd334504",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 2
+        },
+        {
+          "nameHash": "26611214",
+          "uniqueHash": "f60bf822",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 2
+        },
+        {
+          "nameHash": "ff0f1490",
+          "uniqueHash": "9755f25d",
+          "location": 9,
+          "row": 3,
+          "column": 3,
+          "building": 2
+        },
+        {
+          "nameHash": "f02f33e2",
+          "uniqueHash": "c0b21025",
+          "location": 10,
+          "row": 1,
+          "column": 4,
+          "building": 2
+        },
+        {
+          "nameHash": "6b4bb513",
+          "uniqueHash": "7c8e8d2",
+          "location": 11,
+          "row": 2,
+          "column": 4,
+          "building": 2
+        },
+        {
+          "nameHash": "f02f33e2",
+          "uniqueHash": "2652852",
+          "location": 12,
+          "row": 3,
+          "column": 4,
+          "building": 2
+        }
+      ]
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 3,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 21,
+      "slotsTheirs": 0,
+      "slotsOurs": 11,
+      "slotsUnowned": 10,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "26611214",
+          "uniqueHash": "9d6d15a8",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 3
+        },
+        {
+          "nameHash": "f13e4cbb",
+          "uniqueHash": "f19c86a3",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 3
+        },
+        {
+          "nameHash": "4b5ad6f5",
+          "uniqueHash": "9755f25d",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 3
+        },
+        {
+          "nameHash": "824904d5",
+          "uniqueHash": "25b2594e",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 3
+        },
+        {
+          "nameHash": "824904d5",
+          "uniqueHash": "7471bb72",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 3
+        },
+        {
+          "nameHash": "859b561d",
+          "uniqueHash": "ec03abd8",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 3
+        },
+        {
+          "nameHash": "859b561d",
+          "uniqueHash": "9755f25d",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 3
+        },
+        {
+          "nameHash": "e32dcebb",
+          "uniqueHash": "90d07907",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 3
+        },
+        {
+          "nameHash": "cba37769",
+          "uniqueHash": "9755f25d",
+          "location": 9,
+          "row": 3,
+          "column": 3,
+          "building": 3
+        },
+        {
+          "nameHash": "cba37769",
+          "uniqueHash": "c08017d2",
+          "location": 10,
+          "row": 1,
+          "column": 4,
+          "building": 3
+        },
+        {
+          "nameHash": "26611214",
+          "uniqueHash": "83bb8883",
+          "location": 11,
+          "row": 2,
+          "column": 4,
+          "building": 3
+        }
+      ]
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 4,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 21,
+      "slotsTheirs": 0,
+      "slotsOurs": 11,
+      "slotsUnowned": 10,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "76a3f7d6",
+          "uniqueHash": "7c8e8d2",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 4
+        },
+        {
+          "nameHash": "4b5ad6f5",
+          "uniqueHash": "83bb8883",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 4
+        },
+        {
+          "nameHash": "4b5ad6f5",
+          "uniqueHash": "77b3dd3f",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 4
+        },
+        {
+          "nameHash": "38a74ecd",
+          "uniqueHash": "5005588b",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 4
+        },
+        {
+          "nameHash": "38a74ecd",
+          "uniqueHash": "bb947544",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 4
+        },
+        {
+          "nameHash": "73d50505",
+          "uniqueHash": "c22a415e",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 4
+        },
+        {
+          "nameHash": "eaa4a9c3",
+          "uniqueHash": "83bb8883",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 4
+        },
+        {
+          "nameHash": "859b561d",
+          "uniqueHash": "83bb8883",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 4
+        },
+        {
+          "nameHash": "73d50505",
+          "uniqueHash": "87afa5e1",
+          "location": 9,
+          "row": 3,
+          "column": 3,
+          "building": 4
+        },
+        {
+          "nameHash": "5363e852",
+          "uniqueHash": "cb151639",
+          "location": 10,
+          "row": 1,
+          "column": 4,
+          "building": 4
+        },
+        {
+          "nameHash": "76a3f7d6",
+          "uniqueHash": "c22a415e",
+          "location": 11,
+          "row": 2,
+          "column": 4,
+          "building": 4
+        }
+      ]
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 5,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 15,
+      "slotsTheirs": 0,
+      "slotsOurs": 8,
+      "slotsUnowned": 7,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "5363e852",
+          "uniqueHash": "c22a415e",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 5
+        },
+        {
+          "nameHash": "eaa4a9c3",
+          "uniqueHash": "cd334504",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 5
+        },
+        {
+          "nameHash": "75c9ff33",
+          "uniqueHash": "7992d17e",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 5
+        },
+        {
+          "nameHash": "b7ed3cf7",
+          "uniqueHash": "db02b944",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 5
+        },
+        {
+          "nameHash": "b7ed3cf7",
+          "uniqueHash": "d9fe51da",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 5
+        },
+        {
+          "nameHash": "2503c891",
+          "uniqueHash": "c567e4b",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 5
+        },
+        {
+          "nameHash": "6b4bb513",
+          "uniqueHash": "36573631",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 5
+        },
+        {
+          "nameHash": "80a50fdc",
+          "uniqueHash": "7c8e8d2",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 5
+        }
+      ]
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 6,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 21,
+      "slotsTheirs": 10,
+      "slotsOurs": 11,
+      "slotsUnowned": 0,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "6d0a0c3c",
+          "uniqueHash": "6fc2fc95",
+          "location": 1,
+          "row": 1,
+          "column": 1,
+          "building": 6
+        },
+        {
+          "nameHash": "6b4bb513",
+          "uniqueHash": "3baf3a5b",
+          "location": 2,
+          "row": 2,
+          "column": 1,
+          "building": 6
+        },
+        {
+          "nameHash": "a65124c6",
+          "uniqueHash": "25b2594e",
+          "location": 3,
+          "row": 3,
+          "column": 1,
+          "building": 6
+        },
+        {
+          "nameHash": "4ab3ceba",
+          "uniqueHash": "c22a415e",
+          "location": 4,
+          "row": 1,
+          "column": 2,
+          "building": 6
+        },
+        {
+          "nameHash": "6d0a0c3c",
+          "uniqueHash": "a224f599",
+          "location": 5,
+          "row": 2,
+          "column": 2,
+          "building": 6
+        },
+        {
+          "nameHash": "218eb975",
+          "uniqueHash": "38796b86",
+          "location": 6,
+          "row": 3,
+          "column": 2,
+          "building": 6
+        },
+        {
+          "nameHash": "3d0eb941",
+          "uniqueHash": "1992e821",
+          "location": 7,
+          "row": 1,
+          "column": 3,
+          "building": 6
+        },
+        {
+          "nameHash": "4ab3ceba",
+          "uniqueHash": "120435dd",
+          "location": 8,
+          "row": 2,
+          "column": 3,
+          "building": 6
+        },
+        {
+          "nameHash": "75c9ff33",
+          "uniqueHash": "9de07af2",
+          "location": 9,
+          "row": 3,
+          "column": 3,
+          "building": 6
+        },
+        {
+          "nameHash": "9bfae85e",
+          "uniqueHash": "333ae86",
+          "location": 10,
+          "row": 1,
+          "column": 4,
+          "building": 6
+        },
+        {
+          "nameHash": "ff0f1490",
+          "uniqueHash": "cd334504",
+          "location": 11,
+          "row": 2,
+          "column": 4,
+          "building": 6
+        }
+      ]
+    }
+  ],
+  "excelFile": "https://baby-sharks.adamoutler.com/excel/1554671457358-staging-AdamOutler-b460f0c2-cd56-4d91-a9e6-29e8ced0b3fe.xls",
+  "jsonFile": "/var/www/baby-sharks/excel/1554671457358-staging-AdamOutler-b460f0c2-cd56-4d91-a9e6-29e8ced0b3fe.xls"
+}

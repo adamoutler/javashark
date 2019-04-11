@@ -5,15 +5,17 @@
  */
 package com.babysharks.datastructures;
 
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author adamo
  */
-class Car {
+public class Car {
 
-    private List<String> name_hash;
+    private List<String> name_hash=new ArrayList<>();
     private String unique_hash;
     private int location;
     private int row;
@@ -34,7 +36,12 @@ class Car {
     public void setName_hash(List<String> name_hash) {
         this.name_hash = name_hash;
     }
-
+    /**
+     * @param name_hash the name_hash to set
+     */
+    public void addName_hash(String name_hash) {
+        this.name_hash.add(name_hash);
+    }
     /**
      * @return the unique_hash
      */
@@ -118,4 +125,19 @@ class Car {
     public void setCar_badge(byte[] car_badge) {
         this.car_badge = car_badge;
     }
+    
+    
+    public static Car convertCar(CityKingsCarRaw car) {
+        Car c=new Car();
+        c.setBuilding(car.getBuilding());
+        c.setCar_badge(car.getCarBadge());
+        c.setColumnn(car.getColumn());
+        c.setLocation(car.getLocation());
+        c.setRow(car.getRow());
+        c.setUnique_hash(car.getCarHash());
+        c.addName_hash(car.getNameHash());
+        return c;
+    }
+
+    
 }

@@ -7,19 +7,23 @@ package com.babysharks.messaging;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.babysharks.datastructures.Gang;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.babysharks.datastructures.Gangster;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
  * @author adamo
  */
 public class MessageData {
-    private int[]  weOwn;
-    private int[]  theyOwn;
-    private int[]  nobodyOwns;
-    private int[]  alertBuildings;
+
+    private int[] weOwn;
+    private int[] theyOwn;
+    private int[] nobodyOwns;
+    private int[] alertBuildings;
     private String text;
     private String reason;
     private String ScreenName;
@@ -32,13 +36,14 @@ public class MessageData {
     private String location;
     private TaskType[] tasks;
     private String comment;
-    private boolean debug=false;
-            
+    private Gang gangObject;
+    private String reportName;
+    private boolean debug = false;
 
     /**
      * @return the weOwn
      */
-    public int[]  getWeOwn() {
+    public int[] getWeOwn() {
         return weOwn;
     }
 
@@ -46,7 +51,7 @@ public class MessageData {
      * @param weOwn the weOwn to set
      * @return representation of this MessageData object
      */
-    public MessageData setWeOwn(int[]  weOwn) {
+    public MessageData setWeOwn(int[] weOwn) {
         this.weOwn = weOwn;
         return this;
     }
@@ -54,7 +59,7 @@ public class MessageData {
     /**
      * @return the theyOwn
      */
-    public int[]  getTheyOwn() {
+    public int[] getTheyOwn() {
         return theyOwn;
     }
 
@@ -62,7 +67,7 @@ public class MessageData {
      * @param theyOwn the theyOwn to set
      * @return representation of this MessageData object
      */
-    public MessageData setTheyOwn(int[]  theyOwn) {
+    public MessageData setTheyOwn(int[] theyOwn) {
         this.theyOwn = theyOwn;
         return this;
     }
@@ -70,7 +75,7 @@ public class MessageData {
     /**
      * @return the nobodyOwns
      */
-    public int[]  getNobodyOwns() {
+    public int[] getNobodyOwns() {
         return nobodyOwns;
     }
 
@@ -78,7 +83,7 @@ public class MessageData {
      * @param nobodyOwns the nobodyOwns to set
      * @return representation of this MessageData object
      */
-    public MessageData setNobodyOwns(int[]  nobodyOwns) {
+    public MessageData setNobodyOwns(int[] nobodyOwns) {
         this.nobodyOwns = nobodyOwns;
         return this;
     }
@@ -86,7 +91,7 @@ public class MessageData {
     /**
      * @return the alertBuilding
      */
-    public int[]  getAlertBuilding() {
+    public int[] getAlertBuilding() {
         return alertBuildings;
     }
 
@@ -94,7 +99,7 @@ public class MessageData {
      * @param alertBuilding the alertBuilding to set
      * @return representation of this MessageData object
      */
-    public MessageData setAlertBuilding(int[]  alertBuilding) {
+    public MessageData setAlertBuilding(int[] alertBuilding) {
         this.alertBuildings = alertBuilding;
         return this;
     }
@@ -114,8 +119,6 @@ public class MessageData {
         this.text = text;
         return this;
     }
-
-    
 
     public String toJson() {
         Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
@@ -170,9 +173,6 @@ public class MessageData {
         return this;
     }
 
-  
-    
-
     /**
      * @return the username
      */
@@ -221,8 +221,6 @@ public class MessageData {
         return this;
     }
 
-   
-
     /**
      * @return the available
      */
@@ -238,20 +236,19 @@ public class MessageData {
         this.available = available;
         return this;
     }
-/**
+
+    /**
      * @param available the available to set
      * @return reference to this object
      */
     public MessageData addAvailable(VirtualBoxMachine vm) {
-        if (this.available==null) {
-            this.available=new ArrayList<>();
+        if (this.available == null) {
+            this.available = new ArrayList<>();
         }
         this.available.add(vm);
         return this;
     }
 
-    
-    
     /**
      * @return the location
      */
@@ -299,11 +296,45 @@ public class MessageData {
 
     /**
      * sets the comment
+     *
      * @param comment
      * @return reference to this object
      */
     public MessageData setComment(String comment) {
-        this.comment=comment;
+        this.comment = comment;
+        return this;
+    }
+
+    /**
+     * @return the userHashes
+     */
+    public Gang getGangsters() {
+        return gangObject;
+    }
+
+    /**
+     * @param gangObject the userHashes to set
+     * @return reference to this object
+     */
+    public MessageData setGangObject(Gang gangObject) {
+        this.gangObject = gangObject;
+        return this;
+
+    }
+
+    /**
+     * @return the reportName
+     */
+    public String getReportName() {
+        return reportName;
+    }
+
+    /**
+     * @param reportName the reportName to set
+     * @return reference to this object
+     */
+    public MessageData setReportName(String reportName) {
+        this.reportName = reportName;
         return this;
     }
 }

@@ -80,6 +80,7 @@ public class FastBuildingOwnershipDetector {
                 }
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
+                    vm.updateStatuses();
                     SendPapaAsynch.reasonWarning(vm, "offline");
                     MainApp.chat.sendMessage("I'm going down. user logged in.");
 
