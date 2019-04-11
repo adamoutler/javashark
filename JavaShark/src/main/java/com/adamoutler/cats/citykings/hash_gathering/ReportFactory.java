@@ -5,7 +5,6 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
-import com.babysharks.datastructures.Gang;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;

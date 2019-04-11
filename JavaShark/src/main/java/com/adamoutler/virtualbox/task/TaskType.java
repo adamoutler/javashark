@@ -7,12 +7,12 @@ package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
+import com.adamoutler.virtualbox.task.tasks.DeepBuildingScanTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
+import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
-import com.adamoutler.virtualbox.task.tasks.DeepBuildingScanTask;
-import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.SentryTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
 import com.adamoutler.virtualbox.task.tasks.UpdateCatsTask;

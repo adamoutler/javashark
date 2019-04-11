@@ -7,13 +7,10 @@
 package com.adamoutler.cats.citykings.hash_gathering;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
-import static com.adamoutler.cats.citykings.hash_gathering.building.BuildingOwnershipDetector.isNumeric;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.Message;
-import com.babysharks.messaging.SendPapaAsynch;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -21,9 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.UUID;
 import java.util.logging.Level;

@@ -5,13 +5,10 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
-import com.adamoutler.virtualbox.VirtualBox;
-import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector;
-import com.babysharks.messaging.SendPapaAsynch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

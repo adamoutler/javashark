@@ -10,7 +10,6 @@ import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -10,7 +10,6 @@ import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRa
 import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.NEXTBUTTON;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
-import static com.adamoutler.imagerecognition.Navigation.sleep;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Swipe;
 import com.adamoutler.imagerecognition.XYCoords;
@@ -21,7 +20,6 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import se.vidstige.jadb.JadbDevice;
 import se.vidstige.jadb.JadbException;
 
 /**

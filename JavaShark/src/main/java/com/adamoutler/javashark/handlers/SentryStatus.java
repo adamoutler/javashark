@@ -1,10 +1,7 @@
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.Message;
-import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.ArrayList;

@@ -6,7 +6,6 @@
 package com.babysharks.datastructures;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
-import static com.babysharks.messaging.HashedMessage.hash;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;

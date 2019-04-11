@@ -10,9 +10,7 @@ import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.datastructures.Gang;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.babysharks.datastructures.Gangster;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  *

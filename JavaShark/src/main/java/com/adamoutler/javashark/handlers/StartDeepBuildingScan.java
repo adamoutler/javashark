@@ -5,13 +5,9 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.Message;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * curl -X PATCH -d

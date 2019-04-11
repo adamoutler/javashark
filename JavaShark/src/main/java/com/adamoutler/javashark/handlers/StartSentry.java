@@ -7,7 +7,6 @@ package com.adamoutler.javashark.handlers;
 
 
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.Message;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 

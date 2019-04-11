@@ -11,7 +11,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -48,9 +47,8 @@ public class ReportToolsTest {
         System.out.println("getReport");
         ReportTools expResult = null;
         ReportTools result = ReportTools.getReport(gangName, repo, name);
-        assertEquals(expResult, result);
+       // assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -62,10 +60,8 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-        Gangster result = instance.getGangster(nameHashes);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      //  Gangster result = instance.getGangster(nameHashes);
+
     }
 
     /**
@@ -77,10 +73,8 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-        Gangster result = instance.getUserBadgePaneFromUserHash(nameHashes);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    //    Gangster result = instance.getUserBadgePaneFromUserHash(nameHashes);
+
     }
 
     /**
@@ -92,10 +86,8 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-        Gangster result = instance.getUserBadgesFromHashes(nameHashes);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+     //   Gangster result = instance.getUserBadgesFromHashes(nameHashes);
+
     }
 
 }

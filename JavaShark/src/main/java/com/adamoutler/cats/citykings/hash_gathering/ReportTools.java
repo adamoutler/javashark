@@ -12,9 +12,7 @@ import com.babysharks.datastructures.Car;
 import com.babysharks.datastructures.Gang;
 import com.babysharks.datastructures.Gangs;
 import com.babysharks.datastructures.Gangster;
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
 
 /**
  *

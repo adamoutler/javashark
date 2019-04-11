@@ -5,7 +5,6 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.virtualbox.task.TaskType;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 

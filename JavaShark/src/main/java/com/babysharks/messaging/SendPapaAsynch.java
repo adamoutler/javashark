@@ -6,7 +6,6 @@
 package com.babysharks.messaging;
 
 import com.adamoutler.javashark.MainApp;
-import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.util.ArrayList;
 import org.springframework.web.client.HttpServerErrorException;
