@@ -29,7 +29,7 @@ public enum ScreenData {
     UNKNOWN(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Unidentified"),
     OFF(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Turned off"),
     BLACKSCREEN(new HashedPicCoords[]{new HashedPicCoords(107, 33, 45, 706, -230170519)}, new ColoredXYCoords[]{}, "A black screen"),
-    BOOTED(new HashedPicCoords[]{new HashedPicCoords(135, 137, 29, 29, -238493308),new HashedPicCoords(129, 106, 29, 29, -238493308), new HashedPicCoords(129,106,29,29,900977023), new HashedPicCoords(129, 106, 29, 29, -1300936293)}, new ColoredXYCoords[]{}, "Android has booted"),
+    BOOTED(new HashedPicCoords[]{new HashedPicCoords(200,200,29,29,321694902),new HashedPicCoords(135, 137, 29, 29, -238493308),new HashedPicCoords(129, 106, 29, 29, -238493308), new HashedPicCoords(129,106,29,29,900977023), new HashedPicCoords(129, 106, 29, 29, -1300936293)}, new ColoredXYCoords[]{}, "Android has booted"),
     BOXOPENNOW(new HashedPicCoords[]{new HashedPicCoords(370, 600, 263, 42, 1806715308)}, new ColoredXYCoords[]{}, "Box Screen, Click to open box"),
     BOXOPENNOWSKIP(new HashedPicCoords[]{new HashedPicCoords(566, 603, 197, 43, 1892377544)}, new ColoredXYCoords[]{}, "Bos screen, open now or watch video"),
     BOXUNLOCK(new HashedPicCoords[]{new HashedPicCoords(370, 600, 263, 42, 2146314069)}, new ColoredXYCoords[]{}, "box screen, click to start 2-hour timer"),
