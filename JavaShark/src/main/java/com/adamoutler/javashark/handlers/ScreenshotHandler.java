@@ -51,7 +51,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             }
         }
         
-        String safeName = getOnlyStrings( System.currentTimeMillis()+"-"+vm.getVMName().toLowerCase()+"-"+UUID.randomUUID().toString()) + ".png";
+        String safeName = getOnlyStrings( System.currentTimeMillis()+"-"+vm.getVMName().toLowerCase()+"-")+UUID.randomUUID().toString() + ".png";
         File outputFile = new File(OUTPUT + safeName);
         ImageIO.write(vm.screenshot(), "PNG", outputFile);
         request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
