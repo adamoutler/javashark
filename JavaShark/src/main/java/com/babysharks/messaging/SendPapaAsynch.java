@@ -48,7 +48,7 @@ public class SendPapaAsynch {
     }
 
     
-    public static void reasonWarning(VirtualBoxMachine vm,String reason) {
+    public static void sentryReasonWarning(VirtualBoxMachine vm,String reason) {
         HashedMessage hm =new HashedMessage(getM(vm).setCommand("sentry")
                 .setData(getData(vm).setReason(reason)));
         MainApp.chat.sendMessage("Announcement:"+reason);

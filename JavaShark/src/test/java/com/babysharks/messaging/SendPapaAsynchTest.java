@@ -99,7 +99,7 @@ public class SendPapaAsynchTest {
         System.out.println("reasonWarning");
 
         String reason = "PERFORMING UNIT TESTING";
-        SendPapaAsynch.reasonWarning(vm, reason);
+        SendPapaAsynch.sentryReasonWarning(vm, reason);
     }
 
     /**

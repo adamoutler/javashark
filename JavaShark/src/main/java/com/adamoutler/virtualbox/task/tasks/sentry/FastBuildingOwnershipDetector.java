@@ -81,7 +81,8 @@ public class FastBuildingOwnershipDetector {
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
-                    SendPapaAsynch.reasonWarning(vm, "offline");
+                    
+                    SendPapaAsynch.sentryReasonWarning(vm, "blind");
                     MainApp.chat.sendMessage("I'm going down. user logged in.");
 
                 }
@@ -98,6 +99,7 @@ public class FastBuildingOwnershipDetector {
 
         }
     }
+    
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
         System.out.println("Ownership/"+vm.getGang()+"/"+vm.getUsername()+": "+new Date() + " " + Arrays.asList(vm.getTaskData().current));

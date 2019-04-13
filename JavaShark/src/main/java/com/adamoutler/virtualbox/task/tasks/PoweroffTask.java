@@ -8,6 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
@@ -24,7 +25,9 @@ public class PoweroffTask extends Task {
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
+        SendPapaAsynch.sentryReasonWarning(vm, "offline");
         complete(vm);
+        
     }
     
 }
