@@ -35,16 +35,19 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         ///init(t);
         long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
+        vm.updateStatuses();
         if (!vm.isPoweredOn()){
+            System.out.print("VM powered off");
             for (VirtualBoxMachine thisVm:new VirtualBox().getGangMachines(gang)){
                 if (thisVm.isPoweredOn()){
+                    System.out.print(" selecting "+thisVm.getVMName());
                     vm=thisVm;
                     break;
                 }
             }
         }
         BufferedImage bi=vm.screenshot();
-        String safeName = getOnlyStrings(vm.getVMName()) + vm.getVMName().toLowerCase()+time + ".png";
+        String safeName = getOnlyStrings( vm.getVMName().toLowerCase()+time + ".png");
         File outputFile = new File(OUTPUT + safeName);
         ImageIO.write(bi, "PNG", outputFile);
         Message message = new Message().setCommand("screenshot")
