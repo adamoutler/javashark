@@ -47,7 +47,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             }
         }
         BufferedImage bi=vm.screenshot();
-        String safeName = getOnlyStrings( vm.getVMName().toLowerCase()+time + ".png");
+        String safeName = getOnlyStrings( vm.getVMName().toLowerCase()+time) + ".png";
         File outputFile = new File(OUTPUT + safeName);
         ImageIO.write(bi, "PNG", outputFile);
         Message message = new Message().setCommand("screenshot")
