@@ -13,6 +13,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
@@ -47,7 +48,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             }
         }
         BufferedImage bi=vm.screenshot();
-        String safeName = getOnlyStrings( vm.getVMName().toLowerCase()+time) + ".png";
+        String safeName = getOnlyStrings( time+vm.getVMName().toLowerCase()+UUID.randomUUID().toString()) + ".png";
         File outputFile = new File(OUTPUT + safeName);
         ImageIO.write(bi, "PNG", outputFile);
         Message message = new Message().setCommand("screenshot")
