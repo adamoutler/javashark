@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author adamo
  */
-public class ScreenshotHandler extends AbstractPapaHandler {
+public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
 
     final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
@@ -35,18 +35,21 @@ public class ScreenshotHandler extends AbstractPapaHandler {
         ///init(t);
         long time = System.currentTimeMillis();
         System.out.println(t.getRequestURI());
-        String username = getRequest().getData().getUsername();
-
-        
-        
-        VirtualBoxMachine vm=new VirtualBox().getUserMachine(getRequest().getData().getGang(), getRequest().getData().getUsername());
+        if (!vm.isPoweredOn()){
+            for (VirtualBoxMachine thisVm:new VirtualBox().getGangMachines(gang)){
+                if (thisVm.isPoweredOn()){
+                    vm=thisVm;
+                    break;
+                }
+            }
+        }
         BufferedImage bi=vm.screenshot();
         String safeName = getOnlyStrings(vm.getVMName()) + vm.getVMName().toLowerCase()+time + ".png";
         File outputFile = new File(OUTPUT + safeName);
         ImageIO.write(bi, "PNG", outputFile);
         Message message = new Message().setCommand("screenshot")
                 .setData(new MessageData().setUsername(username)
-                        .setUrl("https://baby-sharks.adamoutler.com/screenshots/" + safeName));
+                        .setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName));
         System.out.println("sending message: " + message.getData().getResultObject());
         sendSucessMessage(t, message);
     }
