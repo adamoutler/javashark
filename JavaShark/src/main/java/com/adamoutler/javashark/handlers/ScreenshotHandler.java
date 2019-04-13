@@ -33,29 +33,30 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        ///init(t);
-        long time = System.currentTimeMillis();
-        System.out.println(t.getRequestURI());
-        vm.updateStatuses();
+        //log the request URI
+        System.out.println(t.getRequestURI()+"\n Using machine for screenshot: "+ vm.getVMName());
+        //check if the machine is powered on.  if not do the following:
         if (!vm.isPoweredOn()){
-            System.out.print("VM powered off");
+            //log the machine is off.
+            System.out.println(vm.getVMName()+ " is powered off.");
+            // for each machine in the gang
             for (VirtualBoxMachine thisVm:new VirtualBox().getGangMachines(gang)){
+                //check if the machine is powered on
                 if (thisVm.isPoweredOn()){
-                    System.out.print(" selecting "+thisVm.getVMName());
+                    
+                    System.out.println(" selecting "+thisVm.getVMName());
                     vm=thisVm;
                     break;
                 }
             }
         }
-        BufferedImage bi=vm.screenshot();
-        String safeName = getOnlyStrings( time+vm.getVMName().toLowerCase()+UUID.randomUUID().toString()) + ".png";
+        
+        String safeName = getOnlyStrings( System.currentTimeMillis()+"-"+vm.getVMName().toLowerCase()+"-"+UUID.randomUUID().toString()) + ".png";
         File outputFile = new File(OUTPUT + safeName);
-        ImageIO.write(bi, "PNG", outputFile);
-        Message message = new Message().setCommand("screenshot")
-                .setData(new MessageData().setUsername(username)
-                        .setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName));
-        System.out.println("sending message: " + message.getData().getResultObject());
-        sendSucessMessage(t, message);
+        ImageIO.write(vm.screenshot(), "PNG", outputFile);
+        request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
+        System.out.println("sending message with URL back: " + request.getData().getUrl());
+        sendSucessMessage(t, request);
     }
 
     public static String getOnlyStrings(String s) {
