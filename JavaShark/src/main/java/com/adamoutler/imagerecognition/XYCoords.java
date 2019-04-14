@@ -25,12 +25,19 @@ public class XYCoords {
     public int getX() {
         return x;
     }
+    
+    public String getXStr(){
+        return Integer.toString(x);
+    }
 
     /**
      * @return the y
      */
     public int getY() {
         return y;
+    }
+    public String getYStr(){
+        return Integer.toString(y);
     }
 
     @Override

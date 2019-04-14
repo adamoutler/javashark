@@ -202,7 +202,7 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.screenDescription = screenDescription;
     }
 
-    synchronized public String adbShell(String[] commands) {
+    synchronized public String adbShell(String... commands) {
         StringBuilder sb = new StringBuilder();
         String cmd = "";
         ArrayList<String> al = new ArrayList<>();

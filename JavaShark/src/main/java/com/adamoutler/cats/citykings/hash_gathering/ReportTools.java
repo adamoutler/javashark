@@ -69,7 +69,7 @@ public class ReportTools {
                         c.setColumnn(car.getColumn());
                         c.setLocation(car.getLocation());
                         c.setRow(car.getRow());
-                        c.setUnique_hash(car.getCarHash());
+                        c.setUnique_hash(car.getUniqueHash());
                         break;
                     }
                 }

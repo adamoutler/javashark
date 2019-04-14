@@ -64,7 +64,7 @@ public final class CityKingsCarRaw implements Cloneable {
         this.setCarBadge(carScreenshot);
         BufferedImage bi = ByteImage.getImageFromBytes(carScreenshot);
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(bi)));
-        this.setCarHash(Integer.toHexString(CarBadgeHash.getCarHash(getUniquePic())));
+        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getCarHash(getUniquePic())));
 
         Screenshottable.writePic(bi, "CarInBuilding" + this.getBuilding() + "Slot" + this.location);
 
@@ -98,7 +98,7 @@ public final class CityKingsCarRaw implements Cloneable {
         StringBuilder sb = new StringBuilder();
         String n = "\n";
         sb.append("R").append(this.row).append("C").append(this.column).append(" slot ").append(this.location).append(n);
-        sb.append("Name: ").append(" - namehash: ").append(getNameHash()).append(" - carhash: ").append(getCarHash()).append(n);
+        sb.append("Name: ").append(" - namehash: ").append(getNameHash()).append(" - carhash: ").append(getUniqueHash()).append(n);
         return sb.toString();
     }
 
@@ -186,14 +186,14 @@ public final class CityKingsCarRaw implements Cloneable {
     /**
      * @return the carHash
      */
-    public String getCarHash() {
+    public String getUniqueHash() {
         return uniqueHash;
     }
 
     /**
      * @param carHash the carHash to set
      */
-    public void setCarHash(String carHash) {
+    public void setUniqueHash(String carHash) {
         this.uniqueHash = carHash;
     }
 

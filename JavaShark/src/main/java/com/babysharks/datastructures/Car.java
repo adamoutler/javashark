@@ -134,7 +134,7 @@ public class Car {
         c.setColumnn(car.getColumn());
         c.setLocation(car.getLocation());
         c.setRow(car.getRow());
-        c.setUnique_hash(car.getCarHash());
+        c.setUnique_hash(car.getUniqueHash());
         c.addName_hash(car.getNameHash());
         return c;
     }
