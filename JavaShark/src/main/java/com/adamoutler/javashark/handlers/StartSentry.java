@@ -22,7 +22,7 @@ public class StartSentry extends SentryAbstractPapaHandler {
         long time = System.currentTimeMillis();
         vm.clearTasks();
         addTasks(TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.SENTRY);
-        request.getData().addAvailable(vm).setReason("Starting machine");
+        request.getData().addAvailable(vm).setReason("starting");
         this.sendSucessMessage(he, request);
 
     }

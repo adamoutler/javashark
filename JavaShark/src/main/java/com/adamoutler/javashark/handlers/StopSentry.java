@@ -24,7 +24,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
         vmControl.stopVM();
         addTasks(TaskType.CLEAR);
-       request.getData().addAvailable(vm).setReason("Stopping machine");
+       request.getData().addAvailable(vm).setReason("stopping");
         this.sendSucessMessage(he, request);
 
     }

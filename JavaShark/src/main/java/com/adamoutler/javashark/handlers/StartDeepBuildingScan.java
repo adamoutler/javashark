@@ -22,7 +22,7 @@ public class StartDeepBuildingScan extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         vm.clearTasks();
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGSCAN);
-        request.getData().addAvailable(vm).setReason("Starting machine");
+        request.getData().addAvailable(vm).setReason("scanning");
         this.sendSucessMessage(he, request);
     }
 }
