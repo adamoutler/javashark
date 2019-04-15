@@ -14,14 +14,17 @@ import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageWriter;
 import se.vidstige.jadb.JadbException;
 
 /**
@@ -50,18 +53,19 @@ public class BuildingFactory {
         setBuildingXY(buildingNumber, ckb);
         ckb.setBuildingNumber(buildingNumber);
 
+        BufferedImage ckscreen=null;
         try {
             for (int i=0;i<5; i++){
-                ckb.navigateToBuilding();
+                ckscreen=ckb.navigateToBuilding();
                 ScreenData sd = vm.getScreen();
                 if (sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
                     break;
                 }
             }
+            Screenshottable.writePic(ckscreen, "test");
+            ckb.setIsLinked(isLinkedBuilding(ckb, ckscreen));
             //required to set the size of the building before inspection. 
-            BufferedImage newScreenshot = vm.screenshot();
-            ckb.setIsLinked(isLinkedBuilding(ckb, newScreenshot));
-            ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(newScreenshot)));
+            ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm);
             for  (int i=0; i<5; i++){
                 ckb.scan();

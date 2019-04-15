@@ -122,14 +122,16 @@ public final class CityKingsBuildingRaw {
         this.buildingSizePic = ByteImage.getPngBytes(buildingSizePic);
     }
 
-    public void navigateToBuilding() throws IOException, JadbException {
+    public BufferedImage navigateToBuilding() throws IOException, JadbException {
 
         Navigation.navigateToCityKings(vm);
         sleep(4000);
+        BufferedImage bi=vm.screenshot();
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
         sleep(3000);
         Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
         sleep(3000);
+        return bi;
     }
 
     private void sleep(long millis) {

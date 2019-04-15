@@ -73,7 +73,7 @@ public class CarFactory {
     private final CityKingsBuildingRaw building;
     private BufferedImage lastCarBadge;
     private VirtualBoxMachine vm;
-    private static int sleepTime = 250;
+    private static int sleepTime =1000;
 
     public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
         this.vm = vm;
@@ -94,16 +94,15 @@ public class CarFactory {
             //we have a problem with the acquisition
             if (playerCar.equals(lastCar)) {
                 redo++;
-                sleep(sleepTime * 2);
-                sleepTime = sleepTime + 30;
+                sleep(sleepTime );
                 System.out.println("correction level " + redo);
                 switch (redo) {
                     case 1:
-                        vm.tap(new XYCoords(20, 20));
+                        vm.tap(new XYCoords(40, 40));
                         playerCar = createCarStore(buildingNumber, i);
                         break;
                     case 2:
-                        vm.longTap(new XYCoords(20, 20));
+                        vm.longTap(new XYCoords(40, 40));
                         playerCar = createCarStore(buildingNumber, i);
                         break;
                     case 3:
@@ -126,12 +125,17 @@ public class CarFactory {
 
                 }
                 //if we corrected the problem
-                if (!playerCar.equals(lastCar)) {
+                if (!playerCar.equals(lastCar) && ! this.isDuplicatedInList(buildingCars, playerCar)) {
+                    
                     redo = 0;
                     navigateToLocation(i);
                 } 
                 //no problem detected;
             } else {
+                if (redo<3){
+                    //correc
+                    sleepTime=sleepTime+50;
+                }
                 if (sleepTime > 100) {
                     sleepTime = sleepTime - 10;
                 }
@@ -261,7 +265,7 @@ public class CarFactory {
 
         try {
             Navigation.pressLocation(vm.getJadb(), PREVIOUSBUTTON);
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -273,7 +277,7 @@ public class CarFactory {
 
         try {
             Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
-            Thread.sleep(1500);
+            Thread.sleep(500);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
