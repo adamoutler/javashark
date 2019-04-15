@@ -27,14 +27,16 @@ import javax.imageio.ImageIO;
 public final class CityKingsCarRaw implements Cloneable {
 
     transient public final static XYCoords NEXTBUTTON = new XYCoords(302, 576);
+    transient public final static XYCoords PREVIOUSBUTTON = new XYCoords(132, 576);
     transient public final static PicCoords NAMECOORDS = new PicCoords(6, 6, 300, 38);
-    transient public final static PicCoords UNIQUECOORDS = new PicCoords(6, 232, 300, 38);
+    transient public final static PicCoords UNIQUECOORDS = new PicCoords(6, 230, 300, 24);
     transient final private static int SWORDCOLOR = 0x48a1b8;
     transient private final static PicCoords SMALL = new PicCoords(0, 0, 100, 300);
     transient final static Font FONT = new Font("Arial", Font.PLAIN, 35);
 
     private String nameHash = "";
     private String uniqueHash = "";
+    private String bottomLineHash = "";
     private int location = 0;
     private int row = 0;
     private int column = 0;
@@ -45,7 +47,15 @@ public final class CityKingsCarRaw implements Cloneable {
         this.building = building;
         this.location = location;
         setCarScreenshot(screenshot);
+        setLocation(location);
 
+    }
+    public CityKingsCarRaw(String test){
+        this.building=0;
+        this.location=0;
+        this.uniqueHash="ffff";
+        this.carBadge=new byte[]{33};
+        this.uniqueHash="fffff";
     }
 
     /**
@@ -64,7 +74,8 @@ public final class CityKingsCarRaw implements Cloneable {
         this.setCarBadge(carScreenshot);
         BufferedImage bi = ByteImage.getImageFromBytes(carScreenshot);
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(bi)));
-        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getCarHash(getUniquePic())));
+        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getUniqueHash(getUniquePic())));
+        
 
         Screenshottable.writePic(bi, "CarInBuilding" + this.getBuilding() + "Slot" + this.location);
 
@@ -178,9 +189,11 @@ public final class CityKingsCarRaw implements Cloneable {
 
     /**
      * @param nameHash the nameHash to set
+     * @return ref to this
      */
-    public void setNameHash(String nameHash) {
+    public CityKingsCarRaw setNameHash(String nameHash) {
         this.nameHash = nameHash;
+        return this;
     }
 
     /**
@@ -192,9 +205,11 @@ public final class CityKingsCarRaw implements Cloneable {
 
     /**
      * @param carHash the carHash to set
+     * @return ref to this
      */
-    public void setUniqueHash(String carHash) {
+    public CityKingsCarRaw setUniqueHash(String carHash) {
         this.uniqueHash = carHash;
+        return this;
     }
 
     /**
@@ -223,7 +238,7 @@ public final class CityKingsCarRaw implements Cloneable {
     public int hashCode() {
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.nameHash);
-        hash = 29 * hash + Objects.hashCode(this.uniqueHash);
+        hash = 97 * hash + Objects.hashCode(this.uniqueHash);
         return hash;
     }
 

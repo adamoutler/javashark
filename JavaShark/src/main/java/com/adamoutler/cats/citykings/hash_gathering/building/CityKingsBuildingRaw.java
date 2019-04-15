@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
@@ -25,7 +26,7 @@ import se.vidstige.jadb.JadbException;
  *
  * @author adamo
  */
-public final class CityKingsBuildingRaw{
+public final class CityKingsBuildingRaw {
 
     transient final public static XYCoords BUILDINGOWNERLOCATION = new XYCoords(507, 139);
     transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
@@ -34,23 +35,24 @@ public final class CityKingsBuildingRaw{
     private String buildingName = "";
     private int buildingNumber = 0;
     private OwnedBy buildingOwnedBy = OwnedBy.NOBODY;
-    private int slotsTotal=0;
-    private int slotsTheirs=0;
-    private int slotsOurs=0;
-    private int slotsUnowned=0;
+    private int slotsTotal = 0;
+    private int slotsTheirs = 0;
+    private int slotsOurs = 0;
+    private int slotsUnowned = 0;
     private byte[] buildingSizePic = new byte[0];
-    private boolean isLinked=false;
+    private boolean isLinked = false;
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
+    static boolean fastScan=false;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
         this.buildingNumber = buildingNumber;
-        this.vm=vm;
+        this.vm = vm;
     }
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber, byte[] screenshot) {
-        this.vm=vm;
+        this.vm = vm;
         this.buildingNumber = buildingNumber;
         tosb = new TeamOwnershipPercentageBar(screenshot);
         gatherVariablesFromTosb(vm);
@@ -58,11 +60,11 @@ public final class CityKingsBuildingRaw{
 
     private void gatherVariablesFromTosb(VirtualBoxMachine vm) {
         setBuildingOwner(tosb.buildingOwnedBy());
-        slotsTotal=tosb.getTotalSlots();
-        slotsTheirs=tosb.numberTheyOwn();
-        slotsOurs=tosb.numberWeOwn();
-        slotsUnowned=tosb.getNumberNobodyOwn();
-        System.out.println("Owner:"+this.getBuildingOwner("Us","Them")+ "slots- total:"+slotsTotal+" us:"+slotsOurs+" them:"+slotsTheirs+" unowned:"+slotsUnowned);
+        slotsTotal = tosb.getTotalSlots();
+        slotsTheirs = tosb.numberTheyOwn();
+        slotsOurs = tosb.numberWeOwn();
+        slotsUnowned = tosb.getNumberNobodyOwn();
+        System.out.println("Owner:" + this.getBuildingOwner("Us", "Them") + "slots- total:" + slotsTotal + " us:" + slotsOurs + " them:" + slotsTheirs + " unowned:" + slotsUnowned);
     }
 
     /**
@@ -100,9 +102,10 @@ public final class CityKingsBuildingRaw{
     public void setBuildingNamePic(BufferedImage buildingNamePic) {
         this.buildingNamePic = ByteImage.getPngBytes(buildingNamePic);
     }
-    public void clearBuildingPics(){
-        this.buildingSizePic=null;
-        this.buildingNamePic=null;
+
+    public void clearBuildingPics() {
+        this.buildingSizePic = null;
+        this.buildingNamePic = null;
     }
 
     /**
@@ -120,7 +123,7 @@ public final class CityKingsBuildingRaw{
     }
 
     public void navigateToBuilding() throws IOException, JadbException {
-        
+
         Navigation.navigateToCityKings(vm);
         sleep(4000);
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
@@ -129,14 +132,14 @@ public final class CityKingsBuildingRaw{
         sleep(3000);
     }
 
-    private void sleep(long millis){
+    private void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ex) {
             Logger.getLogger(CityKingsBuildingRaw.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -187,11 +190,17 @@ public final class CityKingsBuildingRaw{
         this.cityKingsBuildingScreenCoordinates = cityKingsBuildingScreenCoordinates;
     }
 
+
     public void scan() throws IOException, InterruptedException, JadbException {
-        CarFactory bf = new CarFactory(vm, this);
-        this.cars = bf.buildCars(this.getBuildingNumber());
+        if (fastScan) {
+            FastCarFactory bf = new FastCarFactory(vm, this);
+            this.cars = bf.buildCars(this.getBuildingNumber());
+        } else {
+            CarFactory bf = new CarFactory(vm, this);
+            this.cars = bf.buildCars(this.getBuildingNumber());
+        }
         // this.cars = removeDuplicates(cars);
-        
+
     }
 
     private LinkedList<CityKingsCarRaw> removeDuplicates(LinkedList<CityKingsCarRaw> cars) {
@@ -214,9 +223,6 @@ public final class CityKingsBuildingRaw{
 
     }
 
-   
-
-  
     void setBuildingOwner(OwnedBy buildingOwnedBy) {
         this.buildingOwnedBy = buildingOwnedBy;
     }
@@ -236,11 +242,12 @@ public final class CityKingsBuildingRaw{
     }
 
     /**
-     *sets the tosb
+     * sets the tosb
+     *
      * @param tosb the bar to set
      */
-    public void setOwnershipBar(TeamOwnershipPercentageBar tosb){
-        this.tosb=tosb;
+    public void setOwnershipBar(TeamOwnershipPercentageBar tosb) {
+        this.tosb = tosb;
     }
 
     /**

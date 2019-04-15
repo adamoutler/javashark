@@ -5,11 +5,16 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering.building;
 
+import com.adamoutler.ADB;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
+import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -58,7 +63,22 @@ public class BuildingFactory {
             ckb.setIsLinked(isLinkedBuilding(ckb, newScreenshot));
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(newScreenshot)));
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm);
-            ckb.scan();
+            for  (int i=0; i<5; i++){
+                ckb.scan();
+                System.out.println("Performing final navigation");
+                
+               // vm.longTap(CityKingsCarRaw.NEXTBUTTON);
+                sleep(5000);
+                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(926, 271, 0xA9CAFA, 10)){
+                    System.out.println("Building verified");
+                    break;
+                } else {
+                    vm.adbShell("input","tap",CarFactory.CAR1.getXStr(),CarFactory.CAR1.getYStr());
+                    System.out.println("Could not verify all cars were accounted in building");
+                    sleep(4000);
+                }
+                
+            }
         } catch (IOException | InterruptedException | JadbException ex) {
             Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,6 +89,10 @@ public class BuildingFactory {
 //            Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         return ckb;
+    }
+
+    private static void sleep(int time) throws InterruptedException {
+        Thread.sleep(time);
     }
 
     private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb, VirtualBoxMachine vm) throws IOException, InterruptedException, JadbException {
@@ -87,6 +111,8 @@ public class BuildingFactory {
         }
     }
 
+  
+    
     static public LinkedList<CityKingsBuildingRaw> createBuildings(VirtualBoxMachine vm) {
         LinkedList<CityKingsBuildingRaw> buildings = new LinkedList<>();
 

@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox;
 
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,7 @@ import se.vidstige.jadb.JadbException;
  * @author adamo
  */
 public class VirtualBoxMachine extends TaskedMachine {
+
     private String machineName;
     final private String gang;
     final private String user;
@@ -185,7 +187,7 @@ public class VirtualBoxMachine extends TaskedMachine {
      */
     public void setScreenID(ScreenData screenID) {
         this.screenID = screenID;
-        this.screenDescription=screenID.getDescription();
+        this.screenDescription = screenID.getDescription();
     }
 
     /**
@@ -310,9 +312,16 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.poweredOn = poweredOn;
     }
 
-    public void debugScreenshot(){
-        BufferedImage screenshot=this.screenshot();
-        
+    public void debugScreenshot() {
+        BufferedImage screenshot = this.screenshot();
+
     }
-    
+
+    public void tap(XYCoords coords) {
+        this.adbShell("input", "tap", coords.getXStr(), coords.getYStr());
+    }
+
+    public void longTap(XYCoords coords) {
+        this.adbShell("input", "swipe", coords.getXStr(), coords.getYStr(), coords.getXStr(), coords.getYStr());
+    }
 }

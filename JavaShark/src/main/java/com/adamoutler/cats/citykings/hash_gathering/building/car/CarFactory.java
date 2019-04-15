@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering.building.car;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.NEXTBUTTON;
+import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.PREVIOUSBUTTON;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
@@ -72,57 +73,84 @@ public class CarFactory {
     private final CityKingsBuildingRaw building;
     private BufferedImage lastCarBadge;
     private VirtualBoxMachine vm;
-    private static int sleepTime = 50;
+    private static int sleepTime = 250;
 
     public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
         this.vm = vm;
         this.building = building;
     }
 
-    public LinkedList<CityKingsCarRaw> buildCars(int buildingNumber) throws IOException, InterruptedException, JadbException {
+    public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber) throws IOException, InterruptedException, JadbException {
         LinkedList<CityKingsCarRaw> buildingCars = new LinkedList<>();
-
+        System.out.println("recorded car 1");
+        CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
+        int redo = 0;
         for (int i = 1; i <= this.building.getOwnershipBar().numberWeOwn(); i++) {
-            if (navigateToLocation(i)) {
-                System.out.println("Checking for car #" + i);
-                sleep(sleepTime);
-                CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
-                playerCar.setLocation(i);
-
-                //correction algo to verify and ensure we hit every single car.
-                if (checkDuplicate(buildingCars, playerCar)) {
-                    System.out.println("Level 1 error correction: " + playerCar.getNameHash());
-                    CityKingsCarRaw newCar = this.level1ErrorCorrection(buildingNumber, i);
-                    if (newCar.equals(playerCar)) {
-                        System.out.println("Level 2 error correction: " + playerCar.getNameHash());
-                        newCar = this.level2ErrorCorrection(buildingNumber, i);
-                        if (newCar.equals(playerCar)) {
-                            System.out.println("Level 3 error correction: " + playerCar.getNameHash());
-                            newCar = this.level3ErrorCorrection(playerCar, buildingNumber, i);
-                            if (newCar.equals(playerCar)) {
-                                System.out.println("Level 4 error correction: " + playerCar.getNameHash());
-                                newCar = this.level4ErrorCorrection(buildingCars, buildingNumber, i);
-                                if (newCar.equals(playerCar)) {
-                                    i--;
-                                    break;
-                                }
-                            }
+            //announce the car we are on
+            System.out.println("Building:"+ buildingNumber+" Car:" + i);
+            //sleep for a bit to verify no additional activity is required. 
+            sleep(sleepTime);
+            CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
+            //we have a problem with the acquisition
+            if (playerCar.equals(lastCar)) {
+                redo++;
+                sleep(sleepTime * 2);
+                sleepTime = sleepTime + 30;
+                System.out.println("correction level " + redo);
+                switch (redo) {
+                    case 1:
+                        vm.tap(new XYCoords(20, 20));
+                        playerCar = createCarStore(buildingNumber, i);
+                        break;
+                    case 2:
+                        vm.longTap(new XYCoords(20, 20));
+                        playerCar = createCarStore(buildingNumber, i);
+                        break;
+                    case 3:
+                        this.setPreviousCar();
+                        sleep(sleepTime);
+                        setNextCar();
+                        sleep(sleepTime);
+                        playerCar = createCarStore(buildingNumber, i);
+                        if (this.isDuplicatedInList(buildingCars, playerCar)){
+                            setNextCar();
+                            sleep(sleepTime);
+                            playerCar = createCarStore(buildingNumber, i);
                         }
-                        playerCar = newCar;
-                        playerCar.setLocation(i);
+                        break;
+                    default:
+                        this.navigateToLocation(i);
+                        sleep(sleepTime);
+                        playerCar = createCarStore(buildingNumber, i);
+                        break;
 
-                    }
-                } else {
-                    if (sleepTime > 10) {
-                        sleepTime = sleepTime - 10;
-                    }
                 }
-
-                //todo: check swipe here.  if this car's hashes match another car's hashes, we have not swiped.  We need to set location again.
-                buildingCars.add(playerCar);
-                //Screenshottable.writePic(playerCar.getCarOCRImage(), ""+i);
-
+                //if we corrected the problem
+                if (!playerCar.equals(lastCar)) {
+                    redo = 0;
+                    navigateToLocation(i);
+                } 
+                //no problem detected;
+            } else {
+                if (sleepTime > 100) {
+                    sleepTime = sleepTime - 10;
+                }
+                redo = 0;
+                navigateToLocation(i);
             }
+
+            if (redo > 0) {
+                System.out.println("Rescanning car.");
+                i--;
+                continue;
+            } 
+            
+            lastCar = playerCar;
+
+            //todo: check swipe here.  if this car's hashes match another car's hashes, we have not swiped.  We need to set location again.
+            buildingCars.add(playerCar);
+            //Screenshottable.writePic(playerCar.getCarOCRImage(), ""+i);
+
         }
         return buildingCars;
     }
@@ -166,13 +194,13 @@ public class CarFactory {
     }
 
     private CityKingsCarRaw level4ErrorCorrection(LinkedList<CityKingsCarRaw> buildingCars, int building, int location) throws IOException, InterruptedException {
-        for (int i = 0; i < this.building.getOwnershipBar().getNumberWeOwn(); i++) {
+        for (int i = 0; i <= this.building.getOwnershipBar().getNumberWeOwn(); i++) {
             this.setNextCar();
             Thread.sleep(this.sleepTime);
             CityKingsCarRaw playerCar = createCarStore(building, i);
             System.out.println("Adjusting to expected position + " + (i + 1));
             playerCar.setLocation(location);
-            if (!checkDuplicate(buildingCars, playerCar)) {
+            if (!isDuplicatedInList(buildingCars, playerCar)) {
                 System.out.println("Level 4 success on attempt " + (i + 1));
                 break;
             }
@@ -184,17 +212,7 @@ public class CarFactory {
     }
 
     private boolean navigateToLocation(int carPosition) throws IOException, InterruptedException, JadbException {
-        if (carPosition > building.getOwnershipBar().numberWeOwn()) {
-            return false;
-        }
 
-//        XYCoords xy = getXY(carPosition);
-//        Navigation.tapLocation(vm.getJadb(), xy);
-//        Thread.sleep(1200);
-//        if (((carPosition) % 9) == 0 && carPosition != 1) {
-//            Navigation.swipe(vm.getJadb(), SWIPE);
-//            sleep(8000);
-//        }
         this.setNextCar();
         return true;
     }
@@ -204,11 +222,10 @@ public class CarFactory {
     }
 
     private BufferedImage getSubImage(BufferedImage fullScreenshot, PicCoords p) {
-        System.out.println(fullScreenshot.hashCode());
         return fullScreenshot.getSubimage(p.getX(), p.getY(), p.getW(), p.getH());
     }
 
-    private boolean checkDuplicate(LinkedList<CityKingsCarRaw> buildingCars, CityKingsCarRaw playerCar) {
+    private boolean isDuplicatedInList(LinkedList<CityKingsCarRaw> buildingCars, CityKingsCarRaw playerCar) {
         for (CityKingsCarRaw previousCar : buildingCars) {
             if (playerCar.equals(previousCar)) {
                 return true;
@@ -240,11 +257,23 @@ public class CarFactory {
         return playerCar;
     }
 
+    public void setPreviousCar() {
+
+        try {
+            Navigation.pressLocation(vm.getJadb(), PREVIOUSBUTTON);
+            Thread.sleep(1000);
+        } catch (IOException | JadbException ex) {
+            Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CarFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void setNextCar() {
 
         try {
-            Navigation.tapLocation(vm.getJadb(), NEXTBUTTON);
-            Thread.sleep(1000);
+            Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
+            Thread.sleep(1500);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
