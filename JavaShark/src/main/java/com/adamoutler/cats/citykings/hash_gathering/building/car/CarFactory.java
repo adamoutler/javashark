@@ -272,7 +272,7 @@ public class CarFactory {
 
         try {
             Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
