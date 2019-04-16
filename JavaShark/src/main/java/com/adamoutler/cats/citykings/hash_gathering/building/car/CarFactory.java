@@ -73,7 +73,7 @@ public class CarFactory {
     private final CityKingsBuildingRaw building;
     private BufferedImage lastCarBadge;
     private VirtualBoxMachine vm;
-    private static int sleepTime =1000;
+    private static int sleepTime =500;
 
     public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
         this.vm = vm;
@@ -102,6 +102,7 @@ public class CarFactory {
                         playerCar = createCarStore(buildingNumber, i);
                         break;
                     case 2:
+                        sleep(sleepTime*2 );
                         vm.longTap(new XYCoords(40, 40));
                         playerCar = createCarStore(buildingNumber, i);
                         break;
@@ -132,13 +133,7 @@ public class CarFactory {
                 } 
                 //no problem detected;
             } else {
-                if (redo<3){
-                    //correc
-                    sleepTime=sleepTime+50;
-                }
-                if (sleepTime > 100) {
-                    sleepTime = sleepTime - 10;
-                }
+                               
                 redo = 0;
                 navigateToLocation(i);
             }
