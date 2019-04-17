@@ -29,7 +29,7 @@ public class DeepBuildingScanTask extends Task {
         try {
             Thread t = new Thread(() -> {
 
-                try { 
+                try {  
                     CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
                     report.clearScreenshots();
                     String s = report.getExcelFile();
