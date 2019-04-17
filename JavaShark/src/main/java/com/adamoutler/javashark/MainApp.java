@@ -5,7 +5,7 @@
  */
 package com.adamoutler.javashark;
 
-import com.adamoutler.chat.MinimalChatExtreme;
+import com.adamoutler.libminimalchatextrem.MinimalChatExtreme;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
