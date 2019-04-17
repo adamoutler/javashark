@@ -104,6 +104,8 @@ public class CityKingsJsonOutput {
 
     private HSSFSheet createCarsByBuildingSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
         HSSFSheet sheet = workbook.createSheet("Cars By Building");
+
+        
         for (int building = 0; building < 6; building++) {
             System.out.println();
             int buildingLabelNumber = building * 6;
@@ -126,6 +128,9 @@ public class CityKingsJsonOutput {
             }
 
         }
+        Row header=sheet.createRow(0);
+        header.createCell(0).setCellValue("Building");
+        header.createCell(1).setCellValue("     Car Locations (Accuracy is affected by movement)");
         return sheet;
     }
 
