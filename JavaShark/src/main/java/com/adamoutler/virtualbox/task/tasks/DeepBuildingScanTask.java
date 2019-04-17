@@ -28,24 +28,28 @@ public class DeepBuildingScanTask extends Task {
     public void initializeTask(VirtualBoxMachine vm) {
         try {
             Thread t = new Thread(() -> {
-                CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
-                report.clearScreenshots();
-                String s=report.getExcelFile();
-                report.setExcelFile("https://javashark.baby-sharks.com/excel/"+s);
-                Message m = new Message().setCommand("deepbuildingscancomplete");
-                m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/"+s);
-                SendPapaAsynch.sendToPapa(m);
 
-                File f=new File("/var/www/baby-sharks/excel/"+report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
-                System.out.println();
                 try {
-                    report.writeJson(f);
-                } catch (IOException ex) {
-                    Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                m.getData().setReason("Scan Complete json").setResultObject("https://javashark.baby-sharks.com/excel/"+s.replaceAll(".xls",".json"));
-                SendPapaAsynch.sendToPapa(m);
+                    CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
+                    report.clearScreenshots();
+                    String s = report.getExcelFile();
+                    report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
+                    Message m = new Message().setCommand("deepbuildingscancomplete");
+                    m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
+                    SendPapaAsynch.sendToPapa(m);
 
+                    File f = new File("/var/www/baby-sharks/excel/" + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
+                    System.out.println();
+                    try {
+                        report.writeJson(f);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    m.getData().setReason("Scan Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
+                    SendPapaAsynch.sendToPapa(m);
+                } catch (Exception ex) {
+
+                }
             });
             t.start();
             ready(vm);
