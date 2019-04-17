@@ -21,7 +21,10 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbookFactory;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.ClientAnchor.AnchorType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -31,12 +34,15 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class CityKingsJsonOutput {
 
+    CellStyle largeStyle;
+
     public CityKingsJsonOutput() {
 
     }
 
     public String createOutputFiles(File f, CityKingsMatchRaw match) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
+        createStyles(workbook);
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
         createCarsByHashSheet(workbook, match);
 
@@ -46,16 +52,18 @@ public class CityKingsJsonOutput {
 
     private void createCarsByHashSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
         HSSFSheet carsByHash = workbook.createSheet("Cars By User");
-        
+
         HashMap<String, ArrayList<CityKingsCarRaw>> hm = getCarHashmapByHash(match);
         Row header = carsByHash.createRow(0);
         header.createCell(0).setCellValue("Car 1");
         header.createCell(1).setCellValue("Car 2");
         header.createCell(2).setCellValue("Car 3");
         header.createCell(3).setCellValue("hash value");
-        header.createCell(4).setCellValue("Telegram Username");
+        header.createCell(4).setCellValue("Papa Command");
+        header.createCell(5).setCellValue("Telegram Username");
         carsByHash.setColumnWidth(3, 2500);
         carsByHash.setColumnWidth(4, 6000);
+          carsByHash.setColumnWidth(4, 7000);
         int row = 1;
         for (Entry<String, ArrayList<CityKingsCarRaw>> entry : hm.entrySet()) {
             int carPos = 0;
@@ -64,7 +72,10 @@ public class CityKingsJsonOutput {
                 carPos++;
             }
             carsByHash.getRow(row).createCell(3).setCellValue(entry.getKey());
+            carsByHash.getRow(row).createCell(4).setCellValue("/hashes "+entry.getKey()+ " ");
+            carsByHash.getRow(row).createCell(5).setCellValue(" ");
             row++;
+
         }
     }
 
@@ -83,17 +94,35 @@ public class CityKingsJsonOutput {
         return hm;
     }
 
+    private void createStyles(HSSFWorkbook wb) {
+        Font font = wb.createFont();
+        font.setFontHeightInPoints((short) 50);
+        font.setFontName("Helvetica");
+        largeStyle = wb.createCellStyle();
+        largeStyle.setFont(font);
+    }
+
     private HSSFSheet createCarsByBuildingSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
         HSSFSheet sheet = workbook.createSheet("Cars By Building");
         for (int building = 0; building < 6; building++) {
             System.out.println();
             int buildingLabelNumber = building * 6;
-            sheet.createRow(buildingLabelNumber).createCell(0).setCellValue("Cars in Building " + (building + 1));
+            sheet.createRow(buildingLabelNumber);
+            sheet.createRow(buildingLabelNumber + 1);
+
+            Cell c = sheet.createRow(buildingLabelNumber + 2).createCell(0);
+            c.setCellValue((building + 1));
+            c.setCellStyle(largeStyle);
 
             int buildingRow = buildingLabelNumber;
+            int length = match.getBuildings().get(building).getCars().size();
+            int totalRows = (int) Math.ceil(length / 3) + 2;
+            if (length % 3 == 0) {
+                totalRows--;
+            }
 
             for (CityKingsCarRaw car : match.getBuildings().get(building).getCars()) {
-                writePictureTo(workbook, sheet, car.getColumn(), car.getRow() + buildingRow, car.getCarJpg());
+                writePictureTo(workbook, sheet, totalRows - car.getColumn(), car.getRow() + buildingRow, car.getCarJpg());
             }
 
         }
