@@ -27,26 +27,35 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>data-local</id>
+            <name>data</name>
+            <url>file://${project.basedir}/libs</url>
+        </repository>
     </repositories>
 
     <build>
 
         <plugins>
+            
+            
+            
            
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
-                    <configuration>
-                        <!-- this maven plugin does not functions with java 8 yet, passing java 7 is just fine. -->
-                        <source>1.7</source>
-                        <target>1.7</target>
-                        <compilerArguments>
-                            <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
-                        </compilerArguments>
-                    </configuration>
-                </plugin>
-                     <plugin>
+           
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <!-- this maven plugin does not functions with java 8 yet, passing java 7 is just fine. -->
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArguments>
+                        <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
                     
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -184,9 +193,12 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>com.cedarsoft.commons</groupId>
+            <groupId>com.oracle</groupId>
             <artifactId>javafx</artifactId>
-            <version>8.4.0</version>
+            <version>2.2.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jfxrt.jar</systemPath>
         </dependency>
+       
     </dependencies>
 </project>
