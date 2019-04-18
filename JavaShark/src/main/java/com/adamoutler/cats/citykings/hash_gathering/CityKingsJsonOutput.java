@@ -278,7 +278,7 @@ public class CityKingsJsonOutput {
         r.createCell(3).setCellValue("value:");
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
@@ -294,7 +294,7 @@ public class CityKingsJsonOutput {
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
 
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
@@ -309,7 +309,7 @@ public class CityKingsJsonOutput {
         r.createCell(3).setCellValue("value:");
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
@@ -324,7 +324,7 @@ public class CityKingsJsonOutput {
         r.createCell(3).setCellValue("value:");
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
@@ -339,7 +339,7 @@ public class CityKingsJsonOutput {
         r.createCell(3).setCellValue("value:");
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
@@ -354,7 +354,7 @@ public class CityKingsJsonOutput {
         r.createCell(3).setCellValue("value:");
         r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total");
+        r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));

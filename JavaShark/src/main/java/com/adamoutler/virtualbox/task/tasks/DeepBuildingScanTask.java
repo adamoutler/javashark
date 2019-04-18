@@ -36,7 +36,7 @@ public class DeepBuildingScanTask extends Task {
                     report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
                     Message m = new Message().setCommand("deepbuildingscancomplete");
                     m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
-                    SendPapaAsynch.sendToPapa(m);
+                   
 
                     File f = new File("/var/www/baby-sharks/excel/" + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
                     System.out.println();
