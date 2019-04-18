@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
+import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
@@ -44,11 +45,9 @@ public class CityKingsJsonOutput {
     public String createOutputFiles(File f, CityKingsMatchRaw match) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         createStyles(workbook);
-        HSSFSheet buildingStatistics=createStatisticsPage(workbook,match);
+        HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
-        HSSFSheet carsByHash=createCarsByHashSheet(workbook, match);
-        
-        
+        HSSFSheet carsByHash = createCarsByHashSheet(workbook, match);
 
         writeSheet(f, workbook);
         return "";
@@ -67,7 +66,7 @@ public class CityKingsJsonOutput {
         header.createCell(5).setCellValue("Telegram Username");
         carsByHash.setColumnWidth(3, 2500);
         carsByHash.setColumnWidth(4, 6000);
-          carsByHash.setColumnWidth(4, 7000);
+        carsByHash.setColumnWidth(4, 7000);
         int row = 1;
         for (Entry<String, ArrayList<CityKingsCarRaw>> entry : hm.entrySet()) {
             int carPos = 0;
@@ -76,7 +75,7 @@ public class CityKingsJsonOutput {
                 carPos++;
             }
             carsByHash.getRow(row).createCell(3).setCellValue(entry.getKey());
-            carsByHash.getRow(row).createCell(4).setCellValue("/hashes "+entry.getKey()+ " ");
+            carsByHash.getRow(row).createCell(4).setCellValue("/hashes " + entry.getKey() + " ");
             carsByHash.getRow(row).createCell(5).setCellValue(" ");
             row++;
 
@@ -110,7 +109,6 @@ public class CityKingsJsonOutput {
     private HSSFSheet createCarsByBuildingSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
         HSSFSheet sheet = workbook.createSheet("Cars By Building");
 
-        
         for (int building = 0; building < 6; building++) {
             System.out.println();
             int buildingLabelNumber = building * 6;
@@ -133,7 +131,7 @@ public class CityKingsJsonOutput {
             }
 
         }
-        Row header=sheet.createRow(0);
+        Row header = sheet.createRow(0);
         header.createCell(0).setCellValue("Building");
         header.createCell(1).setCellValue("     Car Locations (Accuracy is affected by movement)");
         return sheet;
@@ -176,67 +174,90 @@ public class CityKingsJsonOutput {
     }
 
     private HSSFSheet createStatisticsPage(HSSFWorkbook workbook, CityKingsMatchRaw match) {
-        HSSFSheet sheet=workbook.createSheet("Statistics");
-        int i=0;
-        String title="Buildings owned by us";
-        String us="";
-        String them="";
-        String nobody="";
-        int ourCarsTotal=0;
-        int theirCarsTotal=0;
-        int availableSpots=0;
-         int totalSpots=0;
-        LinkedList<Integer> buildingsUs=new LinkedList();
-        LinkedList<Integer> buildingsThem=new LinkedList();
-        LinkedList<Integer> buildingsNobody=new LinkedList();
-        LinkedList<Boolean> linked=new LinkedList<>();
-        for (CityKingsBuildingRaw building:match.getBuildings()){
-                linked.add(building.isIsLinked());
-                buildingsNobody.add(building.getSlotsUnowned());
-                availableSpots=building.getSlotsUnowned()+availableSpots;
-                buildingsUs.add(building.getSlotsOurs());
-                ourCarsTotal=ourCarsTotal+building.getSlotsOurs();
-                buildingsThem.add(building.getSlotsTheirs());
-                theirCarsTotal=theirCarsTotal+building.getSlotsTheirs();
-                totalSpots=totalSpots+building.getSlotsTotal();
-          
-            switch(building.getBuildingOwnedBy()){
+        HSSFSheet sheet = workbook.createSheet("Statistics");
+        int i = 0;
+        String title = "Buildings owned by us";
+        String us = "";
+        String them = "";
+        String nobody = "";
+        int ourCarsTotal = 0;
+        int theirCarsTotal = 0;
+        int availableSpots = 0;
+        int totalSpots = 0;
+        int gainingUs = 0;
+        int gainingThem = 0;
+        int gainingNobody = 0;
+        LinkedList<Integer> buildingsUs = new LinkedList();
+        LinkedList<Integer> buildingsThem = new LinkedList();
+        LinkedList<Integer> buildingsNobody = new LinkedList();
+        LinkedList<Boolean> linked = new LinkedList<>();
+        for (CityKingsBuildingRaw building : match.getBuildings()) {
+            linked.add(building.isIsLinked());
+            if (null != building.getBuildingOwnedBy()) switch (building.getBuildingOwnedBy()) {
                 case US:
-                    us=us+building.getBuildingNumber()+" ";
+                    gainingUs = gainingUs + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
                     break;
                 case THEM:
-                    them=them+building.getBuildingNumber()+ " ";
+                    gainingThem = gainingThem + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
                     break;
                 case NOBODY:
-                    nobody=nobody+building.getBuildingNumber()+ " ";
-                           
+                    gainingNobody = gainingNobody + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
+                    break;
+                default:
+                    break;
+            }
+            buildingsNobody.add(building.getSlotsUnowned());
+            availableSpots = building.getSlotsUnowned() + availableSpots;
+            buildingsUs.add(building.getSlotsOurs());
+            ourCarsTotal = ourCarsTotal + building.getSlotsOurs();
+            buildingsThem.add(building.getSlotsTheirs());
+            theirCarsTotal = theirCarsTotal + building.getSlotsTheirs();
+            totalSpots = totalSpots + building.getSlotsTotal();
+
+            switch (building.getBuildingOwnedBy()) {
+                case US:
+                    us = us + building.getBuildingNumber() + " ";
+                    break;
+                case THEM:
+                    them = them + building.getBuildingNumber() + " ";
+                    break;
+                case NOBODY:
+                    nobody = nobody + building.getBuildingNumber() + " ";
+
             }
         }
-        Row r=sheet.createRow(i++);
+        Row r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Overall Statistics");
         i++;
-        
-        
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Owned Buildings");
-        i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Us:");
-        r.createCell(1).setCellValue(us.length()==0?"-":us);
-        r.createCell(2).setCellValue("Them:");
-        r.createCell(3).setCellValue(them.length()==0?"-":them);
-        r.createCell(4).setCellValue("Nobody:");
-        r.createCell(5).setCellValue(nobody.length()==0?"-":nobody);
-        
-        
-        i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total Slots");
-        
-        
 
-        
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Owned Buildings");
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Us:");
+        r.createCell(1).setCellValue(us.length() == 0 ? "-" : us);
+        r.createCell(2).setCellValue("Them:");
+        r.createCell(3).setCellValue(them.length() == 0 ? "-" : them);
+        r.createCell(4).setCellValue("Nobody:");
+        r.createCell(5).setCellValue(nobody.length() == 0 ? "-" : nobody);
+
+        //do points values here.
+        i++;
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Potential Points:");
+        r = sheet.createRow(i++);
+         r.createCell(0).setCellValue("Total:");
+        r.createCell(1).setCellValue(" +" + (gainingUs+gainingThem+gainingNobody));
+        r.createCell(2).setCellValue("Us:");
+        r.createCell(3).setCellValue(" +" + gainingUs);
+        r.createCell(4).setCellValue("Them:");
+        r.createCell(5).setCellValue(" +" + gainingThem);
+        r.createCell(6).setCellValue("Available:");
+        r.createCell(7).setCellValue(" +" + gainingNobody);
+        i++;
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Total Slots");
+
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total:");
         r.createCell(1).setCellValue(totalSpots);
         r.createCell(2).setCellValue("Us:");
@@ -245,22 +266,20 @@ public class CityKingsJsonOutput {
         r.createCell(5).setCellValue(theirCarsTotal);
         r.createCell(6).setCellValue("Available:");
         r.createCell(7).setCellValue(availableSpots);
-        
-        
-        
+
         i++;
         i++;
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Building Breakdown");
-        r=sheet.createRow(i++);
-        int building=0;
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        int building = 0;
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -268,15 +287,15 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -284,14 +303,14 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -299,14 +318,14 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -314,14 +333,14 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -329,14 +348,14 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        r=sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building "+ (building+1));
-        r.createCell(2).setCellValue(linked.get(building)==true?"Linked":"");
-        r.createCell(3).setCellValue("points:");
-        r.createCell(4).setCellValue(linked.get(building)==true?(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building))*2:buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
-        r=sheet.createRow(i++);
+        r = sheet.createRow(i++);
+        r.createCell(0).setCellValue("Building " + (building + 1));
+        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(3).setCellValue("value:");
+        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total");
-        r.createCell(1).setCellValue(buildingsUs.get(building)+buildingsThem.get(building)+buildingsNobody.get(building));
+        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
         r.createCell(2).setCellValue("Us:");
         r.createCell(3).setCellValue(buildingsUs.get(building));
         r.createCell(4).setCellValue("Them:");
@@ -344,7 +363,7 @@ public class CityKingsJsonOutput {
         r.createCell(6).setCellValue("Nobody:");
         r.createCell(7).setCellValue(buildingsNobody.get(building++));
         i++;
-        
+
         return sheet;
     }
 
