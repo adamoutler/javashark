@@ -64,7 +64,7 @@ public final class CityKingsBuildingRaw {
         slotsTheirs = tosb.numberTheyOwn();
         slotsOurs = tosb.numberWeOwn();
         slotsUnowned = tosb.getNumberNobodyOwn();
-        System.out.println("Owner:" + this.getBuildingOwner("Us", "Them") + "slots- total:" + slotsTotal + " us:" + slotsOurs + " them:" + slotsTheirs + " unowned:" + slotsUnowned);
+        System.out.println("Owner:" + this.getBuildingOwner("Us", "Them") + "slots- total:" + getSlotsTotal() + " us:" + getSlotsOurs() + " them:" + getSlotsTheirs() + " unowned:" + getSlotsUnowned());
     }
 
     /**
@@ -279,6 +279,41 @@ public final class CityKingsBuildingRaw {
      */
     public void setIsLinked(boolean isLinked) {
         this.isLinked = isLinked;
+    }
+
+    /**
+     * @return the slotsTotal
+     */
+    public int getSlotsTotal() {
+        return slotsTotal;
+    }
+
+    /**
+     * @return the slotsTheirs
+     */
+    public int getSlotsTheirs() {
+        return slotsTheirs;
+    }
+
+    /**
+     * @return the slotsOurs
+     */
+    public int getSlotsOurs() {
+        return slotsOurs;
+    }
+
+    /**
+     * @return the slotsUnowned
+     */
+    public int getSlotsUnowned() {
+        return slotsUnowned;
+    }
+
+    /**
+     * @return the isLinked
+     */
+    public boolean isIsLinked() {
+        return isLinked;
     }
 
 }
