@@ -45,6 +45,7 @@ public final class CityKingsBuildingRaw {
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
     static boolean fastScan=false;
+    private transient BufferedImage mapScreenshot;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
         this.buildingNumber = buildingNumber;
@@ -314,6 +315,17 @@ public final class CityKingsBuildingRaw {
      */
     public boolean isIsLinked() {
         return isLinked;
+    }
+
+    void setMapScreenshot(BufferedImage ckscreen) {
+        mapScreenshot=ckscreen;
+    }
+
+    /**
+     * @return the mapScreenshot
+     */
+    public BufferedImage getMapScreenshot() {
+        return mapScreenshot;
     }
 
 }

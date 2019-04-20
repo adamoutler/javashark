@@ -9,6 +9,8 @@ package com.adamoutler.cats.citykings.hash_gathering;
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.imagerecognition.OCR;
+import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.google.gson.Gson;
@@ -30,10 +32,20 @@ import java.util.logging.Logger;
 public class CityKingsMatchRaw {
 
     private final long time = System.currentTimeMillis();
+    String ourScore="";
+    String ourCurrentlyGaining="";
+    String theirScore="";
+    String theirCurrentlyGaining="";
+    String targetScore="";
     private LinkedList<CityKingsBuildingRaw> buildings;
     byte[] screenshot;
     private String excelFile = "";
     private String jsonFile = "";
+    transient public final static PicCoords OURSCORECOORDS=new PicCoords(150,135,244,45);
+    transient public final static PicCoords THEIRSCORECOORDS=new PicCoords(632,135,244,45);
+    transient public final static PicCoords TARGETSCORECOORDS=new PicCoords(447,149,141,38);
+    
+    transient private BufferedImage boardScreenshot;
     transient private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void main(String[] args) { //main method
@@ -54,17 +66,26 @@ public class CityKingsMatchRaw {
                 return building;
             }).forEachOrdered((building) -> {
                 System.out.println(building);
-                if (building.getOwnershipBar().getTotalSlots() < 5) {
+                if (building.getOwnershipBar().getTotalSlots() < 3) {
                     System.err.println("Failure to acquire building");
                     System.out.println(building.toString());
-                    System.exit(1);
-
                 }
                 building.getCars().forEach((car) -> {
                     car.convertCarPicToJpg();
                 });
-
+                boardScreenshot=building.getMapScreenshot();
             });
+            
+            
+            OCR ocr=new OCR();
+            ocr.setTesseractPath(ocr.tesseractWindows);
+            targetScore=ocr.discern(TARGETSCORECOORDS.getImageAtCoords(boardScreenshot)).trim();
+            ourScore=ocr.discern(OURSCORECOORDS.getImageAtCoords(bi));
+            theirScore=ocr.discern(THEIRSCORECOORDS.getImageAtCoords(bi));
+            //ourScore=ocr.discern(targetScoreCoords.getImageAtCoords(boardScreenshot)).trim();
+            
+            
+            
             vm.setTaskComplete(true);
             
             String filename = System.currentTimeMillis() +"-"+ vm.getGang()+"-"+vm.getUsername()+"-" + UUID.randomUUID().toString();

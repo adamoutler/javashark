@@ -46,6 +46,8 @@ public class BuildingFactory {
     final public static PicCoords BUILDING6NAME = new PicCoords(832, 328, 110, 25);
     final public static PicCoords BUILDING6SIZE = new PicCoords(968, 329, 36, 22);
 
+    private BufferedImage mapScreenshot;
+    
     static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber) {
         CityKingsBuildingRaw ckb = new CityKingsBuildingRaw(vm, buildingNumber, ByteImage.getPngBytes(screenshot));
         setbuildingNamePic(buildingNumber, screenshot, ckb);
@@ -64,17 +66,18 @@ public class BuildingFactory {
             }
             Screenshottable.writePic(ckscreen, "test");
             ckb.setIsLinked(isLinkedBuilding(ckb, ckscreen));
+            ckb.setMapScreenshot(ckscreen);
             //required to set the size of the building before inspection. 
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm);
             for  (int i=0; i<5; i++){
                 ckb.scan();
-                System.out.println("Performing final navigation");
+                System.out.println("Checking final building navigational results.");
                 
                // vm.longTap(CityKingsCarRaw.NEXTBUTTON);
-                sleep(5000);
+                sleep(4000);
                 if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(926, 271, 0xA9CAFA, 10)){
-                    System.out.println("Building verified");
+                    System.out.println("Cursor Position Verified. Report is solid.");
                     break;
                 } else {
                     vm.adbShell("input","tap",CarFactory.CAR1.getXStr(),CarFactory.CAR1.getYStr());
@@ -173,6 +176,13 @@ public class BuildingFactory {
         int y = coords.getY() + 7;
         int foundLoc = new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int) 0xECAD21, startX, y, startX + 110, 10);
         return foundLoc > 0;
+    }
+
+    /**
+     * @return the mapScreenshot
+     */
+    public BufferedImage getMapScreenshot() {
+        return mapScreenshot;
     }
 
 }

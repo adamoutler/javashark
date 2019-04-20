@@ -6,6 +6,7 @@
 package com.adamoutler.imagerecognition;
 
 import cn.easyproject.easyocr.EasyOCR;
+import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
 import com.google.common.io.Files;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,15 +28,21 @@ public class OCR extends EasyOCR {
     public OCR() {
         tempdir = Files.createTempDir();
         tempdir.deleteOnExit();
+        setTesseractPath(getTesseractPathFile());
     }
 
     public  void main(String[] args) {  //main method for testing
         OCR ocr = new OCR();
         ocr.setTesseractPath(ocr.getTesseractPathFile());
-        
-        for (File f:new File("src//test/java/com/adamoutler/cats/citykings/").listFiles()){
-            System.out.println(f.getName()+"\n"+ ocr.discern(f));
-            
+        File f=new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.3.png");
+        try {            
+            BufferedImage bi=ImageIO.read(f);
+            String ourScore=ocr.discern(CityKingsMatchRaw.OURSCORECOORDS.getImageAtCoords(bi));
+            String theirScore=ocr.discern(CityKingsMatchRaw.THEIRSCORECOORDS.getImageAtCoords(bi));
+            String discern = new OCR().discern(bi);
+            System.out.println();
+        } catch (IOException ex) {
+            Logger.getLogger(OCR.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -43,16 +50,16 @@ public class OCR extends EasyOCR {
     /**
      * path to expected location of Windows Tesseract
      */
-    File tesseractWindows = new File("/Users/adamo/OneDrive/Desktop/jTessBoxEditor/tesseract-ocr/tesseract.exe");
+    public File tesseractWindows = new File("C:\\Users\\adamo\\OneDrive\\Desktop\\jTessBoxEditor\\tesseract-ocr\\tesseract.exe");
     /**
      * path to expected location of Linux Tesseract
      */
-    File tesseractLinux = new File("/usr/bin/tesseract");
+    public File tesseractLinux = new File("/usr/bin/tesseract");
 
     /**
      * location for tesseract binary
      */
-    File tesseractLocation = getTesseractPathFile();
+    public File tesseractLocation = getTesseractPathFile();
 
     /**
      * set the path to the tesseract binary if required
@@ -63,7 +70,7 @@ public class OCR extends EasyOCR {
      */
     File tempdir;
 
-    public OCR setTesseractPath(File path) {
+    final public OCR setTesseractPath(File path) {
         
         this.setTesseractPath(path.getAbsolutePath());
         return this;
@@ -83,8 +90,8 @@ public class OCR extends EasyOCR {
     public String discern(BufferedImage bi) {
 
         try {
-            File temp = File.createTempFile(tempdir.getAbsolutePath(), ".tif");
-            ImageIO.write(bi, "TIFF", temp);
+            File temp = File.createTempFile(tempdir.getAbsolutePath(), ".PNG");
+            ImageIO.write(bi, "PNG", temp);
             return discern(temp);
         } catch (IOException ex) {
             Logger.getLogger(OCR.class.getName()).log(Level.SEVERE, null, ex);

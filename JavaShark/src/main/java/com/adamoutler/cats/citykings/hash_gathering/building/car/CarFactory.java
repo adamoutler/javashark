@@ -97,16 +97,16 @@ public class CarFactory {
                 sleep(sleepTime );
                 System.out.println("correction level " + redo);
                 switch (redo) {
-                    case 1:
+                    case 1: //tap the screen and try again
                         vm.tap(new XYCoords(40, 40));
                         playerCar = createCarStore(buildingNumber, i);
                         break;
-                    case 2:
-                        sleep(sleepTime*2 );
+                    case 2: //tap the screen and wait, then try again
                         vm.longTap(new XYCoords(40, 40));
+                        sleep(sleepTime );
                         playerCar = createCarStore(buildingNumber, i);
                         break;
-                    case 3:
+                    case 3: //set previous position, then next position.
                         this.setPreviousCar();
                         sleep(sleepTime);
                         setNextCar();
@@ -118,8 +118,9 @@ public class CarFactory {
                             playerCar = createCarStore(buildingNumber, i);
                         }
                         break;
-                    default:
-                        this.navigateToLocation(i);
+                    default: //tap forward and then tap on the screen
+                        setNextCar();
+                        vm.longTap(new XYCoords(40, 40));
                         sleep(sleepTime);
                         playerCar = createCarStore(buildingNumber, i);
                         break;
@@ -127,11 +128,11 @@ public class CarFactory {
                 }
                 //if we corrected the problem
                 if (!playerCar.equals(lastCar) && ! this.isDuplicatedInList(buildingCars, playerCar)) {
-                    
+                    System.out.println("Correction Successful!");
                     redo = 0;
                     navigateToLocation(i);
                 } 
-                //no problem detected;
+                
             } else {
                                
                 redo = 0;
