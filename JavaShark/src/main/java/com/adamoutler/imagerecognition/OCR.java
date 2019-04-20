@@ -106,6 +106,9 @@ public class OCR extends EasyOCR {
      * @return expected location to Tesseract.
      */
     private File getTesseractPathFile() {
+if(System.getProperty("os.name").toLowerCase().contains("nux")){
+      return tesseractLinux;
+    }
 
         return tesseractWindows;
     }
