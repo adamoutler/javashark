@@ -49,7 +49,7 @@ public class VirtualBoxMachine extends TaskedMachine {
         portNumber = machineNameAr[2];
         adbName = "127.0.0.1:" + portNumber;
         rdpPort = machineNameAr[3];
-        adamoutlerchat = "chat.adamoutler.com?room=" + MainApp.chat.getRoom();
+        adamoutlerchat = "http://chat.adamoutler.com?room=" + MainApp.chat.getRoom();
         getVMName();
         if (this.isPoweredOn()) {
             this.addTask(TaskType.IDLE);
