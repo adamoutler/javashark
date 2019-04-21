@@ -31,20 +31,20 @@ public class OCR extends EasyOCR {
         setTesseractPath(getTesseractPathFile());
     }
 
-    public  void main(String[] args) {  //main method for testing
+    public void main(String[] args) {  //main method for testing
         OCR ocr = new OCR();
         ocr.setTesseractPath(ocr.getTesseractPathFile());
-        File f=new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.3.png");
-        try {            
-            BufferedImage bi=ImageIO.read(f);
-            String ourScore=ocr.discern(CityKingsMatchRaw.OURSCORECOORDS.getImageAtCoords(bi));
-            String theirScore=ocr.discern(CityKingsMatchRaw.THEIRSCORECOORDS.getImageAtCoords(bi));
+        File f = new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.3.png");
+        try {
+            BufferedImage bi = ImageIO.read(f);
+            String ourScore = ocr.discern(CityKingsMatchRaw.OURSCORECOORDS.getImageAtCoords(bi));
+            String theirScore = ocr.discern(CityKingsMatchRaw.THEIRSCORECOORDS.getImageAtCoords(bi));
             String discern = new OCR().discern(bi);
             System.out.println();
         } catch (IOException ex) {
             Logger.getLogger(OCR.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -71,7 +71,7 @@ public class OCR extends EasyOCR {
     File tempdir;
 
     final public OCR setTesseractPath(File path) {
-        
+
         this.setTesseractPath(path.getAbsolutePath());
         return this;
     }
@@ -106,11 +106,12 @@ public class OCR extends EasyOCR {
      * @return expected location to Tesseract.
      */
     private File getTesseractPathFile() {
-if(System.getProperty("os.name").toLowerCase().contains("nux")){
-      return tesseractLinux;
-    }
 
-        return tesseractWindows;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            return tesseractWindows;
+        }
+
+        return tesseractLinux;
     }
 
 }
