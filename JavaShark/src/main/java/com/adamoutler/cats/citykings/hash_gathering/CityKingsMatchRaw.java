@@ -78,7 +78,6 @@ public class CityKingsMatchRaw {
             
             
             OCR ocr=new OCR();
-            ocr.setTesseractPath(ocr.tesseractWindows);
             targetScore=ocr.discern(TARGETSCORECOORDS.getImageAtCoords(boardScreenshot)).trim();
             ourScore=ocr.discern(OURSCORECOORDS.getImageAtCoords(bi)).trim();
             theirScore=ocr.discern(THEIRSCORECOORDS.getImageAtCoords(bi)).trim();
