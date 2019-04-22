@@ -7,7 +7,9 @@ package com.babysharks.messaging;
 
 import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -52,7 +54,7 @@ public class SendPapaAsynch {
         HashedMessage hm =new HashedMessage(getM(vm).setCommand("sentry")
                 .setData(getData(vm).setReason(reason)));
         MainApp.chat.sendMessage("Announcement:"+reason);
-        Object s = new RestTemplate().postForObject("https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async", hm.toJson(), String.class);
+        Object s = getRestTemplate().postForObject("https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async", hm.toJson(), String.class);
         System.out.println(s);
         
     }
@@ -76,7 +78,15 @@ public class SendPapaAsynch {
     public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {
         String json = hm.toJson();
         System.err.println(json);
-        String s = new RestTemplate().postForObject(PAPAURL, json, String.class);
+        String s = getRestTemplate().postForObject(PAPAURL, json, String.class);
         return s;
+    }
+    
+    
+    public static RestTemplate getRestTemplate(){
+        RestTemplate template=new RestTemplate();
+        template.getMessageConverters()
+        .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        return template;
     }
 }

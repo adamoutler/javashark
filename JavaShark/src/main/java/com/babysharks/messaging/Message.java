@@ -65,7 +65,7 @@ public class Message {
     }
 
       public String toJson() {
-        Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setLenient().setPrettyPrinting().create();
         this.timestamp = getTimestamp();
         return gson.toJson(this);
     }

@@ -53,8 +53,9 @@ public class HashedMessage {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
-        return gson.toJson(this);
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setLenient().setPrettyPrinting().create();
+        String retval=gson.toJson(this);
+        return retval;
     }
 
     /**

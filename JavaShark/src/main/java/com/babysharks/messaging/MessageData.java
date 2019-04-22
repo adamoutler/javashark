@@ -119,7 +119,7 @@ public class MessageData {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setLenient().disableHtmlEscaping().setPrettyPrinting().create();
         return gson.toJson(this);
     }
 
