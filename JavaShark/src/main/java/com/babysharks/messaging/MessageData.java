@@ -22,14 +22,15 @@ public class MessageData {
     private int[] theyOwn;
     private int[] nobodyOwns;
     private int[] alertBuildings;
+    private String username;
+    private String url;
+    private String gang;
+    String chatid;
     private String text;
     private String reason;
     private String ScreenName;
     private String[] buildings;
     private Object resultObject;
-    private String username;
-    private String url;
-    private String gang;
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
