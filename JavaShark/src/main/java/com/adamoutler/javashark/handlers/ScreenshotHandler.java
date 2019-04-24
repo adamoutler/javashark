@@ -34,9 +34,9 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
         //log the request URI
-        System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + vm.getVMName());
+        System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username+this.gang);
         //check if the machine is powered on.  if not do the following:
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" +  this.username+this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
 
         if (!vm.isPoweredOn()) {
             //log the machine is off.
