@@ -30,7 +30,7 @@ abstract class SentryAbstractPapaHandler extends AbstractPapaHandler {
     public void setMessage(Message m) {
         this.setRequest(m);
         gang = m.getData().getGang();
-        username = m.getData().getUsername();
+        username = m.getData().getUsername().replace("@", "");
         VirtualBoxMachine myVm = new VirtualBox().getUserMachine(gang, username);
         vm = TaskManager.getTaskMachine(myVm);
 

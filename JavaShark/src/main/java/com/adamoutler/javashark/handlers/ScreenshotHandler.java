@@ -38,7 +38,8 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         //check if the machine is powered on.  if not do the following:
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" +  this.username+this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
 
-        if (!vm.isPoweredOn()) {
+        
+        if (vm!=null && !vm.isPoweredOn()) {
             //log the machine is off.
 
             System.out.println(vm.getVMName() + " is powered off.");
@@ -56,6 +57,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
                 }
             }
         }
+        
 
         File outputFile = new File(OUTPUT + safeName);
         BufferedImage image;
