@@ -39,5 +39,13 @@ public class PicCoords extends XYCoords {
         BufferedImage subImage=bi.getSubimage(x, y, getW(), getH());
         return subImage;
     }
+    
+    
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        sb.append(super.toString());
+        sb.append(" W:").append(getW()).append(" H:").append(this.getH());
+        return sb.toString();
+    }
            
 }

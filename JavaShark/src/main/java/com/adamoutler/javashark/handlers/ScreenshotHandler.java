@@ -7,6 +7,7 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.FakeScreenshot;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
@@ -24,7 +25,6 @@ import javax.imageio.ImageIO;
  */
 public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
-
     final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
 
     public ScreenshotHandler() {
@@ -34,26 +34,37 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
         //log the request URI
-        System.out.println(t.getRequestURI()+"\n Using machine for screenshot: "+ vm.getVMName());
+        System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + vm.getVMName());
         //check if the machine is powered on.  if not do the following:
-        if (!vm.isPoweredOn()){
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+
+        if (!vm.isPoweredOn()) {
             //log the machine is off.
-            System.out.println(vm.getVMName()+ " is powered off.");
+
+            System.out.println(vm.getVMName() + " is powered off.");
+            vm = null;
             // for each machine in the gang
-            for (VirtualBoxMachine thisVm:new VirtualBox().getGangMachines(gang)){
+            for (VirtualBoxMachine thisVm : new VirtualBox().getGangMachines(gang)) {
                 //check if the machine is powered on
-                if (thisVm.isPoweredOn()){
-                    
-                    System.out.println(" selecting "+thisVm.getVMName());
-                    vm=thisVm;
+                if (thisVm.isPoweredOn()) {
+
+                    System.out.println(" selecting " + thisVm.getVMName());
+                    vm = thisVm;
+                    safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+
                     break;
                 }
             }
         }
-        
-        String safeName = getOnlyStrings( System.currentTimeMillis()+"-"+vm.getVMName().toLowerCase()+"-")+UUID.randomUUID().toString() + ".png";
+
         File outputFile = new File(OUTPUT + safeName);
-        ImageIO.write(vm.screenshot(), "PNG", outputFile);
+        BufferedImage image;
+        if (vm == null) {
+            image = FakeScreenshot.getScreenshot(gang, username);
+        } else {
+            image = vm.screenshot();
+        }
+        ImageIO.write(image, "PNG", outputFile);
         request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
         System.out.println("sending message with URL back: " + request.getData().getUrl());
         sendSucessMessage(t, request);

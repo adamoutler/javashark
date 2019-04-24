@@ -55,7 +55,7 @@ public class ImageJoiner {
         Graphics2D g2 = newImage.createGraphics();
         Color oldColor = g2.getColor();
         //fill background
-        g2.setPaint(Color.WHITE);
+        g2.setPaint(Color.BLACK);
         g2.fillRect(0, 0, wid, height);
         //draw image
         g2.setColor(oldColor);
@@ -77,7 +77,7 @@ public class ImageJoiner {
         Graphics2D g2 = newImage.createGraphics();
         Color oldColor = g2.getColor();
         //fill background
-        g2.setPaint(Color.WHITE);
+        g2.setPaint(Color.BLACK);
         g2.fillRect(0, 0, wid, height);
         //draw image
         g2.setColor(oldColor);

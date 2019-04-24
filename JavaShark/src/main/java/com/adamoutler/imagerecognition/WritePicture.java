@@ -95,6 +95,22 @@ public class WritePicture {
         }
     }
 
+        public static void replaceAllButColor(BufferedImage picture, int colorToPreserve, int newColor, int tollerance) {
+        int r = getRed(colorToPreserve);
+        int g = getGreen(colorToPreserve);
+        int b = getBlue(colorToPreserve);
+        for (int x = 0; x < picture.getWidth(); x++) {
+            for (int y = 0; y < picture.getHeight(); y++) {
+                int color = picture.getRGB(x, y);
+                if (! withinRange(getRed(color), r, tollerance) || !withinRange(getBlue(color), b, tollerance)|| ! withinRange(getGreen(color), g, tollerance)) {
+                    picture.setRGB(x, y, newColor);
+
+                }
+            }
+        }
+    }
+    
+    
     public static BufferedImage cropExtraBackgroundOnSides(BufferedImage picture, int colorOfBackground, int tollerance, int sideMarginsPixels) {
         int r = getRed(colorOfBackground);
         int g = getGreen(colorOfBackground);
