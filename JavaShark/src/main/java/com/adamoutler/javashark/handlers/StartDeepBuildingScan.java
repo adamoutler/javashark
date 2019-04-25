@@ -21,6 +21,7 @@ public class StartDeepBuildingScan extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         vm.clearTasks();
+        vm.setHashes(request.getData().getHashes());
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGSCAN);
         request.getData().addAvailable(vm).setReason("scanning");
         this.sendSucessMessage(he, request);

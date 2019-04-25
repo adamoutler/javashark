@@ -6,6 +6,7 @@
 package com.babysharks.datastructures;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.imagerecognition.ImageJoiner;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class Gangster {
 
-    String username;
+    String username="MISSING";
     String in_game_username;
     Float UTC_offset;
     String location;
@@ -213,6 +214,8 @@ public class Gangster {
      */
     public Gangster addCars(Car car) {
         this.cars.add(car);
+        this.carPics.add(car.getCarBufferedImage());
+        this.allCarsPic=ImageJoiner.joinImagesSide(carPics);
         return this;
     }
 

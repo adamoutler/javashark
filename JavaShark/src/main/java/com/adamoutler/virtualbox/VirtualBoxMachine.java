@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +41,7 @@ public class VirtualBoxMachine extends TaskedMachine {
     private String screenDescription;
     private String adamoutlerchat = "";
     transient private byte[] screenshot = new byte[]{};
+    private transient Map<String, String> hashes;
 
     public VirtualBoxMachine(String machineName) {
 
@@ -323,5 +325,19 @@ public class VirtualBoxMachine extends TaskedMachine {
 
     public void longTap(XYCoords coords) {
         this.adbShell("input", "swipe", coords.getXStr(), coords.getYStr(), coords.getXStr(), coords.getYStr());
+    }
+
+    /**
+     * @return the hashes
+     */
+    public Map<String, String> getHashes() {
+        return hashes;
+    }
+
+    /**
+     * @param hashes the hashes to set
+     */
+    public void setHashes(Map<String, String> hashes) {
+        this.hashes = hashes;
     }
 }

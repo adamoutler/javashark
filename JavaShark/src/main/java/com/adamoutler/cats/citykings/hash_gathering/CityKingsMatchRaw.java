@@ -13,6 +13,9 @@ import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.datastructures.Car;
+import com.babysharks.datastructures.Gang;
+import com.babysharks.datastructures.Gangster;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -21,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +65,7 @@ public class CityKingsMatchRaw {
             BufferedImage bi = vm.screenshot();
             Screenshottable.writePic(bi, "PictureUsedForCreateBuildings");
             setBuildings(BuildingFactory.createBuildings(vm));
+            Gang gang=new Gang(vm.getGang());
 
             getBuildings().stream().map((building) -> {
                 return building;
@@ -71,6 +76,15 @@ public class CityKingsMatchRaw {
                     System.out.println(building.toString());
                 }
                 building.getCars().forEach((car) -> {
+                    Gangster g=gang.get_gangster_by_hash(car.getNameHash());
+                    g.addCars(Car.convertCar(car));
+                    for (Entry<String,String> e: vm.getHashes().entrySet()){
+                        if (g.get_hashes().contains(e.getKey())){
+                            g.set_Username(e.getValue());
+                        }
+                    }
+                    
+                    
                     car.convertCarPicToJpg();
                 });
                 boardScreenshot=building.getMapScreenshot();

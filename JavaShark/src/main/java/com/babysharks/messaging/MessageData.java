@@ -11,6 +11,7 @@ import com.babysharks.datastructures.Gang;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -37,6 +38,7 @@ public class MessageData {
     private String comment;
     private Gang gangObject;
     private String reportName;
+    private Map<String,String> hashes;
     private boolean debug = false;
 
     /**
@@ -335,5 +337,19 @@ public class MessageData {
     public MessageData setReportName(String reportName) {
         this.reportName = reportName;
         return this;
+    }
+
+    /**
+     * @return the hashes
+     */
+    public Map<String,String> getHashes() {
+        return hashes;
+    }
+
+    /**
+     * @param hashes the hashes to set
+     */
+    public void setHashes(Map<String,String> hashes) {
+        this.hashes = hashes;
     }
 }

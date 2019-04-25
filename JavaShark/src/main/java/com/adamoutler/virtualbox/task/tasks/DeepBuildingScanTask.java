@@ -26,6 +26,7 @@ public class DeepBuildingScanTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
+        
         try {
             Thread t = new Thread(() -> {
 

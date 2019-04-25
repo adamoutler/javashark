@@ -6,6 +6,8 @@
 package com.babysharks.datastructures;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.imagerecognition.ByteImage;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +126,10 @@ public class Car {
      */
     public void setCar_badge(byte[] car_badge) {
         this.car_badge = car_badge;
+    }
+    
+    public BufferedImage getCarBufferedImage(){
+         return ByteImage.getImageFromBytes(car_badge);
     }
     
     
