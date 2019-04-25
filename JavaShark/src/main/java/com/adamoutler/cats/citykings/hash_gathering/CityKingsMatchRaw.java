@@ -45,6 +45,7 @@ public class CityKingsMatchRaw {
     byte[] screenshot;
     private String excelFile = "";
     private String jsonFile = "";
+    Gang gang;
     transient public final static PicCoords OURSCORECOORDS=new PicCoords(150,135,244,45);
     transient public final static PicCoords THEIRSCORECOORDS=new PicCoords(632,135,244,45);
     transient public final static PicCoords TARGETSCORECOORDS=new PicCoords(447,149,141,38);
@@ -90,7 +91,7 @@ public class CityKingsMatchRaw {
                 boardScreenshot=building.getMapScreenshot();
             });
             
-            
+            this.gang=gang;
             OCR ocr=new OCR();
             targetScore=ocr.discern(TARGETSCORECOORDS.getImageAtCoords(boardScreenshot)).trim();
             ourScore=ocr.discern(OURSCORECOORDS.getImageAtCoords(bi)).trim();
