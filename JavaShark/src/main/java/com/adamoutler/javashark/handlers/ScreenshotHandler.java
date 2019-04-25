@@ -34,12 +34,11 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
         //log the request URI
-        System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username+this.gang);
+        System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username + this.gang);
         //check if the machine is powered on.  if not do the following:
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" +  this.username+this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
 
-        
-        if (vm!=null && !vm.isPoweredOn()) {
+        if (vm != null && !vm.isPoweredOn()) {
             //log the machine is off.
 
             System.out.println(vm.getVMName() + " is powered off.");
@@ -57,17 +56,17 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
                 }
             }
         }
-        
 
         File outputFile = new File(OUTPUT + safeName);
         BufferedImage image;
         if (vm == null) {
-            image = FakeScreenshot.getScreenshot(gang, username);
+            request.getData().setUrl(null);
         } else {
             image = vm.screenshot();
+            ImageIO.write(image, "PNG", outputFile);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
         }
-        ImageIO.write(image, "PNG", outputFile);
-        request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
+
         System.out.println("sending message with URL back: " + request.getData().getUrl());
         sendSucessMessage(t, request);
     }
