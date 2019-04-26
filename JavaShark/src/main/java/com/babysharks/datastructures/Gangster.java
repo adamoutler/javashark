@@ -22,7 +22,7 @@ public class Gangster {
     String in_game_username;
     Float UTC_offset;
     String location;
-    String imageLocation;
+    private String imageLocation;
     List<String> name_hashes=new ArrayList<>();
     transient private BufferedImage allCarsPic;
     transient private LinkedList<BufferedImage> carPics=new LinkedList<>();
@@ -233,6 +233,20 @@ public class Gangster {
     public Gangster setAllCarsPic(BufferedImage allCarsPic) {
         this.allCarsPic = allCarsPic;
         return this;
+    }
+
+    /**
+     * @return the imageLocation
+     */
+    public String getImageLocation() {
+        return imageLocation;
+    }
+
+    /**
+     * @param imageLocation the imageLocation to set
+     */
+    public void setImageLocation(String imageLocation) {
+        this.imageLocation = imageLocation;
     }
 
 

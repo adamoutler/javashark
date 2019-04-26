@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gang {
 
     String gang_name;
-   ArrayList<Gangster>  users = new ArrayList<>();
+   private ArrayList<Gangster>  gangsters = new ArrayList<>();
     String reportName;
 
     public Gang(String gang) {
@@ -44,7 +44,7 @@ public class Gang {
      * @param gangster g to be added
      */
     public void add_gangster(Gangster gangster) {
-        users.add(gangster);
+        getGangsters().add(gangster);
     }
 
     /**
@@ -54,7 +54,7 @@ public class Gang {
      * @return Gangster object representing the request
      */
     public Gangster get_gangster_by_name(String name) {
-        for (Gangster g : users) {
+        for (Gangster g : getGangsters()) {
             if (g.username.equals(name)) {
                 return g;
             }
@@ -70,13 +70,13 @@ public class Gang {
      */
     public Gangster get_gangster_by_hash(String hash) {
 
-        for (Gangster g : users) {
+        for (Gangster g : getGangsters()) {
             if (g.name_hashes.contains(hash)) {
                 return g;
             }
         }
         Gangster g = new Gangster(hash);
-        users.add(g);
+        getGangsters().add(g);
         return g;
     }
 
@@ -87,7 +87,7 @@ public class Gang {
      * @return Gangster object representing the request
      */
     public Gangster get_gangster_by_in_game_username(String name) {
-        for (Gangster g : users) {
+        for (Gangster g : getGangsters()) {
             if (g.in_game_username.equals(name)) {
                 return g;
             }
@@ -105,6 +105,13 @@ public class Gang {
         Gang gang = new Gang(name);
         gang.gang_name = name;
         return gang;
+    }
+
+    /**
+     * @return the gangsters
+     */
+    public ArrayList<Gangster> getGangsters() {
+        return gangsters;
     }
 
 }

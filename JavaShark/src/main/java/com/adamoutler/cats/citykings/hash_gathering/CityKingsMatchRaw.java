@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -90,8 +91,21 @@ public class CityKingsMatchRaw {
                 });
                 boardScreenshot=building.getMapScreenshot();
             });
+             String OUTPUT = "/var/www/baby-sharks/screenshots/";
+            Gang newGang=new Gang(gang.get_Gang_Name());
+            for (Gangster g:gang.getGangsters()){
+                if (g.get_Username().equals("MISSING")){
+                    
+                    newGang.add_gangster(g);
+                    String gfilename=g.getCars().get(0).getName_hash().get(0)+".png";
+                    File outputFile = new File(OUTPUT + gfilename);
+                    ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
+                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/"+gfilename);
+                    
+                }
+            }
             
-            this.gang=gang;
+            this.gang=newGang;
             OCR ocr=new OCR();
             targetScore=ocr.discern(TARGETSCORECOORDS.getImageAtCoords(boardScreenshot)).trim();
             ourScore=ocr.discern(OURSCORECOORDS.getImageAtCoords(bi)).trim();
