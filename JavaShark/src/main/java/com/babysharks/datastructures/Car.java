@@ -23,7 +23,7 @@ public class Car {
     private int row;
     private int columnn;
     private int building;
-    private byte[] car_badge;
+    transient private byte[] car_badge;
 
     /**
      * @return the name_hash

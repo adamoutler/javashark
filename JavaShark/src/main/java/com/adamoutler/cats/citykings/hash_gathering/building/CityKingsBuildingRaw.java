@@ -39,7 +39,7 @@ public final class CityKingsBuildingRaw {
     private int slotsTheirs = 0;
     private int slotsOurs = 0;
     private int slotsUnowned = 0;
-    private byte[] buildingSizePic = new byte[0];
+    transient private byte[] buildingSizePic = new byte[0];
     private boolean isLinked = false;
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
@@ -65,7 +65,7 @@ public final class CityKingsBuildingRaw {
         slotsTheirs = tosb.numberTheyOwn();
         slotsOurs = tosb.numberWeOwn();
         slotsUnowned = tosb.getNumberNobodyOwn();
-        System.out.println("Owner:" + this.getBuildingOwner("Us", "Them") + "slots- total:" + getSlotsTotal() + " us:" + getSlotsOurs() + " them:" + getSlotsTheirs() + " unowned:" + getSlotsUnowned());
+        System.out.println("Owner: " + this.getBuildingOwner("Us", "Them") + "slots- total:" + getSlotsTotal() + " us:" + getSlotsOurs() + " them:" + getSlotsTheirs() + " unowned:" + getSlotsUnowned());
     }
 
     /**
