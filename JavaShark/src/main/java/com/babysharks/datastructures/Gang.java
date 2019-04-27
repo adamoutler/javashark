@@ -65,7 +65,7 @@ public class Gang {
     /**
      * gets a gangster by a hash
      *
-     * @param name identifier of gangster
+     * @param hash identifier of gangster
      * @return Gangster object representing the request
      */
     public Gangster get_gangster_by_hash(String hash) {

@@ -79,7 +79,7 @@ public class CityKingsMatchRaw {
                 }
                 building.getCars().forEach((car) -> {
                     Gangster g=gang.get_gangster_by_hash(car.getNameHash());
-                    g.addCars(Car.convertCar(car));
+                    g.addCar(Car.convertCar(car));
                     for (Entry<String,String> e: vm.getHashes().entrySet()){
                         if (g.get_hashes().contains(e.getKey())){
                             g.set_Username(e.getValue());

@@ -36,7 +36,7 @@ public class ReportTools {
         ReportTools rt = new ReportTools(gangName, r.getReport(name));
         for (CityKingsBuildingRaw building:rt.battlefield.getBuildings()){
             for (CityKingsCarRaw car:building.getCars()){
-                rt.gangs.get_Gang_By_Name(gangName).get_gangster_by_hash(car.getNameHash()).addCars(Car.convertCar(car));
+                rt.gangs.get_Gang_By_Name(gangName).get_gangster_by_hash(car.getNameHash()).addCar(Car.convertCar(car));
             }
         }
         return rt;

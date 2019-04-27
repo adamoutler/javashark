@@ -39,7 +39,7 @@ public class Gangster {
     /**
      * Creates a new gangster
      *
-     * @param name name of the gangster
+     * @param hash hash of user to create
      * @return new gangster
      */
     public static Gangster create_User(String hash) {
@@ -139,33 +139,6 @@ public class Gangster {
         return name_hashes;
     }
 
-    /**
-     * gets car badge of user
-     *
-     * @return a byte array jpeg
-     */
-    public byte[] get_car_badge() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * sets the user car badge
-     *
-     * @param badge byte array jpeg
-     * @return
-     */
-    public void set_car_badge(byte[] badge) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * writes the badge of all current cars to a file
-     *
-     * @return path to file
-     */
-    public String write_badge_to_www_file() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      * @return the carPics
@@ -184,7 +157,7 @@ public class Gangster {
     }
 
     /**
-     * @param carPics the carPics to set
+     * @param carPic the carPics to set
      * @return reference to this object
      */
     public Gangster addCarPics(BufferedImage carPic) {
@@ -209,10 +182,10 @@ public class Gangster {
     }
 
     /**
-     * @param cars the cars to set
+     * @param car the cars to set
      * @return reference to this object
      */
-    public Gangster addCars(Car car) {
+    public Gangster addCar(Car car) {
         this.cars.add(car);
         this.carPics.add(car.getCarBufferedImage());
         this.allCarsPic=ImageJoiner.joinImagesSide(carPics);
