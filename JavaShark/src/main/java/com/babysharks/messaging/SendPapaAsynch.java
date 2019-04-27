@@ -5,8 +5,7 @@
  */
 package com.babysharks.messaging;
 
-import com.adamoutler.javashark.MainApp;
-import com.adamoutler.libminimalchatextrem.MinimalChatExtreme;
+import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -21,8 +20,9 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SendPapaAsynch {
 
-    final private static String UNCLEURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async";
-    final private static String PPAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async";
+
+    final private static String UNCLEURL = Prop.getProp("devURL");
+    final private static String PPAPAURL = Prop.getProp("productionURL");
 
 //    public static void main(String[] args){
 //        Message m=new Message().setCommand("test");
@@ -32,6 +32,7 @@ public class SendPapaAsynch {
 //        SendPapaAsynch.sendToPapa(m);
 //        //onlineWarning(new VirtualBox().getMachinesList().get(0));
 //    }
+
     public static void onlineWarning(VirtualBoxMachine vm, boolean unitTesting) {
         vm.updateStatuses();
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
@@ -44,7 +45,6 @@ public class SendPapaAsynch {
         }
         HashedMessage hm = new HashedMessage(message);
 
-        MainApp.chat.clear();
         System.out.println(sendToPapa(hm));
 
     }
@@ -52,8 +52,7 @@ public class SendPapaAsynch {
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
         HashedMessage hm = new HashedMessage(getM(vm).setCommand("sentry")
                 .setData(getData(vm).setReason(reason)));
-        MainApp.chat.sendMessage("Announcement:" + reason);
-        String s=sendToPapa(hm);
+        String s = sendToPapa(hm);
         System.out.println(s);
 
     }
@@ -77,24 +76,24 @@ public class SendPapaAsynch {
     public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {
         String json = hm.toJson();
         System.err.println(json);
-        String gang = getGangFromMessage( hm);
+        String gang = getGangFromMessage(hm);
         String s;
         if (gang == null || gang.equals("staging") || gang.equals("development")) {
-            System.out.println("Sending message to Uncle Shark for gang:"+gang);
+            System.out.println("Sending message to Uncle Shark for gang:" + gang);
             s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
         } else {
-            System.out.println("Sending message to Papa Shark for gang:"+gang);
+            System.out.println("Sending message to Papa Shark for gang:" + gang);
             s = getRestTemplate().postForObject(PPAPAURL, json, String.class);
         }
-        System.out.println("Received: "+s);
+        System.out.println("Received: " + s);
         return s;
     }
 
-    private static String getGangFromMessage( HashedMessage hm) {
-        String gang=null;
+    private static String getGangFromMessage(HashedMessage hm) {
+        String gang = null;
         try {
             gang = hm.getMessage().getData().getGang();
-            if (gang==null){
+            if (gang == null) {
                 throw new Exception();
             }
         } catch (Exception ex) {

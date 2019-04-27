@@ -5,7 +5,6 @@
  */
 package com.adamoutler.javashark;
 
-import com.adamoutler.libminimalchatextrem.MinimalChatExtreme;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
@@ -36,7 +35,6 @@ import java.util.logging.Logger;
  */
 public class MainApp extends ParametersImpl {
 
-    public static MinimalChatExtreme chat = new MinimalChatExtreme("JavaShark", generateRandom("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"));
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {

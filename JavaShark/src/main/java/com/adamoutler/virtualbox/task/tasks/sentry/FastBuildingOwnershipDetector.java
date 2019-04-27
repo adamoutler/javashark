@@ -83,7 +83,6 @@ public class FastBuildingOwnershipDetector {
                     vm.updateStatuses();
                     
                     SendPapaAsynch.sentryReasonWarning(vm, "blind");
-                    MainApp.chat.sendMessage("I'm going down. user logged in.");
 
                 }
                 return;
@@ -137,10 +136,8 @@ public class FastBuildingOwnershipDetector {
     void freakOut(int[] buildings) throws RestClientException {
         MessageData data = configureData(buildings, vm);
         System.out.println("TIME TO FREAK OUT!!!!! OMFG");
-        //https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
         Message message = new Message();
         HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
-        MainApp.chat.sendMessage("ALERT in building(s)" + Arrays.toString(data.getAlertBuilding()));
         String s = SendPapaAsynch.sendToPapa(hm);
         System.out.println(s);
 
