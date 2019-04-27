@@ -24,15 +24,12 @@ public class Prop {
 
     static {
         try {
-            String folder = getPropertiesFileFolder();
-            File f = new File(folder + "/properties.prop");
-            System.out.println("Searching for properties in " + f.getAbsolutePath());
-            if (!f.exists()) {
-                throw new FileNotFoundException("could not locate properties file at " + f.getAbsolutePath());
-            }
-            FileInputStream is = new FileInputStream(folder+"properties.prop");
+            
+            File f = new File("./properties.prop");
+            System.out.println("Looking for properties file in "+f.getAbsolutePath());
+            FileInputStream is = new FileInputStream(f.getAbsolutePath());
             p.load(is);
-        } catch (IOException | URISyntaxException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Prop.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
