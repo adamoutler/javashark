@@ -20,7 +20,8 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SendPapaAsynch {
 
-    final private static String PAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async";
+    final private static String UNCLEURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async";
+    final private static String PAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async";
     
 //    public static void main(String[] args){
 //        Message m=new Message().setCommand("test");
@@ -78,7 +79,14 @@ public class SendPapaAsynch {
     public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {
         String json = hm.toJson();
         System.err.println(json);
-        String s = getRestTemplate().postForObject(PAPAURL, json, String.class);
+        String gang=hm.getMessage().getData().getGang();
+        String s;
+        
+        if (gang.equals("staging")||gang.equals("development")){
+            s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
+        } else {
+            s = getRestTemplate().postForObject(PAPAURL, json, String.class);
+        }
         return s;
     }
     
