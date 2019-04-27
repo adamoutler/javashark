@@ -6,6 +6,7 @@
 package com.babysharks.messaging;
 
 import com.adamoutler.javashark.MainApp;
+import com.adamoutler.libminimalchatextrem.MinimalChatExtreme;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 public class SendPapaAsynch {
 
     final private static String UNCLEURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async";
-    final private static String PAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async";
+    final private static String PPAPAURL = "https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async";
 
 //    public static void main(String[] args){
 //        Message m=new Message().setCommand("test");
@@ -44,8 +45,6 @@ public class SendPapaAsynch {
         HashedMessage hm = new HashedMessage(message);
 
         MainApp.chat.clear();
-        MainApp.chat.sendMessage("I'm online!");
-        MainApp.chat.sendMessage("Please be quiet.  Use the 3-dots at the top right to enable notifications.  Leave this window open and I will notify when a building is taken, as long as I'm online.");
         System.out.println(sendToPapa(hm));
 
     }
@@ -54,7 +53,7 @@ public class SendPapaAsynch {
         HashedMessage hm = new HashedMessage(getM(vm).setCommand("sentry")
                 .setData(getData(vm).setReason(reason)));
         MainApp.chat.sendMessage("Announcement:" + reason);
-        Object s = getRestTemplate().postForObject("https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async", hm.toJson(), String.class);
+        String s=sendToPapa(hm);
         System.out.println(s);
 
     }
@@ -85,7 +84,7 @@ public class SendPapaAsynch {
             s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
         } else {
             System.out.println("Sending message to Papa Shark for gang:"+gang);
-            s = getRestTemplate().postForObject(PAPAURL, json, String.class);
+            s = getRestTemplate().postForObject(PPAPAURL, json, String.class);
         }
         System.out.println("Received: "+s);
         return s;
