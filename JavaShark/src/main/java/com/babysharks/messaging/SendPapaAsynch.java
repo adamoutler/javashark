@@ -87,7 +87,7 @@ public class SendPapaAsynch {
         }
         String s;
         
-        if (gang.equals("staging")||gang.equals("development")){
+        if (gang==null||gang.equals("staging")||gang.equals("development")){
             s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
         } else {
             s = getRestTemplate().postForObject(PAPAURL, json, String.class);
