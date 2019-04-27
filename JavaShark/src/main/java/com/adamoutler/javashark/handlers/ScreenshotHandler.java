@@ -7,6 +7,7 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskManager;
 import com.babysharks.messaging.FakeScreenshot;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -38,13 +39,13 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         //check if the machine is powered on.  if not do the following:
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
 
-        if (vm != null && !vm.isPoweredOn()) {
+        if (vm == null || !vm.isPoweredOn()) {
             //log the machine is off.
 
-            System.out.println(vm.getVMName() + " is powered off.");
+            System.out.println(this.gang+" "+this.username+" requested machine is powered off.");
             vm = null;
             // for each machine in the gang
-            for (VirtualBoxMachine thisVm : new VirtualBox().getGangMachines(gang)) {
+            for (VirtualBoxMachine thisVm : TaskManager.getGangMachines(gang)) {
                 //check if the machine is powered on
                 if (thisVm.isPoweredOn()) {
 

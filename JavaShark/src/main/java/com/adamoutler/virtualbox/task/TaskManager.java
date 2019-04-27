@@ -129,6 +129,22 @@ public class TaskManager {
         lastList = newList;
     }
 
+    public static ArrayList<VirtualBoxMachine> getGangMachines(String gang) {
+        ArrayList<VirtualBoxMachine> al = new ArrayList<>();
+        for (VirtualBoxMachine m : getMachines()) {
+            if (m.getGang().equals(gang)) {
+
+                al.add(m);
+                try {
+                    m.updateStatuses();
+                } catch (Exception ex) {
+                }
+
+            }
+        }
+        return al;
+    }
+
     /**
      * @return the machines
      */
