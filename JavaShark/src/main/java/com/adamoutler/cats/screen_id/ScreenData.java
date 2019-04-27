@@ -34,7 +34,7 @@ public enum ScreenData {
     BOXOPENNOWSKIP(new HashedPicCoords[]{new HashedPicCoords(566, 603, 197, 43, 1892377544)}, new ColoredXYCoords[]{}, "Bos screen, open now or watch video"),
     BOXUNLOCK(new HashedPicCoords[]{new HashedPicCoords(370, 600, 263, 42, 2146314069)}, new ColoredXYCoords[]{}, "box screen, click to start 2-hour timer"),
     CATSLOADEDCHAMPIONSHIPSCREEN(new HashedPicCoords[]{ new HashedPicCoords(588,596,79,36,-919304462),new HashedPicCoords(917, 261, 95, 98, -1641366908), new HashedPicCoords(212, 598, 107, 23, -1906095139)}, new ColoredXYCoords[]{}, "CATS loaded, on Championship Home screen"),
-    CATSLOADEDULTIMATESCREEN(new HashedPicCoords[]{new HashedPicCoords(388, 602, 230, 40, 660508215), new HashedPicCoords(946, 283, 53, 48, -1139583725)}, new ColoredXYCoords[]{}, "CATS Loaded, on Ultimate Home screen"),
+    CATSLOADEDULTIMATESCREEN(new HashedPicCoords[]{new HashedPicCoords(946,288,53,43,354485353),new HashedPicCoords(388, 602, 230, 40, 660508215), new HashedPicCoords(946, 283, 53, 48, -1139583725)}, new ColoredXYCoords[]{}, "CATS Loaded, on Ultimate Home screen"),
     CATSLOADINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(372, 195, 276, 17, 1525539489)}, new ColoredXYCoords[]{}, "In CATS Loading screen"),
     CHAMPIONSHIPGARAGE(new HashedPicCoords[]{new HashedPicCoords(26, 594, 260, 11, 1259859504)}, new ColoredXYCoords[]{}, "In Championship Garage working on car"),
     CHAT(new HashedPicCoords[]{new HashedPicCoords(574, 131, 90, 90, 672990996)}, new ColoredXYCoords[]{}, "Gang Chat screen"),
