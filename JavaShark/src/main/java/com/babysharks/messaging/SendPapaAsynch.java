@@ -80,12 +80,14 @@ public class SendPapaAsynch {
         System.err.println(json);
         String gang = getGangFromMessage( hm);
         String s;
-
         if (gang == null || gang.equals("staging") || gang.equals("development")) {
+            System.out.println("Sending message to Uncle Shark for gang:"+gang);
             s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
         } else {
+            System.out.println("Sending message to Papa Shark for gang:"+gang);
             s = getRestTemplate().postForObject(PAPAURL, json, String.class);
         }
+        System.out.println("Received: "+s);
         return s;
     }
 
@@ -93,6 +95,9 @@ public class SendPapaAsynch {
         String gang=null;
         try {
             gang = hm.getMessage().getData().getGang();
+            if (gang==null){
+                throw new Exception();
+            }
         } catch (Exception ex) {
             try {
                 gang = hm.getMessage().getData().getAvailable().get(0).getGang();
