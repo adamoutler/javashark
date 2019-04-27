@@ -79,11 +79,11 @@ public class SendPapaAsynch {
     public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {
         String json = hm.toJson();
         System.err.println(json);
-        String gang;
+        String gang=UNCLEURL;
         try {
             gang=hm.getMessage().getData().getGang();
         } catch (Exception ex){
-            gang=UNCLEURL;
+            
         }
         String s;
         
