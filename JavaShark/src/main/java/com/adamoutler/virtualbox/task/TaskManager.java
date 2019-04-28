@@ -180,7 +180,7 @@ public class TaskManager {
         if (!vm.isTaskInitialized()) {
             System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
-            vm.getCurrentTask().getTask().init(vm);
+            vm.getCurrentTask().getTask().init(vm); 
         }
     }
 
