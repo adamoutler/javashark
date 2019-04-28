@@ -159,17 +159,7 @@ public class TaskManager {
         machines = aMachines;
     }
 
-    private static void sendPapaUpdate(VirtualBoxMachine vm) {
-        vm.updateStatuses();
-        Message message = new Message().setCommand("TaskUpdate")
-                .setData(new MessageData()
-                        .setGang(vm.getGang())
-                        .setUsername(vm.getUsername())
-                        .setReason("A new task was started")
-                        .setResultObject(vm));
-        SendPapaAsynch.sendToPapa(message);
 
-    }
 
     private static void runTemporaryTask(VirtualBoxMachine vm) {
         if (vm.getTemporaryTask() != null) {
@@ -190,7 +180,6 @@ public class TaskManager {
         if (!vm.isTaskInitialized()) {
             System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
-            sendPapaUpdate(vm);
             vm.getCurrentTask().getTask().init(vm);
         }
     }
