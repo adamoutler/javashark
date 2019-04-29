@@ -31,7 +31,7 @@ public class OCR extends EasyOCR {
         setTesseractPath(getTesseractPathFile());
     }
 
-    public static void main(String[] args) {  //main method for testing
+    public  void main(String[] args) {  //main method for testing
         OCR ocr = new OCR();
         ocr.setTesseractPath(ocr.getTesseractPathFile());
         File f = new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.4.png");
