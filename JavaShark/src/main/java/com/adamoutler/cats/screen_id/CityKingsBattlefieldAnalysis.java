@@ -36,32 +36,31 @@ public class CityKingsBattlefieldAnalysis {
     transient final PicColors picColors;
     transient public final static PicCoords OURSCORECOORDS = new PicCoords(150, 135, 244, 45);
     transient public final static PicCoords THEIRSCORECOORDS = new PicCoords(632, 135, 244, 45);
-    transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(447, 149, 141, 38);
+    transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(457, 148, 141, 42);
+//        transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(447, 148, 141, 42);
+
     transient final int xCoordOfOurScoreAwayFromWall = 128;
     transient final int xCoordOfOurScoreWall = 390;
     transient final int xCoordOfTheirScoreWall = 632;
     transient final int xCoordOfTheirScoreAwayFromWall = 896;
-    transient final int topOfScore = 135;
+    transient final int topOfScore = 136;
     transient final int scoreHeight = 45;
     transient final int arrowHeadWidth = 8;
     transient final int arrowHeadHeightToCenter = 21;
-    transient final int BLUE = 0x447bd9;
-    transient final int RED = 0xf64e48;
+    transient final int BLUE = 0x4179d9;
+    transient final int RED = 0xeb4c47;
 
     String targetScore;
     String ourScore;
-    String ourGaining;
     String theirScore;
-    String theirGaining;
 
     CityKingsBattlefieldAnalysis(BufferedImage battlefield) {
         this.battlefield = battlefield;
         picColors = new PicColors(battlefield);
         targetScore = getTargetScore();
         ourScore = getOurScore();
-        ourGaining = getOurGaining();
         theirScore = getTheirScore();
-        theirGaining = getTheirGaining();
+        System.out.println("Us: "+ourScore+" them:"+theirScore+" target:"+targetScore);
 
     }
 
@@ -115,13 +114,13 @@ public class CityKingsBattlefieldAnalysis {
 
     XYCoords getLeftSideOfTheirGainingScore() {
         XYCoords scanStart = new XYCoords(xCoordOfTheirScoreWall, topOfScore);
-        int theirGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(RED, scanStart.getX(), topOfScore, xCoordOfTheirScoreAwayFromWall);
+        int theirGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(RED, scanStart.getX(), topOfScore, xCoordOfTheirScoreAwayFromWall,10);
 
         return (theirGainingStart == -1) ? null : new XYCoords(theirGainingStart, scanStart.getY());
     }
 
     PicCoords getCoordinatesTheirGaining() {
-        XYCoords leftSide = getLeftSideOfOurGainingScore();
+        XYCoords leftSide = getLeftSideOfTheirGainingScore();
         int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{RED}, leftSide.getX(), leftSide.getY(), xCoordOfTheirScoreAwayFromWall, 10);
         int width = endOfGainingScore - leftSide.getX();
         PicCoords pc = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
@@ -134,7 +133,7 @@ public class CityKingsBattlefieldAnalysis {
             return THEIRSCORECOORDS;
         }
         int startXPos = xCoordOfTheirScoreWall;
-        int startYPos = theirGaining.getY() + arrowHeadHeightToCenter;
+        int startYPos = theirGaining.getY();
         int width = theirGaining.getX() - arrowHeadWidth - startXPos;
         PicCoords pc = new PicCoords(startXPos, startYPos - 5, width, scoreHeight + 10);
         return pc;

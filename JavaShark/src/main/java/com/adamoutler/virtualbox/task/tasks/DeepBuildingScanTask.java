@@ -32,9 +32,9 @@ public class DeepBuildingScanTask extends Task {
 
                 try {  
                     CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
-                    report.clearScreenshots();
                     String s = report.getExcelFile();
                     report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
+                    report.clearScreenshots();
                     Message m = new Message().setCommand("deepbuildingscancomplete");
                     m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
                    
@@ -52,6 +52,7 @@ public class DeepBuildingScanTask extends Task {
 
                 }
             });
+            t.setName("Deep Building Scan: "+vm.getUsername()+"-"+vm.getGang());
             t.start();
             ready(vm);
         } catch (Exception ex) {

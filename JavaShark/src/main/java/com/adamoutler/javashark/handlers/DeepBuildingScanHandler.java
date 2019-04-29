@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author adamo
  */
-public class StartDeepBuildingScan extends SentryAbstractPapaHandler {
+public class DeepBuildingScanHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {

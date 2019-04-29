@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.screen_id;
 
+import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import java.awt.image.BufferedImage;
@@ -53,7 +54,7 @@ public class CityKingsBattlefieldAnalysisTest {
     CityKingsBattlefieldAnalysis instance;
     BufferedImage bi = null;
 
-    File f = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.3.png");
+    File f = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.4.png");
 
     /**
      * Test of writePicture method, of class CityKingsBattlefieldAnalysis.
@@ -74,7 +75,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetLeftSideOfOurGainingScore() {
         System.out.println("getLeftSideOfOurGainingScore");
-        XYCoords expResult = new XYCoords(228, 135);
+        XYCoords expResult = new XYCoords(207, 136);
         XYCoords result = instance.getLeftSideOfOurGainingScore();
         assertEquals(expResult, result);
     }
@@ -86,7 +87,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesOurGaining() {
         System.out.println("getCoordinatesOurGaining");
-        PicCoords expResult = new PicCoords(228, 135, 58, 45);
+        PicCoords expResult = new PicCoords(207, 136, 58, 45);
         PicCoords result = instance.getCoordinatesOurGaining();
         CityKingsBattlefieldAnalysis.writePicture(result, bi);
         assertEquals(expResult, result);
@@ -100,7 +101,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesOurScore() {
         System.out.println("getCoordinatesOurScore");
-        PicCoords expResult = new PicCoords(294, 125, 96, 60);
+        PicCoords expResult = new PicCoords(274,126,116,60);
         PicCoords result = instance.getCoordinatesOurScore();
         CityKingsBattlefieldAnalysis.writePicture(result, bi);
 
@@ -115,7 +116,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetRightSideOfTheirGainingScore() {
         System.out.println("getRightSideOfTheirGainingScore");
-        XYCoords expResult = null;
+        XYCoords expResult = new XYCoords(739,136);
         XYCoords result = instance.getLeftSideOfTheirGainingScore();
         assertEquals(expResult, result);
 
@@ -128,7 +129,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesTheirGaining() {
         System.out.println("getCoordinatesTheirGaining");
-        PicCoords expResult = null;
+        PicCoords expResult = new PicCoords(739,136,59,45);
         PicCoords result = instance.getCoordinatesTheirGaining();
 
         assertEquals(expResult, result);
@@ -142,11 +143,27 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesTheirScore() {
         System.out.println("getCoordinatesTheirScore");
-        PicCoords expResult = CityKingsBattlefieldAnalysis.THEIRSCORECOORDS;
+        PicCoords expResult = new PicCoords(632,131,99,55);
         PicCoords result = instance.getCoordinatesTheirScore();
         CityKingsBattlefieldAnalysis.writePicture(result, bi);
         assertEquals(expResult, result);
 
+    }
+    
+    @Test
+    public void testCoords(){
+        try {
+            File test=new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.6.png");
+            BufferedImage bbi = ImageIO.read(f);
+            CityKingsBattlefieldAnalysis minstance = new CityKingsBattlefieldAnalysis(bbi);
+            System.out.println(minstance);
+        } catch (IOException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        
+        
+        
     }
 
 }

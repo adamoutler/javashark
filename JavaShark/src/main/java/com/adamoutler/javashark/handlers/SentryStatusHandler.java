@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author adamo
  */
-public class SentryStatus extends SentryAbstractPapaHandler {
+public class SentryStatusHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {

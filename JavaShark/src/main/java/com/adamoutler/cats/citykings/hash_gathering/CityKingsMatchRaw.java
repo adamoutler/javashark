@@ -165,6 +165,7 @@ public class CityKingsMatchRaw {
             building.clearBuildingPics();
             for (CityKingsCarRaw car : building.getCars()) {
                 car.clearCarScreenshot();
+                car.clearRowAndColumn();
             }
         }
     }

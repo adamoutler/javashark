@@ -38,8 +38,8 @@ public final class CityKingsCarRaw implements Cloneable {
     private String uniqueHash = "";
     private String bottomLineHash = "";
     private int location = 0;
-    private int row = 0;
-    private int column = 0;
+    private Integer row = 0;
+    private Integer column = 0;
     private int building;
     private byte[] carBadge = new byte[]{};
 
@@ -284,5 +284,12 @@ public final class CityKingsCarRaw implements Cloneable {
     public CityKingsCarRaw setCarBadge(byte[] carBadge) {
         this.carBadge = carBadge;
         return this;
+    }
+
+    public void clearRowAndColumn() {
+        this.row=null;
+        this.column=null;
+                
+        
     }
 }

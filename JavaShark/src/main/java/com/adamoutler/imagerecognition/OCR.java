@@ -31,15 +31,17 @@ public class OCR extends EasyOCR {
         setTesseractPath(getTesseractPathFile());
     }
 
-    public void main(String[] args) {  //main method for testing
+    public static void main(String[] args) {  //main method for testing
         OCR ocr = new OCR();
         ocr.setTesseractPath(ocr.getTesseractPathFile());
-        File f = new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.3.png");
+        File f = new File("src\\test\\java\\com\\adamoutler\\cats\\catsobjects\\resources\\allthescreens\\CITYKINGS.4.png");
         try {
             BufferedImage bi = ImageIO.read(f);
             String ourScore = ocr.discern(CityKingsMatchRaw.OURSCORECOORDS.getImageAtCoords(bi));
             String theirScore = ocr.discern(CityKingsMatchRaw.THEIRSCORECOORDS.getImageAtCoords(bi));
             String discern = new OCR().discern(bi);
+            System.out.println(ourScore);
+            System.out.println(theirScore);
             System.out.println();
         } catch (IOException ex) {
             Logger.getLogger(OCR.class.getName()).log(Level.SEVERE, null, ex);

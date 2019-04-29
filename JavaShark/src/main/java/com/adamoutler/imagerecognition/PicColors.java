@@ -41,6 +41,9 @@ public class PicColors {
         return -1;
     }
 
+    
+    
+    
     public int scanUpYCoordinateForLackOfColorAtXCoordinate(int[] colors, int x, int startingAtY, int endingAtY) {
         return scanUpYCoordinateForLackOfColorAtXCoordinate(colors, x, startingAtY, endingAtY, 0);
     }
@@ -71,6 +74,24 @@ public class PicColors {
 
     public int scanRightXCoordinateForColorAtYCoordinate(int color, int startingAtX, int y, int endingAtX) {
         for (int x = startingAtX; x < endingAtX; x++) {
+            if (colorMatchesAtXY(x, y, color)) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
+    public int scanLeftXCoordinateForColorAtYCoordinate(int color, int startingAtX, int y, int endingAtX, int maximumDifference) {
+        for (int x = startingAtX; x <= endingAtX; x--) {
+            if (colorMatchesAtXY(x, y, color, maximumDifference)) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
+    public int scanLeftXCoordinateForColorAtYCoordinate(int color, int startingAtX, int y, int endingAtX) {
+        for (int x = startingAtX; x <= endingAtX; x--) {
             if (colorMatchesAtXY(x, y, color)) {
                 return x;
             }
