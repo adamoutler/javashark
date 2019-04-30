@@ -93,8 +93,9 @@ public class OCR extends EasyOCR {
 
         try {
             File temp = File.createTempFile(tempdir.getAbsolutePath(), ".PNG");
+            setTesseractOptions(EasyOCR.OPTION_LANG_ENG);
             ImageIO.write(bi, "PNG", temp);
-            return discern(temp);
+            return this.discernToFileAndGetAndAutoCleanImage(temp, cn.easyproject.easyocr.ImageType.CLEAR);
         } catch (IOException ex) {
             Logger.getLogger(OCR.class.getName()).log(Level.SEVERE, null, ex);
             return "";
