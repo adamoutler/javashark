@@ -107,6 +107,7 @@ public final class CityKingsBuildingRaw {
     public void clearBuildingPics() {
         this.buildingSizePic = null;
         this.buildingNamePic = null;
+       
     }
 
     /**

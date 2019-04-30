@@ -9,6 +9,7 @@ package com.adamoutler.cats.citykings.hash_gathering;
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
+import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
@@ -37,16 +38,13 @@ import javax.imageio.ImageIO;
 public class CityKingsMatchRaw {
 
     private final long time = System.currentTimeMillis();
-    String ourScore="";
-    String ourCurrentlyGaining="";
-    String theirScore="";
-    String theirCurrentlyGaining="";
-    String targetScore="";
+   
     private LinkedList<CityKingsBuildingRaw> buildings;
     byte[] screenshot;
     private String excelFile = "";
     private String jsonFile = "";
     Gang gang;
+    CityKingsBattlefieldAnalysis battlefield;
     transient public final static PicCoords OURSCORECOORDS=new PicCoords(150,135,244,45);
     transient public final static PicCoords THEIRSCORECOORDS=new PicCoords(632,135,244,45);
     transient public final static PicCoords TARGETSCORECOORDS=new PicCoords(447,149,141,38);
@@ -97,7 +95,7 @@ public class CityKingsMatchRaw {
                 if (g.get_Username().equals("MISSING")){
                     
                     newGang.add_gangster(g);
-                    String gfilename=g.getCars().get(0).getName_hash().get(0)+".png";
+                    String gfilename=g.getCars().get(0).getName_hash()+".png";
                     File outputFile = new File(OUTPUT + gfilename);
                     ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
                     g.setImageLocation("https://javashark.baby-sharks.com/screenshots/"+gfilename);
@@ -107,10 +105,8 @@ public class CityKingsMatchRaw {
             
             this.gang=newGang;
             OCR ocr=new OCR();
-            targetScore=ocr.discern(TARGETSCORECOORDS.getImageAtCoords(boardScreenshot)).trim();
-            ourScore=ocr.discern(OURSCORECOORDS.getImageAtCoords(bi)).trim();
-            theirScore=ocr.discern(THEIRSCORECOORDS.getImageAtCoords(bi)).trim();
-            //ourScore=ocr.discern(targetScoreCoords.getImageAtCoords(boardScreenshot)).trim();
+            this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
+           
             
             
             

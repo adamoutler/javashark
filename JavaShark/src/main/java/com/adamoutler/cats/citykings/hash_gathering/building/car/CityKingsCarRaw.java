@@ -289,7 +289,8 @@ public final class CityKingsCarRaw implements Cloneable {
     public void clearRowAndColumn() {
         this.row=null;
         this.column=null;
-                
+        this.bottomLineHash=null;
+        this.uniqueHash=null;
         
     }
 }

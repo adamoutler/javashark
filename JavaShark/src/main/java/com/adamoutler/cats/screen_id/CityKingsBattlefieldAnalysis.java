@@ -55,7 +55,7 @@ public class CityKingsBattlefieldAnalysis {
     String ourScore;
     String theirScore;
 
-    CityKingsBattlefieldAnalysis(BufferedImage battlefield) {
+    public CityKingsBattlefieldAnalysis(BufferedImage battlefield) {
         this.battlefield = battlefield;
         picColors = new PicColors(battlefield);
         targetScore = getTargetScore();

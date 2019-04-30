@@ -17,33 +17,29 @@ import java.util.List;
  */
 public class Car {
 
-    private List<String> name_hash=new ArrayList<>();
+    private String name_hash = "";
     private String unique_hash;
     private int location;
-    private int row;
-    private int columnn;
+    transient private int row;
+    transient private int columnn;
     private int building;
     transient private byte[] car_badge;
 
     /**
      * @return the name_hash
      */
-    public List<String> getName_hash() {
+    public String getName_hash() {
         return name_hash;
     }
 
     /**
      * @param name_hash the name_hash to set
      */
-    public void setName_hash(List<String> name_hash) {
+    public void setName_hash(String name_hash) {
         this.name_hash = name_hash;
     }
-    /**
-     * @param name_hash the name_hash to set
-     */
-    public void addName_hash(String name_hash) {
-        this.name_hash.add(name_hash);
-    }
+
+    
     /**
      * @return the unique_hash
      */
@@ -127,23 +123,21 @@ public class Car {
     public void setCar_badge(byte[] car_badge) {
         this.car_badge = car_badge;
     }
-    
-    public BufferedImage getCarBufferedImage(){
-         return ByteImage.getImageFromBytes(car_badge);
+
+    public BufferedImage getCarBufferedImage() {
+        return ByteImage.getImageFromBytes(car_badge);
     }
-    
-    
+
     public static Car convertCar(CityKingsCarRaw car) {
-        Car c=new Car();
+        Car c = new Car();
         c.setBuilding(car.getBuilding());
         c.setCar_badge(car.getCarBadge());
         c.setColumnn(car.getColumn());
         c.setLocation(car.getLocation());
         c.setRow(car.getRow());
         c.setUnique_hash(car.getUniqueHash());
-        c.addName_hash(car.getNameHash());
+        c.setName_hash(car.getNameHash());
         return c;
     }
 
-    
 }
