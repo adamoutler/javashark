@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.screen_id;
 
+import com.adamoutler.imagerecognition.DirectTesseract;
 import com.adamoutler.imagerecognition.ImageJoiner;
 import com.adamoutler.imagerecognition.IncreaseSize;
 import com.adamoutler.imagerecognition.OCR;
@@ -142,8 +143,9 @@ public class CityKingsBattlefieldAnalysis {
     private String getTargetScore() {
         PicCoords coords = TARGETSCORECOORDS;
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        writePicture(coords, battlefield);
-        String value = new OCR().discern(toOCR).trim();
+        //writePicture(coords, battlefield);
+        //String value = new OCR().discern(toOCR).trim();
+        String value=DirectTesseract.runTesseractSingleWord(toOCR);
         return value;
     }
 
@@ -154,9 +156,10 @@ public class CityKingsBattlefieldAnalysis {
         }
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
         toOCR = positivePrepForOCR(toOCR, true);
-        PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
-        writePicture(xy, toOCR);
-        String value = new OCR().discern(toOCR).trim();
+        //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
+        //writePicture(xy, toOCR);
+        //String value = new OCR().discern(toOCR).trim();
+        String value=DirectTesseract.runTesseractSingleWord(toOCR);
         return value;
     }
 
@@ -179,9 +182,10 @@ public class CityKingsBattlefieldAnalysis {
         }
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
         toOCR = positivePrepForOCR(toOCR, false);
-        PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
-        writePicture(xy, toOCR);
-        String value = new OCR().discern(toOCR).trim();
+        //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
+        //writePicture(xy, toOCR);
+        //String value = new OCR().discern(toOCR).trim();
+        String value=DirectTesseract.runTesseractSingleWord(toOCR);
         return value;
     }
 
