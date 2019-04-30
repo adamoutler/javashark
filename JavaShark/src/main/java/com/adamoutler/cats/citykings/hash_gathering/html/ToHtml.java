@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.examples.html.HSSFHtmlHelper;
 import org.apache.poi.ss.format.CellFormat;
 import org.apache.poi.ss.format.CellFormatResult;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -168,7 +169,7 @@ public class ToHtml {
 
     private void setupColorMap() {
         if (wb instanceof HSSFWorkbook) {
-            helper = new HSSFHtmlHelper((HSSFWorkbook) wb);
+            helper = (HtmlHelper) new HSSFHtmlHelper((HSSFWorkbook) wb);
         } else if (wb instanceof XSSFWorkbook) {
             helper = new XSSFHtmlHelper();
         } else {
