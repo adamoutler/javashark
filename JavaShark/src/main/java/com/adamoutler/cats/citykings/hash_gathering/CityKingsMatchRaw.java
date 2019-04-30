@@ -92,21 +92,21 @@ public class CityKingsMatchRaw {
              String OUTPUT = "/var/www/baby-sharks/screenshots/";
             Gang newGang=new Gang(gang.get_Gang_Name());
             System.out.println("adding gangsters");
-//            for (Gangster g:gang.getGangsters()){
-//                if (g.get_Username().equals("MISSING")){
-//                    
-//                    newGang.add_gangster(g);
-//                    String gfilename=g.getCars().get(0).getName_hash()+".png";
-//                    File outputFile = new File(OUTPUT + gfilename);
-//                    ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
-//                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/"+gfilename);
-//                    
-//                }
-//            }
+            for (Gangster g:gang.getGangsters()){
+                if (g.get_Username().equals("MISSING")){
+                    
+                    newGang.add_gangster(g);
+                    String gfilename=g.getCars().get(0).getName_hash()+".png";
+                    File outputFile = new File(OUTPUT + gfilename);
+                    ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
+                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/"+gfilename);
+                    
+                }
+            }
             System.out.println("gangsters added");
             this.gang=newGang;
             OCR ocr=new OCR();
-            this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
+           // this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
            
             
             
