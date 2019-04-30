@@ -141,15 +141,18 @@ public class CityKingsBattlefieldAnalysis {
     }
 
     private String getTargetScore() {
+        System.out.println("trying to get target score");
         PicCoords coords = TARGETSCORECOORDS;
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
         //writePicture(coords, battlefield);
         //String value = new OCR().discern(toOCR).trim();
         String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        System.out.println("got target score");
         return value;
     }
 
     private String getOurScore() {
+        System.out.println("trying to get our score");
         PicCoords coords = getCoordinatesOurScore();
         if (coords == null) {
             return "0";
@@ -160,6 +163,7 @@ public class CityKingsBattlefieldAnalysis {
         //writePicture(xy, toOCR);
         //String value = new OCR().discern(toOCR).trim();
         String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        System.out.println("got our score");
         return value;
     }
 
@@ -176,6 +180,7 @@ public class CityKingsBattlefieldAnalysis {
     }
 
     private String getTheirScore() {
+        System.out.println("trying to get their score");
         PicCoords coords = getCoordinatesTheirScore();
         if (coords == null) {
             return "0";
@@ -186,6 +191,7 @@ public class CityKingsBattlefieldAnalysis {
         //writePicture(xy, toOCR);
         //String value = new OCR().discern(toOCR).trim();
         String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        System.out.println("got their score");
         return value;
     }
 
