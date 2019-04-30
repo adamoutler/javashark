@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Car {
 
-    private String name_hash = "";
+    private List<String> name_hash = new ArrayList<>();
     private String unique_hash;
     private int location;
     transient private int row;
@@ -28,18 +28,24 @@ public class Car {
     /**
      * @return the name_hash
      */
-    public String getName_hash() {
+    public List<String> getName_hash() {
         return name_hash;
     }
 
     /**
      * @param name_hash the name_hash to set
      */
-    public void setName_hash(String name_hash) {
+    public void setName_hash(List<String> name_hash) {
         this.name_hash = name_hash;
     }
 
-    
+    /**
+     * @param name_hash the name_hash to set
+     */
+    public void addName_hash(String name_hash) {
+        this.name_hash.add(name_hash);
+    }
+
     /**
      * @return the unique_hash
      */
@@ -136,7 +142,7 @@ public class Car {
         c.setLocation(car.getLocation());
         c.setRow(car.getRow());
         c.setUnique_hash(car.getUniqueHash());
-        c.setName_hash(car.getNameHash());
+        c.addName_hash(car.getNameHash());
         return c;
     }
 
