@@ -34,6 +34,7 @@ import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.examples.html.HSSFHtmlHelper;
+import org.apache.poi.ss.examples.html.HtmlHelper;
 import org.apache.poi.ss.format.CellFormat;
 import org.apache.poi.ss.format.CellFormatResult;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -171,7 +172,7 @@ public class ToHtml {
         if (wb instanceof HSSFWorkbook) {
             helper = (HtmlHelper) new HSSFHtmlHelper((HSSFWorkbook) wb);
         } else if (wb instanceof XSSFWorkbook) {
-            helper = new XSSFHtmlHelper();
+            helper = (HtmlHelper) new XSSFHtmlHelper();
         } else {
             throw new IllegalArgumentException(
                     "unknown workbook type: " + wb.getClass().getSimpleName());

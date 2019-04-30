@@ -17,6 +17,7 @@
 package com.adamoutler.cats.citykings.hash_gathering.html;
 
 import java.util.Formatter;
+import org.apache.poi.ss.examples.html.HtmlHelper;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
