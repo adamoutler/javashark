@@ -39,9 +39,10 @@ public class VirtualBox {
     }
 
     public VirtualBoxMachine getUserMachine(String gang, String user) {
+       String alphaOnly = user.replaceAll("[^a-zA-Z0-9]+","");
         for (VirtualBoxMachine machine : getMachinesList()) {
             if (machine.getGang().toLowerCase().startsWith(gang.toLowerCase())
-                    && machine.getUsername().toLowerCase().contains(user.toLowerCase())) {
+                    && machine.getUsername().toLowerCase().contains(alphaOnly.toLowerCase())) {
                 return machine;
 
             }

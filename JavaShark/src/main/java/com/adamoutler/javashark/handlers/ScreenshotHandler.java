@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * curl -X PATCH -d '{"message":{"command":"screenshot","data":{"gang":"development","username":"adam_outler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
  * @author adamo
  */
 public class ScreenshotHandler extends SentryAbstractPapaHandler {

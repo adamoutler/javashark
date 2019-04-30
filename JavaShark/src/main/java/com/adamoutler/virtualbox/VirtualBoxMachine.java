@@ -47,7 +47,8 @@ public class VirtualBoxMachine extends TaskedMachine {
 
         String[] machineNameAr = machineName.split("_");
         gang = machineNameAr[0];
-        user = machineNameAr[1];
+        user = machineNameAr[1].replaceAll("[^a-zA-Z0-9]+","");
+;
         portNumber = machineNameAr[2];
         adbName = "127.0.0.1:" + portNumber;
         rdpPort = machineNameAr[3];
@@ -61,7 +62,8 @@ public class VirtualBoxMachine extends TaskedMachine {
 
     public VirtualBoxMachine(String gang, String user, String port, String rdp) {
         this.gang = gang;
-        this.user = user;
+        this.user = user.replaceAll("[^a-zA-Z0-9]+","");
+;
         this.portNumber = port;
         adbName = "127.0.0.1:" + portNumber;
         rdpPort = rdp;
