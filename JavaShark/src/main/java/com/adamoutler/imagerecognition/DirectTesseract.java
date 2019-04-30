@@ -52,12 +52,12 @@ public class DirectTesseract {
             }
             StringBuilder sb = new StringBuilder();
             FileInputStream fis = new FileInputStream(textFile + ".txt");
-            while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
+            while (fis.available() > 0 || !sb.toString().endsWith("\n")) {
                 sb.append((char) fis.read());
             }
             fis.close();
 
-            return sb.toString();
+            return sb.toString().trim();
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(DirectTesseract.class.getName()).log(Level.SEVERE, null, ex);

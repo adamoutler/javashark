@@ -106,7 +106,7 @@ public class CityKingsMatchRaw {
             System.out.println("gangsters added");
             this.gang=newGang;
             OCR ocr=new OCR();
-           // this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
+            this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
            
             
             
