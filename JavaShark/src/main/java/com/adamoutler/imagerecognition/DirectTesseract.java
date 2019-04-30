@@ -52,8 +52,12 @@ public class DirectTesseract {
             }
             StringBuilder sb = new StringBuilder();
             FileInputStream fis = new FileInputStream(textFile + ".txt");
-            while (fis.available() > 0 || !sb.toString().endsWith("\n")) {
-                sb.append((char) fis.read());
+            while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
+                char i = (char) fis.read();
+                if (i=='\uffff') {
+                    break;
+                }
+                sb.append(i);
             }
             fis.close();
 
