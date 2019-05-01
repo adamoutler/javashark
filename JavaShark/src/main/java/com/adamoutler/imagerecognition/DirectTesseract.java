@@ -31,18 +31,17 @@ public class DirectTesseract {
      * path to expected location of Linux Tesseract
      */
     public static File tesseractLinux = new File("/usr/bin/tesseract");
+    public static final String TESSDATA=System.getProperty("user.home")+File.separator+"userContent"+File.separator+"jTessBoxEditor"+File.separator+"samples"+File.separator+"vie"+File.separator+"tessdata";
+    public static final String TESSPATTERNS=System.getProperty("user.home")+File.separator+"userContent"+File.separator+"jTessBoxEditor"+File.separator+"tesseract-ocr"+File.separator+"tessdata"+File.separator+"configs"+File.separator+"userpatterns.txt";
 
     public static String runTesseractSingleWord(BufferedImage bi) {
         try {
             File inputFile = File.createTempFile("TesseractJavaShark", ".png");
-            if (inputFile.exists()) {
-                inputFile.delete();
-            }
             File textFile = File.createTempFile("TesseractJavaShark", "");
             FileOutputStream fos = new FileOutputStream(inputFile);
             ImageIO.write(bi, "PNG", fos);
             fos.close();
-            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(), "--psm", "4", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
+            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"--tessdata-dir",TESSDATA, "--user-patterns",TESSPATTERNS,"--psm", "8", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
             pb.redirectErrorStream(true);
             Process p = pb.start();
             inputFile.deleteOnExit();
@@ -50,14 +49,14 @@ public class DirectTesseract {
             InputStream is = p.getInputStream();
             p.waitFor(5, TimeUnit.SECONDS);
             Thread.sleep(4);
-            while (is.available() > 0) {
-                System.out.print((char) is.read());
-            }
+//            while (is.available() > 0) {
+//                System.out.print((char) is.read());
+//            }
             StringBuilder sb = new StringBuilder();
             FileInputStream fis = new FileInputStream(textFile + ".txt");
             while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
                 char i = (char) fis.read();
-                if (i == '\uffff') {
+                if (i=='\uffff') {
                     break;
                 }
                 sb.append(i);

@@ -19,6 +19,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,7 +51,6 @@ public class CityKingsBattlefieldAnalysis {
     transient final int arrowHeadHeightToCenter = 21;
     transient final int BLUE = 0x4179d9;
     transient final int RED = 0xeb4c47;
-
     String targetScore;
     String ourScore;
     String theirScore;
@@ -61,7 +61,6 @@ public class CityKingsBattlefieldAnalysis {
         targetScore = getTargetScore();
         ourScore = getOurScore();
         theirScore = getTheirScore();
-        System.out.println("Us: " + ourScore + " them:" + theirScore + " target:" + targetScore);
 
     }
 
@@ -264,5 +263,9 @@ public class CityKingsBattlefieldAnalysis {
         g.drawImage(source, 0, 0, null);
         g.dispose();
         return b;
+    }
+    
+    public String toString(){
+        return "Us: " + ourScore + " them:" + theirScore + " target:" + targetScore;
     }
 }
