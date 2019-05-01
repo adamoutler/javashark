@@ -35,6 +35,9 @@ public class DirectTesseract {
     public static String runTesseractSingleWord(BufferedImage bi) {
         try {
             File inputFile = File.createTempFile("TesseractJavaShark", ".png");
+            if (inputFile.exists()) {
+                inputFile.delete();
+            }
             File textFile = File.createTempFile("TesseractJavaShark", "");
             FileOutputStream fos = new FileOutputStream(inputFile);
             ImageIO.write(bi, "PNG", fos);
@@ -54,7 +57,7 @@ public class DirectTesseract {
             FileInputStream fis = new FileInputStream(textFile + ".txt");
             while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
                 char i = (char) fis.read();
-                if (i=='\uffff') {
+                if (i == '\uffff') {
                     break;
                 }
                 sb.append(i);

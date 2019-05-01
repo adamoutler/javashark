@@ -61,7 +61,7 @@ public class CityKingsBattlefieldAnalysis {
         targetScore = getTargetScore();
         ourScore = getOurScore();
         theirScore = getTheirScore();
-        System.out.println("Us: "+ourScore+" them:"+theirScore+" target:"+targetScore);
+        System.out.println("Us: " + ourScore + " them:" + theirScore + " target:" + targetScore);
 
     }
 
@@ -98,7 +98,7 @@ public class CityKingsBattlefieldAnalysis {
         int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{BLUE}, leftSide.getX(), leftSide.getY(), xCoordOfOurScoreWall, 10);
         int width = endOfGainingScore - leftSide.getX();
         PicCoords pc = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
-        return pc.getW() == 0 ? null : pc;
+        return (pc.getW() < 1 || pc.getW() > 100) ? null : pc;
     }
 
     PicCoords getCoordinatesOurScore() {
@@ -107,25 +107,30 @@ public class CityKingsBattlefieldAnalysis {
             return OURSCORECOORDS;
         }
         int startXPos = ourGaining.getX() + ourGaining.getW() + arrowHeadWidth;
-        int startYPos = ourGaining.getY();
         int width = xCoordOfOurScoreWall - startXPos;
-        PicCoords pc = new PicCoords(startXPos, startYPos - 10, width, scoreHeight + 15);
+        PicCoords pc = new PicCoords(startXPos, topOfScore - 10, width, scoreHeight + 15);
         return pc;
     }
 
     XYCoords getLeftSideOfTheirGainingScore() {
         XYCoords scanStart = new XYCoords(xCoordOfTheirScoreWall, topOfScore);
-        int theirGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(RED, scanStart.getX(), topOfScore, xCoordOfTheirScoreAwayFromWall,10);
+        int theirGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(RED, scanStart.getX(), topOfScore, xCoordOfTheirScoreAwayFromWall, 10);
 
         return (theirGainingStart == -1) ? null : new XYCoords(theirGainingStart, scanStart.getY());
     }
 
     PicCoords getCoordinatesTheirGaining() {
         XYCoords leftSide = getLeftSideOfTheirGainingScore();
-        int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{RED}, leftSide.getX(), leftSide.getY(), xCoordOfTheirScoreAwayFromWall, 10);
+        int endOfGainingScore = 0;
+        try {
+            endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{RED}, leftSide.getX(), leftSide.getY(), xCoordOfTheirScoreAwayFromWall, 10);
+        } catch (NullPointerException ex) {
+            return null;
+        }
+
         int width = endOfGainingScore - leftSide.getX();
         PicCoords pc = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
-        return pc.getW() == 0 ? null : pc;
+        return (pc.getW() < 1 || pc.getW() > 100) ? null : pc;
     }
 
     PicCoords getCoordinatesTheirScore() {
@@ -134,9 +139,8 @@ public class CityKingsBattlefieldAnalysis {
             return THEIRSCORECOORDS;
         }
         int startXPos = xCoordOfTheirScoreWall;
-        int startYPos = theirGaining.getY();
         int width = theirGaining.getX() - arrowHeadWidth - startXPos;
-        PicCoords pc = new PicCoords(startXPos, startYPos - 5, width, scoreHeight + 10);
+        PicCoords pc = new PicCoords(startXPos, topOfScore - 5, width, scoreHeight + 10);
         return pc;
     }
 
@@ -146,7 +150,7 @@ public class CityKingsBattlefieldAnalysis {
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
         //writePicture(coords, battlefield);
         //String value = new OCR().discern(toOCR).trim();
-        String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        String value = DirectTesseract.runTesseractSingleWord(toOCR);
         System.out.println("got target score");
         return value;
     }
@@ -162,7 +166,7 @@ public class CityKingsBattlefieldAnalysis {
         //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
         //writePicture(xy, toOCR);
         //String value = new OCR().discern(toOCR).trim();
-        String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        String value = DirectTesseract.runTesseractSingleWord(toOCR);
         System.out.println("got our score");
         return value;
     }
@@ -190,7 +194,7 @@ public class CityKingsBattlefieldAnalysis {
         //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
         //writePicture(xy, toOCR);
         //String value = new OCR().discern(toOCR).trim();
-        String value=DirectTesseract.runTesseractSingleWord(toOCR);
+        String value = DirectTesseract.runTesseractSingleWord(toOCR);
         System.out.println("got their score");
         return value;
     }
@@ -248,10 +252,9 @@ public class CityKingsBattlefieldAnalysis {
         heightIncrease.add(blackTop);
         heightIncrease.add(increasedWidth);
         heightIncrease.add(blackTop);
-          BufferedImage increasedHeight = ImageJoiner.joinImagesBelow(heightIncrease);
-        BufferedImage bi=IncreaseSize.resize(increasedHeight, increasedHeight.getWidth()*3,increasedHeight.getHeight()*3 );
+        BufferedImage increasedHeight = ImageJoiner.joinImagesBelow(heightIncrease);
+        BufferedImage bi = IncreaseSize.resize(increasedHeight, increasedHeight.getWidth() * 3, increasedHeight.getHeight() * 3);
         return bi;
-
 
     }
 
