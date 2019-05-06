@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task;
 
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
 import com.adamoutler.virtualbox.task.tasks.DeepBuildingScanTask;
@@ -15,7 +16,17 @@ import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
 import com.adamoutler.virtualbox.task.tasks.SentryTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
+import com.adamoutler.virtualbox.task.tasks.Task;
 import com.adamoutler.virtualbox.task.tasks.UpdateCatsTask;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,7 +74,36 @@ public enum TaskType {
         return taskDescription;
     }
 
-    
+      private static String getTaskFile(VirtualBoxMachine vm) {
+        String fileName = System.getProperty("java.io.tmpdir") + "/" + vm.getVMName();
+        return fileName;
+    }
+
+    public static TaskType getTasks(VirtualBoxMachine vm) {
+        String fileName = getTaskFile(vm);
+        File taskFile = new File(fileName);
+        TaskType currentTask = TaskType.IDLE;
+        if (taskFile.exists()) {
+            try {
+                String contents = new String(Files.readAllBytes(Paths.get(fileName)));
+                currentTask = TaskType.valueOf(contents);
+                System.out.println(vm.getVMName()+" found resumable task "+currentTask);
+            } catch (IOException ex) {
+                currentTask = TaskType.IDLE;
+                System.out.println("resumable task not found");
+            }
+        }
+        return currentTask;
+    }
+
+    public static void writeTaskToFile(VirtualBoxMachine vm) {
+        String fileName = getTaskFile(vm);
+        try (PrintStream out = new PrintStream(new FileOutputStream(fileName))) {
+            out.print(vm.getCurrentTask().name());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Task.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
 }

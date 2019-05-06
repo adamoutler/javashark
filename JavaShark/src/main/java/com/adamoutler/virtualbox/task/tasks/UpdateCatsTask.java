@@ -5,7 +5,9 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
@@ -29,5 +31,8 @@ public class UpdateCatsTask extends Task {
             
         }
     }
-
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
+    }
 }

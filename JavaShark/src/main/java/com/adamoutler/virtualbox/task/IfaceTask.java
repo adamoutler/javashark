@@ -14,4 +14,5 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 public interface IfaceTask {
     public void init(VirtualBoxMachine vm);
     public void exec(VirtualBoxMachine vm);
+    public boolean resume(VirtualBoxMachine vm);
 }

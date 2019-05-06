@@ -5,7 +5,9 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
@@ -21,5 +23,10 @@ public class ForceRemoveTask  extends Task{
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
         complete(vm);
+    }
+       
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
     }
 }

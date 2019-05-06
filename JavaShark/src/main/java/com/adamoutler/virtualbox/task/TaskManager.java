@@ -68,6 +68,15 @@ public class TaskManager {
         ArrayList<VirtualBoxMachine> al = new VirtualBox().getMachinesList();
         al.forEach((mac) -> {
             machines.add((VirtualBoxMachine) mac);
+            TaskType resumeTask=TaskType.getTasks((VirtualBoxMachine)mac);
+            boolean supported=resumeTask.getTask().resume((VirtualBoxMachine) mac);
+            mac.clearTasks();
+            if (supported){
+                mac.addTask(resumeTask);
+            } else {
+                SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac,resumeTask);
+                mac.addTask(TaskType.POWEROFF);
+            }
         });
         if (running.get()) {
             return;
@@ -181,6 +190,8 @@ public class TaskManager {
             System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
             vm.getCurrentTask().getTask().init(vm); 
+            TaskType.writeTaskToFile(vm);
+            
         }
     }
 

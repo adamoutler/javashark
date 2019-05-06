@@ -6,7 +6,9 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +43,11 @@ public class CorrectiveActionCKTask extends Task {
             complete(vm);
         }
 
+    }
+
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
     }
 
 }

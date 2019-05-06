@@ -7,6 +7,7 @@ package com.babysharks.messaging;
 
 import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -20,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SendPapaAsynch {
 
-
     final private static String UNCLEURL = Prop.getProp("devURL");
     final private static String PPAPAURL = Prop.getProp("productionURL");
 
@@ -32,7 +32,6 @@ public class SendPapaAsynch {
 //        SendPapaAsynch.sendToPapa(m);
 //        //onlineWarning(new VirtualBox().getMachinesList().get(0));
 //    }
-
     public static void onlineWarning(VirtualBoxMachine vm, boolean unitTesting) {
         vm.updateStatuses();
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
@@ -55,6 +54,15 @@ public class SendPapaAsynch {
         String s = sendToPapa(hm);
         System.out.println(s);
 
+    }
+
+    public static void resumeWarning(VirtualBoxMachine vm, TaskType resumeTask) {
+        if (!resumeTask.equals(TaskType.POWEROFF) && !resumeTask.equals(TaskType.IDLE)) {
+            HashedMessage hm = new HashedMessage(getM(vm).setCommand("resume")
+                    .setData(getData(vm).setReason("Could not resume " + resumeTask)));
+            String s = sendToPapa(hm);
+            System.out.println(s);
+        }
     }
 
     private static Message getM(VirtualBoxMachine vm) {
@@ -113,4 +121,5 @@ public class SendPapaAsynch {
                 .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
         return template;
     }
+
 }

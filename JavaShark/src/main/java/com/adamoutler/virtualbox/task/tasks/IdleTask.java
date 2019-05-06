@@ -5,14 +5,16 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
  * @author adamo
  */
-public class IdleTask  extends Task{
+public class IdleTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
@@ -23,8 +25,13 @@ public class IdleTask  extends Task{
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        if (vm.getTaskData().getIdleTime()+300000<System.currentTimeMillis()){
+        if (vm.getTaskData().getIdleTime() + 300000 < System.currentTimeMillis()) {
             vm.addTask(TaskType.POWEROFF);
         }
+    }
+
+      @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
     }
 }

@@ -5,25 +5,32 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
  * @author adamo
  */
-public class IdleMinuteTask  extends Task{
+public class IdleMinuteTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         vm.getTaskData().setIdleNow();
         ready(vm);
-        
+
     }
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        if (vm.getTaskData().getIdleTime()+60000<System.currentTimeMillis()){
+        if (vm.getTaskData().getIdleTime() + 60000 < System.currentTimeMillis()) {
             complete(vm);
         }
+    }
+
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
     }
 }

@@ -15,10 +15,10 @@ import com.babysharks.messaging.SendPapaAsynch;
  * @author adamo
  */
 public class PowerOnTask extends Task {
-    
+
     @Override
     void initializeTask(final VirtualBoxMachine vm) {
-        final boolean power=vm.isPoweredOn();
+        final boolean power = vm.isPoweredOn();
         VirtualBoxControl vc = new VirtualBoxControl(vm);
         Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});
@@ -27,15 +27,15 @@ public class PowerOnTask extends Task {
             }
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             ready(vm);
-            if (! power){
+            if (!power) {
                 SendPapaAsynch.onlineWarning(vm, false);
             }
         });
         startMachine.setName("Start VM " + vm.getGang() + " " + vm.getUsername());
         startMachine.start();
-        
+
     }
-    
+
     @Override
     void runTask(VirtualBoxMachine vm) {
         ScreenData sd = ScreenData.identifyScreen(vm);
@@ -45,6 +45,11 @@ public class PowerOnTask extends Task {
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
         }
-        
+
+    }
+
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
     }
 }

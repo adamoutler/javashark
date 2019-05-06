@@ -19,7 +19,7 @@ public class PoweroffTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         vm.updateStatuses();
-        if (vm.isPoweredOn()){
+        if (vm.isPoweredOn()) {
             SendPapaAsynch.sentryReasonWarning(vm, "offline");
         }
         new VirtualBoxControl(vm).stopVM();
@@ -29,10 +29,13 @@ public class PoweroffTask extends Task {
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
-        
-        
+
         complete(vm);
-        
+
     }
-    
+
+     @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return false;
+    }
 }

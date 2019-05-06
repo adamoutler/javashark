@@ -5,6 +5,8 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -56,4 +58,13 @@ public class SentryTask extends Task {
         new FastBuildingOwnershipDetector(vm).run();
     }
 
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        if (vm.isPoweredOn() && vm.getScreen().equals(ScreenData.CITYKINGS)) {
+            System.out.println("putting " + vm.getUsername() + " back on sentry duty");
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

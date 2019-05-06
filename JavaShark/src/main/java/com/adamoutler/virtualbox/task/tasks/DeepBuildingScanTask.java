@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.SendPapaAsynch;
@@ -26,18 +27,17 @@ public class DeepBuildingScanTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
-        
+
         try {
             Thread t = new Thread(() -> {
 
-                try {  
+                try {
                     CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
                     String s = report.getExcelFile();
                     report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
                     report.clearScreenshots();
                     Message m = new Message().setCommand("deepbuildingscancomplete");
                     m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
-                   
 
                     File f = new File("/var/www/baby-sharks/excel/" + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
                     System.out.println();
@@ -52,7 +52,7 @@ public class DeepBuildingScanTask extends Task {
 
                 }
             });
-            t.setName("Deep Building Scan: "+vm.getUsername()+"-"+vm.getGang());
+            t.setName("Deep Building Scan: " + vm.getUsername() + "-" + vm.getGang());
             t.start();
             ready(vm);
         } catch (Exception ex) {
@@ -65,4 +65,8 @@ public class DeepBuildingScanTask extends Task {
 
     }
 
+    @Override
+    public boolean resume(VirtualBoxMachine vm) {
+        return true;
+    }
 }
