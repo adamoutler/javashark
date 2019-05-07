@@ -101,7 +101,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesOurScore() {
         System.out.println("getCoordinatesOurScore");
-        PicCoords expResult = new PicCoords(274, 126, 116, 60);
+        PicCoords expResult = new PicCoords(274, 126, 116, 45);
         PicCoords result = instance.getCoordinatesOurScore();
         CityKingsBattlefieldAnalysis.writePicture(result, bi);
 
@@ -143,7 +143,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesTheirScore() {
         System.out.println("getCoordinatesTheirScore");
-        PicCoords expResult = new PicCoords(632, 131, 99, 55);
+        PicCoords expResult = new PicCoords(632, 131, 99, 45);
         PicCoords result = instance.getCoordinatesTheirScore();
         CityKingsBattlefieldAnalysis.writePicture(result, bi);
         assertEquals(expResult, result);
@@ -156,12 +156,9 @@ public class CityKingsBattlefieldAnalysisTest {
             File test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.png");
             BufferedImage bbi = ImageIO.read(test);
             CityKingsBattlefieldAnalysis minstance = new CityKingsBattlefieldAnalysis(bbi);
-            System.out.println("1"+ minstance);
+            System.out.println("1"+ minstance.toString());
 
-            test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.2.png");
-            bbi = ImageIO.read(test);
-            minstance = new CityKingsBattlefieldAnalysis(bbi);
-            System.out.println("2"+ minstance);
+           
             test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.3.png");
             bbi = ImageIO.read(test);
             minstance = new CityKingsBattlefieldAnalysis(bbi);
@@ -178,6 +175,12 @@ public class CityKingsBattlefieldAnalysisTest {
             Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
+     }
 
+   
+
+
+
+
+    
 }

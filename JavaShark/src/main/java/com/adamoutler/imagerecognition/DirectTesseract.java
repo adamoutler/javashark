@@ -26,13 +26,13 @@ public class DirectTesseract {
     /**
      * path to expected location of Windows Tesseract
      */
-    public static File tesseractWindows = new File("C:\\Users\\adamo\\OneDrive\\Desktop\\jTessBoxEditor\\tesseract-ocr\\tesseract.exe");
+    public static File tesseractWindows = new File("C:\\Users\\adamo\\userContent\\jTessBoxEditor\\tesseract-ocr\\tesseract.exe");
     /**
      * path to expected location of Linux Tesseract
      */
     public static File tesseractLinux = new File("/usr/bin/tesseract");
     public static final String TESSDATA=System.getProperty("user.home")+File.separator+"userContent"+File.separator+"jTessBoxEditor"+File.separator+"samples"+File.separator+"vie"+File.separator+"tessdata";
-    public static final String TESSPATTERNS=System.getProperty("user.home")+File.separator+"userContent"+File.separator+"jTessBoxEditor"+File.separator+"tesseract-ocr"+File.separator+"tessdata"+File.separator+"configs"+File.separator+"userpatterns.txt";
+    public static final String TESSPATTERNS=TESSDATA+File.separator+"catstest.txt";
 
     public static String runTesseractSingleWord(BufferedImage bi) {
         try {
@@ -41,7 +41,7 @@ public class DirectTesseract {
             FileOutputStream fos = new FileOutputStream(inputFile);
             ImageIO.write(bi, "PNG", fos);
             fos.close();
-            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"--tessdata-dir",TESSDATA, "--user-patterns",TESSPATTERNS,"--psm", "8", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
+            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"-l","eng","--tessdata-dir",TESSDATA, "-c","tessedit_char_whitelist=0123456789hms+","--psm", "8", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
             pb.redirectErrorStream(true);
             Process p = pb.start();
             inputFile.deleteOnExit();
@@ -71,6 +71,42 @@ public class DirectTesseract {
         return "";
     }
 
+     public static String runTesseractMultiWord(BufferedImage bi) {
+        try {
+            File inputFile = File.createTempFile("TesseractJavaShark", ".png");
+            File textFile = File.createTempFile("TesseractJavaShark", "");
+            FileOutputStream fos = new FileOutputStream(inputFile);
+            ImageIO.write(bi, "PNG", fos);
+            fos.close();
+            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"-l","eng","--tessdata-dir",TESSDATA, "-c","tessedit_char_whitelist=0123456789hms+","--psm", "7", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+            inputFile.deleteOnExit();
+            textFile.deleteOnExit();
+            InputStream is = p.getInputStream();
+            p.waitFor(5, TimeUnit.SECONDS);
+            Thread.sleep(4);
+//            while (is.available() > 0) {
+//                System.out.print((char) is.read());
+//            }
+            StringBuilder sb = new StringBuilder();
+            FileInputStream fis = new FileInputStream(textFile + ".txt");
+            while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
+                char i = (char) fis.read();
+                if (i=='\uffff') {
+                    break;
+                }
+                sb.append(i);
+            }
+            fis.close();
+
+            return sb.toString().trim();
+
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(DirectTesseract.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
     /**
      * Provide references to the location of Tesseract
      *

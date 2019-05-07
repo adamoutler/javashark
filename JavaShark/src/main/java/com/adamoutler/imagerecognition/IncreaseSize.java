@@ -24,4 +24,13 @@ public class IncreaseSize {
 
     return dimg;
 }  
+    public static BufferedImage doubleSize(BufferedImage img){
+        return resize(img,img.getWidth()*2,img.getHeight()*2);
+    }
+    
+    public static BufferedImage quadrupleSize(BufferedImage img){
+        return doubleSize(doubleSize(img));
+    }
+    
+    
 }

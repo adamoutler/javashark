@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.screen_id;
 
+import com.adamoutler.imagerecognition.Convert;
 import com.adamoutler.imagerecognition.DirectTesseract;
 import com.adamoutler.imagerecognition.ImageJoiner;
 import com.adamoutler.imagerecognition.IncreaseSize;
@@ -17,10 +18,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -39,6 +36,7 @@ public class CityKingsBattlefieldAnalysis {
     transient public final static PicCoords OURSCORECOORDS = new PicCoords(150, 135, 244, 45);
     transient public final static PicCoords THEIRSCORECOORDS = new PicCoords(632, 135, 244, 45);
     transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(457, 148, 141, 42);
+    transient public final static PicCoords TIMEREMAININGCOORDS = new PicCoords(447, 81, 101, 32);
 //        transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(447, 148, 141, 42);
 
     transient final int xCoordOfOurScoreAwayFromWall = 128;
@@ -51,9 +49,18 @@ public class CityKingsBattlefieldAnalysis {
     transient final int arrowHeadHeightToCenter = 21;
     transient final int BLUE = 0x4179d9;
     transient final int RED = 0xeb4c47;
+
+    transient PicCoords ourGainingCoords;
+    transient PicCoords theirGainingCoords;
     String targetScore;
     String ourScore;
     String theirScore;
+    String ourGaining;
+    String theirGaining;
+    String hours;
+    String minutes;
+    String seconds;
+    String formattedTime;
 
     public CityKingsBattlefieldAnalysis(BufferedImage battlefield) {
         this.battlefield = battlefield;
@@ -61,7 +68,10 @@ public class CityKingsBattlefieldAnalysis {
         targetScore = getTargetScore();
         ourScore = getOurScore();
         theirScore = getTheirScore();
-
+        theirGaining = getGaining(doSingleWordTesseract(theirGainingCoords));
+        ourGaining = getGaining(doSingleWordTesseract(ourGainingCoords));
+        formattedTime = parseTime(doMultiWordTesserace(TIMEREMAININGCOORDS));
+        System.out.println(this);
     }
 
     public static void writePicture(PicCoords pc, BufferedImage bi) {
@@ -96,16 +106,16 @@ public class CityKingsBattlefieldAnalysis {
         XYCoords leftSide = getLeftSideOfOurGainingScore();
         int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{BLUE}, leftSide.getX(), leftSide.getY(), xCoordOfOurScoreWall, 10);
         int width = endOfGainingScore - leftSide.getX();
-        PicCoords pc = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
-        return (pc.getW() < 1 || pc.getW() > 100) ? null : pc;
+        ourGainingCoords = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
+        return (ourGainingCoords.getW() < 1 || ourGainingCoords.getW() > 100) ? null : ourGainingCoords;
     }
 
     PicCoords getCoordinatesOurScore() {
-        PicCoords ourGaining = getCoordinatesOurGaining();
-        if (ourGaining == null) {
+        ourGainingCoords = getCoordinatesOurGaining();
+        if (ourGainingCoords == null) {
             return OURSCORECOORDS;
         }
-        int startXPos = ourGaining.getX() + ourGaining.getW() + arrowHeadWidth;
+        int startXPos = ourGainingCoords.getX() + ourGainingCoords.getW() + arrowHeadWidth;
         int width = xCoordOfOurScoreWall - startXPos;
         PicCoords pc = new PicCoords(startXPos, topOfScore - 10, width, scoreHeight + 15);
         return pc;
@@ -114,7 +124,8 @@ public class CityKingsBattlefieldAnalysis {
     XYCoords getLeftSideOfTheirGainingScore() {
         XYCoords scanStart = new XYCoords(xCoordOfTheirScoreWall, topOfScore);
         int theirGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(RED, scanStart.getX(), topOfScore, xCoordOfTheirScoreAwayFromWall, 10);
-
+        int theirGainingStop = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{RED}, theirGainingStart, topOfScore, xCoordOfTheirScoreAwayFromWall, 10);
+        theirGainingCoords = new PicCoords(theirGainingStart, topOfScore, theirGainingStop - theirGainingStart, scoreHeight);
         return (theirGainingStart == -1) ? null : new XYCoords(theirGainingStart, scanStart.getY());
     }
 
@@ -147,6 +158,7 @@ public class CityKingsBattlefieldAnalysis {
         System.out.println("trying to get target score");
         PicCoords coords = TARGETSCORECOORDS;
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
+        toOCR = IncreaseSize.doubleSize(toOCR);
         //writePicture(coords, battlefield);
         //String value = new OCR().discern(toOCR).trim();
         String value = DirectTesseract.runTesseractSingleWord(toOCR);
@@ -264,8 +276,72 @@ public class CityKingsBattlefieldAnalysis {
         g.dispose();
         return b;
     }
-    
-    public String toString(){
-        return "Us: " + ourScore + " them:" + theirScore + " target:" + targetScore;
+
+    public String toString() {
+        return "Us: " + ourScore + " +:" + ourGaining + " " + " time:" + formattedTime + " them:" + theirScore + " +:" + theirGaining + " target:" + targetScore + " ";
+    }
+
+    private String doMultiWordTesserace(PicCoords coords) {
+        if (coords == null || coords.getX() == 0 || coords.getX() == -1) {
+            return null;
+        }
+
+        BufferedImage image = coords.getImageAtCoords(battlefield);
+        writePicture(image);
+
+        Convert.invertImage(IncreaseSize.quadrupleSize(image));
+
+        writePicture(image);
+        String s = DirectTesseract.runTesseractMultiWord(image);
+        return s;
+    }
+
+    private String doSingleWordTesseract(PicCoords coords) {
+        if (coords == null || coords.getX() == 0 || coords.getX() == -1) {
+            return null;
+        }
+
+        BufferedImage image = coords.getImageAtCoords(battlefield);
+        writePicture(image);
+
+        PicColors pc = new PicColors(image);
+        image = IncreaseSize.resize(image, 500, 300);
+        Convert.invertImage(IncreaseSize.quadrupleSize(image));
+        writePicture(image);
+        String s = DirectTesseract.runTesseractSingleWord(image);
+        return s;
+
+    }
+
+    private String getGaining(String gaining) {
+        try {
+        if (gaining.startsWith("+")) {
+            gaining = gaining.replace("+", "");
+        }
+        } catch (NullPointerException ex){
+            return "0";
+        }
+        return gaining;
+    }
+
+    private String parseTime(String time) {
+        String[] timeSplit = time.split(" ");
+        for (String t : timeSplit) {
+            char c = t.charAt(t.length()-1);
+            switch (c) {
+                case 'h':
+                    hours = t.replace("h", "");
+                    break;
+                case 'm':
+                    minutes = t.replace("m", "");
+                    break;
+
+                case 's':
+                    seconds =t.replace("s", "");
+                    break;
+            }
+
+        }
+        return time;
     }
 }
