@@ -158,7 +158,7 @@ public class CityKingsBattlefieldAnalysis {
         System.out.println("trying to get target score");
         PicCoords coords = TARGETSCORECOORDS;
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        toOCR = IncreaseSize.doubleSize(toOCR);
+        toOCR = IncreaseSize.quadrupleSize(toOCR);
         //writePicture(coords, battlefield);
         //String value = new OCR().discern(toOCR).trim();
         String value = DirectTesseract.runTesseractSingleWord(toOCR);
