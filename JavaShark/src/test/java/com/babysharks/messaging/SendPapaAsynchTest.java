@@ -124,48 +124,7 @@ public class SendPapaAsynchTest {
         Message mess = new Message().setCommand("alert").setData(new MessageData().setReason("UNIT TESTING"));
         HashedMessage hm = new HashedMessage(mess);
         String expResult = "{\"status\":\"success\"}";
-        String result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setAlertBuilding(new int[]{7});
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setAlertBuilding(new int[]{-1});
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setAlertBuilding(new int[]{7});
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setAlertBuilding(new int[]{3});
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setAlertBuilding(new int[]{3})
-                .setTheyOwn(new int[]{3, 4})
-                .setWeOwn(new int[]{1, 2}).setNobodyOwns(new int[]{5, 6});
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
-
-        mess.getData().setGang("development");
-        mess.getData().setUsername("AdamOutler");
-
-        hm = new HashedMessage(mess);
-        expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
-        assertEquals(expResult, result);
+       
 
         mess.getData().setText("help");
         mess.getData().setReason("alert");
@@ -174,7 +133,7 @@ public class SendPapaAsynchTest {
 
         hm = new HashedMessage(mess);
         expResult = "{\"status\":\"success\"}";
-        result = SendPapaAsynch.sendToPapa(hm);
+        String result = SendPapaAsynch.sendToPapa(hm);
         assertEquals(expResult, result);
 
     }

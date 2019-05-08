@@ -65,7 +65,8 @@ public class SendPapaAsynch {
             hm = new HashedMessage(getM(vm).setCommand("sentry")
                     .setData(getData(vm).setReason(reason)));
         } else {
-           
+            hm = new HashedMessage(getM(vm).setCommand("resumesentry")
+                    .setData(getData(vm).setReason(reason)));
         }
 
         String s = sendToPapa(hm);
