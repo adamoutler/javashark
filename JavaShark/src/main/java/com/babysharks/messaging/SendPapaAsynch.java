@@ -21,6 +21,12 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SendPapaAsynch {
 
+    public SendPapaAsynch() {
+        if (time == 0) {
+            time = System.currentTimeMillis();
+        }
+    }
+    private static long time = 0;
     final private static String UNCLEURL = Prop.getProp("devURL");
     final private static String PPAPAURL = Prop.getProp("productionURL");
 
@@ -49,11 +55,18 @@ public class SendPapaAsynch {
     }
 
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
-        HashedMessage hm = new HashedMessage(getM(vm).setCommand("sentry")
-                .setData(getData(vm).setReason(reason)));
+        HashedMessage hm=null;
+        if (System.currentTimeMillis() > time + 10000) {
+            hm = new HashedMessage(getM(vm).setCommand("sentry")
+                    .setData(getData(vm).setReason(reason)));
+        } else {
+            hm = new HashedMessage(getM(vm).setCommand("resumesentry")
+                    .setData(getData(vm).setReason(reason)));
+        }
+        
         String s = sendToPapa(hm);
-        System.out.println(s);
-
+         System.out.println(s);
+        
     }
 
     public static void resumeWarning(VirtualBoxMachine vm, TaskType resumeTask) {
