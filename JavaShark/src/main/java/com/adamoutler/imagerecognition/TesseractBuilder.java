@@ -220,7 +220,7 @@ public class TesseractBuilder {
 
         try {
 
-            String filename = System.getProperty("java.io.tmpdir") + "citykingsbattlefieldanalysis" + name + ".png";
+            String filename = System.getProperty("java.io.tmpdir") +File.separator+ "citykingsbattlefieldanalysis" + name + ".png";
             try (FileOutputStream fos = new FileOutputStream(filename)) {
                 ImageIO.write(pc.getImageAtCoords(image), "PNG", fos);
             }
