@@ -107,12 +107,15 @@ public class TesseractBuilder {
         File inputFile = File.createTempFile("TesseractJavaShark", ".png");
         File textFile = File.createTempFile("TesseractJavaShark", "");
         File delFile = new File(textFile.getAbsolutePath() + ".txt");
+        delFile.createNewFile();
         delFile.deleteOnExit();
         inputFile.deleteOnExit();
         FileOutputStream fos = new FileOutputStream(inputFile);
         ImageIO.write(getImage(), "PNG", fos);
         fos.close();
         LinkedList<String> ll = getTessArgs(inputFile, textFile);
+        System.out.println("Tesseract execution: "+ ll);
+                
         ProcessBuilder pb = new ProcessBuilder(ll);
         pb.redirectErrorStream(true);
         Process p = pb.start();
@@ -124,7 +127,8 @@ public class TesseractBuilder {
         }
         System.out.println(out.toString());
         StringBuilder sb = new StringBuilder();
-        FileInputStream fis = new FileInputStream(textFile + ".txt");
+        
+        FileInputStream fis = new FileInputStream(textFile.getAbsolutePath() + ".txt");
         while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
             char i = (char) fis.read();
             if (i == '\uffff') {
@@ -134,8 +138,8 @@ public class TesseractBuilder {
         }
         fis.close();
         try {
-            textFile.delete();
-            delFile.delete();
+         //   textFile.delete();
+           // delFile.delete();
         } catch (Exception ex) {
 
         }
