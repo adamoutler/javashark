@@ -37,7 +37,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
     public void handle(HttpExchange t) throws IOException {
         boolean analyze=false;
         
-        if (((String)request.getData().getResultObject()).equals("analyze")){
+        if (request.getData().getResultObject()!=null&&((String)request.getData().getResultObject()).equals("analyze")){
             analyze=true;
         }
         if (username.contains("analyze")){
