@@ -5,25 +5,16 @@
  */
 package com.adamoutler.cats.screen_id;
 
-import com.adamoutler.imagerecognition.Convert;
-import com.adamoutler.imagerecognition.DirectTesseract;
-import com.adamoutler.imagerecognition.ImageJoiner;
-import com.adamoutler.imagerecognition.IncreaseSize;
 import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.WritePicture;
+import com.adamoutler.imagerecognition.TesseractBuilder;
 import com.adamoutler.imagerecognition.XYCoords;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -33,7 +24,7 @@ public class CityKingsBattlefieldAnalysis {
 
     transient final BufferedImage battlefield;
     transient final PicColors picColors;
-    transient public final static PicCoords OURSCORECOORDS = new PicCoords(150, 135, 244, 45);
+    transient public final static PicCoords OURSCORECOORDS = new PicCoords(150, 135, 242, 45);
     transient public final static PicCoords THEIRSCORECOORDS = new PicCoords(632, 135, 244, 45);
     transient public final static PicCoords TARGETSCORECOORDS = new PicCoords(457, 148, 141, 42);
     transient public final static PicCoords TIMEREMAININGCOORDS = new PicCoords(447, 81, 101, 32);
@@ -52,48 +43,43 @@ public class CityKingsBattlefieldAnalysis {
 
     transient PicCoords ourGainingCoords;
     transient PicCoords theirGainingCoords;
-    String targetScore;
-    String ourScore;
-    String theirScore;
-    String ourGaining;
-    String theirGaining;
-    String hours;
-    String minutes;
-    String seconds;
-    String formattedTime;
+    private String targetScore;
+    private String ourScore;
+    private String theirScore;
+    private String ourGaining;
+    private String theirGaining;
+    private String hours = "0";
+    private String minutes = "0";
+    private String seconds = "0";
+    private String formattedTime;
 
     public CityKingsBattlefieldAnalysis(BufferedImage battlefield) {
         this.battlefield = battlefield;
         picColors = new PicColors(battlefield);
         targetScore = getTargetScore();
-        ourScore = getOurScore();
+        ourScore = doOCRonOurScore();
         theirScore = getTheirScore();
-        theirGaining = getGaining(doSingleWordTesseract(theirGainingCoords));
-        ourGaining = getGaining(doSingleWordTesseract(ourGainingCoords));
-        formattedTime = parseTime(doMultiWordTesserace(TIMEREMAININGCOORDS));
-        System.out.println(this);
-    }
-
-    public static void writePicture(PicCoords pc, BufferedImage bi) {
-
+        ourGaining = getGaining(doGainingScore(ourGainingCoords));
+        theirGaining = getGaining(doGainingScore(theirGainingCoords));
         try {
-
-            FileOutputStream fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/citykingsbattlefieldanalysis.png");
-            ImageIO.write(pc.getImageAtCoords(bi), "PNG", fos);
-        } catch (IOException ex) {
+            formattedTime = getTime(battlefield);
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void writePicture(BufferedImage bi) {
+    private String getTime(BufferedImage battlefield1) throws IOException, InterruptedException {
 
-        try {
-
-            FileOutputStream fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/citykingsbattlefieldanalysis.png");
-            ImageIO.write(bi, "PNG", fos);
-        } catch (IOException ex) {
-            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        TesseractBuilder tb = new TesseractBuilder(battlefield1)
+                .setCharset("0123456789hms")
+                .crop(CityKingsBattlefieldAnalysis.TIMEREMAININGCOORDS)
+                .setMode(TesseractBuilder.Mode.SINGLELLINE).resize(9, 5)
+                .invert().greyScale()
+                .brightenImage().brightenImage().brightenImage().brightenImage();
+        String rawTime = tb.execute();
+        tb.writePicture(rawTime);
+        String myTime = parseTime(rawTime);
+        return myTime;
     }
 
     XYCoords getLeftSideOfOurGainingScore() {
@@ -131,7 +117,7 @@ public class CityKingsBattlefieldAnalysis {
 
     PicCoords getCoordinatesTheirGaining() {
         XYCoords leftSide = getLeftSideOfTheirGainingScore();
-        int endOfGainingScore = 0;
+        int endOfGainingScore;
         try {
             endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{RED}, leftSide.getX(), leftSide.getY(), xCoordOfTheirScoreAwayFromWall, 10);
         } catch (NullPointerException ex) {
@@ -144,53 +130,82 @@ public class CityKingsBattlefieldAnalysis {
     }
 
     PicCoords getCoordinatesTheirScore() {
-        PicCoords theirGaining = getCoordinatesTheirGaining();
-        if (theirGaining == null) {
+        PicCoords tgaining = getCoordinatesTheirGaining();
+        if (tgaining == null) {
             return THEIRSCORECOORDS;
         }
         int startXPos = xCoordOfTheirScoreWall;
-        int width = theirGaining.getX() - arrowHeadWidth - startXPos;
+        int width = tgaining.getX() - arrowHeadWidth - startXPos;
         PicCoords pc = new PicCoords(startXPos, topOfScore - 5, width, scoreHeight + 10);
         return pc;
     }
 
     private String getTargetScore() {
         System.out.println("trying to get target score");
-        PicCoords coords = TARGETSCORECOORDS;
-        BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        toOCR = IncreaseSize.quadrupleSize(Convert.invertImage(toOCR));
-        writePicture(toOCR);
-        //String value = new OCR().discern(toOCR).trim();
-        String value = DirectTesseract.runTesseractSingleWord(toOCR);
+
+        String value = "";
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("0123456789")
+                    .crop(CityKingsBattlefieldAnalysis.TARGETSCORECOORDS)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .resize(5, 5).invert().greyScale();
+            value = tb.execute();
+            tb.writePicture(value);
+
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         System.out.println("got target score");
         return value;
     }
 
-    private String getOurScore() {
+    private String doOCRonOurScore() {
         System.out.println("trying to get our score");
         PicCoords coords = getCoordinatesOurScore();
         if (coords == null) {
             return "0";
         }
-        BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        toOCR = positivePrepForOCR(toOCR, true);
-        //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
-        //writePicture(xy, toOCR);
-        //String value = new OCR().discern(toOCR).trim();
-        String value = DirectTesseract.runTesseractSingleWord(toOCR);
+        String value = "";
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("0123456789")
+                    .crop(coords)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .resize(2).greyScale();
+            value = tb.execute();
+            tb.writePicture(value);
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         System.out.println("got our score");
         return value;
     }
 
-    private String getOurGaining() {
+    private String doOcrOnOurGaining() {
         PicCoords coords = getCoordinatesOurGaining();
         if (coords == null) {
             return "0";
         }
-        BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        toOCR = negativePrepForOCR(toOCR, true);
-        writePicture(toOCR);
-        String value = new OCR().discern(toOCR).trim();
+        String value = "";
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("+0123456789")
+                    .crop(coords)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .invert().greyScale()
+                    
+                    .resize(7,3).brightenImage().brightenImage().brightenImage()
+                    .resize(2).bicubic().resize(2).bicubic();
+        
+            value = tb.execute();
+            tb.writePicture(value);
+           System.out.println();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return value;
     }
 
@@ -201,13 +216,21 @@ public class CityKingsBattlefieldAnalysis {
             return "0";
         }
         BufferedImage toOCR = coords.getImageAtCoords(battlefield);
-        toOCR = positivePrepForOCR(toOCR, false);
-        //PicCoords xy = new PicCoords(0, 0, toOCR.getWidth(), toOCR.getHeight());
-        //writePicture(xy, toOCR);
-        //String value = new OCR().discern(toOCR).trim();
-        String value = DirectTesseract.runTesseractSingleWord(toOCR);
-        System.out.println("got their score");
-        return value;
+
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("+0123456789")
+                    .crop(coords)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .resize(2).greyScale().brightenImage();
+            String value = tb.execute();
+            tb.writePicture(value);
+            return value;
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "0";
+
     }
 
     private String getTheirGaining() {
@@ -221,54 +244,6 @@ public class CityKingsBattlefieldAnalysis {
         return value;
     }
 
-    private BufferedImage positivePrepForOCR(BufferedImage picture, boolean ours) {
-        BufferedImage toOCR = copyImage(picture);
-
-// public static BufferedImage createImage(PicCoords size, XYCoords xyLocation, String text, boolean skipBackground, Color backColor, Color foreColor, Font font) {
-        BufferedImage blackSide = WritePicture.createImage(new PicCoords(0, 0, 15, toOCR.getHeight()), new XYCoords(0, 0), "", false, Color.BLACK, Color.BLACK, new Font("", 1, 1));
-        WritePicture.replaceAllButColor(toOCR, (ours) ? BLUE : RED, 0x000000, 50);
-        WritePicture.replaceColor(toOCR, (ours) ? BLUE : RED, 0xFFFFFF, 40);
-        writePicture(toOCR);
-
-        LinkedList<BufferedImage> sideIncrease = new LinkedList<>();
-        sideIncrease.add(blackSide);
-        sideIncrease.add(toOCR);
-        sideIncrease.add(blackSide);
-        BufferedImage increasedWidth = ImageJoiner.joinImagesSide(sideIncrease);
-
-        BufferedImage blackTop = WritePicture.createImage(new PicCoords(0, 0, increasedWidth.getWidth(), 10), new XYCoords(0, 0), "", false, Color.BLACK, Color.BLACK, new Font("", 1, 1));
-        LinkedList<BufferedImage> heightIncrease = new LinkedList<>();
-        heightIncrease.add(blackTop);
-        heightIncrease.add(increasedWidth);
-        heightIncrease.add(blackTop);
-        BufferedImage increasedHeight = ImageJoiner.joinImagesBelow(heightIncrease);
-        return increasedHeight;
-    }
-
-    private BufferedImage negativePrepForOCR(BufferedImage picture, boolean ours) {
-        BufferedImage toOCR = copyImage(picture);
-        WritePicture.replaceAllButColor(toOCR, (ours) ? BLUE : RED, 0xFFFFFF, 50);
-        WritePicture.replaceColor(toOCR, (ours) ? BLUE : RED, 0x000000, 40);
-
-        LinkedList<BufferedImage> sideIncrease = new LinkedList<>();
-        BufferedImage blackSide = WritePicture.createImage(new PicCoords(0, 0, 15, toOCR.getHeight()), new XYCoords(0, 0), "", false, Color.BLACK, Color.BLACK, new Font("", 1, 1));
-
-        sideIncrease.add(blackSide);
-        sideIncrease.add(toOCR);
-        sideIncrease.add(blackSide);
-        BufferedImage increasedWidth = ImageJoiner.joinImagesSide(sideIncrease);
-
-        BufferedImage blackTop = WritePicture.createImage(new PicCoords(0, 0, increasedWidth.getWidth(), 10), new XYCoords(0, 0), "", false, Color.BLACK, Color.BLACK, new Font("", 1, 1));
-        LinkedList<BufferedImage> heightIncrease = new LinkedList<>();
-        heightIncrease.add(blackTop);
-        heightIncrease.add(increasedWidth);
-        heightIncrease.add(blackTop);
-        BufferedImage increasedHeight = ImageJoiner.joinImagesBelow(heightIncrease);
-        BufferedImage bi = IncreaseSize.resize(increasedHeight, increasedHeight.getWidth() * 3, increasedHeight.getHeight() * 3);
-        return bi;
-
-    }
-
     public static BufferedImage copyImage(BufferedImage source) {
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
         Graphics g = b.getGraphics();
@@ -278,47 +253,37 @@ public class CityKingsBattlefieldAnalysis {
     }
 
     public String toString() {
-        return "Us: " + ourScore + " +:" + ourGaining + " " + " time:" + formattedTime + " them:" + theirScore + " +:" + theirGaining + " target:" + targetScore + " ";
+        return "Us: " + doOCRonOurScore() + " +:" + doOcrOnOurGaining() + " " + " time:" + getFormattedTime() + " them:" + getTheirScore() + " +:" + getTheirGaining() + " target:" + getTargetScore() + " ";
     }
 
-    private String doMultiWordTesserace(PicCoords coords) {
+    private String doGainingScore(PicCoords coords) {
         if (coords == null || coords.getX() == 0 || coords.getX() == -1) {
             return null;
         }
 
-        BufferedImage image = coords.getImageAtCoords(battlefield);
-        writePicture(image);
+        String value = "";
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("8012345679+")
+                    .crop(coords)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .resize(30, 10).invert().greyScale().brightenImage().brightenImage().brightenImage();
+            value = tb.execute();
+            tb.writePicture(value);
 
-        Convert.invertImage(IncreaseSize.quadrupleSize(image));
-
-        writePicture(image);
-        String s = DirectTesseract.runTesseractMultiWord(image);
-        return s;
-    }
-
-    private String doSingleWordTesseract(PicCoords coords) {
-        if (coords == null || coords.getX() == 0 || coords.getX() == -1) {
-            return null;
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        BufferedImage image = coords.getImageAtCoords(battlefield);
-        writePicture(image);
-
-        PicColors pc = new PicColors(image);
-        image = IncreaseSize.resize(image, 500, 300);
-        Convert.invertImage(IncreaseSize.quadrupleSize(image));
-        writePicture(image);
-        String s = DirectTesseract.runTesseractSingleWord(image);
-        return s;
+        return value;
 
     }
 
     private String getGaining(String gaining) {
         try {
-        if (gaining.startsWith("+")) {
-            gaining = gaining.replace("+", "");
-        }
-        } catch (NullPointerException ex){
+            if (gaining.startsWith("+")) {
+                gaining = gaining.replace("+", "");
+            }
+        } catch (NullPointerException ex) {
             return "0";
         }
         return gaining;
@@ -327,7 +292,7 @@ public class CityKingsBattlefieldAnalysis {
     private String parseTime(String time) {
         String[] timeSplit = time.split(" ");
         for (String t : timeSplit) {
-            char c = t.charAt(t.length()-1);
+            char c = t.charAt(t.length() - 1);
             switch (c) {
                 case 'h':
                     hours = t.replace("h", "");
@@ -337,11 +302,60 @@ public class CityKingsBattlefieldAnalysis {
                     break;
 
                 case 's':
-                    seconds =t.replace("s", "");
+                    seconds = t.replace("s", "");
                     break;
             }
 
         }
         return time;
     }
+
+    /**
+     * @return the hours
+     */
+    public String getHours() {
+        return hours;
+    }
+
+    /**
+     * @return the minutes
+     */
+    public String getMinutes() {
+        return minutes;
+    }
+
+    /**
+     * @return the seconds
+     */
+    public String getSeconds() {
+        return seconds;
+    }
+
+    /**
+     * @return the formattedTime
+     */
+    public String getFormattedTime() {
+        return formattedTime;
+    }
+
+    public String getTheirGainingScore() {
+        return this.theirGaining;
+    }
+
+    public String getOurGainingScore() {
+        return this.ourGaining;
+    }
+
+    public String getIVScore() {
+        return this.targetScore;
+    }
+
+    public String getOurCurrentScore() {
+        return this.ourScore;
+    }
+
+    public String getTheirCurrentScore() {
+        return this.theirScore;
+    }
+
 }

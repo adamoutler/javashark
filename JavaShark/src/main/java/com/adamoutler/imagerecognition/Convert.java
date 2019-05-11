@@ -10,10 +10,7 @@ public class Convert {
             for (int y = 0; y < image.getHeight(); y++) {
                 int rgba = image.getRGB(x, y);
                 Color col = new Color(rgba, true);
-                int RMONO_THRESHOLD = 180;
-                int GMONO_THRESHOLD = 180;
-                int BMONO_THRESHOLD = 180;
-                 col = new Color(255 - col.getRed(),
+                col = new Color(255 - col.getRed(),
                                 255 - col.getGreen(),
                                 255 - col.getBlue());
                 image.setRGB(x, y, col.getRGB());
