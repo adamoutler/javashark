@@ -66,6 +66,9 @@ public class ScreenDataTest {
 
             try {
                 System.out.println(f.getName());
+                if (!f.getAbsolutePath().endsWith("svn")){
+                    break;
+                }
                 BufferedImage bi = ImageIO.read(f);
                 String id = f.getName().split("\\.", 2)[0];
                 ScreenData expResult = ScreenData.valueOf(id);
