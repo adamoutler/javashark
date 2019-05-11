@@ -292,6 +292,7 @@ public class CityKingsBattlefieldAnalysis {
     private String parseTime(String time) {
         String[] timeSplit = time.split(" ");
         for (String t : timeSplit) {
+            if (t.length()<2) continue;
             char c = t.charAt(t.length() - 1);
             switch (c) {
                 case 'h':
