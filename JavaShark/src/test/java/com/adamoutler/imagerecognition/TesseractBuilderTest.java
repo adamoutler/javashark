@@ -36,6 +36,7 @@ public class TesseractBuilderTest {
 
     @Before
     public void setUp() {
+        System.out.println(f.getAbsolutePath());
     }
 
     @After
