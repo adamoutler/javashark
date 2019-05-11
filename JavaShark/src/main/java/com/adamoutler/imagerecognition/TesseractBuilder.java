@@ -104,12 +104,11 @@ public class TesseractBuilder {
     }
 
     public String execute() throws IOException, InterruptedException {
-        File inputFile = File.createTempFile("/js/TesseractJavaShark", ".png");
-        File textFile = File.createTempFile("/js/TesseractJavaShark", "");
+        File inputFile = File.createTempFile("TesseractJavaShark", ".png");
+        File textFile = File.createTempFile("TesseractJavaShark", "");
         File delFile = new File(textFile.getAbsolutePath() + ".txt");
         delFile.deleteOnExit();
         inputFile.deleteOnExit();
-        textFile.delete();
         FileOutputStream fos = new FileOutputStream(inputFile);
         ImageIO.write(getImage(), "PNG", fos);
         fos.close();
@@ -134,7 +133,13 @@ public class TesseractBuilder {
             sb.append(i);
         }
         fis.close();
-        delFile.delete();
+        try {
+            textFile.delete();
+            delFile.delete();
+        } catch (Exception ex) {
+
+        }
+
         return sb.toString().trim();
     }
 
