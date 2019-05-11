@@ -5,6 +5,7 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
@@ -34,7 +35,18 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        //log the request URI
+        boolean analyze=false;
+        
+        if (((String)request.getData().getResultObject()).equals("analyze")){
+            analyze=true;
+        }
+        if (username.contains("analyze")){
+                analyze=true;
+        }
+        if (username.contains(" ")){
+            username=username.split(" ")[0];
+        }
+        //
         System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username + this.gang);
         //check if the machine is powered on.  if not do the following:
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
@@ -66,6 +78,9 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             image = vm.screenshot();
             ImageIO.write(image, "PNG", outputFile);
             request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
+            if (analyze){
+                request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
+            }
         }
 
         System.out.println("sending message with URL back: " + request.getData().getUrl());

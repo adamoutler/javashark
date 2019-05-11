@@ -68,13 +68,13 @@ public class TaskManager {
         ArrayList<VirtualBoxMachine> al = new VirtualBox().getMachinesList();
         al.forEach((mac) -> {
             machines.add((VirtualBoxMachine) mac);
-            TaskType resumeTask=TaskType.getTasks((VirtualBoxMachine)mac);
-            boolean supported=resumeTask.getTask().resume((VirtualBoxMachine) mac);
+            TaskType resumeTask = TaskType.getTasks((VirtualBoxMachine) mac);
+            boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
             mac.clearTasks();
-            if (supported){
+            if (supported) {
                 mac.addTask(resumeTask);
-            } else {
-                SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac,resumeTask);
+            } else if (!mac.getGang().equals("development")) {
+                SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac, resumeTask);
                 mac.addTask(TaskType.POWEROFF);
             }
         });
@@ -168,8 +168,6 @@ public class TaskManager {
         machines = aMachines;
     }
 
-
-
     private static void runTemporaryTask(VirtualBoxMachine vm) {
         if (vm.getTemporaryTask() != null) {
             TemporaryTaskHandler.doTemporaryTask(vm);
@@ -189,9 +187,9 @@ public class TaskManager {
         if (!vm.isTaskInitialized()) {
             System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
-            vm.getCurrentTask().getTask().init(vm); 
+            vm.getCurrentTask().getTask().init(vm);
             TaskType.writeTaskToFile(vm);
-            
+
         }
     }
 

@@ -26,7 +26,6 @@ public class MessageData {
     private String username;
     private String url;
     private String gang;
-    String chatid;
     private String text;
     private String reason;
     private String ScreenName;

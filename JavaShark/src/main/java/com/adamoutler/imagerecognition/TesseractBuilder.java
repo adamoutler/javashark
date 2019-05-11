@@ -107,7 +107,7 @@ public class TesseractBuilder {
         File f1 = new File(System.getProperty("java.io.tmpdir") + File.separator + "JavaSharkOCR" + System.currentTimeMillis() + ".png");
 
         FileOutputStream fos = new FileOutputStream(f1);
-        System.out.println(image+" w:" +image.getWidth() + " h:"+image.getHeight());
+        System.out.println(image + " w:" + image.getWidth() + " h:" + image.getHeight());
         ImageIO.write(getImage(), "png", fos);
         fos.close();
         LinkedList<String> ll = getTessArgs(f1);
@@ -124,9 +124,9 @@ public class TesseractBuilder {
         System.out.println(out.toString());
         StringBuilder sb = new StringBuilder();
 
-        File f2=new File(f1.getAbsolutePath()+".txt");
+        File f2 = new File(f1.getAbsolutePath() + ".txt");
         if (f2.exists()) {
-            
+
             FileInputStream fis = new FileInputStream(f1.getAbsolutePath() + ".txt");
             while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
                 char i = (char) fis.read();
@@ -162,7 +162,7 @@ public class TesseractBuilder {
     private LinkedList<String> getTessArgs(File inputFile) {
         LinkedList<String> ll = new LinkedList<>();
         ll.add(getTesseractPathFile().getAbsolutePath());
-              ll.add(inputFile.getAbsolutePath());
+        ll.add(inputFile.getAbsolutePath());
         ll.add(inputFile.getAbsolutePath());
         if (!language.isEmpty()) {
             ll.add("-l");
@@ -178,9 +178,7 @@ public class TesseractBuilder {
         }
         ll.add("--psm");
         ll.add(getMode().getValue());
-        ll.add("--dpi");
-        ll.add("100");
-  
+
         return ll;
     }
 
