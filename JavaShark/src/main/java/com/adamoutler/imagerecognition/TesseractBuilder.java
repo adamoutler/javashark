@@ -162,6 +162,8 @@ public class TesseractBuilder {
     private LinkedList<String> getTessArgs(File inputFile) {
         LinkedList<String> ll = new LinkedList<>();
         ll.add(getTesseractPathFile().getAbsolutePath());
+              ll.add(inputFile.getAbsolutePath());
+        ll.add(inputFile.getAbsolutePath());
         if (!language.isEmpty()) {
             ll.add("-l");
             ll.add(language);
@@ -178,8 +180,7 @@ public class TesseractBuilder {
         ll.add(getMode().getValue());
         ll.add("--dpi");
         ll.add("100");
-        ll.add(inputFile.getAbsolutePath());
-        ll.add(inputFile.getAbsolutePath());
+  
         return ll;
     }
 
