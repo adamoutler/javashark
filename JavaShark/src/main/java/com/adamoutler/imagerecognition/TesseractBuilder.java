@@ -107,6 +107,7 @@ public class TesseractBuilder {
         File f1 = new File(System.getProperty("java.io.tmpdir") + File.separator + "JavaSharkOCR" + System.currentTimeMillis() + ".png");
 
         FileOutputStream fos = new FileOutputStream(f1);
+        System.out.println(image+" w:" +image.getWidth() + " h:"+image.getHeight());
         ImageIO.write(getImage(), "png", fos);
         fos.close();
         LinkedList<String> ll = getTessArgs(f1);
