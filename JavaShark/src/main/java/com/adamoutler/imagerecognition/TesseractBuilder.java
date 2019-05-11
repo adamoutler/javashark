@@ -104,18 +104,13 @@ public class TesseractBuilder {
     }
 
     public String execute() throws IOException, InterruptedException {
-        File inputFile = File.createTempFile("TesseractJavaShark", ".png");
-        File textFile = File.createTempFile("TesseractJavaShark", "");
-        File delFile = new File(textFile.getAbsolutePath() + ".txt");
-        delFile.createNewFile();
-        delFile.deleteOnExit();
-        inputFile.deleteOnExit();
-        FileOutputStream fos = new FileOutputStream(inputFile);
-        ImageIO.write(getImage(), "PNG", fos);
+        File f1 = new File(System.getProperty("java.io.tmpdir") + File.separator + "JavaSharkOCR" + System.currentTimeMillis() + ".png");
+
+        FileOutputStream fos = new FileOutputStream(f1);
+        ImageIO.write(getImage(), "png", fos);
         fos.close();
-        LinkedList<String> ll = getTessArgs(inputFile, textFile);
-        System.out.println("Tesseract execution: "+ ll);
-                
+        LinkedList<String> ll = getTessArgs(f1);
+
         ProcessBuilder pb = new ProcessBuilder(ll);
         pb.redirectErrorStream(true);
         Process p = pb.start();
@@ -127,21 +122,20 @@ public class TesseractBuilder {
         }
         System.out.println(out.toString());
         StringBuilder sb = new StringBuilder();
-        
-        FileInputStream fis = new FileInputStream(textFile.getAbsolutePath() + ".txt");
-        while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
-            char i = (char) fis.read();
-            if (i == '\uffff') {
-                break;
-            }
-            sb.append(i);
-        }
-        fis.close();
-        try {
-         //   textFile.delete();
-           // delFile.delete();
-        } catch (Exception ex) {
 
+        File f2=new File(f1.getAbsolutePath()+".txt");
+        if (f2.exists()) {
+            
+            FileInputStream fis = new FileInputStream(f1.getAbsolutePath() + ".txt");
+            while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
+                char i = (char) fis.read();
+                if (i == '\uffff') {
+                    break;
+                }
+                sb.append(i);
+            }
+            fis.close();
+            f2.delete();
         }
 
         return sb.toString().trim();
@@ -164,7 +158,7 @@ public class TesseractBuilder {
         return this;
     }
 
-    private LinkedList<String> getTessArgs(File inputFile, File textFile) {
+    private LinkedList<String> getTessArgs(File inputFile) {
         LinkedList<String> ll = new LinkedList<>();
         ll.add(getTesseractPathFile().getAbsolutePath());
         if (!language.isEmpty()) {
@@ -184,7 +178,7 @@ public class TesseractBuilder {
         ll.add("--dpi");
         ll.add("100");
         ll.add(inputFile.getAbsolutePath());
-        ll.add(textFile.getAbsolutePath());
+        ll.add(inputFile.getAbsolutePath());
         return ll;
     }
 
@@ -220,7 +214,7 @@ public class TesseractBuilder {
 
         try {
 
-            String filename = System.getProperty("java.io.tmpdir") +File.separator+ "citykingsbattlefieldanalysis" + name + ".png";
+            String filename = System.getProperty("java.io.tmpdir") + File.separator + "citykingsbattlefieldanalysis" + name + ".png";
             try (FileOutputStream fos = new FileOutputStream(filename)) {
                 ImageIO.write(pc.getImageAtCoords(image), "PNG", fos);
             }
