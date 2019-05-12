@@ -27,7 +27,7 @@ import javax.imageio.ImageIO;
  */
 public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
-    final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
+    final public static String OUTPUT = "/var/www/baby-sharks/screenshots/";
 
     public ScreenshotHandler() {
 

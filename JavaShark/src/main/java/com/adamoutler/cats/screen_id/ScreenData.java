@@ -136,7 +136,7 @@ public enum ScreenData {
      * @param bi Buffered Image of screenshot
      * @return identifier for screen
      */
-     static ScreenData identifyScreen(BufferedImage bi) {
+     public static ScreenData identifyScreen(BufferedImage bi) {
         
         ScreenData returnValue = ScreenData.UNKNOWN;
         for (ScreenData screen : ScreenData.values()) {
