@@ -62,7 +62,7 @@ public class CityKingsBattlefieldAnalysis {
         ourGaining = getGaining(doGainingScore(ourGainingCoords));
         theirGaining = getGaining(doGainingScore(theirGainingCoords));
         try {
-            formattedTime = getTime(battlefield);
+            formattedTime = getTime(battlefield).replaceAll(" ","");
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -44,7 +44,7 @@ public class CityKingsMatchRaw {
     private String excelFile = "";
     private String jsonFile = "";
     Gang gang;
-    CityKingsBattlefieldAnalysis battlefield;
+    private CityKingsBattlefieldAnalysis battlefield;
     transient public final static PicCoords OURSCORECOORDS=new PicCoords(150,135,244,45);
     transient public final static PicCoords THEIRSCORECOORDS=new PicCoords(632,135,244,45);
     transient public final static PicCoords TARGETSCORECOORDS=new PicCoords(447,149,141,38);
@@ -201,6 +201,13 @@ public class CityKingsMatchRaw {
      */
     public void setExcelFile(String excelFile) {
         this.excelFile = excelFile;
+    }
+
+    /**
+     * @return the battlefield
+     */
+    public CityKingsBattlefieldAnalysis getBattlefield() {
+        return battlefield;
     }
 
 }

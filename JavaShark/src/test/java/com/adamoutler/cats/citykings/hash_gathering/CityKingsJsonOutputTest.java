@@ -26,7 +26,7 @@ import org.junit.Test;
 public class CityKingsJsonOutputTest {
 
     public CityKingsJsonOutputTest() {
-        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/BuildingDetailReport5.json");
+        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1556476463787-development-AdamOutler-ed7c7a7f-d278-4642-a69f-a6b27887254a");
 
     }
 
