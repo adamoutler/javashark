@@ -293,61 +293,110 @@ public class CityKingsJsonOutput {
         r.getCell(0).setCellStyle(h2);
         r.getCell(1).setCellStyle(h2);
 
-        int minutes = 0;
-
+        int minutesRemaining = 9999999;
         try {
+            minutesRemaining = ((Integer.parseInt(match.getBattlefield().getHours())*60) + Integer.parseInt(match.getBattlefield().getMinutes()));
+            
+        }catch (ArithmeticException ex){
+            System.out.println("could not get minutes remaining.");
+        }
+        int ourCurrentScore=1;
+        try { 
+            ourCurrentScore=Integer.parseInt(match.getBattlefield().getOurCurrentScore());
+        } catch (ArithmeticException ex){}
+        
+        int ourGainingScore=1;
+        try {
+             ourGainingScore=Integer.parseInt(match.getBattlefield().getOurGainingScore());
+        }catch (ArithmeticException ex){}
+        
+        
+        int theirGainingScore=1;
+        try {
+            theirGainingScore=Integer.parseInt(match.getBattlefield().getTheirGainingScore());
+        }catch (ArithmeticException ex){}
+        
+        int theirCurrentScore=1;
+        try {
+            theirCurrentScore=Integer.parseInt(match.getBattlefield().getTheirCurrentScore());
+        }catch (ArithmeticException ex){}
+        
+        int targetScore=99999999;
+        try {
+            targetScore=Integer.parseInt(match.getBattlefield().getIVScore());
+        }catch (ArithmeticException ex){}
+        
+        int timeTillOurIV=99999999;
+        try {
+            timeTillOurIV = ((targetScore-ourCurrentScore)/ourGainingScore);
+        }catch (ArithmeticException ex){
+            System.out.println("could not get minutes remaining.");
+        }
+                int timeTillTheirIV=99999999;
+
+                try {
+            timeTillTheirIV = ((targetScore-theirCurrentScore)/theirGainingScore);
+        }catch (ArithmeticException ex){
+            System.out.println("could not get minutes remaining.");
+        }
+                    DecimalFormat decimalFormat = new DecimalFormat("##.####");
+
+        try{
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Target:");
             r.getCell(0).setCellStyle(bold);
-            r.createCell(1).setCellValue(match.getBattlefield().getIVScore());
+            r.createCell(1).setCellValue(targetScore);
             r.createCell(2).setCellValue("Remain:");
             r.getCell(2).setCellStyle(bold);
             r.createCell(3).setCellValue(match.getBattlefield().getFormattedTime());
-            minutes = ((Integer.parseInt(match.getBattlefield().getHours())*60) + Integer.parseInt(match.getBattlefield().getMinutes()));
-            r.createCell(4).setCellValue("Minutes:");
+            r.createCell(4).setCellValue("%:");
             r.getCell(4).setCellStyle(bold);
-            r.createCell(5).setCellValue(minutes);
+            r.createCell(5).setCellValue( decimalFormat.format((1-(minutesRemaining/((float)24*(float)60)))*100)+"%");
+            
+            r.createCell(6).setCellValue("Left:");
+            r.getCell(6).setCellStyle(bold);
+            r.createCell(7).setCellValue(minutesRemaining+"m");
 
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Us:");
             r.getCell(0).setCellStyle(bold);
-            r.createCell(1).setCellValue(match.getBattlefield().getOurCurrentScore());
-            r.createCell(2).setCellValue("%:");
-            r.getCell(2).setCellStyle(bold);
-            DecimalFormat decimalFormat = new DecimalFormat("##.##");
+            r.createCell(1).setCellValue(ourCurrentScore);
+            r.createCell(4).setCellValue("%:");
+            r.getCell(4).setCellStyle(bold);
 
-            
+            int ourscore=0;
+                    
             try {
-                r.createCell(3).setCellValue("" + decimalFormat.format((Float.parseFloat(match.getBattlefield().getOurCurrentScore()) / Float.parseFloat(match.getBattlefield().getIVScore()))*100) + "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float)ourCurrentScore/(float)targetScore)*100 )+ "%");
             } catch (ArithmeticException ex) {
             }
-            r.createCell(4).setCellValue("Gaining:");
-            r.getCell(4).setCellStyle(bold);
-            r.createCell(5).setCellValue(match.getBattlefield().getOurGainingScore());
+            r.createCell(2).setCellValue("Gaining:");
+            r.getCell(2).setCellStyle(bold);
+            r.createCell(3).setCellValue(ourGainingScore);
             r.createCell(6).setCellValue("IV in:");
             r.getCell(6).setCellStyle(bold);
             try {
-                r.createCell(7).setCellValue((Integer.parseInt(match.getBattlefield().getOurCurrentScore()) / Integer.parseInt(match.getBattlefield().getOurGainingScore())) + "minutes");
+                r.createCell(7).setCellValue(timeTillOurIV + "m");
             } catch (ArithmeticException ex) {
             }
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Them:");
             r.getCell(0).setCellStyle(bold);
-            r.createCell(1).setCellValue(match.getBattlefield().getTheirCurrentScore());
-            r.createCell(2).setCellValue("%:");
-            r.getCell(2).setCellStyle(bold);
+            r.createCell(1).setCellValue(theirCurrentScore);
+            r.createCell(4).setCellValue("%:");
+            r.getCell(4).setCellStyle(bold);
 
             try {
-                r.createCell(3).setCellValue("" + decimalFormat.format((Float.parseFloat(match.getBattlefield().getTheirCurrentScore()) / Float.parseFloat(match.getBattlefield().getIVScore()))*100) + "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float)theirCurrentScore/(float)targetScore)*100) + "%");
             } catch (ArithmeticException ex) {
             }
-            r.createCell(4).setCellValue("Gaining:");
-            r.getCell(4).setCellStyle(bold);
-            r.createCell(5).setCellValue(match.getBattlefield().getTheirGainingScore());
+            r.createCell(2).setCellValue("Gaining:");
+            r.getCell(2).setCellStyle(bold);
+            r.createCell(3).setCellValue(theirGainingScore);
             r.createCell(6).setCellValue("IV in:");
             r.getCell(6).setCellStyle(bold);
             try {
-                r.createCell(7).setCellValue((Integer.parseInt(match.getBattlefield().getTheirCurrentScore()) / Integer.parseInt(match.getBattlefield().getTheirGainingScore())) + "minutes");
+                r.createCell(7).setCellValue(timeTillTheirIV + "m");
             } catch (ArithmeticException ex) {
 
             }
