@@ -6,6 +6,7 @@ package com.adamoutler.javashark.handlers;
  * and open the template in the editor.
  */
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
@@ -76,8 +77,9 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             request.getData().setUrl(null);
         } else {
             image = vm.screenshot();
+            ScreenData sd=ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd);
             if (analyze){
                 request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
             }
