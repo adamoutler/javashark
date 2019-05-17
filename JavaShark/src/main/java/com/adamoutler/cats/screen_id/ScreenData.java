@@ -39,6 +39,7 @@ public enum ScreenData {
     CHAMPIONSHIPGARAGE(new HashedPicCoords[]{new HashedPicCoords(26, 594, 260, 11, 1259859504)}, new ColoredXYCoords[]{}, "In Championship Garage working on car"),
     CHAT(new HashedPicCoords[]{new HashedPicCoords(574, 131, 90, 90, 672990996)}, new ColoredXYCoords[]{}, "Gang Chat screen"),
     CITYKINGS(new HashedPicCoords[]{new HashedPicCoords(131, 127, 171, 22, 601329689), new HashedPicCoords(629, 203, 50, 44, -1335721359), new HashedPicCoords(427, 123, 163, 24, 1441714547)}, new ColoredXYCoords[]{}, "City Kings, battlefield screen"),
+    CITYKINGSBUILDINGNOSCOUT(new HashedPicCoords[]{new HashedPicCoords(576, 311, 35, 47, 1212340291)}, new ColoredXYCoords[]{}, "City Kings, building Attack Screen, no scout"),
     CITYKINGSBUILDINGATTACK(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1788496405)}, new ColoredXYCoords[]{}, "City Kings, Building Attack screen"),
     CITYKINGSBUILDINGDEFEND(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1587988222)}, new ColoredXYCoords[]{}, "City Kings, building defend screen"),
     CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 290854650)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),

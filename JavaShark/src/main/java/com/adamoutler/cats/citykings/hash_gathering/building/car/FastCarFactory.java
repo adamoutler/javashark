@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering.building.car;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.NEXTBUTTON;
+import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.PREVIOUSBUTTON;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
@@ -74,12 +75,12 @@ public class FastCarFactory {
     private VirtualBoxMachine vm;
     private static int sleepTime = 250;
 
-    public FastCarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
+    public FastCarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building, boolean friendly) {
         this.vm = vm;
         this.building = building;
     }
 
-    public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber) throws IOException, InterruptedException, JadbException {
+    public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber,boolean friendly) throws IOException, InterruptedException, JadbException {
         LinkedList<CityKingsCarRaw> buildingCars = new LinkedList<>();
         System.out.println("recorded car 1");
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
@@ -111,7 +112,7 @@ public class FastCarFactory {
                         playerCar = createCarStore(buildingNumber, i);
                         break;
                     default:
-                        this.navigateToLocation(i);
+                        this.navigateToLocation(i,friendly);
                         sleep(sleepTime);
                         playerCar = createCarStore(buildingNumber, i);
                         break;
@@ -120,7 +121,7 @@ public class FastCarFactory {
                 //if we corrected the problem
                 if (!playerCar.equals(lastCar)) {
                     redo = 0;
-                    navigateToLocation(i);
+                    navigateToLocation(i,friendly);
                 } else {
                     redo++;
                 }
@@ -131,7 +132,7 @@ public class FastCarFactory {
                     sleepTime = sleepTime - 10;
                 }
                 redo = 0;
-                navigateToLocation(i);
+                navigateToLocation(i,friendly);
             }
 
             if (redo > 0) {
@@ -187,9 +188,9 @@ public class FastCarFactory {
         return lastCar;
     }
 
-    private CityKingsCarRaw level4ErrorCorrection(LinkedList<CityKingsCarRaw> buildingCars, int building, int location) throws IOException, InterruptedException {
+    private CityKingsCarRaw level4ErrorCorrection(LinkedList<CityKingsCarRaw> buildingCars, int building, int location,boolean friendly) throws IOException, InterruptedException {
         for (int i = 0; i <= this.building.getOwnershipBar().getNumberWeOwn(); i++) {
-            this.setNextCar();
+            this.setNextCar(friendly);
             Thread.sleep(this.sleepTime);
             CityKingsCarRaw playerCar = createCarStore(building, i);
             System.out.println("Adjusting to expected position + " + (i + 1));
@@ -205,9 +206,9 @@ public class FastCarFactory {
         return createCar(building, location);
     }
 
-    private boolean navigateToLocation(int carPosition) throws IOException, InterruptedException, JadbException {
+    private boolean navigateToLocation(int carPosition,boolean friendly) throws IOException, InterruptedException, JadbException {
 
-        this.setNextCar();
+        this.setNextCar(friendly);
         return true;
     }
 
@@ -251,10 +252,14 @@ public class FastCarFactory {
         return playerCar;
     }
 
-    public void setNextCar() {
+    public void setNextCar(boolean friendly) {
 
         try {
+            if (friendly){
             Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
+            } else {
+            Navigation.pressLocation(vm.getJadb(), PREVIOUSBUTTON);    
+            }
             Thread.sleep(1000);
             System.out.println();
         } catch (IOException | JadbException ex) {

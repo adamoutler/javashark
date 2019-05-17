@@ -65,9 +65,9 @@ public class ScreenDataTest {
         for (File f : files) {
 
             try {
-                System.out.println(f.getName());
-                if (!f.getAbsolutePath().endsWith("svn")){
-                    break;
+                System.out.println(f.getAbsolutePath());
+                if (f.getAbsolutePath().endsWith("svn")){
+                    continue;
                 }
                 BufferedImage bi = ImageIO.read(f);
                 String id = f.getName().split("\\.", 2)[0];

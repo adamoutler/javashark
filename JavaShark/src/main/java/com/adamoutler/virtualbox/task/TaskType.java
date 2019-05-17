@@ -8,7 +8,8 @@ package com.adamoutler.virtualbox.task;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
-import com.adamoutler.virtualbox.task.tasks.DeepBuildingScanTask;
+import com.adamoutler.virtualbox.task.tasks.DeepBuildingFoeScanTask;
+import com.adamoutler.virtualbox.task.tasks.DeepBuildingFriendlyScanTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
 import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
@@ -37,7 +38,8 @@ public enum TaskType {
     
     IDLE(new IdleTask(), "Machine is idle"),
     SENTRY(new SentryTask(), "Machine is on Sentry Duty"),
-    DEEPBUILDINGSCAN(new DeepBuildingScanTask(), "Deep Building Scanning, Friendly Machines"),
+    DEEPBUILDINGSCAN(new DeepBuildingFriendlyScanTask(), "Deep Building Scanning, Friendly Machines"),
+    DEEPBUILDINGRECON(new DeepBuildingFoeScanTask(), "Deep Building Scanning, Foe Machines"),
     POWERON(new PowerOnTask(),"Turn the machine on"),
     STARTCATS(new StartCatsTask(),"Start CATS"),
     POWEROFF(new PoweroffTask(),"Machine is powered off"),

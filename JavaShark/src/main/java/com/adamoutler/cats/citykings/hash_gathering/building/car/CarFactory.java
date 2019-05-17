@@ -74,10 +74,12 @@ public class CarFactory {
     private BufferedImage lastCarBadge;
     private VirtualBoxMachine vm;
     private static int sleepTime =500;
-
-    public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building) {
+    private boolean friendly;
+    
+    public CarFactory(VirtualBoxMachine vm, CityKingsBuildingRaw building,boolean friendly) {
         this.vm = vm;
         this.building = building;
+        this.friendly=friendly;
     }
 
     public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber) throws IOException, InterruptedException, JadbException {
@@ -85,7 +87,7 @@ public class CarFactory {
         System.out.println("recorded car 1");
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
         int redo = 0;
-        for (int i = 1; i <= this.building.getOwnershipBar().numberWeOwn(); i++) {
+        for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn():building.getOwnershipBar().numberTheyOwn()); i++) {
             //announce the car we are on
             System.out.println("Building:"+ buildingNumber+" Car:" + i);
             //sleep for a bit to verify no additional activity is required. 
@@ -260,7 +262,7 @@ public class CarFactory {
     public void setPreviousCar() {
 
         try {
-            Navigation.pressLocation(vm.getJadb(), PREVIOUSBUTTON);
+            Navigation.pressLocation(vm.getJadb(), (PREVIOUSBUTTON));
             Thread.sleep(500);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);
@@ -272,7 +274,7 @@ public class CarFactory {
     public void setNextCar() {
 
         try {
-            Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
+            Navigation.pressLocation(vm.getJadb(), (NEXTBUTTON));
             Thread.sleep(1000);
         } catch (IOException | JadbException ex) {
             Logger.getLogger(CityKingsCarRaw.class.getName()).log(Level.SEVERE, null, ex);

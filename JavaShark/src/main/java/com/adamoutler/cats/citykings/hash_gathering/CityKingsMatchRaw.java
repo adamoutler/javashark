@@ -37,6 +37,12 @@ import javax.imageio.ImageIO;
  */
 public class CityKingsMatchRaw {
 
+    
+    
+   public CityKingsMatchRaw(boolean friendly){
+       this.friendly=friendly;
+   }
+    final private boolean friendly;
     private final long time = System.currentTimeMillis();
    
     private LinkedList<CityKingsBuildingRaw> buildings;
@@ -64,7 +70,7 @@ public class CityKingsMatchRaw {
             //CityKingsScreen.navigateTo(jadb);
             BufferedImage bi = vm.screenshot();
             Screenshottable.writePic(bi, "PictureUsedForCreateBuildings");
-            setBuildings(BuildingFactory.createBuildings(vm));
+            setBuildings(BuildingFactory.createBuildings(vm, friendly));
             Gang gang=new Gang(vm.getGang());
 
             getBuildings().stream().map((building) -> {

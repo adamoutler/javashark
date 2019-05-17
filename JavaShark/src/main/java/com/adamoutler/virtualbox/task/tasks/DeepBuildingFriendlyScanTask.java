@@ -19,9 +19,9 @@ import java.util.logging.Logger;
  *
  * @author adamo
  */
-public class DeepBuildingScanTask extends Task {
+public class DeepBuildingFriendlyScanTask extends Task {
 
-    public DeepBuildingScanTask() {
+    public DeepBuildingFriendlyScanTask() {
         System.out.println();
     }
 
@@ -32,7 +32,7 @@ public class DeepBuildingScanTask extends Task {
             Thread t = new Thread(() -> {
 
                 try {
-                    CityKingsMatchRaw report = new CityKingsMatchRaw().scanBuildings(vm);
+                    CityKingsMatchRaw report = new CityKingsMatchRaw(true).scanBuildings(vm);
                     String s = report.getExcelFile();
                     report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
                     report.clearScreenshots();
@@ -44,7 +44,7 @@ public class DeepBuildingScanTask extends Task {
                     try {
                         report.writeJson(f);
                     } catch (IOException ex) {
-                        Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DeepBuildingFriendlyScanTask.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     m.getData().setReason("Scan Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
                     SendPapaAsynch.sendToPapa(m);
@@ -56,7 +56,7 @@ public class DeepBuildingScanTask extends Task {
             t.start();
             ready(vm);
         } catch (Exception ex) {
-            Logger.getLogger(DeepBuildingScanTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeepBuildingFriendlyScanTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

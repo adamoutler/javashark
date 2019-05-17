@@ -41,9 +41,6 @@ public class PicColors {
         return -1;
     }
 
-    
-    
-    
     public int scanUpYCoordinateForLackOfColorAtXCoordinate(int[] colors, int x, int startingAtY, int endingAtY) {
         return scanUpYCoordinateForLackOfColorAtXCoordinate(colors, x, startingAtY, endingAtY, 0);
     }
@@ -170,6 +167,10 @@ public class PicColors {
             return -1;
         }
         return (image.getRGB(x, y) & 0x00FFFFFF);
+    }
+
+    public boolean checkColorPlusOrMinus(XYCoords c, int referenceColor, int maxDifference) {
+        return checkColorPlusOrMinus(c.getX(), c.getY(), referenceColor, maxDifference);
     }
 
     public boolean checkColorPlusOrMinus(int x, int y, int referenceColor, int maxDifference) {

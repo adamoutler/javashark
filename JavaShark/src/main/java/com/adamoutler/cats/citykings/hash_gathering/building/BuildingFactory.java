@@ -45,22 +45,26 @@ public class BuildingFactory {
     final public static PicCoords BUILDING5SIZE = new PicCoords(984, 499, 36, 22);
     final public static PicCoords BUILDING6NAME = new PicCoords(832, 328, 110, 25);
     final public static PicCoords BUILDING6SIZE = new PicCoords(968, 329, 36, 22);
-
+    final public static int RED = 0xFF615B;
+    final public static int BLUE = 0xA9CAFA;
+    final public static XYCoords friendlyFirstCar=new XYCoords(926, 271);
+    final public static XYCoords foeFirstCar=new XYCoords(477, 271);
     private BufferedImage mapScreenshot;
-    
-    static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber) {
+
+    static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber, boolean friendly) {
         CityKingsBuildingRaw ckb = new CityKingsBuildingRaw(vm, buildingNumber, ByteImage.getPngBytes(screenshot));
         setbuildingNamePic(buildingNumber, screenshot, ckb);
         setBuildingSizePic(buildingNumber, screenshot, ckb);
         setBuildingXY(buildingNumber, ckb);
         ckb.setBuildingNumber(buildingNumber);
 
-        BufferedImage ckscreen=null;
+        BufferedImage ckscreen = null;
         try {
-            for (int i=0;i<5; i++){
-                ckscreen=ckb.navigateToBuilding();
+            for (int i = 0; i < 5; i++) {
+
+                ckscreen = ckb.navigateToBuilding(friendly);
                 ScreenData sd = vm.getScreen();
-                if (sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
+                if (sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND) || sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
                     break;
                 }
             }
@@ -69,22 +73,26 @@ public class BuildingFactory {
             ckb.setMapScreenshot(ckscreen);
             //required to set the size of the building before inspection. 
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
-            ensureTeamOwnershipPercentageBarIsSet(ckb, vm);
-            for  (int i=0; i<5; i++){
-                ckb.scan();
+            ensureTeamOwnershipPercentageBarIsSet(ckb, vm, friendly);
+            for (int i = 0; i < 5; i++) {
+                if (vm.getScreen().equals(ScreenData.CITYKINGSBUILDINGNOSCOUT)){
+                    System.out.println("No scout is active! Skipping building");
+                } else {
+                    ckb.scan(friendly);
+                }
                 System.out.println("Checking final building navigational results.");
-                
-               // vm.longTap(CityKingsCarRaw.NEXTBUTTON);
-                sleep(4000);
-                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(926, 271, 0xA9CAFA, 10)){
+
+                sleep(2000);
+
+                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly?friendlyFirstCar:foeFirstCar, friendly?BLUE:RED, 10)) {//red ){
                     System.out.println("Cursor Position Verified. Report is solid.");
                     break;
                 } else {
-                    vm.adbShell("input","tap",CarFactory.CAR1.getXStr(),CarFactory.CAR1.getYStr());
+                    vm.adbShell("input", "tap", friendly?friendlyFirstCar.getXStr():foeFirstCar.getXStr(), friendly?friendlyFirstCar.getYStr():foeFirstCar.getYStr());
                     System.out.println("Could not verify all cars were accounted in building");
-                    sleep(4000);
+                    sleep(1000);
                 }
-                
+
             }
         } catch (IOException | InterruptedException | JadbException ex) {
             Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,13 +110,13 @@ public class BuildingFactory {
         Thread.sleep(time);
     }
 
-    private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb, VirtualBoxMachine vm) throws IOException, InterruptedException, JadbException {
+    private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb, VirtualBoxMachine vm, boolean friendly) throws IOException, InterruptedException, JadbException {
         int retries = 0;
         while (ckb.getOwnershipBar().getTotalSlots() < 5) {
             if (retries++ > 3) {
                 throw new JadbException("Machine is not responding!  I couldn't acquire data from the building.");
             }
-            ckb.navigateToBuilding();
+            ckb.navigateToBuilding(friendly);
             try {
                 ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
             } catch (NullPointerException ex) {
@@ -118,13 +126,11 @@ public class BuildingFactory {
         }
     }
 
-  
-    
-    static public LinkedList<CityKingsBuildingRaw> createBuildings(VirtualBoxMachine vm) {
+    static public LinkedList<CityKingsBuildingRaw> createBuildings(VirtualBoxMachine vm, boolean friendly) {
         LinkedList<CityKingsBuildingRaw> buildings = new LinkedList<>();
 
         for (int i = 1; i <= 6; i++) {
-            CityKingsBuildingRaw building = BuildingFactory.createBuilding(vm, vm.screenshot(), i);
+            CityKingsBuildingRaw building = BuildingFactory.createBuilding(vm, vm.screenshot(), i, friendly);
 
             buildings.add(building);
 

@@ -30,6 +30,7 @@ public final class CityKingsBuildingRaw {
 
     transient final public static XYCoords BUILDINGOWNERLOCATION = new XYCoords(507, 139);
     transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
+    transient final public static XYCoords ATTACKBUTTON = new XYCoords(670, 390);
     transient private byte[] buildingNamePic = new byte[0];
     transient private PicCoords cityKingsBuildingScreenCoordinates = new PicCoords(0, 0, 0, 0);
     private String buildingName = "";
@@ -124,14 +125,18 @@ public final class CityKingsBuildingRaw {
         this.buildingSizePic = ByteImage.getPngBytes(buildingSizePic);
     }
 
-    public BufferedImage navigateToBuilding() throws IOException, JadbException {
+    public BufferedImage navigateToBuilding(boolean friendly) throws IOException, JadbException {
 
         Navigation.navigateToCityKings(vm);
         sleep(4000);
         BufferedImage bi=vm.screenshot();
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
         sleep(3000);
-        Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
+        if (friendly){
+            Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
+        } else {
+            Navigation.tapLocation(vm.getJadb(), ATTACKBUTTON);
+        }
         sleep(3000);
         return bi;
     }
@@ -195,38 +200,21 @@ public final class CityKingsBuildingRaw {
     }
 
 
-    public void scan() throws IOException, InterruptedException, JadbException {
+    public void scan(boolean friendly) throws IOException, InterruptedException, JadbException {
         if (fastScan) {
-            FastCarFactory bf = new FastCarFactory(vm, this);
-            this.cars = bf.buildCars(this.getBuildingNumber());
+            FastCarFactory bf = new FastCarFactory(vm, this, friendly);
+            this.cars = bf.buildCars(this.getBuildingNumber(),friendly);
         } else {
-            CarFactory bf = new CarFactory(vm, this);
+            CarFactory bf = new CarFactory(vm, this,friendly);
             this.cars = bf.buildCars(this.getBuildingNumber());
         }
         // this.cars = removeDuplicates(cars);
 
     }
 
-    private LinkedList<CityKingsCarRaw> removeDuplicates(LinkedList<CityKingsCarRaw> cars) {
-        LinkedList<CityKingsCarRaw> newCars = new LinkedList<>();
-        if (cars.isEmpty()) {
-            return cars;
-        }
-        newCars.add(cars.get(0));
-        for (int i = 0; i < cars.size(); i++) {
-            boolean add = true;
-            newCars.forEach((newCar) -> {
-                System.out.println(newCar);
-            });
-            newCars.add(cars.get(i));
-        }
-        return newCars;
-    }
+ 
 
-    public static void deleteDups(LinkedList<CityKingsCarRaw> n) {
-
-    }
-
+ 
     void setBuildingOwner(OwnedBy buildingOwnedBy) {
         this.buildingOwnedBy = buildingOwnedBy;
     }
