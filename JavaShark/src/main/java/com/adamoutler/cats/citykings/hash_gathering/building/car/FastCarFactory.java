@@ -85,7 +85,7 @@ public class FastCarFactory {
         System.out.println("recorded car 1");
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
         int redo = 0;
-        for (int i = 1; i <= this.building.getOwnershipBar().numberWeOwn(); i++) {
+        for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn():building.getOwnershipBar().numberTheyOwn()); i++) {
             System.out.println("Car "+i);
             sleep(sleepTime);
             CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
@@ -112,16 +112,20 @@ public class FastCarFactory {
                         playerCar = createCarStore(buildingNumber, i);
                         break;
                     default:
-                        this.navigateToLocation(i,friendly);
+                        this.navigateToLocation(i);
                         sleep(sleepTime);
                         playerCar = createCarStore(buildingNumber, i);
                         break;
 
                 }
+                if (playerCar.isParked()){
+                    redo=5;
+                    continue; 
+               }
                 //if we corrected the problem
                 if (!playerCar.equals(lastCar)) {
                     redo = 0;
-                    navigateToLocation(i,friendly);
+                    navigateToLocation(i);
                 } else {
                     redo++;
                 }
@@ -132,7 +136,7 @@ public class FastCarFactory {
                     sleepTime = sleepTime - 10;
                 }
                 redo = 0;
-                navigateToLocation(i,friendly);
+                navigateToLocation(i);
             }
 
             if (redo > 0) {
@@ -188,9 +192,9 @@ public class FastCarFactory {
         return lastCar;
     }
 
-    private CityKingsCarRaw level4ErrorCorrection(LinkedList<CityKingsCarRaw> buildingCars, int building, int location,boolean friendly) throws IOException, InterruptedException {
+    private CityKingsCarRaw level4ErrorCorrection(LinkedList<CityKingsCarRaw> buildingCars, int building, int location) throws IOException, InterruptedException {
         for (int i = 0; i <= this.building.getOwnershipBar().getNumberWeOwn(); i++) {
-            this.setNextCar(friendly);
+            this.setNextCar();
             Thread.sleep(this.sleepTime);
             CityKingsCarRaw playerCar = createCarStore(building, i);
             System.out.println("Adjusting to expected position + " + (i + 1));
@@ -206,9 +210,9 @@ public class FastCarFactory {
         return createCar(building, location);
     }
 
-    private boolean navigateToLocation(int carPosition,boolean friendly) throws IOException, InterruptedException, JadbException {
+    private boolean navigateToLocation(int carPosition) throws IOException, InterruptedException, JadbException {
 
-        this.setNextCar(friendly);
+        this.setNextCar();
         return true;
     }
 
@@ -252,14 +256,11 @@ public class FastCarFactory {
         return playerCar;
     }
 
-    public void setNextCar(boolean friendly) {
+    public void setNextCar() {
 
         try {
-            if (friendly){
             Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
-            } else {
-            Navigation.pressLocation(vm.getJadb(), PREVIOUSBUTTON);    
-            }
+           
             Thread.sleep(1000);
             System.out.println();
         } catch (IOException | JadbException ex) {

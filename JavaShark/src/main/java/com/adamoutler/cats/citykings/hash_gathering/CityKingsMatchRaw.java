@@ -155,7 +155,7 @@ public class CityKingsMatchRaw {
             folder.mkdirs();
         }
         File f = new File(folder.getAbsolutePath() + "/" + outputUUID+".xls");
-        new CityKingsJsonOutput().createOutputFiles(f, this);
+        new CityKingsJsonOutput().createOutputFiles(f, this,friendly);
         writeJson(new File(outputFolder+outputUUID+".json"));
         this.jsonFile=f.getAbsolutePath();
         this.excelFile="https://javashark.baby-sharks.com/"+outputUUID+".xls";

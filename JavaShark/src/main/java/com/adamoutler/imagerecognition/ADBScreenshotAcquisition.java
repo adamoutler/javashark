@@ -32,7 +32,6 @@ public class ADBScreenshotAcquisition {
     
     public static final String ADB = "C:\\Users\\adamo\\OneDrive\\Desktop\\platform-tools\\adb.exe";
     private transient JadbDevice jadb;
-
     
     public CityKingsCarRaw acquireCityKingsImage(VirtualBoxMachine vm){
         this.jadb=jadb;

@@ -36,8 +36,8 @@ public class DeepBuildingFoeScanTask extends Task {
                     String s = report.getExcelFile();
                     report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
                     report.clearScreenshots();
-                    Message m = new Message().setCommand("deepbuildingscancomplete");
-                    m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Scan Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
+                    Message m = new Message().setCommand("deepbuildingreconcomplete");
+                    m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Recon Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
 
                     File f = new File("/var/www/baby-sharks/excel/" + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
                     System.out.println();
@@ -46,7 +46,7 @@ public class DeepBuildingFoeScanTask extends Task {
                     } catch (IOException ex) {
                         Logger.getLogger(DeepBuildingFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    m.getData().setReason("Scan Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
+                    m.getData().setReason("Recon Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
                     SendPapaAsynch.sendToPapa(m);
                 } catch (Exception ex) {
 

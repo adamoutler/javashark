@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering.building.car;
 
 import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.HashedPicCoords;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
@@ -25,7 +26,7 @@ import javax.imageio.ImageIO;
  * @author adamo
  */
 public final class CityKingsCarRaw implements Cloneable {
-
+ 
     transient public final static XYCoords NEXTBUTTON = new XYCoords(302, 576);
     transient public final static XYCoords PREVIOUSBUTTON = new XYCoords(132, 576);
     transient public final static PicCoords NAMECOORDS = new PicCoords(6, 6, 300, 38);
@@ -33,7 +34,7 @@ public final class CityKingsCarRaw implements Cloneable {
     transient final private static int SWORDCOLOR = 0x48a1b8;
     transient private final static PicCoords SMALL = new PicCoords(0, 0, 100, 300);
     transient final static Font FONT = new Font("Arial", Font.PLAIN, 35);
-
+    transient final static HashedPicCoords parkedCarIndicator= new HashedPicCoords(206,252,19,22,34185158);
     private String nameHash = "";
     private String uniqueHash = "";
     private String bottomLineHash = "";
@@ -42,7 +43,8 @@ public final class CityKingsCarRaw implements Cloneable {
     private Integer column = 0;
     private int building;
     private byte[] carBadge = new byte[]{};
-
+    private boolean parked=false;
+    
     public CityKingsCarRaw(byte[] screenshot, int building, int location) {
         this.building = building;
         this.location = location;
@@ -73,6 +75,7 @@ public final class CityKingsCarRaw implements Cloneable {
     private CityKingsCarRaw setCarScreenshot(byte[] carScreenshot) {
         this.setCarBadge(carScreenshot);
         BufferedImage bi = ByteImage.getImageFromBytes(carScreenshot);
+        this.setParked(parkedCarIndicator.hashMatches(bi));
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(bi)));
         this.setUniqueHash(Integer.toHexString(CarBadgeHash.getUniqueHash(getUniquePic())));
         
@@ -292,5 +295,19 @@ public final class CityKingsCarRaw implements Cloneable {
         this.bottomLineHash=null;
         this.uniqueHash=null;
         
+    }
+
+    /**
+     * @return the parked
+     */
+    public boolean isParked() {
+        return parked;
+    }
+
+    /**
+     * @param parked the parked to set
+     */
+    public void setParked(boolean parked) {
+        this.parked = parked;
     }
 }

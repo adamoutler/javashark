@@ -95,6 +95,7 @@ public class CarFactory {
             CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
             //we have a problem with the acquisition
             if (playerCar.equals(lastCar)) {
+
                 redo++;
                 sleep(sleepTime );
                 System.out.println("correction level " + redo);
@@ -134,6 +135,9 @@ public class CarFactory {
                     redo = 0;
                     navigateToLocation(i);
                 } 
+                if (playerCar.isParked()){
+                    redo=5;
+                }
                 
             } else {
                                
