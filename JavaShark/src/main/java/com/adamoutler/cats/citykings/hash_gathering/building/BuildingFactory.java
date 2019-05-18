@@ -7,7 +7,6 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
 
 import com.adamoutler.ADB;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
-import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
@@ -75,11 +74,8 @@ public class BuildingFactory {
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm, friendly);
             for (int i = 0; i < 5; i++) {
-                if (vm.getScreen().equals(ScreenData.CITYKINGSBUILDINGNOSCOUT)){
-                    System.out.println("No scout is active! Skipping building");
-                } else {
-                    ckb.scan(friendly);
-                }
+                if (checkInvalidConditionsToScanThisBuilding(friendly, ckb, vm))continue;
+                ckb.scan(friendly);    
                 System.out.println("Checking final building navigational results.");
 
                 sleep(2000);
@@ -97,13 +93,21 @@ public class BuildingFactory {
         } catch (IOException | InterruptedException | JadbException ex) {
             Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //ckb.writePics("Building" + buildingNumber);
-//        try {
-//           // CityKingsScreen.navigateTo(dev);
-//        } catch (JadbException ex) {
-//            Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
         return ckb;
+    }
+
+    private static boolean checkInvalidConditionsToScanThisBuilding(boolean friendly, CityKingsBuildingRaw ckb, VirtualBoxMachine vm) {
+        //if this is a friendly scan and we have no cars
+        if (friendly && ckb.getOwnershipBar().numberWeOwn()<=0) {
+            System.out.println("no allies in building "+ckb.getBuildingNumber());
+            return true;
+            //if this is not a friendly scan, and either they have no cars or the building is not scouted
+        } else if (!friendly && (ckb.getOwnershipBar().numberTheyOwn()<=0 || vm.getScreen().equals(ScreenData.CITYKINGSBUILDINGNOSCOUT))) {
+            System.out.println("No scout is active! Skipping building "+ckb.getBuildingNumber());
+            return true;
+        }
+        return false;
     }
 
     private static void sleep(int time) throws InterruptedException {
@@ -112,7 +116,7 @@ public class BuildingFactory {
 
     private static void ensureTeamOwnershipPercentageBarIsSet(CityKingsBuildingRaw ckb, VirtualBoxMachine vm, boolean friendly) throws IOException, InterruptedException, JadbException {
         int retries = 0;
-        while (ckb.getOwnershipBar().getTotalSlots() < 5) {
+        while (ckb.getOwnershipBar().getTotalSlots() < 3) {
             if (retries++ > 3) {
                 throw new JadbException("Machine is not responding!  I couldn't acquire data from the building.");
             }

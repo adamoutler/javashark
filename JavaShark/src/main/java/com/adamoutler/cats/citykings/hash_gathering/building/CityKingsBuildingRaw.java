@@ -6,7 +6,6 @@
 package com.adamoutler.cats.citykings.hash_gathering.building;
 
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
-import com.adamoutler.cats.citykings.hash_gathering.building.car.CarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
 import com.adamoutler.imagerecognition.ByteImage;
@@ -45,7 +44,6 @@ public final class CityKingsBuildingRaw {
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
-    static boolean fastScan=false;
     private transient BufferedImage mapScreenshot;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
@@ -201,13 +199,9 @@ public final class CityKingsBuildingRaw {
 
 
     public void scan(boolean friendly) throws IOException, InterruptedException, JadbException {
-        if (fastScan) {
             FastCarFactory bf = new FastCarFactory(vm, this, friendly);
             this.cars = bf.buildCars(this.getBuildingNumber(),friendly);
-        } else {
-            CarFactory bf = new CarFactory(vm, this,friendly);
-            this.cars = bf.buildCars(this.getBuildingNumber());
-        }
+       
         // this.cars = removeDuplicates(cars);
 
     }
