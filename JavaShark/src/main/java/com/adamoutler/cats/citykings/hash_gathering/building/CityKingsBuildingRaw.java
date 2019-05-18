@@ -199,7 +199,9 @@ public final class CityKingsBuildingRaw {
 
 
     public void scan(boolean friendly) throws IOException, InterruptedException, JadbException {
-            FastCarFactory bf = new FastCarFactory(vm, this, friendly);
+        System.out.println("creating car factory");
+        FastCarFactory bf = new FastCarFactory(vm, this, friendly);
+        System.out.println("building cars");
             this.cars = bf.buildCars(this.getBuildingNumber(),friendly);
        
         // this.cars = removeDuplicates(cars);

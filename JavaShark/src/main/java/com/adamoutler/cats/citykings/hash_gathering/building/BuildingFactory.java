@@ -10,6 +10,7 @@ import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.HashedPicCoords;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
@@ -46,8 +47,10 @@ public class BuildingFactory {
     final public static PicCoords BUILDING6SIZE = new PicCoords(968, 329, 36, 22);
     final public static int RED = 0xFF615B;
     final public static int BLUE = 0xA9CAFA;
-    final public static XYCoords friendlyFirstCar=new XYCoords(926, 271);
-    final public static XYCoords foeFirstCar=new XYCoords(477, 271);
+    final public static XYCoords friendlyFirstCar = new XYCoords(926, 271);
+    final public static XYCoords foeFirstCar = new XYCoords(477, 271);
+
+    
     private BufferedImage mapScreenshot;
 
     static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber, boolean friendly) {
@@ -60,37 +63,51 @@ public class BuildingFactory {
         BufferedImage ckscreen = null;
         try {
             for (int i = 0; i < 5; i++) {
-
+                System.out.println("navigating to building");
                 ckscreen = ckb.navigateToBuilding(friendly);
                 ScreenData sd = vm.getScreen();
+                
+                
+                
+                
                 if (sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND) || sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
-                    break;
+                    continue;
                 }
+                
+                
+                
+                
+                
             }
             Screenshottable.writePic(ckscreen, "test");
             ckb.setIsLinked(isLinkedBuilding(ckb, ckscreen));
             ckb.setMapScreenshot(ckscreen);
             //required to set the size of the building before inspection. 
             ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
+            if (checkInvalidConditionsToScanThisBuilding(friendly, ckb, vm)) {
+                return ckb;
+            }
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm, friendly);
             for (int i = 0; i < 5; i++) {
-                if (checkInvalidConditionsToScanThisBuilding(friendly, ckb, vm))continue;
-                ckb.scan(friendly);    
+                System.out.println("Checking building " + i);
+
+                ckb.scan(friendly);
                 System.out.println("Checking final building navigational results.");
 
                 sleep(2000);
 
-                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly?friendlyFirstCar:foeFirstCar, friendly?BLUE:RED, 10)) {//red ){
+                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly ? friendlyFirstCar : foeFirstCar, friendly ? BLUE : RED, 10)) {//red ){
                     System.out.println("Cursor Position Verified. Report is solid.");
                     break;
                 } else {
-                    vm.adbShell("input", "tap", friendly?friendlyFirstCar.getXStr():foeFirstCar.getXStr(), friendly?friendlyFirstCar.getYStr():foeFirstCar.getYStr());
+                    vm.adbShell("input", "tap", friendly ? friendlyFirstCar.getXStr() : foeFirstCar.getXStr(), friendly ? friendlyFirstCar.getYStr() : foeFirstCar.getYStr());
                     System.out.println("Could not verify all cars were accounted in building");
                     sleep(1000);
                 }
 
             }
         } catch (IOException | InterruptedException | JadbException ex) {
+            System.out.println("Exception while looking at building");
             Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -99,12 +116,13 @@ public class BuildingFactory {
 
     private static boolean checkInvalidConditionsToScanThisBuilding(boolean friendly, CityKingsBuildingRaw ckb, VirtualBoxMachine vm) {
         //if this is a friendly scan and we have no cars
-        if (friendly && ckb.getOwnershipBar().numberWeOwn()<=0) {
-            System.out.println("no allies in building "+ckb.getBuildingNumber());
+        if (friendly && ckb.getOwnershipBar().numberWeOwn() <= 0) {
+            System.out.println("no allies in building " + ckb.getBuildingNumber());
             return true;
+            
             //if this is not a friendly scan, and either they have no cars or the building is not scouted
-        } else if (!friendly && (ckb.getOwnershipBar().numberTheyOwn()<=0 || vm.getScreen().equals(ScreenData.CITYKINGSBUILDINGNOSCOUT))) {
-            System.out.println("No scout is active! Skipping building "+ckb.getBuildingNumber());
+        } else if (!friendly && (ckb.getOwnershipBar().numberTheyOwn() <= 0 || vm.getScreen().equals(ScreenData.CITYKINGSBUILDINGNOSCOUT))) {
+            System.out.println("No scout is active! Skipping building " + ckb.getBuildingNumber());
             return true;
         }
         return false;
@@ -134,6 +152,7 @@ public class BuildingFactory {
         LinkedList<CityKingsBuildingRaw> buildings = new LinkedList<>();
 
         for (int i = 1; i <= 6; i++) {
+            System.out.println("creating building " + i);
             CityKingsBuildingRaw building = BuildingFactory.createBuilding(vm, vm.screenshot(), i, friendly);
 
             buildings.add(building);
