@@ -82,6 +82,7 @@ public class FastCarFactory {
 
     public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber,boolean friendly) throws IOException, InterruptedException, JadbException {
         LinkedList<CityKingsCarRaw> buildingCars = new LinkedList<>();
+        
         System.out.println("recorded car 1");
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
         int redo = 0;

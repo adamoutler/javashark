@@ -49,6 +49,7 @@ public class CityKingsMatchRaw {
     byte[] screenshot;
     private String excelFile = "";
     private String jsonFile = "";
+    private boolean reportContainsFlaws=false;
     Gang gang;
     private CityKingsBattlefieldAnalysis battlefield;
     transient public final static PicCoords OURSCORECOORDS=new PicCoords(150,135,244,45);
@@ -73,12 +74,14 @@ public class CityKingsMatchRaw {
             setBuildings(BuildingFactory.createBuildings(vm, friendly));
             Gang gang=new Gang(vm.getGang());
 
-            getBuildings().stream().map((building) -> {
-                return building;
-            }).forEachOrdered((building) -> {
+            getBuildings().stream().forEachOrdered((building) -> {
                 System.out.println(building);
+                if (building.isSuspectProblem()){
+                    reportContainsFlaws=true;
+                }
                 if (building.getOwnershipBar().getTotalSlots() < 3) {
                     System.err.println("Failure to acquire building");
+                    reportContainsFlaws=true;
                     System.out.println(building.toString());
                 }
                 building.getCars().forEach((car) -> {
@@ -89,7 +92,6 @@ public class CityKingsMatchRaw {
                             g.set_Username(e.getValue());
                         }
                     }
-                    
                     
                     car.convertCarPicToJpg();
                 });

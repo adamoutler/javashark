@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
@@ -44,6 +45,7 @@ public final class CityKingsBuildingRaw {
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
+    private boolean suspectProblem=false;
     private transient BufferedImage mapScreenshot;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
@@ -125,8 +127,11 @@ public final class CityKingsBuildingRaw {
 
     public BufferedImage navigateToBuilding(boolean friendly) throws IOException, JadbException {
 
-        Navigation.navigateToCityKings(vm);
-        sleep(4000);
+        for (int i=0;i<5; i++){
+            Navigation.navigateToCityKings(vm);
+            sleep(3000);
+            if (vm.getScreen().equals(ScreenData.CITYKINGS)) i=6;
+        }
         BufferedImage bi=vm.screenshot();
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
         sleep(3000);
@@ -136,6 +141,7 @@ public final class CityKingsBuildingRaw {
             Navigation.tapLocation(vm.getJadb(), ATTACKBUTTON);
         }
         sleep(3000);
+        vm.tap(FastCarFactory.CAR1);
         return bi;
     }
 
@@ -311,6 +317,20 @@ public final class CityKingsBuildingRaw {
      */
     public BufferedImage getMapScreenshot() {
         return mapScreenshot;
+    }
+
+    /**
+     * @return the suspectProblem
+     */
+    public boolean isSuspectProblem() {
+        return suspectProblem;
+    }
+
+    /**
+     * @param suspectProblem the suspectProblem to set
+     */
+    public void setSuspectProblem(boolean suspectProblem) {
+        this.suspectProblem = suspectProblem;
     }
 
 }

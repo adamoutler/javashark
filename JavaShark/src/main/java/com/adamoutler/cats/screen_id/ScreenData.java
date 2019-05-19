@@ -42,7 +42,7 @@ public enum ScreenData {
     CITYKINGSBUILDINGNOSCOUT(new HashedPicCoords[]{new HashedPicCoords(576, 311, 35, 47, 1212340291)}, new ColoredXYCoords[]{}, "City Kings, building Attack Screen, no scout"),
     CITYKINGSBUILDINGATTACK(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1788496405)}, new ColoredXYCoords[]{}, "City Kings, Building Attack screen"),
     CITYKINGSBUILDINGDEFEND(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1587988222)}, new ColoredXYCoords[]{}, "City Kings, building defend screen"),
-    CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 290854650)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),
+    CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(10,312,46,204,-728619477),new HashedPicCoords(10, 312, 46, 204, -877624759)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),
     CITYKINGSGANGINFO(new HashedPicCoords[]{new HashedPicCoords(412, 574, 181, 46, -459207574)}, new ColoredXYCoords[]{}, "City Kings, gang info screen"),
     CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
     CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(433,132,174,79,968001389)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
