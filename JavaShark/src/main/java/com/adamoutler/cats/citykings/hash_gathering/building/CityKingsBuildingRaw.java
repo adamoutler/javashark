@@ -129,18 +129,18 @@ public final class CityKingsBuildingRaw {
 
         for (int i=0;i<5; i++){
             Navigation.navigateToCityKings(vm);
-            sleep(3000);
+            sleep(4000);
             if (vm.getScreen().equals(ScreenData.CITYKINGS)) i=6;
         }
         BufferedImage bi=vm.screenshot();
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
-        sleep(3000);
+        sleep(4000);
         if (friendly){
             Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
         } else {
             Navigation.tapLocation(vm.getJadb(), ATTACKBUTTON);
         }
-        sleep(3000);
+        sleep(4000);
         vm.tap(FastCarFactory.CAR1);
         return bi;
     }
