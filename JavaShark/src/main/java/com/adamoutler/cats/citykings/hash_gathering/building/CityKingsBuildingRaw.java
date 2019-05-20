@@ -45,7 +45,7 @@ public final class CityKingsBuildingRaw {
     private LinkedList<CityKingsCarRaw> cars = new LinkedList<>();
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
-    private boolean suspectProblem=false;
+    private boolean suspectProblem = false;
     private transient BufferedImage mapScreenshot;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
@@ -108,7 +108,7 @@ public final class CityKingsBuildingRaw {
     public void clearBuildingPics() {
         this.buildingSizePic = null;
         this.buildingNamePic = null;
-       
+
     }
 
     /**
@@ -127,21 +127,22 @@ public final class CityKingsBuildingRaw {
 
     public BufferedImage navigateToBuilding(boolean friendly) throws IOException, JadbException {
 
-        for (int i=0;i<5; i++){
+        for (int i = 0; i < 5; i++) {
             Navigation.navigateToCityKings(vm);
             sleep(4000);
-            if (vm.getScreen().equals(ScreenData.CITYKINGS)) i=6;
+            if (vm.getScreen().equals(ScreenData.CITYKINGS)) {
+                break;
+            }
         }
-        BufferedImage bi=vm.screenshot();
+        BufferedImage bi = vm.screenshot();
         Navigation.tapLocation(vm.getJadb(), this.getCityKingsBuildingScreenCoordinates());
-        sleep(4000);
-        if (friendly){
+        sleep(3000);
+        if (friendly) {
             Navigation.tapLocation(vm.getJadb(), DEFENDBUTTON);
         } else {
             Navigation.tapLocation(vm.getJadb(), ATTACKBUTTON);
         }
-        sleep(4000);
-        vm.tap(FastCarFactory.CAR1);
+        sleep(3000);
         return bi;
     }
 
@@ -203,20 +204,15 @@ public final class CityKingsBuildingRaw {
         this.cityKingsBuildingScreenCoordinates = cityKingsBuildingScreenCoordinates;
     }
 
-
     public void scan(boolean friendly) throws IOException, InterruptedException, JadbException {
         System.out.println("creating car factory");
         FastCarFactory bf = new FastCarFactory(vm, this, friendly);
         System.out.println("building cars");
-            this.cars = bf.buildCars(this.getBuildingNumber(),friendly);
-       
-        // this.cars = removeDuplicates(cars);
+        this.cars = bf.buildCars(this.getBuildingNumber(), friendly);
 
+        // this.cars = removeDuplicates(cars);
     }
 
- 
-
- 
     void setBuildingOwner(OwnedBy buildingOwnedBy) {
         this.buildingOwnedBy = buildingOwnedBy;
     }
@@ -309,7 +305,7 @@ public final class CityKingsBuildingRaw {
     }
 
     void setMapScreenshot(BufferedImage ckscreen) {
-        mapScreenshot=ckscreen;
+        mapScreenshot = ckscreen;
     }
 
     /**

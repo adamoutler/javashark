@@ -66,6 +66,8 @@ public class FastCarFactory {
     final public static XYCoords DISTINGUISHEDPIXEL2 = new XYCoords(93, 155);
     final public static XYCoords DISTINGUISHEDPIXEL3 = new XYCoords(104, 175);
     final public static XYCoords DISTINGUISHEDPIXEL4 = new XYCoords(96, 187);
+        final public static XYCoords FOEFIRSTCAR = new XYCoords(477, 271);
+
 
     PicCoords carBadge = new PicCoords(60, 238, 310, 290);
     final static int[] SWIPEREQUIRED = new int[]{10, 18};
@@ -82,9 +84,14 @@ public class FastCarFactory {
 
     public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber,boolean friendly) throws IOException, InterruptedException, JadbException {
         LinkedList<CityKingsCarRaw> buildingCars = new LinkedList<>();
+        if (friendly){
+            vm.tap(CAR1);
+        } else {
+            vm.tap(FOEFIRSTCAR);
+        }
         
-        System.out.println("recorded car 1");
-        CityKingsCarRaw lastCar = new CityKingsCarRaw("f");
+        CityKingsCarRaw lastCar = new CityKingsCarRaw("f");//create a dummy last car
+        System.out.println("recording car 1");
         int redo = 0;
         for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn():building.getOwnershipBar().numberTheyOwn()); i++) {
             System.out.println("Car "+i);

@@ -67,20 +67,32 @@ public class BuildingFactory {
                 ckb.setMapScreenshot(ckb.navigateToBuilding(friendly));
                 BufferedImage ss = vm.screenshot();
                 ScreenData sd = ScreenData.identifyScreen(ss);
-                //if we are not in a building yet.
-                if (!sd.equals(ScreenData.CITYKINGSBUILDINGATTACK) && !sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
-                    if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
-                        if (!setBuildingParametersForScan(ckb, ss, friendly)) {
-                            break;
-                        }
 
+                ckb.setIsLinked(isLinkedBuilding(ckb, ckb.getMapScreenshot()));
+                ckb.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(ss)));
+
+                if (friendly) {
+                    if (!sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
+                        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
+                            if (ckb.getOwnershipBar().getNumberWeOwn() == 0){
+                                return ckb;
+                            }
+                        }
+                        continue;
                     }
-                    continue;
+                } else {
+                    if (!sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
+                        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
+                            if (ckb.getOwnershipBar().getNumberTheyOwn()==0){
+                                return ckb;
+                            }
+                        }
+                        if (!sd.equals(ScreenData.CITYKINGSBUILDINGNOSCOUT)){
+                            continue;
+                        }
+                    }
                 }
-                //if there is something to do in this building
-                setBuildingParametersForScan(ckb, ss, friendly);
                 break;
-                        //required to set the size of the building before inspection. 
             }
 
             if (checkInvalidConditionsToScanThisBuilding(friendly, ckb, vm)) {
@@ -89,7 +101,6 @@ public class BuildingFactory {
             ensureTeamOwnershipPercentageBarIsSet(ckb, vm, friendly);
             for (int i = 0; i < 5; i++) {
                 System.out.println("Checking building " + i);
-
                 ckb.scan(friendly);
                 System.out.println("Checking final building navigational results.");
 
