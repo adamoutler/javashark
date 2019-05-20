@@ -93,7 +93,7 @@ public class FastCarFactory {
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");//create a dummy last car
         System.out.println("recording car 1");
         int redo = 0;
-        for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn()+1:building.getOwnershipBar().numberTheyOwn()+1); i++) {
+        for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn()-1:building.getOwnershipBar().numberTheyOwn()-1); i++) {
             System.out.println("Car "+i);
             sleep(sleepTime);
             CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
