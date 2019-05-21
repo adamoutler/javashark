@@ -105,14 +105,6 @@ public class FastCarFactory {
                         vm.longTap(new XYCoords(20, 20));
                         playerCar = createCarStore(buildingNumber, i);
                         break;
-                    case 3:
-                        vm.longTap(new XYCoords(20, 20));
-                        playerCar = createCarStore(buildingNumber, i);
-                        break;
-                    case 4:
-                        vm.longTap(new XYCoords(20, 20));
-                        playerCar = createCarStore(buildingNumber, i);
-                        break;
                     default:
                         this.navigateToLocation(i);
                         sleep(sleepTime);
