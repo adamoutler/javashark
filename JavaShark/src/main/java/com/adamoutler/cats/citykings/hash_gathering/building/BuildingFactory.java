@@ -62,7 +62,7 @@ public class BuildingFactory {
 
         BufferedImage ckscreen = null;
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 20; i++) {
                 System.out.println("navigating to building");
                 ckb.setMapScreenshot(ckb.navigateToBuilding(friendly));
                 BufferedImage ss = vm.screenshot();
@@ -106,7 +106,7 @@ public class BuildingFactory {
 
                 sleep(4000);
 
-                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly ? friendlyFirstCar : foeFirstCar, friendly ? BLUE : RED, 10)) {//red ){
+                if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly ? friendlyFirstCar : foeFirstCar, friendly ? BLUE : RED, 20)) {//red ){
                     System.out.println("Cursor Position Verified. Report is solid.");
                     ckb.setSuspectProblem(false);
                     break;
