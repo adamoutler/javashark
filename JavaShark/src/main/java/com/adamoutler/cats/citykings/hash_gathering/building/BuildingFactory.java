@@ -116,6 +116,7 @@ public class BuildingFactory {
                     } else {
                         vm.adbShell("input", "tap", FastCarFactory.CAR7.getXStr(), FastCarFactory.CAR7.getYStr());
                     }
+                    ckb.setSuspsectProblemReason("rescan building "+ckb.getBuildingNumber() +" due to final cursor position problem");
                     ckb.setSuspectProblem(true);
                     System.out.println("Could not verify all cars were accounted in building");
                     sleep(1000);

@@ -66,8 +66,7 @@ public class FastCarFactory {
     final public static XYCoords DISTINGUISHEDPIXEL2 = new XYCoords(93, 155);
     final public static XYCoords DISTINGUISHEDPIXEL3 = new XYCoords(104, 175);
     final public static XYCoords DISTINGUISHEDPIXEL4 = new XYCoords(96, 187);
-        final public static XYCoords FOEFIRSTCAR = new XYCoords(477, 271);
-
+    final public static XYCoords FOEFIRSTCAR = new XYCoords(477, 271);
 
     PicCoords carBadge = new PicCoords(60, 238, 310, 290);
     final static int[] SWIPEREQUIRED = new int[]{10, 18};
@@ -82,19 +81,14 @@ public class FastCarFactory {
         this.building = building;
     }
 
-    public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber,boolean friendly) throws IOException, InterruptedException, JadbException {
+    public LinkedList<CityKingsCarRaw> buildCars(final int buildingNumber, boolean friendly) throws IOException, InterruptedException, JadbException {
         LinkedList<CityKingsCarRaw> buildingCars = new LinkedList<>();
-        if (friendly){
-            vm.tap(CAR1);
-        } else {
-            vm.tap(FOEFIRSTCAR);
-        }
-        
+
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");//create a dummy last car
         System.out.println("recording car 1");
         int redo = 0;
-        for (int i = 1; i <= (friendly?building.getOwnershipBar().numberWeOwn()-1:building.getOwnershipBar().numberTheyOwn()-1); i++) {
-            System.out.println("Car "+i);
+        for (int i = 1; i <= (friendly ? building.getOwnershipBar().numberWeOwn() - 1 : building.getOwnershipBar().numberTheyOwn() - 1); i++) {
+            System.out.println("Car " + i);
             sleep(sleepTime);
             CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
             //we have a problem with the acquisition
@@ -126,19 +120,16 @@ public class FastCarFactory {
                         break;
 
                 }
-                if (playerCar.isParked()){
-                    redo=5;
-                    continue; 
-               }
+       
                 //if we corrected the problem
-                if (!playerCar.equals(lastCar)) {
+                if (playerCar.isParked()||!playerCar.equals(lastCar)) {
                     redo = 0;
                     navigateToLocation(i);
                 } else {
                     redo++;
                 }
 
-            //no problem detected;
+                //no problem detected;
             } else {
                 if (sleepTime > 100) {
                     sleepTime = sleepTime - 10;
@@ -147,7 +138,7 @@ public class FastCarFactory {
                 navigateToLocation(i);
             }
 
-            if (redo > 0) {
+            if (redo > 0||playerCar.isParked()) {
                 System.out.println("Rescanning car.");
                 i--;
                 continue;
@@ -268,7 +259,7 @@ public class FastCarFactory {
 
         try {
             Navigation.pressLocation(vm.getJadb(), NEXTBUTTON);
-           
+
             Thread.sleep(1000);
             System.out.println();
         } catch (IOException | JadbException ex) {

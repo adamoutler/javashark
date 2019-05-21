@@ -46,6 +46,7 @@ public final class CityKingsBuildingRaw {
     transient private TeamOwnershipPercentageBar tosb;
     transient VirtualBoxMachine vm;
     private boolean suspectProblem = false;
+    private String suspsectProblemReason="";
     private transient BufferedImage mapScreenshot;
 
     public CityKingsBuildingRaw(VirtualBoxMachine vm, int buildingNumber) {
@@ -327,6 +328,20 @@ public final class CityKingsBuildingRaw {
      */
     public void setSuspectProblem(boolean suspectProblem) {
         this.suspectProblem = suspectProblem;
+    }
+
+    /**
+     * @return the suspsectProblemReason
+     */
+    public String getSuspsectProblemReason() {
+        return suspsectProblemReason;
+    }
+
+    /**
+     * @param suspsectProblemReason the suspsectProblemReason to set
+     */
+    public void setSuspsectProblemReason(String suspsectProblemReason) {
+        this.suspsectProblemReason = this.suspsectProblemReason+"\n"+suspsectProblemReason;
     }
 
 }
