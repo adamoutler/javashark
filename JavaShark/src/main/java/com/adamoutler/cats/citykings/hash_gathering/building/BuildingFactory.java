@@ -104,7 +104,7 @@ public class BuildingFactory {
                 ckb.scan(friendly);
                 System.out.println("Checking final building navigational results.");
 
-                sleep(2000);
+                sleep(4000);
 
                 if (new PicColors(vm.screenshot()).checkColorPlusOrMinus(friendly ? friendlyFirstCar : foeFirstCar, friendly ? BLUE : RED, 10)) {//red ){
                     System.out.println("Cursor Position Verified. Report is solid.");
@@ -114,7 +114,7 @@ public class BuildingFactory {
                     if (friendly) {
                         vm.adbShell("input", "tap", FastCarFactory.CAR1.getXStr(), FastCarFactory.CAR1.getYStr());
                     } else {
-                        vm.adbShell("input", "tap", FastCarFactory.CAR7.getXStr(), FastCarFactory.CAR7.getYStr());
+                        vm.adbShell("input", "tap", foeFirstCar.getXStr(), foeFirstCar.getYStr());
                     }
                     ckb.setSuspsectProblemReason("rescan building "+ckb.getBuildingNumber() +" due to final cursor position problem");
                     ckb.setSuspectProblem(true);
