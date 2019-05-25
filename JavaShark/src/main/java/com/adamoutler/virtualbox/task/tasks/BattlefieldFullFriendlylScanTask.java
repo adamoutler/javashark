@@ -39,7 +39,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
             Thread t = new Thread(() -> {
 
                 try {
-                    BattlefieldFactory battleFactory = new BattlefieldFactory(true, vm.getTaskData().getBuildingsToScan());
+                    BattlefieldFactory battleFactory = new BattlefieldFactory(vm.getTaskData().isFriendlyScan(), vm.getTaskData().getBuildingsToScan());
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
 

@@ -12,6 +12,8 @@ import java.io.IOException;
 /**
  * curl -X PATCH -d '{"message":{"command":"battlefieldScan","data":{"gang":"development","username":"adamoutler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
  *
+ * 
+ * curl -X PATCH -d '{"message":{"command":"battlefieldScan","data":{"gang":"development","username":"adamoutler","scanBuildings":[1,2,3,4,5,6],"friendlyScan":"true"}}}' https://baby-sharks.adamoutler.com/api/dev/command
  * @author adamo
  */
 public class BattlefieldScan extends SentryAbstractPapaHandler {
@@ -23,11 +25,14 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         if (buildingsToScan==null){
             buildingsToScan=new int[]{1,2,3,4,5,6};
         }
-        vm.getTaskData().setBuildingsToScan(buildingsToScan);
-        vm.getTaskData().setBuildingsToScan(request.getData().getScanBuildings());
-        if (vm.getTaskData().getBuildingsToScan()==null){
-            
+        Boolean friendly=request.getData().isFriendlyScan();
+        if (friendly==null){
+            friendly=true;
         }
+        
+        vm.getTaskData().setBuildingsToScan(buildingsToScan);
+        vm.getTaskData().setFriendlyScan(friendly);
+        vm.getTaskData().setBuildingsToScan(request.getData().getScanBuildings());
         vm.setHashes(request.getData().getHashes());
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
         request.getData().addAvailable(vm).setReason("scanning");

@@ -31,6 +31,7 @@ public class MessageData {
     private String ScreenName;
     private String[] buildings;
     private int[] scanBuildings;
+    private Boolean friendlyScan;
     private Object resultObject;
     private ArrayList<VirtualBoxMachine> available;
     private String location;
@@ -38,7 +39,7 @@ public class MessageData {
     private String comment;
     private Gang gangObject;
     private String reportName;
-    private Map<String,String> hashes;
+    private Map<String, String> hashes;
     private boolean debug = false;
 
     /**
@@ -342,15 +343,17 @@ public class MessageData {
     /**
      * @return the hashes
      */
-    public Map<String,String> getHashes() {
+    public Map<String, String> getHashes() {
         return hashes;
     }
 
     /**
      * @param hashes the hashes to set
+     * @return reference to this object
      */
-    public void setHashes(Map<String,String> hashes) {
+    public MessageData setHashes(Map<String, String> hashes) {
         this.hashes = hashes;
+        return this;
     }
 
     /**
@@ -362,8 +365,26 @@ public class MessageData {
 
     /**
      * @param scanBuildings the scanBuildings to set
+     * @return reference to this object
      */
-    public void setScanBuildings(int[] scanBuildings) {
+    public MessageData setScanBuildings(int[] scanBuildings) {
         this.scanBuildings = scanBuildings;
+        return this;
+    }
+
+    /**
+     * @return the friendlyScan
+     */
+    public Boolean isFriendlyScan() {
+        return friendlyScan;
+    }
+
+    /**
+     * @param friendlyScan the friendlyScan to set
+     * @return reference to this object
+     */
+    public MessageData setFriendlyScan(boolean friendlyScan) {
+        this.friendlyScan = friendlyScan;
+        return this;
     }
 }

@@ -33,7 +33,7 @@ public class Car {
     private String uniqueHash = "";
     private int location = 0;
     private int building;
-    transient private byte[] carBadge = new byte[]{};
+    private byte[] carBadge = new byte[]{};
     private boolean parked = false;
 
     Car() {
