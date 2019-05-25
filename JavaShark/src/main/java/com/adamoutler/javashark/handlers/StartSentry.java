@@ -21,7 +21,7 @@ public class StartSentry extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         long time = System.currentTimeMillis();
         vm.clearTasks();
-        addTasks(TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.SENTRY);
+        addTasks(TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.WATCH);
         request.getData().addAvailable(vm).setReason("starting");
         this.sendSucessMessage(he, request);
 

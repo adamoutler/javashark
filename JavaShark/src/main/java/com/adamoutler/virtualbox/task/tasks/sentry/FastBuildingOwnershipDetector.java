@@ -74,7 +74,7 @@ public class FastBuildingOwnershipDetector {
         try {
             vm.getTaskData().current = scan(vm.screenshot());
             if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
-                System.out.println("Null detected!!!!!!");
+                System.out.println(vm.getUsername()+": Null detected!!!!!!");
                 for (int i = 0; i < 6; i++) {
                     System.out.println("C: " + vm.getTaskData().current[i] + " P: " + vm.getTaskData().previous[i]);
                 }

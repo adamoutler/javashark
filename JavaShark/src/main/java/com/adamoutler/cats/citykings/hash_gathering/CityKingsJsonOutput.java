@@ -52,8 +52,7 @@ public class CityKingsJsonOutput {
     public CityKingsJsonOutput() {
 
     }
-
-    public String createOutputFiles(File f, CityKingsMatchRaw match,boolean friendly) throws IOException {
+    public String createOutputFiles(File f, CityKingsMatchVisual match,boolean friendly) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         createStyles(workbook);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
@@ -63,8 +62,8 @@ public class CityKingsJsonOutput {
         writeSheet(f, workbook);
         return "";
     }
-
-    private HSSFSheet createCarsByHashSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
+    
+    private HSSFSheet createCarsByHashSheet(HSSFWorkbook workbook, CityKingsMatchVisual match) throws IOException {
         HSSFSheet carsByHash = workbook.createSheet("Cars By User");
 
         HashMap<String, ArrayList<CityKingsCarRaw>> hm = getCarHashmapByHash(match);
@@ -100,7 +99,7 @@ public class CityKingsJsonOutput {
         return carsByHash;
     }
 
-    private HashMap<String, ArrayList<CityKingsCarRaw>> getCarHashmapByHash(CityKingsMatchRaw match) {
+    private HashMap<String, ArrayList<CityKingsCarRaw>> getCarHashmapByHash(CityKingsMatchVisual match) {
         HashMap<String, ArrayList<CityKingsCarRaw>> hm = new HashMap();
         for (CityKingsBuildingRaw b : match.getBuildings()) {
             for (CityKingsCarRaw c : b.getCars()) {
@@ -157,7 +156,7 @@ public class CityKingsJsonOutput {
 
     }
 
-    private HSSFSheet createCarsByBuildingSheet(HSSFWorkbook workbook, CityKingsMatchRaw match) throws IOException {
+    private HSSFSheet createCarsByBuildingSheet(HSSFWorkbook workbook, CityKingsMatchVisual match) throws IOException {
         HSSFSheet sheet = workbook.createSheet("Cars By Building");
 
         for (int building = 0; building < 6; building++) {
@@ -188,7 +187,7 @@ public class CityKingsJsonOutput {
         return sheet;
     }
 
-    private void parseSheet(HSSFSheet s, CityKingsMatchRaw match) {
+    private void parseSheet(HSSFSheet s, CityKingsMatchVisual match) {
 
     }
 
@@ -224,7 +223,7 @@ public class CityKingsJsonOutput {
         d.open(f);
     }
 
-    private HSSFSheet createStatisticsPage(HSSFWorkbook workbook, CityKingsMatchRaw match) {
+    private HSSFSheet createStatisticsPage(HSSFWorkbook workbook, CityKingsMatchVisual match) {
         HSSFSheet sheet = workbook.createSheet("Statistics");
         int i = 0;
         String title = "Buildings owned by us";

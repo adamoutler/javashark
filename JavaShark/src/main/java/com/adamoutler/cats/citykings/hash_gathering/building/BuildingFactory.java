@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering.building;
 
 import com.adamoutler.ADB;
+import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
@@ -50,7 +51,9 @@ public class BuildingFactory {
     final public static int BLUE = 0xA9CAFA;
     final public static XYCoords friendlyFirstCar = new XYCoords(926, 271);
     final public static XYCoords foeFirstCar = new XYCoords(477, 271);
-
+    transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
+    transient final public static XYCoords ATTACKBUTTON = new XYCoords(670, 390);
+    
     private BufferedImage mapScreenshot;
 
     static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber, boolean friendly) {
@@ -235,11 +238,5 @@ public class BuildingFactory {
         return foundLoc > 0;
     }
 
-    /**
-     * @return the mapScreenshot
-     */
-    public BufferedImage getMapScreenshot() {
-        return mapScreenshot;
-    }
 
 }

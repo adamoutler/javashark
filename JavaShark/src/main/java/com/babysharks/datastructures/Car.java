@@ -146,4 +146,12 @@ public class Car {
         return c;
     }
 
+    public void clearCarScreenshot() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void clearRowAndColumn() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

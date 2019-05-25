@@ -19,10 +19,10 @@ import java.util.logging.Logger;
  *
  * @author adamo
  */
-public class SentryTask extends Task {
+public class WatchTask extends Task {
 
-    public SentryTask() {
-        System.out.println();
+    public WatchTask() {
+        System.out.println("Sentry Watch Task initialized!");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SentryTask extends Task {
             turnOffOtherSentries(vm);
             SendPapaAsynch.sentryReasonWarning(vm, "monitoring");
         } catch (Exception ex) {
-            Logger.getLogger(SentryTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WatchTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -46,7 +46,7 @@ public class SentryTask extends Task {
             }
             //if the machine is in the same gang turn it off
             if (testVm.getGang().equals(vm.getGang())
-                    && testVm.getCurrentTask().equals(TaskType.SENTRY)) {
+                    && testVm.getCurrentTask().equals(TaskType.WATCH)) {
                 testVm.clearTasks();
                 testVm.addTask(TaskType.POWEROFF);
             }

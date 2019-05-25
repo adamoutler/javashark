@@ -15,7 +15,7 @@ import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
-import com.adamoutler.virtualbox.task.tasks.SentryTask;
+import com.adamoutler.virtualbox.task.tasks.WatchTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
 import com.adamoutler.virtualbox.task.tasks.Task;
 import com.adamoutler.virtualbox.task.tasks.UpdateCatsTask;
@@ -37,7 +37,7 @@ public enum TaskType {
 
     
     IDLE(new IdleTask(), "Machine is idle"),
-    SENTRY(new SentryTask(), "Machine is on Sentry Duty"),
+    WATCH(new WatchTask(), "Machine is on Sentry Duty"),
     DEEPBUILDINGSCAN(new DeepBuildingFriendlyScanTask(), "Deep Building Scanning, Friendly Machines"),
     DEEPBUILDINGRECON(new DeepBuildingFoeScanTask(), "Deep Building Scanning, Foe Machines"),
     POWERON(new PowerOnTask(),"Turn the machine on"),

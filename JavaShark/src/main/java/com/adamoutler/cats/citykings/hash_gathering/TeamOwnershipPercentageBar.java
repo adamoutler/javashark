@@ -5,7 +5,6 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
-
 import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
@@ -26,7 +25,7 @@ public class TeamOwnershipPercentageBar {
     final public static int BLUE = 0x90B3EB;
     final public static int RED = 0xFF6564;
     final public static int GREY = 0x5E6A83;
-    transient byte[] screenshot;
+    private transient BufferedImage bi;
     private int numberWeOwn = 0;
     private int numberTheyOwn = 0;
     private int numberNobodyOwn = 0;
@@ -34,7 +33,13 @@ public class TeamOwnershipPercentageBar {
     ArrayList<OwnedBy> owned = new ArrayList<>();
 
     public TeamOwnershipPercentageBar(byte[] screenshot) {
-        this.screenshot = screenshot;
+        bi = ByteImage.getImageFromBytes(screenshot);
+
+        calculateNumberOfOurSlots();
+    }
+
+    public TeamOwnershipPercentageBar(BufferedImage screenshot) {
+        bi = screenshot;
         calculateNumberOfOurSlots();
     }
 
@@ -50,12 +55,11 @@ public class TeamOwnershipPercentageBar {
     private int calculateNumberOfOurSlots() {
 
         owned = new ArrayList<>();
-        BufferedImage bi = ByteImage.getImageFromBytes(screenshot);
-        Screenshottable.writePic(bi.getSubimage(BARLOCATION.getX(), BARLOCATION.getY(), BARLOCATION.getW(), BARLOCATION.getH()),"PicUsedForTOSB");
-        PicColors pc = new PicColors(bi);
+        Screenshottable.writePic(getBi().getSubimage(BARLOCATION.getX(), BARLOCATION.getY(), BARLOCATION.getW(), BARLOCATION.getH()), "PicUsedForTOSB");
+        PicColors pc = new PicColors(getBi());
         int[] validColors = new int[]{RED, BLUE, GREY};
         int maxX = BARLOCATION.getW() + BARLOCATION.getX();
-        
+
         int currentX = pc.scanRightXCoordinateForColorAtYCoordinate(validColors, STARTSCAN.getX(), STARTSCAN.getY(), maxX, 10);
         int topY = pc.scanUpYCoordinateForLackOfColorAtXCoordinate(validColors, currentX, STARTSCAN.getY(), BARLOCATION.getY(), 10) + 2;
         while (currentX < maxX && currentX != -1) {
@@ -120,7 +124,7 @@ public class TeamOwnershipPercentageBar {
     private void setTotals(ArrayList<OwnedBy> slotColor) {
         for (OwnedBy color : slotColor) {
             totalSlots++;
-            switch(color){
+            switch (color) {
                 case US:
                     numberWeOwn++;
                     break;
@@ -130,7 +134,7 @@ public class TeamOwnershipPercentageBar {
                 case NOBODY:
                     numberNobodyOwn++;
                     break;
-                
+
             }
         }
     }
@@ -161,6 +165,20 @@ public class TeamOwnershipPercentageBar {
      */
     public int getTotalSlots() {
         return totalSlots;
+    }
+
+    /**
+     * @return the bi
+     */
+    public BufferedImage getBi() {
+        return bi;
+    }
+
+    /**
+     * @param bi the bi to set
+     */
+    public void setBi(BufferedImage bi) {
+        this.bi = bi;
     }
 
 }
