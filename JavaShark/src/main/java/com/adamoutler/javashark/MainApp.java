@@ -96,7 +96,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("test", new TestHandler());
         commandDistributor.register("sentrystatus", new SentryStatusHandler());
         commandDistributor.register("sentrystart", new StartSentry());
-        commandDistributor.register("deepbuildingscan", new DeepBuildingScanHandler());
+        commandDistributor.register("deepbuildingscan", new BattlefieldScan());
         commandDistributor.register("deepbuildingrecon", new DeepBuildingReconHandler());
         commandDistributor.register("sentrystop", new StopSentry());
         commandDistributor.register("addtask", new TaskHandler());
