@@ -22,6 +22,7 @@ public class VMTaskData {
     private long lastStartCats=0;
     private long idleTime=System.currentTimeMillis();
     public int startCatsRetries=0;
+    private int[] buildingsToScan=new int[]{1,2,3,4,5,6};
 
     /**
      * @return the lastStartCats
@@ -46,6 +47,20 @@ public class VMTaskData {
      */
     public long getIdleTime() {
         return idleTime;
+    }
+
+    /**
+     * @return the buildingsToScan
+     */
+    public int[] getBuildingsToScan() {
+        return buildingsToScan;
+    }
+
+    /**
+     * @param buildingsToScan the buildingsToScan to set
+     */
+    public void setBuildingsToScan(int[] buildingsToScan) {
+        this.buildingsToScan = buildingsToScan;
     }
    
 }

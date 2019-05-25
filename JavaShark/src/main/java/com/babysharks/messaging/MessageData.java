@@ -30,6 +30,7 @@ public class MessageData {
     private String reason;
     private String ScreenName;
     private String[] buildings;
+    private int[] scanBuildings;
     private Object resultObject;
     private ArrayList<VirtualBoxMachine> available;
     private String location;
@@ -350,5 +351,19 @@ public class MessageData {
      */
     public void setHashes(Map<String,String> hashes) {
         this.hashes = hashes;
+    }
+
+    /**
+     * @return the scanBuildings
+     */
+    public int[] getScanBuildings() {
+        return scanBuildings;
+    }
+
+    /**
+     * @param scanBuildings the scanBuildings to set
+     */
+    public void setScanBuildings(int[] scanBuildings) {
+        this.scanBuildings = scanBuildings;
     }
 }
