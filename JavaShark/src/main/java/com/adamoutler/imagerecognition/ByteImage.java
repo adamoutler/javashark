@@ -42,6 +42,7 @@ public class ByteImage {
     }
 
     public static byte[] getJpgBytes(byte[] bi) {
+        if (bi==null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
 

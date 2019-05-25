@@ -43,9 +43,7 @@ public class CarFactory {
         int offset = 0;
         for (Car c : building.getCars()) {
             BufferedImage screenshot = vm.screenshot();
-            System.out.println(screenshot.hashCode());
             screenshot = correctCursorLocationIfRequired(c, offset, screenshot);
-            System.out.println(screenshot.hashCode());
             c.setCarScreenshot(screenshot);
             selectNextCar();
 
@@ -84,7 +82,7 @@ public class CarFactory {
     }
 
     private BufferedImage correctCursorLocationIfRequired(Car c, int offset, BufferedImage screenshot) {
-        if (c.getLocation() + offset < 9) {
+        if (c.getLocation() + offset < 10) {
             screenshot = doCursorBasedCorrection(c, offset, screenshot);
         } else {
             screenshot = doCursorOffScreenLocationBasedCorrection(screenshot);
@@ -152,15 +150,15 @@ public class CarFactory {
     private Locations getCarLocationData(Car c) {
         Locations location = Locations.
                 valueOf((building.isFriendlyScan() ? "FRIENDLY" : "FOE")
-                        + "CAR" + (c.getLocation() + 1));
+                        + "CAR" + c.getLocation());
         return location;
     }
 
     public static LinkedList<Car> createBlanks(Building b, int number) {
         LinkedList<Car> al = new LinkedList<>();
-        for (int i = 0; i < number; i++) {
+        for (int i = 1; i < number+1; i++) {
             Car car = new Car().setLocation(i).setBuilding(b.getBuildingNumber());
-            al.add(new Car().setLocation(i));
+            al.add(car);
         }
         return al;
     }

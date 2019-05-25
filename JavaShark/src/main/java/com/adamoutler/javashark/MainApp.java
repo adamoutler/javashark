@@ -7,6 +7,7 @@ package com.adamoutler.javashark;
 
 import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
+import com.adamoutler.javashark.handlers.BattlefieldScan;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.DeepBuildingReconHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
@@ -101,8 +102,8 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("addtask", new TaskHandler());
         commandDistributor.register("updatecats", new UpdateHandler());
         commandDistributor.register("whoauthorizedthis", new AuthorizedHandler());
-        commandDistributor.register("analyzeScreen", new AnalyzeScreenshotHandler());
-        
+        commandDistributor.register("analyzescreen", new AnalyzeScreenshotHandler());
+        commandDistributor.register("battlefieldscan", new BattlefieldScan());
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());

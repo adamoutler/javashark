@@ -5,6 +5,7 @@
  */
 package com.babysharks.datastructures;
 
+import com.adamoutler.cats.battlefield.building.car.Car;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.imagerecognition.ByteImage;
 import java.awt.image.BufferedImage;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author adamo
  */
-public class Car {
+public class GangCar {
 
     private List<String> name_hash = new ArrayList<>();
     private String unique_hash;
@@ -134,8 +135,8 @@ public class Car {
         return ByteImage.getImageFromBytes(car_badge);
     }
 
-    public static Car convertCar(CityKingsCarRaw car) {
-        Car c = new Car();
+    public static GangCar convertCar(CityKingsCarRaw car) {
+        GangCar c = new GangCar();
         c.setBuilding(car.getBuilding());
         c.setCar_badge(car.getCarBadge());
         c.setColumnn(car.getColumn());
@@ -145,7 +146,17 @@ public class Car {
         c.addName_hash(car.getNameHash());
         return c;
     }
-
+    public static GangCar convertCar(Car car) {
+        GangCar c = new GangCar();
+        c.setBuilding(car.getBuilding());
+        c.setCar_badge(car.getCarBadge());
+        c.setColumnn(car.getColumn());
+        c.setLocation(car.getLocation());
+        c.setRow(car.getRow());
+        c.setUnique_hash(car.getUniqueHash());
+        c.addName_hash(car.getNameHash());
+        return c;
+    }
     public void clearCarScreenshot() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

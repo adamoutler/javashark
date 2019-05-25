@@ -12,6 +12,7 @@ import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +42,7 @@ public class BuildingFactory {
             for (int retries = 0; retries < 5; retries++) {
                 setUpCarData();
                 boolean b = new CarFactory(vm, building).scan();
-                if (checkCarData()&&b ) {
+                if (checkCarData() && b) {
                     break;
                 }
                 if (retries == 5) {
@@ -78,19 +79,30 @@ public class BuildingFactory {
     }
 
     private void tapAttackOrDefend() {
-        if (meetsFriendlyScanCriteria() || meetsFoeScanCriteria()) {
-            vm.longTap(building.isFriendlyScan() ? DEFENDBUTTON : ATTACKBUTTON);
+        BufferedImage screen = vm.screenshot();
+        int i = 0;
+        ScreenData sd=vm.getScreen();
+        while (sd!=ScreenData.CITYKINGSBUILDINGDEFEND && sd!=ScreenData.CITYKINGSBUILDINGATTACK){
+            if (i++ == 4) {
+                vm.logUnidentifiedScreen("Expecting defend or attack screen");
+                vm.writeBabySharksDebug(vm, "Attempting to enter building but couldn't recognize screen");
+                break;
+            }
+            System.out.println(vm.getUsername() + ": Attempting to enter building " + building.getBuildingNumber() + " cars screen");
+            if (meetsFriendlyScanCriteria() || meetsFoeScanCriteria()) {
+                vm.longTap(building.isFriendlyScan() ? DEFENDBUTTON : ATTACKBUTTON);
+            }
+            sleep(2000);
+            sd=vm.getScreen();
         }
-        sleep(2000);
-
     }
 
     private boolean checkCarData() {
         for (Car testCar : building.getCars()) {
             for (Car otherCar : building.getCars()) {
                 if (testCar.equals(otherCar) && testCar.getLocation() != otherCar.getLocation()) {
-                    System.out.println("duplicate cars:"+testCar);
-                    System.out.println("duplicate cars:"+otherCar);
+                    System.out.println("duplicate cars:" + testCar);
+                    System.out.println("duplicate cars:" + otherCar);
                     building.setSuspsectProblemReason("Duplicate car detected");
                 }
             }
@@ -111,8 +123,10 @@ public class BuildingFactory {
     private void sleep(int i) {
         try {
             Thread.sleep(i);
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(BuildingFactory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BuildingFactory.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -29,12 +29,12 @@ public enum ScreenData {
     UNKNOWN(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Unidentified"),
     OFF(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Turned off"),
     BLACKSCREEN(new HashedPicCoords[]{new HashedPicCoords(107, 33, 45, 706, -230170519)}, new ColoredXYCoords[]{}, "A black screen"),
-    BOOTED(new HashedPicCoords[]{new HashedPicCoords(200,200,29,29,321694902),new HashedPicCoords(135, 137, 29, 29, -238493308),new HashedPicCoords(129, 106, 29, 29, -238493308), new HashedPicCoords(129,106,29,29,900977023), new HashedPicCoords(129, 106, 29, 29, -1300936293)}, new ColoredXYCoords[]{}, "Android has booted"),
+    BOOTED(new HashedPicCoords[]{new HashedPicCoords(200, 200, 29, 29, 321694902), new HashedPicCoords(135, 137, 29, 29, -238493308), new HashedPicCoords(129, 106, 29, 29, -238493308), new HashedPicCoords(129, 106, 29, 29, 900977023), new HashedPicCoords(129, 106, 29, 29, -1300936293)}, new ColoredXYCoords[]{}, "Android has booted"),
     BOXOPENNOW(new HashedPicCoords[]{new HashedPicCoords(370, 600, 263, 42, 1806715308)}, new ColoredXYCoords[]{}, "Box Screen, Click to open box"),
     BOXOPENNOWSKIP(new HashedPicCoords[]{new HashedPicCoords(566, 603, 197, 43, 1892377544)}, new ColoredXYCoords[]{}, "Bos screen, open now or watch video"),
     BOXUNLOCK(new HashedPicCoords[]{new HashedPicCoords(370, 600, 263, 42, 2146314069)}, new ColoredXYCoords[]{}, "box screen, click to start 2-hour timer"),
-    CATSLOADEDCHAMPIONSHIPSCREEN(new HashedPicCoords[]{ new HashedPicCoords(588,596,79,36,-919304462),new HashedPicCoords(917, 261, 95, 98, -1641366908), new HashedPicCoords(212, 598, 107, 23, -1906095139)}, new ColoredXYCoords[]{}, "CATS loaded, on Championship Home screen"),
-    CATSLOADEDULTIMATESCREEN(new HashedPicCoords[]{new HashedPicCoords(946,288,53,43,-264727107),new HashedPicCoords(946,288,53,43,354485353),new HashedPicCoords(388, 602, 230, 40, 660508215), new HashedPicCoords(946, 283, 53, 48, -1139583725)}, new ColoredXYCoords[]{}, "CATS Loaded, on Ultimate Home screen"),
+    CATSLOADEDCHAMPIONSHIPSCREEN(new HashedPicCoords[]{new HashedPicCoords(588, 596, 79, 36, -919304462), new HashedPicCoords(917, 261, 95, 98, -1641366908), new HashedPicCoords(212, 598, 107, 23, -1906095139)}, new ColoredXYCoords[]{}, "CATS loaded, on Championship Home screen"),
+    CATSLOADEDULTIMATESCREEN(new HashedPicCoords[]{new HashedPicCoords(946, 288, 53, 43, -264727107), new HashedPicCoords(946, 288, 53, 43, 354485353), new HashedPicCoords(388, 602, 230, 40, 660508215), new HashedPicCoords(946, 283, 53, 48, -1139583725)}, new ColoredXYCoords[]{}, "CATS Loaded, on Ultimate Home screen"),
     CATSLOADINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(372, 195, 276, 17, 1525539489)}, new ColoredXYCoords[]{}, "In CATS Loading screen"),
     CHAMPIONSHIPGARAGE(new HashedPicCoords[]{new HashedPicCoords(26, 594, 260, 11, 1259859504)}, new ColoredXYCoords[]{}, "In Championship Garage working on car"),
     CHAT(new HashedPicCoords[]{new HashedPicCoords(574, 131, 90, 90, 672990996)}, new ColoredXYCoords[]{}, "Gang Chat screen"),
@@ -42,12 +42,12 @@ public enum ScreenData {
     CITYKINGSBUILDINGNOSCOUT(new HashedPicCoords[]{new HashedPicCoords(576, 311, 35, 47, 1212340291)}, new ColoredXYCoords[]{}, "City Kings, building Attack Screen, no scout"),
     CITYKINGSBUILDINGATTACK(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1788496405)}, new ColoredXYCoords[]{}, "City Kings, Building Attack screen"),
     CITYKINGSBUILDINGDEFEND(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1587988222)}, new ColoredXYCoords[]{}, "City Kings, building defend screen"),
-    CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(10,312,46,204,-1763861882),new HashedPicCoords(10,312,46,204,-728619477), new HashedPicCoords(10,312,46,204,741839786),new HashedPicCoords(10, 312, 46, 204, -877624759)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),
+    CITYKINGSBUILDINGSCREEN(new HashedPicCoords[]{new HashedPicCoords(10, 312, 46, 204, -1763861882), new HashedPicCoords(10, 312, 46, 204, -728619477), new HashedPicCoords(10, 312, 46, 204, 741839786), new HashedPicCoords(10, 312, 46, 204, -877624759)}, new ColoredXYCoords[]{}, "City Kings, building main screen"),
     CITYKINGSGANGINFO(new HashedPicCoords[]{new HashedPicCoords(412, 574, 181, 46, -459207574)}, new ColoredXYCoords[]{}, "City Kings, gang info screen"),
     CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
-    CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(433,132,174,79,968001389)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
+    CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(433, 132, 174, 79, 968001389)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
     EXITSCREEN(new HashedPicCoords[]{new HashedPicCoords(387, 576, 238, 43, -1304481246)}, new ColoredXYCoords[]{}, "Are you sure you want to quit?"),
-    FACEBOOK(new HashedPicCoords[]{new HashedPicCoords(452,49,137,29,-1556342175)}, new ColoredXYCoords[]{}, "Facebook login"),
+    FACEBOOK(new HashedPicCoords[]{new HashedPicCoords(452, 49, 137, 29, -1556342175)}, new ColoredXYCoords[]{}, "Facebook login"),
     FRIENDS(new HashedPicCoords[]{new HashedPicCoords(843, 44, 144, 15, -91234188)}, new ColoredXYCoords[]{}, "Gang Friends screen"),
     GANGFIGHTS(new HashedPicCoords[]{new HashedPicCoords(826, 698, 81, 37, 905255899)}, new ColoredXYCoords[]{}, "Gang Fights, ready for action screen"),
     GANGFIGHTSBATTLESCREEN(new HashedPicCoords[]{new HashedPicCoords(387, 576, 238, 43, 313145442)}, new ColoredXYCoords[]{}, "Gang Fights, battle screen"),
@@ -137,8 +137,8 @@ public enum ScreenData {
      * @param bi Buffered Image of screenshot
      * @return identifier for screen
      */
-     public static ScreenData identifyScreen(BufferedImage bi) {
-        
+    public static ScreenData identifyScreen(BufferedImage bi) {
+
         ScreenData returnValue = ScreenData.UNKNOWN;
         for (ScreenData screen : ScreenData.values()) {
 
@@ -158,7 +158,7 @@ public enum ScreenData {
             boolean hasHashes = false, matchHash = false;
             for (HashedPicCoords hpc : screen.getHashes()) {
                 hasHashes = true;
-                if (bi==null || hpc == null) {
+                if (bi == null || hpc == null) {
                     matchHash = false;
                 } else if (hpc.hashMatches(bi)) {
                     matchHash = true;
@@ -170,6 +170,18 @@ public enum ScreenData {
             }
         }
         return returnValue;
+    }
+
+    public boolean matchesHashes(BufferedImage screen) {
+        boolean match = false;
+        for (HashedPicCoords hpc : this.getHashes()) {
+            if (screen == null || hpc == null) {
+                return false;
+            } else if (hpc.hashMatches(screen)) {
+                match = true;
+            }
+        }
+        return match;
     }
 
 }

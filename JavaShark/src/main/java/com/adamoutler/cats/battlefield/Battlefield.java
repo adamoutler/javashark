@@ -179,4 +179,12 @@ public class Battlefield {
         public void setBoardScreenshot(BufferedImage boardScreenshot) {
             this.boardScreenshot = boardScreenshot;
         }
+        
+        public void clearScreenshots(){
+            for (Building building:buildings){
+                building.clearBuildingPics();
+            }
+        }
+        
+        
     }

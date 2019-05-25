@@ -21,6 +21,7 @@ public class BattlefieldNavigator {
     final public static XYCoords BACKBUTTON = new XYCoords(38, 747);
     final public static XYCoords GANGBUTTON = new XYCoords(911, 137);
 
+    boolean reported=false;
     public enum BuildingData {
         BUILDING1NAME(new PicCoords(178, 345, 110, 25)),
         BUILDING1SIZE(new PicCoords(314, 345, 36, 22)),
@@ -77,7 +78,10 @@ public class BattlefieldNavigator {
                 sleep(2000);
                 break;
             case UNKNOWN:
-                vm.logUnidentifiedScreen("NavigatingToCK");
+                if (!reported){
+                   vm.writeBabySharksDebug(vm, "Attempting to navigate to CK couldn't recognize screen");
+                   reported=true;
+                }
             case BLACKSCREEN://do nothing. we are loading.
                 break;
             default:

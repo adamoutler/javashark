@@ -26,6 +26,9 @@ import java.util.logging.Logger;
  */
 public abstract class Task implements IfaceTask {
 
+    final static public String WEBSERVEREXCELLOCATION="/var/www/baby-sharks/excel/";
+    final static public String WEBSERVERLOCATION="/var/www/baby-sharks/";
+    final static public String WEBSERVERSCREENSHOTLOCATION="/var/www/baby-sharks/screenshots/";
     abstract void initializeTask(VirtualBoxMachine vm);
 
     abstract void runTask(VirtualBoxMachine vm);

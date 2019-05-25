@@ -18,7 +18,8 @@ import java.util.LinkedList;
  * @author adamo
  */
 public class Building {
-     transient private byte[] buildingNamePic = new byte[0];
+
+    transient private byte[] buildingNamePic = new byte[0];
     transient private PicCoords cityKingsBuildingScreenCoordinates = new PicCoords(0, 0, 0, 0);
     private String buildingName = "";
     private int buildingNumber = 0;
@@ -34,7 +35,7 @@ public class Building {
     transient private TeamOwnershipPercentageBar tosb;
     private transient VirtualBoxMachine vm;
     private boolean suspectProblem = false;
-    private String suspsectProblemReason="";
+    private String suspsectProblemReason = "";
     private transient BufferedImage mapScreenshot;
 
     /**
@@ -59,7 +60,8 @@ public class Building {
     }
 
     /**
-     * @param cityKingsBuildingScreenCoordinates the cityKingsBuildingScreenCoordinates to set
+     * @param cityKingsBuildingScreenCoordinates the
+     * cityKingsBuildingScreenCoordinates to set
      */
     public void setCityKingsBuildingScreenCoordinates(PicCoords cityKingsBuildingScreenCoordinates) {
         this.cityKingsBuildingScreenCoordinates = cityKingsBuildingScreenCoordinates;
@@ -217,11 +219,11 @@ public class Building {
      */
     public void setTosb(TeamOwnershipPercentageBar tosb) {
         this.tosb = tosb;
-        this.slotsOurs=tosb.getNumberWeOwn();
-        this.slotsTheirs=tosb.getNumberTheyOwn();
-        this.slotsUnowned=tosb.getNumberNobodyOwn();
-        this.slotsTotal=tosb.getTotalSlots();
-        this.buildingOwnedBy=tosb.buildingOwnedBy();
+        this.slotsOurs = tosb.getNumberWeOwn();
+        this.slotsTheirs = tosb.getNumberTheyOwn();
+        this.slotsUnowned = tosb.getNumberNobodyOwn();
+        this.slotsTotal = tosb.getTotalSlots();
+        this.buildingOwnedBy = tosb.buildingOwnedBy();
     }
 
     /**
@@ -263,9 +265,9 @@ public class Building {
      * @param suspsectProblemReason the suspsectProblemReason to set
      */
     public void setSuspsectProblemReason(String suspsectProblemReason) {
-        System.out.println(vm.getUsername()+"- SCAN ISSUE: "+suspsectProblemReason);
-        this.suspectProblem=true;
-        this.suspsectProblemReason =  this.suspsectProblemReason +"... "+suspsectProblemReason;
+        System.out.println(vm.getUsername() + "- SCAN ISSUE: " + suspsectProblemReason);
+        this.suspectProblem = true;
+        this.suspsectProblemReason = this.suspsectProblemReason + "... " + suspsectProblemReason;
     }
 
     /**
@@ -283,7 +285,11 @@ public class Building {
     }
 
     public void clearBuildingPics() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setBuildingNamePic(null);
+        setBuildingSizePic(null);
+        for (Car car : this.getCars()) {
+            car.clearPics();
+        }
     }
 
     /**
@@ -299,4 +305,11 @@ public class Building {
     public void setFriendlyScan(boolean friendlyScan) {
         this.friendlyScan = friendlyScan;
     }
+
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        sb.append("Building ").append(this.buildingNumber).append(" owned by").append(this.buildingOwnedBy);
+        return sb.toString();
+    }
+    
 }

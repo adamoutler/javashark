@@ -7,11 +7,9 @@ package com.adamoutler.virtualbox;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
-import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -330,10 +328,6 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.poweredOn = poweredOn;
     }
 
-    public void debugScreenshot() {
-        BufferedImage screenshot = this.screenshot();
-
-    }
 
     public void tap(XYCoords coords) {
         this.adbShell("input", "tap", coords.getXStr(), coords.getYStr());

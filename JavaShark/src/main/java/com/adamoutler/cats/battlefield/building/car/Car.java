@@ -26,18 +26,17 @@ import javax.imageio.ImageIO;
  * @author adamo
  */
 public class Car {
-    PicCoords carBadgeLocation = new PicCoords(60, 238, 310, 290);
 
-    private static transient HashedPicCoords parkedCarIndicator= new HashedPicCoords(206,252,19,22,34185158);
+   transient PicCoords carBadgeLocation = new PicCoords(60, 238, 310, 290);
+    private static transient HashedPicCoords parkedCarIndicator = new HashedPicCoords(206, 252, 19, 22, 34185158);
     private String nameHash = "";
     private String uniqueHash = "";
-    private String bottomLineHash = "";
     private int location = 0;
     private int building;
-    private byte[] carBadge = new byte[]{};
-    private boolean parked=false;
-    
-    Car(){
+    transient private byte[] carBadge = new byte[]{};
+    private boolean parked = false;
+
+    Car() {
     }
 
     /**
@@ -82,19 +81,7 @@ public class Car {
         this.uniqueHash = uniqueHash;
     }
 
-    /**
-     * @return the bottomLineHash
-     */
-    public String getBottomLineHash() {
-        return bottomLineHash;
-    }
-
-    /**
-     * @param bottomLineHash the bottomLineHash to set
-     */
-    public void setBottomLineHash(String bottomLineHash) {
-        this.bottomLineHash = bottomLineHash;
-    }
+   
 
     /**
      * @return the location
@@ -112,7 +99,7 @@ public class Car {
         return this;
     }
 
-       /**
+    /**
      * @return the building
      */
     public int getBuilding() {
@@ -135,17 +122,15 @@ public class Car {
         return carBadge;
     }
 
-    
-    public Car setCarScreenshot(BufferedImage bi){
-        BufferedImage badge=carBadgeLocation.getImageAtCoords(bi);
+    public Car setCarScreenshot(BufferedImage bi) {
+        BufferedImage badge = carBadgeLocation.getImageAtCoords(bi);
         this.setParked(parkedCarIndicator.hashMatches(badge));
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(badge)));
         this.setUniqueHash(Integer.toHexString(CarBadgeHash.getUniqueHash(badge)));
-        this.carBadge=ByteImage.getPngBytes(badge);
+        this.carBadge = ByteImage.getPngBytes(badge);
         return this;
     }
 
-   
     /**
      * @return the parked
      */
@@ -159,19 +144,19 @@ public class Car {
     public void setParked(boolean parked) {
         this.parked = parked;
     }
-    
+
     /**
-     *  sets the picture of the car in bytes
+     * sets the picture of the car in bytes
+     *
      * @param bytes bytes of the picture
      * @return reference to this object
      */
-    public Car setCarBadge(byte[] bytes){
-        this.carBadge=bytes;
+    public Car setCarBadge(byte[] bytes) {
+        this.carBadge = bytes;
         return this;
     }
-    
-    
-        public void convertCarPicToJpg() {
+
+    public void convertCarPicToJpg() {
         ByteArrayInputStream bais = new ByteArrayInputStream(this.getCarBadge());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
@@ -182,9 +167,22 @@ public class Car {
             Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-     /**
+
+    public byte[] getCarJpg() {
+        return ByteImage.getJpgBytes(getCarBadge());
+    }
+
+    public int getRow() {
+        int offset = 1;
+        return ((location - offset) % 3) + offset;
+    }
+
+    public int getColumn() {
+        int offset = 1;
+        return Math.floorDiv(location - offset, 3) + offset;
+    }
+
+    /**
      * returns true if hashcode matches
      *
      * @param o object to check
@@ -212,11 +210,16 @@ public class Car {
         hash = 29 * hash + Objects.hashCode(this.nameHash);
         hash = 97 * hash + Objects.hashCode(this.uniqueHash);
         return hash;
-    }           
-    @Override
-    public String toString(){
-        return "Location:"+this.location+" user:"+this.getNameHash()+" unique:"+this.getUniqueHash();
-        
     }
-        
+
+    @Override
+    public String toString() {
+        return "Location:" + this.location + " user:" + this.getNameHash() + " unique:" + this.getUniqueHash();
+
+    }
+
+    public void clearPics() {
+        this.carBadge = null;
+    }
+
 }

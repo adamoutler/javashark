@@ -21,16 +21,16 @@ import java.util.LinkedList;
  */
 public class BattlefieldFactory {
 
-    public static void main(String[] args) {
-        BattlefieldFactory bf = new BattlefieldFactory(true, new int[]{6,5,4,3,2,1});
-        VirtualBoxMachine vm;
-        ArrayList<VirtualBoxMachine> macs = new VirtualBox().getActiveMachines();
-        Battlefield battlefield=bf.scanBattleField(macs.get(2));
-        for(Building building:battlefield.getBuildings()){
-            System.out.println("problems:"+building.getSuspsectProblemReason());
-        }
-        
-    }
+//    public static void main(String[] args) {
+//        BattlefieldFactory bf = new BattlefieldFactory(true, new int[]{6,5,4,3,2,1});
+//        VirtualBoxMachine vm;
+//        ArrayList<VirtualBoxMachine> macs = new VirtualBox().getActiveMachines();
+//        Battlefield battlefield=bf.scanBattleField(macs.get(2));
+//        for(Building building:battlefield.getBuildings()){
+//            System.out.println("problems:"+building.getSuspsectProblemReason());
+//        }
+//        
+//    }
 
     boolean friendly;
     int[] whitelist;

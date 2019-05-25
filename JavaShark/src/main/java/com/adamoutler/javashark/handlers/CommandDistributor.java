@@ -34,7 +34,7 @@ public class CommandDistributor implements HttpHandler {
     public void parseCommand(HttpExchange t) throws MessagingException {
         Message m = init(t);
         for (Entry<String, AbstractPapaHandler> entryPair : commands.entrySet()) {
-            if (entryPair.getKey().equals(m.getCommand())) {
+            if (entryPair.getKey().toLowerCase().equals(m.getCommand())) {
                 AbstractPapaHandler aph = entryPair.getValue();
                 aph.setMessage(m);
                 handleCommand(aph, t);

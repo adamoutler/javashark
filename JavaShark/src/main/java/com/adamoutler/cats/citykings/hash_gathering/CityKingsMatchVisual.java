@@ -14,7 +14,7 @@ import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.datastructures.Car;
+import com.babysharks.datastructures.GangCar;
 import com.babysharks.datastructures.Gang;
 import com.babysharks.datastructures.Gangster;
 import com.google.gson.Gson;
@@ -86,7 +86,7 @@ public class CityKingsMatchVisual {
                 }
                 building.getCars().forEach((car) -> {
                     Gangster g=gang.get_gangster_by_hash(car.getNameHash());
-                    g.addCar(Car.convertCar(car));
+                    g.addCar(GangCar.convertCar(car));
                     for (Entry<String,String> e: vm.getHashes().entrySet()){
                         if (g.get_hashes().contains(e.getKey())){
                             g.set_Username(e.getValue());

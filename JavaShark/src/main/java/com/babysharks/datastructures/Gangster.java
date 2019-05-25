@@ -26,7 +26,7 @@ public class Gangster {
     List<String> name_hashes=new ArrayList<>();
     transient private BufferedImage allCarsPic;
     transient private LinkedList<BufferedImage> carPics=new LinkedList<>();
-    private List<Car> cars=new ArrayList<>();
+    private List<GangCar> cars=new ArrayList<>();
 
     Gangster(CityKingsCarRaw car) {
         this.name_hashes.add(car.getNameHash());
@@ -168,7 +168,7 @@ public class Gangster {
     /**
      * @return the cars
      */
-    public List<Car> getCars() {
+    public List<GangCar> getCars() {
         return cars;
     }
 
@@ -176,7 +176,7 @@ public class Gangster {
      * @param cars the cars to set
      * @return reference to this object
      */
-    public Gangster setCars(List<Car> cars) {
+    public Gangster setCars(List<GangCar> cars) {
         this.cars = cars;
         return this;
     }
@@ -185,7 +185,7 @@ public class Gangster {
      * @param car the cars to set
      * @return reference to this object
      */
-    public Gangster addCar(Car car) {
+    public Gangster addCar(GangCar car) {
         this.cars.add(car);
         this.carPics.add(car.getCarBufferedImage());
         this.allCarsPic=ImageJoiner.joinImagesSide(carPics);

@@ -8,7 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.imagerecognition.ImageJoiner;
-import com.babysharks.datastructures.Car;
+import com.babysharks.datastructures.GangCar;
 import com.babysharks.datastructures.Gang;
 import com.babysharks.datastructures.Gangs;
 import com.babysharks.datastructures.Gangster;
@@ -36,7 +36,7 @@ public class ReportTools {
         ReportTools rt = new ReportTools(gangName, r.getReport(name));
         for (CityKingsBuildingRaw building:rt.battlefield.getBuildings()){
             for (CityKingsCarRaw car:building.getCars()){
-                rt.gangs.get_Gang_By_Name(gangName).get_gangster_by_hash(car.getNameHash()).addCar(Car.convertCar(car));
+                rt.gangs.get_Gang_By_Name(gangName).get_gangster_by_hash(car.getNameHash()).addCar(GangCar.convertCar(car));
             }
         }
         return rt;
@@ -64,7 +64,7 @@ public class ReportTools {
                 for (String hash : nameHashes) {
                     if (car.getNameHash().equals(hash)) {
                         g.addCarPics(car.getCarScreenshot());
-                        Car c = new Car();
+                        GangCar c = new GangCar();
                         c.setBuilding(car.getBuilding());
                         c.setColumnn(car.getColumn());
                         c.setLocation(car.getLocation());
