@@ -30,9 +30,8 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
             friendly=true;
         }
         
-        vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.getTaskData().setFriendlyScan(friendly);
-        vm.getTaskData().setBuildingsToScan(request.getData().getScanBuildings());
+        vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.setHashes(request.getData().getHashes());
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
         request.getData().addAvailable(vm).setReason("scanning");
