@@ -24,6 +24,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
+        vm.setKillThread(true);
         VirtualBoxMachine killvm=vm;
         SentryTools st=new SentryTools(vm);
         if (!st.isBusy()){

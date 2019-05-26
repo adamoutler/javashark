@@ -44,6 +44,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
                     if (vm.isKillThread()) {
+                        
                         Message m = new Message()
                                 .setCommand("deepbuildingscancomplete")
                                 .setData(new Message().getData()
@@ -60,7 +61,11 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                         if (m.getData().getReason() == null || m.getData().getReason().isEmpty()) {
                             m.getData().setReason("Scan Canceled");
                         }
-                    }
+                        vm.setKillThread(false);
+                        SendPapaAsynch.sendToPapa(m);
+                        return;
+
+                    } 
                     long time = System.currentTimeMillis();
                     String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);

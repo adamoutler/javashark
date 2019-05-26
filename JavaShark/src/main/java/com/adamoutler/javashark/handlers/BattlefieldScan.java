@@ -21,7 +21,6 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        vm.clearTasks();
         int[] buildingsToScan=request.getData().getScanBuildings();
         if (buildingsToScan==null){
             buildingsToScan=new int[]{1,2,3,4,5,6};
@@ -34,8 +33,8 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         vm.getTaskData().setFriendlyScan(friendly);
         vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.setHashes(request.getData().getHashes());
-        boolean watchAfter=false;
         if (new SentryTools(vm).isOnWatch()){
+            vm.clearTasks();
             addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN,TaskType.WATCH);
         } else {
             addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
