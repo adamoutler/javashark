@@ -58,6 +58,7 @@ public class BattlefieldNavigator {
         }
 
         if (iterations++ == 15) {
+            vm.setKillThread(true);
             return false;
         }
         ScreenData id = vm.getScreen();
