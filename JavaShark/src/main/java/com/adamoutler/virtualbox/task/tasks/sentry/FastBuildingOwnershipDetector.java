@@ -11,7 +11,6 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
-import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
@@ -87,7 +86,7 @@ public class FastBuildingOwnershipDetector {
                 }
                 return;
             }
-            vm.getTaskData().nullCount = 0;
+            vm.getTaskData().setNullCount(0);
 
             reactToChangesInBuildingOwnership();
             

@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark.handlers;
 
+import com.adamoutler.javashark.sentry_tools.SentryTools;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
@@ -33,7 +34,12 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         vm.getTaskData().setFriendlyScan(friendly);
         vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.setHashes(request.getData().getHashes());
-        addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
+        boolean watchAfter=false;
+        if (new SentryTools(vm).isOnWatch()){
+            addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN,TaskType.WATCH);
+        } else {
+            addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
+        }
         request.getData().addAvailable(vm).setReason("scanning");
         this.sendSucessMessage(he, request);
     }

@@ -74,4 +74,18 @@ public class VMTaskData {
         return friendlyScan;
     }
 
+    /**
+     * @return the nullCount
+     */
+    public int getNullCount() {
+        return nullCount;
+    }
+
+    /**
+     * @param nullCount the nullCount to set
+     */
+    public void setNullCount(int nullCount) {
+        this.nullCount = nullCount;
+    }
+
 }
