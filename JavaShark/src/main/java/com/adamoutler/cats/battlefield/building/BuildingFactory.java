@@ -40,6 +40,7 @@ public class BuildingFactory {
         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
             tapAttackOrDefend();
             for (int retries = 0; retries < 5; retries++) {
+                if(vm.isKillThread())break;
                 setUpCarData();
                 boolean b = new CarFactory(vm, building).scan();
                 if (checkCarData() && b) {

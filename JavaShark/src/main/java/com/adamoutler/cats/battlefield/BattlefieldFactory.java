@@ -31,7 +31,6 @@ public class BattlefieldFactory {
 //        }
 //        
 //    }
-
     boolean friendly;
     int[] whitelist;
     transient public final static PicCoords OURSCORECOORDS = new PicCoords(150, 135, 244, 45);
@@ -50,15 +49,22 @@ public class BattlefieldFactory {
         for (Building building : battlefield.getBuildings()) {
             new BattlefieldNavigator().navigateToCK(vm);
             battlefield.setBoardScreenshot(vm.screenshot());
-            boolean value=new BattlefieldNavigator().navigateToBuildingScreen(vm, building.getBuildingNumber());
+            boolean value = new BattlefieldNavigator().navigateToBuildingScreen(vm, building.getBuildingNumber());
             for (int retries = 0; retries < 3; retries++) {
+                if (vm.isKillThread()) {
+                    break;
+                }
                 if (new BuildingFactory(vm, building).scan()) {
                     break;
                 }
             }
-
+            if (building.isSuspectProblem()||vm.isKillThread()) {
+                break;
+            }
         }
         new BattlefieldNavigator().navigateToCK(vm);
+        battlefield.setBoardScreenshot(vm.screenshot());
+
         return battlefield;
     }
 

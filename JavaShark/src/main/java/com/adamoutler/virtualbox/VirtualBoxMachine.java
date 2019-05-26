@@ -43,6 +43,7 @@ public class VirtualBoxMachine extends TaskedMachine {
     private String adamoutlerchat = "";
     transient private byte[] screenshot = new byte[]{};
     private transient Map<String, String> hashes;
+    transient private boolean killThread;
 
     public VirtualBoxMachine(String machineName) {
 
@@ -349,5 +350,19 @@ public class VirtualBoxMachine extends TaskedMachine {
      */
     public void setHashes(Map<String, String> hashes) {
         this.hashes = hashes;
+    }
+
+    /**
+     * @return the killThread
+     */
+    public boolean isKillThread() {
+        return killThread;
+    }
+
+    /**
+     * @param killThread the killThread to set
+     */
+    public void setKillThread(boolean killThread) {
+        this.killThread = killThread;
     }
 }

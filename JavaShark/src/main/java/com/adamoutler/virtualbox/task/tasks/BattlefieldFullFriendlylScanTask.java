@@ -8,6 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.battlefield.Battlefield;
 import com.adamoutler.cats.battlefield.BattlefieldExcelGenerator;
 import com.adamoutler.cats.battlefield.BattlefieldFactory;
+import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -42,7 +43,24 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     BattlefieldFactory battleFactory = new BattlefieldFactory(vm.getTaskData().isFriendlyScan(), vm.getTaskData().getBuildingsToScan());
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
-
+                    if (vm.isKillThread()) {
+                        Message m = new Message()
+                                .setCommand("deepbuildingscancomplete")
+                                .setData(new Message().getData()
+                                        .setGang(vm.getGang())
+                                        .setUsername(vm.getUsername()));
+                        for (Building b : report.getBuildings()) {
+                            if (b.isSuspectProblem()) {
+                                m.getData().setComment(
+                                        b.getSuspsectProblemReason());
+                                m.getData().setReason("SCAN ERROR!")
+                                        .setResultObject(null);
+                            }
+                        }
+                        if (m.getData().getReason() == null || m.getData().getReason().isEmpty()) {
+                            m.getData().setReason("Scan Canceled");
+                        }
+                    }
                     long time = System.currentTimeMillis();
                     String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
@@ -64,6 +82,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
 
                 }
             });
+            vm.setKillThread(false);
             t.setName("Deep Building Scan: " + vm.getUsername() + "-" + vm.getGang());
             t.start();
             ready(vm);

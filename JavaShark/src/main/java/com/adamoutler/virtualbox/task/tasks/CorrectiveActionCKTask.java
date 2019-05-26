@@ -21,6 +21,7 @@ public class CorrectiveActionCKTask extends Task {
     @Override
     void initializeTask(VirtualBoxMachine vm) {
         ready(vm);
+        vm.setKillThread(false);
         vm.adbShell(new String[]{"input keyevent KEYCODE_BACK; input keyevent KEYCODE_BACK; input keyevent KEYCODE_BACK; input keyevent KEYCODE_BACK; sleep 1; input tap 535 651; sleep 1; input tap 899 87; sleep 4; input tap 526 480; input tap 526 480; input tap 526 480; "});
         try {
             Thread.sleep(500);

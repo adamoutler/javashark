@@ -42,6 +42,7 @@ public class CarFactory {
     public boolean scan() {
         int offset = 0;
         for (Car c : building.getCars()) {
+            if(vm.isKillThread())break;
             BufferedImage screenshot = vm.screenshot();
             screenshot = correctCursorLocationIfRequired(c, offset, screenshot);
             c.setCarScreenshot(screenshot);

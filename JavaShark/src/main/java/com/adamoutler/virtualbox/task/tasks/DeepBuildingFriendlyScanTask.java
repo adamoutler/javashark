@@ -52,6 +52,7 @@ public class DeepBuildingFriendlyScanTask extends Task {
 
                 }
             });
+            vm.setKillThread(false);
             t.setName("Deep Building Scan: " + vm.getUsername() + "-" + vm.getGang());
             t.start();
             ready(vm);

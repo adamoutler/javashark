@@ -133,6 +133,7 @@ public class VirtualBoxControl {
     public boolean stopVM() {
         System.out.println("Stopping VM " + vm);
         LinkedList<String> args = new LinkedList<>();
+        vm.setKillThread(false);
         args.add(VirtualBox.VBOX);
         args.add("controlvm");
         args.add(vm.getVMName());
