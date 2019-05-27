@@ -9,9 +9,11 @@ import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.BuildingFactory;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -58,7 +60,7 @@ public class BattlefieldFactory {
                     break;
                 }
             }
-            if (building.isSuspectProblem()||vm.isKillThread()) {
+            if (building.isSuspectProblem() || vm.isKillThread()) {
                 break;
             }
         }
@@ -74,9 +76,18 @@ public class BattlefieldFactory {
             Building b = new Building();
             b.setFriendlyScan(friendly);
             b.setBuildingNumber(buildingNumber);
+            b.setIsLinked(isLinkedBuilding(b,this.battlefield.getBoardScreenshot()));
             buildings.add(b);
         }
 
         return buildings;
+    }
+
+    private static boolean isLinkedBuilding(Building ckb, BufferedImage newScreenshot) {
+        PicCoords coords = Battlefield.buildingData.valueOf("BUILDING" + ckb.getBuildingNumber() + "NAME").getCoords();
+        int startX = coords.getX();
+        int y = coords.getY() + 7;
+        int foundLoc = new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int) 0xECAD21, startX, y, startX + 110, 10);
+        return foundLoc > 0;
     }
 }

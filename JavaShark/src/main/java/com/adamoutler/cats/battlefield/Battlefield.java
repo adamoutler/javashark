@@ -6,7 +6,9 @@
 package com.adamoutler.cats.battlefield;
 
 import com.adamoutler.cats.battlefield.building.Building;
+import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.babysharks.datastructures.Gang;
 import java.awt.image.BufferedImage;
@@ -45,146 +47,147 @@ public class Battlefield {
         }
 
     }
-            private final long time = System.currentTimeMillis();
-        private boolean friendly;
-        private LinkedList<Building> buildings;
-        private byte[] screenshot;
-        private String excelFile = "";
-        private String jsonFile = "";
-        private boolean reportContainsFlaws = false;
-        private Gang gang;
-        private CityKingsBattlefieldAnalysis battlefield;
+    private final long time = System.currentTimeMillis();
+    private boolean friendly;
+    private LinkedList<Building> buildings;
+    private byte[] screenshot;
+    private String excelFile = "";
+    private String jsonFile = "";
+    private boolean reportContainsFlaws = false;
+    private Gang gang;
+    private CityKingsBattlefieldAnalysis battlefield;
 
-        transient private BufferedImage boardScreenshot;
+    transient private BufferedImage boardScreenshot;
 
-        Battlefield(boolean friendly) {
-            this.friendly = friendly;
-        }
-
-        /**
-         * @param friendly the friendly to set
-         */
-        public void setFriendly(boolean friendly) {
-            this.friendly = friendly;
-        }
-
-        /**
-         * @return the buildings
-         */
-        public LinkedList<Building> getBuildings() {
-            return buildings;
-        }
-
-        /**
-         * @param buildings the buildings to set
-         */
-        public void setBuildings(LinkedList<Building> buildings) {
-            this.buildings = buildings;
-        }
-
-        /**
-         * @return the screenshot
-         */
-        public byte[] getScreenshot() {
-            return screenshot;
-        }
-
-        /**
-         * @param screenshot the screenshot to set
-         */
-        public void setScreenshot(byte[] screenshot) {
-            this.screenshot = screenshot;
-        }
-
-        /**
-         * @return the excelFile
-         */
-        public String getExcelFile() {
-            return excelFile;
-        }
-
-        /**
-         * @param excelFile the excelFile to set
-         */
-        public void setExcelFile(String excelFile) {
-            this.excelFile = excelFile;
-        }
-
-        /**
-         * @return the jsonFile
-         */
-        public String getJsonFile() {
-            return jsonFile;
-        }
-
-        /**
-         * @param jsonFile the jsonFile to set
-         */
-        public void setJsonFile(String jsonFile) {
-            this.jsonFile = jsonFile;
-        }
-
-        /**
-         * @return the reportContainsFlaws
-         */
-        public boolean isReportContainsFlaws() {
-            return reportContainsFlaws;
-        }
-
-        /**
-         * @param reportContainsFlaws the reportContainsFlaws to set
-         */
-        public void setReportContainsFlaws(boolean reportContainsFlaws) {
-            this.reportContainsFlaws = reportContainsFlaws;
-        }
-
-        /**
-         * @return the gang
-         */
-        public Gang getGang() {
-            return gang;
-        }
-
-        /**
-         * @param gang the gang to set
-         */
-        public void setGang(Gang gang) {
-            this.gang = gang;
-        }
-
-        /**
-         * @return the battlefield
-         */
-        public CityKingsBattlefieldAnalysis getBattlefield() {
-            return battlefield;
-        }
-
-        /**
-         * @param battlefield the battlefield to set
-         */
-        public void setBattlefield(CityKingsBattlefieldAnalysis battlefield) {
-            this.battlefield = battlefield;
-        }
-
-        /**
-         * @return the boardScreenshot
-         */
-        public BufferedImage getBoardScreenshot() {
-            return boardScreenshot;
-        }
-
-        /**
-         * @param boardScreenshot the boardScreenshot to set
-         */
-        public void setBoardScreenshot(BufferedImage boardScreenshot) {
-            this.boardScreenshot = boardScreenshot;
-        }
-        
-        public void clearScreenshots(){
-            for (Building building:buildings){
-                building.clearBuildingPics();
-            }
-        }
-        
-        
+    Battlefield(boolean friendly) {
+        this.friendly = friendly;
     }
+
+    /**
+     * @param friendly the friendly to set
+     */
+    public void setFriendly(boolean friendly) {
+        this.friendly = friendly;
+    }
+
+    /**
+     * @return the buildings
+     */
+    public LinkedList<Building> getBuildings() {
+        return buildings;
+    }
+
+    /**
+     * @param buildings the buildings to set
+     */
+    public void setBuildings(LinkedList<Building> buildings) {
+        this.buildings = buildings;
+    }
+
+    /**
+     * @return the screenshot
+     */
+    public byte[] getScreenshot() {
+        return screenshot;
+    }
+
+    /**
+     * @param screenshot the screenshot to set
+     */
+    public void setScreenshot(byte[] screenshot) {
+        this.screenshot = screenshot;
+    }
+
+    /**
+     * @return the excelFile
+     */
+    public String getExcelFile() {
+        return excelFile;
+    }
+
+    /**
+     * @param excelFile the excelFile to set
+     */
+    public void setExcelFile(String excelFile) {
+        this.excelFile = excelFile;
+    }
+
+    /**
+     * @return the jsonFile
+     */
+    public String getJsonFile() {
+        return jsonFile;
+    }
+
+    /**
+     * @param jsonFile the jsonFile to set
+     */
+    public void setJsonFile(String jsonFile) {
+        this.jsonFile = jsonFile;
+    }
+
+    /**
+     * @return the reportContainsFlaws
+     */
+    public boolean isReportContainsFlaws() {
+        return reportContainsFlaws;
+    }
+
+    /**
+     * @param reportContainsFlaws the reportContainsFlaws to set
+     */
+    public void setReportContainsFlaws(boolean reportContainsFlaws) {
+        this.reportContainsFlaws = reportContainsFlaws;
+    }
+
+    /**
+     * @return the gang
+     */
+    public Gang getGang() {
+        return gang;
+    }
+
+    /**
+     * @param gang the gang to set
+     */
+    public void setGang(Gang gang) {
+        this.gang = gang;
+    }
+
+    /**
+     * @return the battlefield
+     */
+    public CityKingsBattlefieldAnalysis getBattlefield() {
+        return battlefield;
+    }
+
+    /**
+     * @param battlefield the battlefield to set
+     */
+    public void setBattlefield(CityKingsBattlefieldAnalysis battlefield) {
+        this.battlefield = battlefield;
+    }
+
+    /**
+     * @return the boardScreenshot
+     */
+    public BufferedImage getBoardScreenshot() {
+        return boardScreenshot;
+    }
+
+    /**
+     * @param boardScreenshot the boardScreenshot to set
+     */
+    public void setBoardScreenshot(BufferedImage boardScreenshot) {
+        this.boardScreenshot = boardScreenshot;
+    }
+
+    public void clearScreenshots() {
+        for (Building building : buildings) {
+            building.clearBuildingPics();
+        }
+    }
+
+
+
+}
