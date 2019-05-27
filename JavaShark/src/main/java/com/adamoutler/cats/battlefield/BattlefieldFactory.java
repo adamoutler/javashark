@@ -47,6 +47,9 @@ public class BattlefieldFactory {
     }
 
     public Battlefield scanBattleField(VirtualBoxMachine vm) {
+        new BattlefieldNavigator().navigateToCK(vm);
+        System.out.println(vm.getUsername()+": logging board screenshot and beginning battlefield scan");
+        battlefield.setBoardScreenshot(vm.screenshot());
         battlefield.setBuildings(prepareBuildings());
         for (Building building : battlefield.getBuildings()) {
             new BattlefieldNavigator().navigateToCK(vm);
@@ -76,7 +79,7 @@ public class BattlefieldFactory {
             Building b = new Building();
             b.setFriendlyScan(friendly);
             b.setBuildingNumber(buildingNumber);
-            b.setIsLinked(isLinkedBuilding(b,this.battlefield.getBoardScreenshot()));
+            b.setIsLinked(isLinkedBuilding(b, this.battlefield.getBoardScreenshot()));
             buildings.add(b);
         }
 
