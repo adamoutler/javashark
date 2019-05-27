@@ -60,6 +60,7 @@ public class CarFactory {
         sleep(3000);
         BufferedImage screenshot = vm.screenshot();
         Car currentCar = new Car().setCarScreenshot(screenshot);
+        if (building.getCars().isEmpty()) return;
         Car lastCar = building.getCars().get(building.getCars().size() - 1);
         if (currentCar.equals(lastCar)) { //missed last tap
             vm.longTap(NEXTBUTTON);
