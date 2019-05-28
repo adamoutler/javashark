@@ -58,9 +58,9 @@ public class MyCars {
 
     private static BufferedImage tapGetPicture(XYCoords button, ScreenData screenData, VirtualBoxMachine vm) {
         vm.longTap(button);
-        long endTime = System.currentTimeMillis() + 20000;
-        BufferedImage screenshot = null;
-        while (screenData.matchesHashes(screenshot) && System.currentTimeMillis() > endTime) {
+        long endTime = System.currentTimeMillis() + 10000;
+        BufferedImage screenshot = vm.screenshot();
+        while (!screenData.matchesHashes(screenshot) && System.currentTimeMillis()< endTime) {
             vm.tap(button);
             sleep(2000);
             screenshot = vm.screenshot();
@@ -68,7 +68,7 @@ public class MyCars {
         if (System.currentTimeMillis() > endTime) {
             return null;
         }
-        return screenshot;
+        return badgeLocation.getImageAtCoords(screenshot);
     }
 
     private static void sleep(int i) {
