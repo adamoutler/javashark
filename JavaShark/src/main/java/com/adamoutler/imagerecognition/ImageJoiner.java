@@ -37,9 +37,11 @@ public class ImageJoiner {
     }
 
     public static BufferedImage joinImagesSide(LinkedList<BufferedImage> images) {
+        if (images.size()==0) return null;
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         image.setRGB(0, 0, new Color(0, 0, 0, 0).getRGB());
         for (int i = 0; i < images.size(); i++) {
+            if(images.get(i)==null) continue;
             image = joinImagesSide(image, images.get(i));
         }
         return image;

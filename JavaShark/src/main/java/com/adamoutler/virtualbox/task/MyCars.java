@@ -26,14 +26,16 @@ public class MyCars {
     static XYCoords button2 = new XYCoords(135, 525);
     static XYCoords button3 = new XYCoords(215, 525);
     static XYCoords neutral = new XYCoords(150, 600);
+    static XYCoords expand = new XYCoords(24, 386);
     static PicCoords badgeLocation = new PicCoords(0, 192, 305, 384);
 
     public static BufferedImage getMyCars(VirtualBoxMachine vm) {
-        new BattlefieldNavigator().navigateToCK(vm);
+
+        getToScreen(vm);
         BufferedImage car1 = tapGetPicture(button1, ScreenData.CITYKINGCAR1, vm);
-        new BattlefieldNavigator().navigateToCK(vm);
+        getToScreen(vm);
         BufferedImage car2 = tapGetPicture(button2, ScreenData.CITYKINGCAR2, vm);
-        new BattlefieldNavigator().navigateToCK(vm);
+        getToScreen(vm);
         BufferedImage car3 = tapGetPicture(button3, ScreenData.CITYKINGCAR3, vm);
         LinkedList<BufferedImage> images = new LinkedList();
         images.add(car1);
@@ -43,16 +45,27 @@ public class MyCars {
 
     }
 
+    static void getToScreen(VirtualBoxMachine vm) {
+
+        ScreenData sd = vm.getScreen();
+        while (sd != ScreenData.CITYKINGCAR1 && sd != ScreenData.CITYKINGCAR2 && sd != ScreenData.CITYKINGCAR3) {
+            new BattlefieldNavigator().navigateToCK(vm);
+            vm.tap(expand);
+            sleep(2000);
+            sd = vm.getScreen();
+        }
+    }
+
     private static BufferedImage tapGetPicture(XYCoords button, ScreenData screenData, VirtualBoxMachine vm) {
         vm.longTap(button);
-        long endTime = System.currentTimeMillis() + 10000;
+        long endTime = System.currentTimeMillis() + 20000;
         BufferedImage screenshot = null;
         while (screenData.matchesHashes(screenshot) && System.currentTimeMillis() > endTime) {
             vm.tap(button);
             sleep(2000);
             screenshot = vm.screenshot();
         }
-        if (System.currentTimeMillis()>endTime){
+        if (System.currentTimeMillis() > endTime) {
             return null;
         }
         return screenshot;

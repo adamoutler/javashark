@@ -21,6 +21,9 @@ import javax.imageio.ImageIO;
 /**
  *
  * @author adamo
+ * 
+ * curl -X PATCH -d '{"message":{"command":mycars","data":{"gang":"bs2","username":"Baluhu""}}}' https://javashark.baby-sharks.com/api/dev/command
+ * 
  */
 public class MyCarsHandler extends SentryAbstractPapaHandler {
 
@@ -38,9 +41,13 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
         }
         vm.clearTasks();
      
+        
 
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
         if (vm.isPoweredOn()) {
+            ScreenData currentScreen=ScreenData.identifyScreen(vm.screenshot());
+            
+            
             BufferedImage image = MyCars.getMyCars(vm);
             File outputFile = new File(OUTPUT + safeName);
             ScreenData sd = ScreenData.identifyScreen(image);
