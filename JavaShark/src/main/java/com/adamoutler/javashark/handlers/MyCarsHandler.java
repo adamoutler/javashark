@@ -50,9 +50,8 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
             
             BufferedImage image = MyCars.getMyCars(vm);
             File outputFile = new File(OUTPUT + safeName);
-            ScreenData sd = ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject("A picture of your cars.");
             sendSucessMessage(he, request);
             if (resumeWatch) {
                 vm.addTask(TaskType.CORRECTIVEACTIONCK);
