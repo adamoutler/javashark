@@ -27,22 +27,31 @@ public class MyCars {
     static XYCoords button3 = new XYCoords(215, 525);
     static XYCoords neutral = new XYCoords(150, 600);
     static XYCoords expand = new XYCoords(24, 386);
+    static XYCoords contract = new XYCoords(289, 402);
+
     static PicCoords badgeLocation = new PicCoords(0, 192, 305, 384);
 
     public static BufferedImage getMyCars(VirtualBoxMachine vm) {
 
-        getToScreen(vm);
-        BufferedImage car1 = tapGetPicture(button1, ScreenData.CITYKINGCAR1, vm);
-        getToScreen(vm);
-        BufferedImage car2 = tapGetPicture(button2, ScreenData.CITYKINGCAR2, vm);
-        getToScreen(vm);
-        BufferedImage car3 = tapGetPicture(button3, ScreenData.CITYKINGCAR3, vm);
         LinkedList<BufferedImage> images = new LinkedList();
-        images.add(car1);
-        images.add(car2);
-        images.add(car3);
+        for (int i = 1; i < 4; i++) {
+            getToScreen(vm);
+            images.add(tapGetPicture(button1, ScreenData.valueOf("CITYKINGCAR" + i), vm));
+        }
+        contractScreen(vm);
+
         return ImageJoiner.joinImagesSide(images);
 
+    }
+
+    private static void contractScreen(VirtualBoxMachine vm) {
+        ScreenData sd = vm.getScreen();
+
+        while (sd == ScreenData.CITYKINGCAR1 || sd == ScreenData.CITYKINGCAR2 || sd == ScreenData.CITYKINGCAR3) {
+            vm.tap(contract);
+            sleep(2000);
+            sd = vm.getScreen();
+        }
     }
 
     static void getToScreen(VirtualBoxMachine vm) {
@@ -60,7 +69,7 @@ public class MyCars {
         vm.longTap(button);
         long endTime = System.currentTimeMillis() + 10000;
         BufferedImage screenshot = vm.screenshot();
-        while (!screenData.matchesHashes(screenshot) && System.currentTimeMillis()< endTime) {
+        while (!screenData.matchesHashes(screenshot) && System.currentTimeMillis() < endTime) {
             vm.tap(button);
             sleep(2000);
             screenshot = vm.screenshot();

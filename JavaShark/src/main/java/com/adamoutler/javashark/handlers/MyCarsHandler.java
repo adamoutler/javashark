@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.cats.screen_id.ScreenData;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.MyCars;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.SendPapaAsynch;
@@ -21,46 +22,52 @@ import javax.imageio.ImageIO;
 /**
  *
  * @author adamo
- * 
- * curl -X PATCH -d '{"message":{"command":mycars","data":{"gang":"bs2","username":"Baluhu""}}}' https://javashark.baby-sharks.com/api/dev/command
- * 
+ *
+ * curl -X PATCH -d
+ * '{"message":{"command":mycars","data":{"gang":"bs2","username":"Baluhu""}}}'
+ * https://javashark.baby-sharks.com/api/dev/command
+ *
  */
 public class MyCarsHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-           if (vm == null) {
+        if (vm == null) {
             this.sendBadReq(he, "No sentry for user");
             return;
         }
         vm.setKillThread(true);
-        boolean resumeWatch = vm.getCurrentTask() == TaskType.WATCH;
-        if (!resumeWatch){
-           this.sendBadReq(he, "Sentry is not on WATCH!");
-            return; 
+
+        TaskType resumeTask = TaskType.getTasks(vm);
+        if (resumeTask != TaskType.WATCH) {
+            this.sendBadReq(he, "Sentry is not on WATCH!");
+            return;
         }
         vm.clearTasks();
-     
-        
 
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
         if (vm.isPoweredOn()) {
-            ScreenData currentScreen=ScreenData.identifyScreen(vm.screenshot());
-            
-            
+            ScreenData currentScreen = ScreenData.identifyScreen(vm.screenshot());
+
             BufferedImage image = MyCars.getMyCars(vm);
             File outputFile = new File(OUTPUT + safeName);
             ImageIO.write(image, "PNG", outputFile);
             request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject("A picture of your cars.");
             sendSucessMessage(he, request);
-            if (resumeWatch) {
-                vm.addTask(TaskType.CORRECTIVEACTIONCK);
-                vm.addTask(TaskType.WATCH);
-            }
-            return;
+            resumeTask(resumeTask);
 
+            return;
         }
-        this.sendBadReq(he, "VM Off");
+
+        this.sendBadReq(he,"VM Off");
+    }
+
+    private void resumeTask(TaskType resumeTask) {
+        boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) vm);
+        vm.clearTasks();
+        if (supported) {
+            vm.addTask(resumeTask);
+        }
     }
 
 }
