@@ -69,10 +69,10 @@ public class TaskManager {
         al.forEach((mac) -> {
             machines.add((VirtualBoxMachine) mac);
             TaskType resumeTask = TaskType.getTasks((VirtualBoxMachine) mac);
-            boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
             mac.clearTasks();
+            boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
             if (supported) {
-                mac.addTask(resumeTask);
+                System.out.println("Resuming "+resumeTask);
             } else if (!mac.getGang().equals("development")) {
                 SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac, resumeTask);
                 mac.addTask(TaskType.POWEROFF);

@@ -20,6 +20,7 @@ import java.util.List;
  * @author adamo
  */
 public class TaskedMachine {
+
     private LinkedList<TaskType> taskList = new LinkedList<>();
     private HashMap<TaskType, TaskTime> completedTasks = new HashMap<>();
     transient private TaskType temporaryTask;
@@ -28,33 +29,56 @@ public class TaskedMachine {
     transient private boolean taskComplete = false;
     transient private VMTaskData vmTaskData = new VMTaskData();
     private String taskDescription = "";
-    private TaskTime currentTaskTimes=new TaskTime();
-    
-    public TaskedMachine(){
+    private TaskTime currentTaskTimes = new TaskTime();
+
+    public TaskedMachine() {
     }
-    
-    
+
+    public synchronized void resumeTask(TaskType task) {
+        LinkedList<TaskType> tasks = new LinkedList<>();
+        tasks.add(task);
+        resumeTasks(tasks);
+    }
+
+    synchronized public void resumeTasks(LinkedList<TaskType> task) {
+        LinkedList<TaskType> tasks = new LinkedList<>();
+        tasks.addAll(task);
+        taskInitialized = true;
+        taskReady = true;
+        taskComplete = false;
+        currentTaskTimes=new TaskTime().setTimeStarted();
+        taskList = tasks;
+    }
+
+    synchronized public LinkedList<TaskType> pauseTasks() {
+        LinkedList<TaskType> tasks = new LinkedList<>();
+        tasks.add(TaskType.IDLE);
+        LinkedList<TaskType> currentTasks = (LinkedList<TaskType>) taskList.clone();
+        taskList = tasks;
+        return currentTasks;
+    }
+
     synchronized public void performTaskListMaintenance() {
         //this is an idle task and nothing has been commanded
-        if ((taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1){
+        if ((taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1) {
             return;
-        //this is a task to be removed and there are more tasks to be donet. 
-        } else if ((this.taskList.get(0).equals(TaskType.IDLE)||this.taskList.get(0).equals(TaskType.POWEROFF)||this.isTaskComplete()) && taskList.size() > 1) {
+            //this is a task to be removed and there are more tasks to be donet. 
+        } else if ((this.taskList.get(0).equals(TaskType.IDLE) || this.taskList.get(0).equals(TaskType.POWEROFF) || this.isTaskComplete()) && taskList.size() > 1) {
             System.out.println("Done with task " + taskList.get(0).name());
             currentTaskTimes.setTimeComplete();
             this.completedTasks.put(taskList.get(0), getCurrentTaskTime());
             taskList.remove(0);
-            this.currentTaskTimes=new TaskTime();
-        //something happened and a task was not added but the last one was removed.
-        } else if (taskList.size()==0){
+            this.currentTaskTimes = new TaskTime();
+            //something happened and a task was not added but the last one was removed.
+        } else if (taskList.size() == 0) {
             taskList.add(TaskType.IDLE);
-        //the task to be removed is the last task in the list
-        } else if (taskList.size()==1){
+            //the task to be removed is the last task in the list
+        } else if (taskList.size() == 1) {
             taskList.add(TaskType.IDLE);
             System.out.println("Done with task " + taskList.get(0).name());
             taskList.remove(0);
         }
-        
+
         //we will restart the task if this maintenace was called but the task was not complete.
         this.taskReady = false;
         this.taskComplete = false;
@@ -63,7 +87,7 @@ public class TaskedMachine {
     }
 
     synchronized public void forceRemoveCurrentTask() {
-        if (taskList.size()<2){
+        if (taskList.size() < 2) {
             taskList.add(TaskType.IDLE);
         }
         System.out.println("Force-Stop task " + taskList.get(0).name());
@@ -74,11 +98,10 @@ public class TaskedMachine {
         this.taskDescription = taskList.get(0).getTaskDescription();
     }
 
-    
-    public List<TaskType> getTaskList(){
+    public List<TaskType> getTaskList() {
         return Collections.unmodifiableList(taskList);
     }
-    
+
     /**
      * @return the currentTask
      */
@@ -87,11 +110,10 @@ public class TaskedMachine {
     }
 
     synchronized public void completeCurrentTask() {
-        this.taskComplete=true;
+        this.taskComplete = true;
         this.performTaskListMaintenance();
     }
 
-    
     /**
      * @return the taskDescription
      */
@@ -106,7 +128,6 @@ public class TaskedMachine {
         this.taskDescription = taskDescription;
     }
 
-   
     /**
      * @return the taskComplete
      */
@@ -167,8 +188,8 @@ public class TaskedMachine {
         if (task.equals(TaskType.SKIP)) {
             this.forceRemoveCurrentTask();
             this.performTaskListMaintenance();
-        } else if (task.equals(TaskType.CLEAR)){
-            while (taskList.size()>1){
+        } else if (task.equals(TaskType.CLEAR)) {
+            while (taskList.size() > 1) {
                 this.forceRemoveCurrentTask();
             }
             this.forceRemoveCurrentTask();
@@ -193,6 +214,7 @@ public class TaskedMachine {
     synchronized public void setTemporaryTask(TaskType temporaryTask) {
         this.temporaryTask = temporaryTask;
     }
+
     /**
      * @return the taskReady
      */
@@ -213,14 +235,13 @@ public class TaskedMachine {
     public TaskTime getCurrentTaskTime() {
         return currentTaskTimes;
     }
-    
-    
-    public void clearTasks(){
+
+    public void clearTasks() {
         this.addTask(TaskType.CLEAR);
     }
-    
-    public void writeBabySharksDebug(VirtualBoxMachine vm,String comment){
-        String name=VirtualBoxScreenShot.writeScreenshot(vm, "/var/www/baby-sharks/screenshots");
-        SendPapaAsynch.sendToPapa(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/"+name).setReason(comment+" Here's a screenshot "+"https://javashark.baby-sharks.com/screenshots/"+comment)));
+
+    public void writeBabySharksDebug(VirtualBoxMachine vm, String comment) {
+        String name = VirtualBoxScreenShot.writeScreenshot(vm, "/var/www/baby-sharks/screenshots");
+        SendPapaAsynch.sendToPapa(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://javashark.baby-sharks.com/screenshots/" + comment)));
     }
 }

@@ -365,4 +365,8 @@ public class VirtualBoxMachine extends TaskedMachine {
     public void setKillThread(boolean killThread) {
         this.killThread = killThread;
     }
+
+    public void resumeSentry() {
+       
+    }
 }

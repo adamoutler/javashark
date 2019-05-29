@@ -12,6 +12,7 @@ import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.UnidentifiedGangsters;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.SendPapaAsynch;
@@ -121,6 +122,6 @@ public class BattlefieldFullFriendlylScanTask extends Task {
 
     @Override
     public boolean resume(VirtualBoxMachine vm) {
-        return true;
+        return false;
     }
 }

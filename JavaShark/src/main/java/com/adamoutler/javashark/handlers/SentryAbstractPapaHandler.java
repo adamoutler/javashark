@@ -39,6 +39,7 @@ abstract class SentryAbstractPapaHandler extends AbstractPapaHandler {
     void addTasks(TaskType... tasks) {
         if (tasks==null) return;
         for (TaskType task : tasks) {
+            if (task!=null)
             vm.addTask(task);
         }
     }

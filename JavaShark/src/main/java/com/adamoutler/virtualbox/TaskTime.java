@@ -16,12 +16,14 @@ public class TaskTime {
 
   
 
-    public void setTimeStarted() {
+    public TaskTime setTimeStarted() {
         this.timeStarted = System.currentTimeMillis();
+        return this;
     }
 
-    public void setTimeComplete() {
+    public TaskTime setTimeComplete() {
         this.timeComplete = System.currentTimeMillis();
+        return this;
     }
 
 }

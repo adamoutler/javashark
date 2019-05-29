@@ -22,31 +22,39 @@ import java.util.logging.Logger;
  */
 public class MyCars {
 
-    static XYCoords button1 = new XYCoords(65, 525);
-    static XYCoords button2 = new XYCoords(135, 525);
-    static XYCoords button3 = new XYCoords(215, 525);
+    enum TapLocations {
+        BUTTON1(new XYCoords(65, 525)),
+        BUTTON2(new XYCoords(135, 525)),
+        BUTTON3(new XYCoords(215, 525));
+        XYCoords coords;
+
+        TapLocations(XYCoords coords) {
+            this.coords = coords;
+        }
+
+        XYCoords getCoords() {
+            return coords;
+        }
+
+    }
     static XYCoords neutral = new XYCoords(150, 600);
     static XYCoords expand = new XYCoords(24, 386);
     static XYCoords contract = new XYCoords(289, 402);
-
     static PicCoords badgeLocation = new PicCoords(0, 192, 305, 384);
 
     public static BufferedImage getMyCars(VirtualBoxMachine vm) {
-
         LinkedList<BufferedImage> images = new LinkedList();
         for (int i = 1; i < 4; i++) {
             getToScreen(vm);
-            images.add(tapGetPicture(button1, ScreenData.valueOf("CITYKINGCAR" + i), vm));
+            images.add(tapGetPicture(TapLocations.valueOf("BUTTON" + i), ScreenData.valueOf("CITYKINGCAR" + i), vm));
         }
         contractScreen(vm);
-
         return ImageJoiner.joinImagesSide(images);
 
     }
 
     private static void contractScreen(VirtualBoxMachine vm) {
         ScreenData sd = vm.getScreen();
-
         while (sd == ScreenData.CITYKINGCAR1 || sd == ScreenData.CITYKINGCAR2 || sd == ScreenData.CITYKINGCAR3) {
             vm.tap(contract);
             sleep(2000);
@@ -55,7 +63,6 @@ public class MyCars {
     }
 
     static void getToScreen(VirtualBoxMachine vm) {
-
         ScreenData sd = vm.getScreen();
         while (sd != ScreenData.CITYKINGCAR1 && sd != ScreenData.CITYKINGCAR2 && sd != ScreenData.CITYKINGCAR3) {
             new BattlefieldNavigator().navigateToCK(vm);
@@ -65,12 +72,12 @@ public class MyCars {
         }
     }
 
-    private static BufferedImage tapGetPicture(XYCoords button, ScreenData screenData, VirtualBoxMachine vm) {
-        vm.longTap(button);
+    private static BufferedImage tapGetPicture(TapLocations button, ScreenData screenData, VirtualBoxMachine vm) {
+        vm.longTap(button.getCoords());
         long endTime = System.currentTimeMillis() + 10000;
         BufferedImage screenshot = vm.screenshot();
         while (!screenData.matchesHashes(screenshot) && System.currentTimeMillis() < endTime) {
-            vm.tap(button);
+            vm.tap(button.getCoords());
             sleep(2000);
             screenshot = vm.screenshot();
         }
@@ -83,8 +90,10 @@ public class MyCars {
     private static void sleep(int i) {
         try {
             Thread.sleep(i);
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(MyCars.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MyCars.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

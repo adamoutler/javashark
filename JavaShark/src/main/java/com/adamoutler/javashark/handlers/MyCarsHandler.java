@@ -10,12 +10,14 @@ import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.MyCars;
+import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.SendPapaAsynch;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.UUID;
 import javax.imageio.ImageIO;
 
@@ -63,11 +65,10 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
     }
 
     private void resumeTask(TaskType resumeTask) {
-        boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) vm);
-        vm.clearTasks();
-        if (supported) {
-            vm.addTask(resumeTask);
-        }
+        VirtualBoxMachine myVm=TaskManager.getTaskMachine(vm);
+        LinkedList<TaskType>task=new LinkedList<>();
+        task.add(resumeTask);
+        myVm.resumeTasks(task);
     }
 
 }

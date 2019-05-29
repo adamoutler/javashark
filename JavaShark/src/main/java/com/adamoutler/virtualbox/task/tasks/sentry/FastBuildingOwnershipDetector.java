@@ -72,15 +72,18 @@ public class FastBuildingOwnershipDetector {
     public void run() {
         try {
             vm.getTaskData().current = scan(vm.screenshot());
+            if (vm.getTaskData().previous == null) {
+                vm.getTaskData().previous = new OwnedBy[]{THEM, THEM, THEM, THEM, THEM, THEM};
+            }
             if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
-                System.out.println(vm.getUsername()+": Null detected!!!!!!");
+                System.out.println(vm.getUsername() + ": Null detected!!!!!!");
                 for (int i = 0; i < 6; i++) {
                     System.out.println("C: " + vm.getTaskData().current[i] + " P: " + vm.getTaskData().previous[i]);
                 }
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
-                    
+
                     SendPapaAsynch.sentryReasonWarning(vm, "blind");
 
                 }
@@ -89,7 +92,7 @@ public class FastBuildingOwnershipDetector {
             vm.getTaskData().setNullCount(0);
 
             reactToChangesInBuildingOwnership();
-            
+
             vm.getTaskData().previous = vm.getTaskData().current;
 
         } catch (Exception ex) {
@@ -97,10 +100,9 @@ public class FastBuildingOwnershipDetector {
 
         }
     }
-    
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
-        System.out.println("Ownership/"+vm.getGang()+"/"+vm.getUsername()+": "+new Date() + " " + Arrays.asList(vm.getTaskData().current));
+        System.out.println("Ownership/" + vm.getGang() + "/" + vm.getUsername() + ": " + new Date() + " " + Arrays.asList(vm.getTaskData().current));
         ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getTaskData().current, vm.getTaskData().previous);
         maybeFreakOut(alertBuildings);
     }
@@ -124,6 +126,7 @@ public class FastBuildingOwnershipDetector {
     }
 
     private static boolean anyAreNull(OwnedBy[] current, OwnedBy[] previous) {
+
         return current[0] == null || current[1] == null
                 || current[2] == null || current[3] == null
                 || current[4] == null || current[5] == null
