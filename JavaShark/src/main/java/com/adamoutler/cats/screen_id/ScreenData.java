@@ -72,7 +72,8 @@ public enum ScreenData {
     TOPPLAYERS(new HashedPicCoords[]{new HashedPicCoords(440, 15, 176, 28, -1643148680)}, new ColoredXYCoords[]{}, "Top Players scoreboard creen"),
     TOPULTIMATELEAGE(new HashedPicCoords[]{new HashedPicCoords(166, 15, 214, 29, -452886606)}, new ColoredXYCoords[]{}, "Top Ultimate League scoreboard screen"),
     ZEPTOSCREEN(new HashedPicCoords[]{new HashedPicCoords(472, 545, 75, 22, -1841029738)}, new ColoredXYCoords[]{}, "Zeptolab icon loading screen"),
-    OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 577, 173, 47, -1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button");
+    OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 577, 173, 47, -1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button"), 
+    UNRESPONSIVE(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "The machine did not return a screenshot");
 
     /**
      * hash arrays

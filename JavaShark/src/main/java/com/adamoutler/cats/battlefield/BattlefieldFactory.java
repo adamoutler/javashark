@@ -62,8 +62,10 @@ public class BattlefieldFactory {
                 if (new BuildingFactory(vm, building).scan()) {
                     break;
                 }
+                System.err.println("ERROR: Retrying building scan!");
             }
             if (building.isSuspectProblem() || vm.isKillThread()) {
+                System.err.println("Exception!  Building scanned bad!");
                 break;
             }
         }

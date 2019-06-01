@@ -58,6 +58,7 @@ public class BattlefieldNavigator {
         }
 
         if (iterations++ == 15) {
+            System.err.println("ERROR: Could not navigate to city kings!  help!");
             vm.setKillThread(true);
             return false;
         }

@@ -258,10 +258,14 @@ public class VirtualBoxMachine extends TaskedMachine {
     }
 
     public ScreenData getScreen() {
+        try{
         if (this.isPoweredOn()) {
             screenID = ScreenData.identifyScreen(this);
         } else {
             screenID = ScreenData.OFF;
+        }
+        } catch (Exception ex){
+            return ScreenData.UNRESPONSIVE;
         }
         screenDescription = screenID.getDescription();
         return screenID;

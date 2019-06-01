@@ -84,7 +84,7 @@ public class VirtualBoxControl {
             //todo verify device
             return true;
         } catch (IOException | JadbException | ConnectionToRemoteDeviceException ex) {
-            Logger.getLogger(VirtualBoxControl.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Problem while connecting to VM during startup");
             return false;
         }
 
