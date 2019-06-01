@@ -126,6 +126,9 @@ public class CarFactory {
         boolean retry = true;
         building.setSuspectProblem(false);
         for (int positionRetry = 0; positionRetry < 4; positionRetry++) {
+            if (screenshot.getWidth()<location.getVerifyLocation().getX()||screenshot.getHeight()<location.getVerifyLocation().getY()){
+                screenshot=vm.screenshot();
+            }
             if (location.getVerifyLocation().approximateColorMatch(screenshot)) {
                 System.out.println(vm.getUsername() + ": building"+building.getBuildingNumber()+" car " + carLocation + " scanned.");
                 retry = false;

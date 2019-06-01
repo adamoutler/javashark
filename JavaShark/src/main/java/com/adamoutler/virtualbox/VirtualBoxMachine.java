@@ -243,7 +243,7 @@ public class VirtualBoxMachine extends TaskedMachine {
             }
 
         } catch (IOException | JadbException ex) {
-            Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, "Couldn't send adb command", ex);
+           System.out.println("Error Couldn't send adb command... "+ex.getMessage());
         } catch (NullPointerException ex) {
         }
         return sb.toString();
