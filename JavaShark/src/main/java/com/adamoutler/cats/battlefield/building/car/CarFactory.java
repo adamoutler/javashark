@@ -111,7 +111,7 @@ public class CarFactory {
                 screenshot = vm.screenshot();
 
             } else {
-                System.out.println(vm.getUsername() + ": building"+building.getBuildingNumber()+" car scanned.");
+                System.out.println(vm.getUsername() + ": building"+building.getBuildingNumber()+". I cant see the car in the map.");
                 break;
             }
             sleep(2000);

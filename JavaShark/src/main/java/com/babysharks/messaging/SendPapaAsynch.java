@@ -83,6 +83,14 @@ public class SendPapaAsynch {
         }
     }
 
+    public static void sendToAdam(Message m) {
+        m.setCommand("adam").setData(m.getData());
+        HashedMessage hm = new HashedMessage(m);
+        String s = sendToPapa(hm);
+        System.out.println(s);
+
+    }
+
     private static Message getM(VirtualBoxMachine vm) {
         Message m = new Message();
         return m;

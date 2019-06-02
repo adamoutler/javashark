@@ -10,6 +10,7 @@ import com.adamoutler.cats.battlefield.BattlefieldExcelGenerator;
 import com.adamoutler.cats.battlefield.BattlefieldFactory;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.virtualbox.TaskedMachine;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -45,7 +46,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
                     if (vm.isKillThread()) {
-                        
+
                         Message m = new Message()
                                 .setCommand("deepbuildingscancomplete")
                                 .setData(new Message().getData()
@@ -66,23 +67,39 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                         SendPapaAsynch.sendToPapa(m);
                         return;
 
-                    } 
+                    }
+                    Message m = new Message().setCommand("deepbuildingscancomplete");
                     long time = System.currentTimeMillis();
                     String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
-                    File excelFile = new File(WEBSERVEREXCELLOCATION + name + ".xls");
-                    UnidentifiedGangsters.createReport(vm, report);
-                    writeFiles(report, fullJson, papaJson, excelFile);
-
-                    Message m = new Message().setCommand("deepbuildingscancomplete");
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())
                             .setReason("Scan Complete json")
                             .setResultObject("https://javashark.baby-sharks.com/excel/" + papaJson.getName());
+                    boolean errored = false;
+                    try {
+                        File excelFile = new File(WEBSERVEREXCELLOCATION + name + ".xls");
+                        UnidentifiedGangsters.createReport(vm, report);
+                        writeFiles(report, fullJson, papaJson, excelFile);
+                    } catch (Exception ex) {
+                        Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
+                        SendPapaAsynch.sendToAdam(m);
+                        m.getData().setComment(m.getData().getReason());
+                        m.getData().setResultObject(null).setReason("Error during scanning");
+                        errored = true;
 
+                    }
                     SendPapaAsynch.sendToPapa(m);
                     vm.completeCurrentTask();
+                    if (errored) {
+                        System.out.println("Error occurred during scanning");
+                        for (Building b : report.getBuildings()) {
+                            System.out.println(b.getTosb());
+
+                        }
+                    }
+
                 } catch (Exception ex) {
                     Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
 
