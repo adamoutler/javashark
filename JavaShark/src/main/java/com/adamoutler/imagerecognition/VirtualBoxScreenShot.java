@@ -41,8 +41,13 @@ public class VirtualBoxScreenShot {
     }
 
     private static synchronized File getScreenshot(String vmName) throws IOException, InterruptedException {
-        File f = File.createTempFile("screenshot", ".png");
-        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
+        File ramdisk=new File("/tmp/ramdisk");
+        File f;
+        if (ramdisk.exists()){
+         f=  File.createTempFile("screenshot", ".png",ramdisk);  
+        } else {
+         f = File.createTempFile("screenshot", ".png");
+        }        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
         Process p = pb.start();
         p.waitFor(3,TimeUnit.SECONDS);
 
