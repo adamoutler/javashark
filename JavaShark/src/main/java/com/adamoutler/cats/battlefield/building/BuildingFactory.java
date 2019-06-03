@@ -37,7 +37,7 @@ public class BuildingFactory {
     public boolean scan() {
         building.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
         ScreenData sd = ScreenData.identifyScreen(building.getTosb().getBi());
-        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
+        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)&& isValidBuilding()) {
             tapAttackOrDefend();
             for (int retries = 0; retries < 5; retries++) {
                 if(vm.isKillThread())break;
@@ -129,6 +129,14 @@ public class BuildingFactory {
             Logger.getLogger(BuildingFactory.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private boolean isValidBuilding() {
+       if (building.isFriendlyScan()){
+           return building.getTosb().numberWeOwn()>0;
+       } else {
+           return building.getTosb().numberTheyOwn()>0;
+       }
     }
 
 }
