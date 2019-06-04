@@ -33,7 +33,7 @@ public class VirtualBoxScreenShot {
         f.setReadable(true, false);
         f.setExecutable(true, false);
         f.setWritable(true, false);
-
+        
         return f;
     }
 

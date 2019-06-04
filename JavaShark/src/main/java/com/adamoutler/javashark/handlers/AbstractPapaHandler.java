@@ -45,7 +45,9 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
     public void sendBadReq(HttpExchange t, String response) throws IOException {
         writeOutResponse(t, response, 400);
     }
-
+    public void sendConflictReq(HttpExchange t, String response) throws IOException {
+        writeOutResponse(t, response, 409);
+    }
     public void sendArbitrary(int code, HttpExchange t, String response) throws IOException {
         writeOutResponse(t, response, code);
     }

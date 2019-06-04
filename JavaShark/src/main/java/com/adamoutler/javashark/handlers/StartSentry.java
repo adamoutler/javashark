@@ -6,9 +6,12 @@
 package com.adamoutler.javashark.handlers;
 
 
+import com.adamoutler.virtualbox.VirtualBox;
+import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * curl -X PATCH -d '{"message":{"command":"sentrystart","data":{"gang":"development","username":"adamoutler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
@@ -21,6 +24,17 @@ public class StartSentry extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         long time = System.currentTimeMillis();
         vm.clearTasks();
+        ArrayList<VirtualBoxMachine> gangMachines=new VirtualBox().getGangMachines(gang);
+        for (VirtualBoxMachine machine:gangMachines){
+            if (machine.getCurrentTask().equals(TaskType.WATCH)){                
+                request.getData().setReason("Other Sentry Active");
+                this.sendConflictReq(he, username);
+                return;
+            }
+        
+        }
+        
+        
         addTasks(TaskType.POWERON,TaskType.STARTCATS,TaskType.CORRECTIVEACTIONCK,TaskType.WATCH);
         request.getData().addAvailable(vm).setReason("starting");
         this.sendSucessMessage(he, request);
