@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task.tasks.sentry;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -23,6 +24,7 @@ public class VMTaskData {
     public int startCatsRetries = 0;
     private int[] buildingsToScan = new int[]{1, 2, 3, 4, 5, 6};
     private boolean friendlyScan=true;
+    BufferedImage lastValidScreenshot;
 
     /**
      * @return the lastStartCats

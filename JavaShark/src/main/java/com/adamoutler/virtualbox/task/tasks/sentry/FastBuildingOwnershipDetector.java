@@ -9,19 +9,27 @@ import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.NOBODY;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
+import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
+import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
+import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.babysharks.messaging.SendPapaAsynch;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.springframework.web.client.RestClientException;
 
 /**
@@ -71,7 +79,8 @@ public class FastBuildingOwnershipDetector {
      */
     public void run() {
         try {
-            vm.getTaskData().current = scan(vm.screenshot());
+            BufferedImage screenshot=vm.screenshot();
+            vm.getTaskData().current = scan(screenshot);
             if (vm.getTaskData().previous == null) {
                 vm.getTaskData().previous = new OwnedBy[]{THEM, THEM, THEM, THEM, THEM, THEM};
             }
@@ -83,11 +92,16 @@ public class FastBuildingOwnershipDetector {
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
+                    if (vm.getScreen()!=ScreenData.RECONNECT){
+                        sendPapaScreenshotVictoryDefeat();
+                    }
 
                     SendPapaAsynch.sentryReasonWarning(vm, "blind");
 
                 }
                 return;
+            } else {
+                vm.getTaskData().lastValidScreenshot=screenshot;
             }
             vm.getTaskData().setNullCount(0);
 
@@ -99,6 +113,17 @@ public class FastBuildingOwnershipDetector {
             Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+    }
+
+    private void sendPapaScreenshotVictoryDefeat() throws IOException {
+        //send papa screenshot here.
+        
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+        File outputFile = new File(OUTPUT + safeName);
+        ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", outputFile);
+        MessageData md=new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setComment("Final screenshot before end").setResultObject(ScreenData.identifyScreen(vm.getTaskData().lastValidScreenshot));
+        Message message=new Message().setCommand("finalscreenshot").setData(md);
+        SendPapaAsynch.sendToPapa(message);
     }
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
