@@ -94,7 +94,10 @@ public class FastBuildingOwnershipDetector {
                     vm.updateStatuses();
                     if (vm.getScreen()!=ScreenData.RECONNECT){
                         sendPapaScreenshotVictoryDefeat();
+                        sendAdamScreenshotVictoryDefeat(vm);
                     }
+                    
+                    
 
                     SendPapaAsynch.sentryReasonWarning(vm, "blind");
 
@@ -125,7 +128,16 @@ public class FastBuildingOwnershipDetector {
         Message message=new Message().setCommand("finalscreenshot").setData(md);
         SendPapaAsynch.sendToPapa(message);
     }
-
+ private void sendAdamScreenshotVictoryDefeat(VirtualBoxMachine vm) throws IOException {
+        //send papa screenshot here.
+        
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+        File outputFile = new File(OUTPUT + safeName);
+        ImageIO.write(vm.screenshot(), "PNG", outputFile);
+        MessageData md=new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setComment("screenshot of current screen end").setResultObject(ScreenData.identifyScreen(vm.screenshot()));
+        Message message=new Message().setCommand("finalscreenshot").setData(md);
+        SendPapaAsynch.sendToAdam(message);
+    }
     private void reactToChangesInBuildingOwnership() throws RestClientException {
         System.out.println("Ownership/" + vm.getGang() + "/" + vm.getUsername() + ": " + new Date() + " " + Arrays.asList(vm.getTaskData().current));
         ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getTaskData().current, vm.getTaskData().previous);
