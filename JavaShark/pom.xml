@@ -35,16 +35,12 @@
             <name>data</name>
             <url>file://${project.basedir}/libs</url>
         </repository>
+        
     </repositories>
 
     <build>
 
         <plugins>
-            
-            
-            
-           
-           
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -235,5 +231,12 @@
             <artifactId>easyocr-linkbold-plugin</artifactId>
             <version>3.0.3-RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>11</version>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
 </project>
