@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark.handlers;
 
+import com.babysharks.messaging.HashedMessage;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class TestHandler extends AbstractPapaHandler {
         String response = "This is the response";
         StringBuilder sb = new StringBuilder();
         String n = "\n";
+        sb.append(HashedMessage.instance).append(n);
         sb.append("local address: ").append(t.getLocalAddress().toString()).append(n);
         sb.append("remote address: ").append(t.getRemoteAddress()).append(n);
         sb.append("Protocol: ").append(t.getProtocol()).append(n);
