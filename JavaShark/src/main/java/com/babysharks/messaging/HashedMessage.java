@@ -19,6 +19,7 @@ public class HashedMessage {
     final public String service="JavaShark";
     private Message message;
     private static String instance;
+    private String machine=instance;
     private String hash;
     public HashedMessage(Message message) {
         this.message = message;
