@@ -240,7 +240,7 @@ public class MessageData {
     }
 
     /**
-     * @param available the available to set
+     * @param vm the available machine to set
      * @return reference to this object
      */
     public MessageData addAvailable(VirtualBoxMachine vm) {

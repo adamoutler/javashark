@@ -16,10 +16,10 @@ import java.security.NoSuchAlgorithmException;
  * @author adamo
  */
 public class HashedMessage {
-    public String service="JavaShark";
+    final public String service="JavaShark";
     private Message message;
+    private static String instance;
     private String hash;
-
     public HashedMessage(Message message) {
         this.message = message;
         this.hash = getSha512(message.toJson());
@@ -75,5 +75,19 @@ public class HashedMessage {
     public static HashedMessage decode(String json){
         Gson gson=new GsonBuilder().create();
         return gson.fromJson(json, HashedMessage.class);
+    }
+
+    /**
+     * @return the instance
+     */
+    public static String getInstance() {
+        return instance;
+    }
+
+    /**
+     * @param aInstance the instance to set
+     */
+    public static void setInstance(String aInstance) {
+        instance = aInstance;
     }
 }

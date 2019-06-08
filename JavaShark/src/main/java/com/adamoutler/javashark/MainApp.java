@@ -22,6 +22,7 @@ import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
 import com.adamoutler.javashark.handlers.UpdateHandler;
 import com.adamoutler.virtualbox.task.TaskManager;
+import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.babysharks.messaging.SendPapaAsynch;
@@ -65,6 +66,7 @@ public class MainApp extends ParametersImpl {
         MainApp server = new MainApp(args);
         TaskManager.start();
         String port = server.getNamed().getOrDefault("port", "8000");
+        HashedMessage.setInstance(server.getNamed().getOrDefault("instance", "development"));
         try {
             System.out.println("Starting server on " + port);
             server.startServer(Integer.parseInt(port));
