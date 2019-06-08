@@ -133,11 +133,11 @@ public class VirtualBoxControl {
     public boolean stopVM() {
         System.out.println("Stopping VM " + vm);
         LinkedList<String> args = new LinkedList<>();
-        vm.setKillThread(false);
         args.add(VirtualBox.VBOX);
-        args.add("controlvm");
+        args.add("startvm");
         args.add(vm.getVMName());
-        args.add("poweroff");
+        args.add("--type");
+        args.add("emergencystop");
         String executed = executeProcess(args, 4000);
         if (System.getProperty("os.name").contains("nux")) {
             args = new LinkedList<>();
@@ -148,6 +148,7 @@ public class VirtualBoxControl {
             return true;
         }
 
+        vm.setKillThread(false);
         return !(!executed.contains("0%") && !executed.contains("not currently"));
     }
 
