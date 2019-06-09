@@ -18,6 +18,7 @@ import com.adamoutler.javashark.handlers.MyCarsHandler;
 import com.adamoutler.javashark.handlers.StartSentry;
 import com.adamoutler.javashark.handlers.StopSentry;
 import com.adamoutler.javashark.handlers.TaskHandler;
+import com.adamoutler.javashark.handlers.TemporaryTaskHandler;
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
 import com.adamoutler.javashark.handlers.UpdateHandler;
@@ -103,6 +104,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("deepbuildingrecon", new DeepBuildingReconHandler());
         commandDistributor.register("sentrystop", new StopSentry());
         commandDistributor.register("addtask", new TaskHandler());
+        commandDistributor.register("addsidetask", new TemporaryTaskHandler());
         commandDistributor.register("updatecats", new UpdateHandler());
         commandDistributor.register("whoauthorizedthis", new AuthorizedHandler());
         commandDistributor.register("analyzescreen", new AnalyzeScreenshotHandler());

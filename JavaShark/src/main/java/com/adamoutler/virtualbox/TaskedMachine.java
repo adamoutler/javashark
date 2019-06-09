@@ -23,10 +23,12 @@ public class TaskedMachine {
 
     private LinkedList<TaskType> taskList = new LinkedList<>();
     private HashMap<TaskType, TaskTime> completedTasks = new HashMap<>();
-    transient private TaskType temporaryTask;
+    transient private TaskType temporaryTask=null;
     transient private boolean taskInitialized = false;
     transient private boolean taskReady = false;
     transient private boolean taskComplete = false;
+    transient private boolean temporaryTaskInitialized = false;
+    transient private boolean temporaryTaskAvailable = false;
     transient private VMTaskData vmTaskData = new VMTaskData();
     private String taskDescription = "";
     private TaskTime currentTaskTimes = new TaskTime();
@@ -110,8 +112,12 @@ public class TaskedMachine {
     }
 
     synchronized public void completeCurrentTask() {
-        this.taskComplete = true;
-        this.performTaskListMaintenance();
+        if (this.temporaryTaskAvailable){
+            removeTemporaryTask();
+        } else {
+            this.taskComplete = true;
+            this.performTaskListMaintenance();
+        }
     }
 
     /**
@@ -213,8 +219,15 @@ public class TaskedMachine {
      */
     synchronized public void setTemporaryTask(TaskType temporaryTask) {
         this.temporaryTask = temporaryTask;
+        this.setTemporaryTaskAvailable(true);
     }
-
+    
+    synchronized public void removeTemporaryTask(){
+        this.setTemporaryTaskAvailable(false);
+        setTemporaryTaskInitialized(false);
+        this.temporaryTask=null;
+    }
+    
     /**
      * @return the taskReady
      */
@@ -243,5 +256,33 @@ public class TaskedMachine {
     public void writeBabySharksDebug(VirtualBoxMachine vm, String comment) {
         String name = VirtualBoxScreenShot.writeScreenshot(vm, "/var/www/baby-sharks/screenshots");
         SendPapaAsynch.sendToPapa(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://javashark.baby-sharks.com/screenshots/" + comment)));
+    }
+
+    /**
+     * @return the temporaryTaskInitialized
+     */
+    public boolean isTemporaryTaskInitialized() {
+        return temporaryTaskInitialized;
+    }
+
+    /**
+     * @param temporaryTaskInitialized the temporaryTaskInitialized to set
+     */
+    public void setTemporaryTaskInitialized(boolean temporaryTaskInitialized) {
+        this.temporaryTaskInitialized = temporaryTaskInitialized;
+    }
+
+    /**
+     * @return the temporaryTaskAvailable
+     */
+    public boolean isTemporaryTaskAvailable() {
+        return temporaryTaskAvailable;
+    }
+
+    /**
+     * @param temporaryTaskAvailable the temporaryTaskAvailable to set
+     */
+    public void setTemporaryTaskAvailable(boolean temporaryTaskAvailable) {
+        this.temporaryTaskAvailable = temporaryTaskAvailable;
     }
 }

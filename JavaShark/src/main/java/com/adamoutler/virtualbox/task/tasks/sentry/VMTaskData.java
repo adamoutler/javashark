@@ -7,6 +7,7 @@ package com.adamoutler.virtualbox.task.tasks.sentry;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 /**
  *
@@ -25,6 +26,10 @@ public class VMTaskData {
     private int[] buildingsToScan = new int[]{1, 2, 3, 4, 5, 6};
     private boolean friendlyScan=true;
     BufferedImage lastValidScreenshot;
+    public int myCarsStage;
+    public LinkedList<BufferedImage> carsScreenshots;
+    public int retries;
+    private String telegramid;
 
     /**
      * @return the lastStartCats
@@ -88,6 +93,20 @@ public class VMTaskData {
      */
     public void setNullCount(int nullCount) {
         this.nullCount = nullCount;
+    }
+
+    /**
+     * @return the telegramid
+     */
+    public String getTelegramid() {
+        return telegramid;
+    }
+
+    /**
+     * @param telegramid the telegramid to set
+     */
+    public void setTelegramid(String telegramid) {
+        this.telegramid = telegramid;
     }
 
 }

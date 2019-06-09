@@ -33,6 +33,7 @@ public class MessageData {
     private int[] scanBuildings;
     private Boolean friendlyScan;
     private Object resultObject;
+    private String telegramid;
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
@@ -385,6 +386,22 @@ public class MessageData {
      */
     public MessageData setFriendlyScan(boolean friendlyScan) {
         this.friendlyScan = friendlyScan;
+        return this;
+    }
+
+    /**
+     * @return the telegramid
+     */
+    public String getTelegramid() {
+        return telegramid;
+    }
+
+    /**
+     * @param telegramid the telegramid to set
+     * @return reference to this object;
+     */
+    public MessageData setTelegramid(String telegramid) {
+        this.telegramid = telegramid;
         return this;
     }
 }

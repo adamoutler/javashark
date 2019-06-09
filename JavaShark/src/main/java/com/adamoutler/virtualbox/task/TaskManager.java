@@ -7,8 +7,6 @@ package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.Message;
-import com.babysharks.messaging.MessageData;
 import com.babysharks.messaging.SendPapaAsynch;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,18 +44,21 @@ public class TaskManager {
             if (vm.isTaskComplete()) {
                 vm.performTaskListMaintenance();
             }
-            initializeTask(vm);
+            if (vm.isTemporaryTaskAvailable() && !vm.isTemporaryTaskInitialized()) {
+                vm.getTemporaryTask().getTask().init(vm);
+            } else {
+                initializeTask(vm);
+            }
+        });
 
-        });
-        getMachines().stream().filter((vm) -> (vm.getCurrentTask().equals(TaskType.IDLE)
-                && vm.isTaskComplete())).forEachOrdered((vm) -> {
-            executeCurrentTask(vm);
-        });
-        getMachines().stream().filter((vm) -> (vm.isTaskInitialized()
-                && vm.isTaskReady() && !vm.isTaskComplete())
+        getMachines().stream().filter((vm) -> ((vm.isTaskInitialized() && vm.isTaskReady() && !vm.isTaskComplete())||
+                vm.isTemporaryTaskAvailable()&& vm.isTemporaryTaskInitialized())
         ).forEachOrdered((vm) -> {
-            runTemporaryTask(vm);
-            executeCurrentTask(vm);
+            if (vm.isTemporaryTaskAvailable()){
+                vm.getTemporaryTask().getTask().exec(vm);
+            } else {
+                executeCurrentTask(vm);
+            }
         });
     }
 
@@ -72,7 +73,7 @@ public class TaskManager {
             mac.clearTasks();
             boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
             if (supported) {
-                System.out.println("Resuming "+resumeTask);
+                System.out.println("Resuming " + resumeTask);
             } else if (!mac.getGang().equals("development")) {
                 SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac, resumeTask);
                 mac.addTask(TaskType.POWEROFF);

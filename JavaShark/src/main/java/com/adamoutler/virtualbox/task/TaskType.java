@@ -14,6 +14,7 @@ import com.adamoutler.virtualbox.task.tasks.DeepBuildingFriendlyScanTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
 import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
+import com.adamoutler.virtualbox.task.tasks.MyCarsTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
 import com.adamoutler.virtualbox.task.tasks.WatchTask;
@@ -35,8 +36,6 @@ import java.util.logging.Logger;
  * @author adamo
  */
 public enum TaskType {
-
-    
     IDLE(new IdleTask(), "Machine is idle"),
     WATCH(new WatchTask(), "Machine is on Sentry Duty"),
     BATTLEFIELDSCAN(new BattlefieldFullFriendlylScanTask(), "Performing Deep Building Scanning, Friendly Machines"),
@@ -50,9 +49,8 @@ public enum TaskType {
     FACEBOOK(new CorrectiveActionFacebook(), "Opening Facebook Screen"),
     CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK"),
     IDLE1MINUTE(new IdleMinuteTask(),"Waiting for one minute"),
-    
-    UPDATECATS(new UpdateCatsTask(),"Updating CATS.");
-    
+    UPDATECATS(new UpdateCatsTask(),"Updating CATS."),
+    MYCARS(new MyCarsTask(),"Examining my cars");
     
     
     private IfaceTask task;

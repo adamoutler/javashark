@@ -17,6 +17,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.UUID;
 import javax.imageio.ImageIO;
@@ -34,41 +35,12 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        if (vm == null) {
-            this.sendBadReq(he, "No sentry for user");
-            return;
-        }
-        vm.setKillThread(true);
 
-        TaskType resumeTask = TaskType.getTasks(vm);
-        if (resumeTask != TaskType.WATCH) {
-            this.sendBadReq(he, "Sentry is not on WATCH!");
-            return;
-        }
-        vm.clearTasks();
-
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
-        if (vm.isPoweredOn()) {
-            ScreenData currentScreen = ScreenData.identifyScreen(vm.screenshot());
-
-            BufferedImage image = MyCars.getMyCars(vm);
-            File outputFile = new File(OUTPUT + safeName);
-            ImageIO.write(image, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject("A picture of your cars.");
-            sendSucessMessage(he, request);
-            resumeTask(resumeTask);
-
-            return;
-        }
-
-        this.sendBadReq(he,"VM Off");
+        vm.getTaskData().setTelegramid(request.getData().getTelegramid());
+        vm.setTemporaryTask(TaskType.MYCARS);
+        ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
+        vms.add(vm);
+        request.getData().setAvailable(vms);
+        this.sendSucessMessage(he, request);
     }
-
-    private void resumeTask(TaskType resumeTask) {
-        VirtualBoxMachine myVm=TaskManager.getTaskMachine(vm);
-        LinkedList<TaskType>task=new LinkedList<>();
-        task.add(resumeTask);
-        myVm.resumeTasks(task);
-    }
-
 }

@@ -7,6 +7,7 @@ package com.adamoutler.virtualbox;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -44,6 +45,7 @@ public class VirtualBoxMachine extends TaskedMachine {
     transient private byte[] screenshot = new byte[]{};
     private transient Map<String, String> hashes;
     transient private boolean killThread;
+    private boolean temporaryTaskInitialized;
 
     public VirtualBoxMachine(String machineName) {
 
@@ -373,4 +375,6 @@ public class VirtualBoxMachine extends TaskedMachine {
     public void resumeSentry() {
        
     }
+
+    
 }
