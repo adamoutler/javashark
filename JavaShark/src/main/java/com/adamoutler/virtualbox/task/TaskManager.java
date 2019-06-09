@@ -50,11 +50,16 @@ public class TaskManager {
                 initializeTask(vm);
             }
         });
-
-        getMachines().stream().filter((vm) -> ((vm.isTaskInitialized() && vm.isTaskReady() && !vm.isTaskComplete())||
-                vm.isTemporaryTaskAvailable()&& vm.isTemporaryTaskInitialized())
+        //handle idle machines
+        getMachines().stream().filter((vm) -> (vm.getCurrentTask().equals(TaskType.IDLE)
+                && vm.isTaskComplete())).forEachOrdered((vm) -> {
+            executeCurrentTask(vm);
+        });
+        // handle other machines.
+        getMachines().stream().filter((vm) -> ((vm.isTaskInitialized() && vm.isTaskReady() && !vm.isTaskComplete())
+                || vm.isTemporaryTaskAvailable() && vm.isTemporaryTaskInitialized())
         ).forEachOrdered((vm) -> {
-            if (vm.isTemporaryTaskAvailable()){
+            if (vm.isTemporaryTaskAvailable()) {
                 vm.getTemporaryTask().getTask().exec(vm);
             } else {
                 executeCurrentTask(vm);

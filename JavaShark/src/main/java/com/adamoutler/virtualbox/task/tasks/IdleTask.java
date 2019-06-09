@@ -25,12 +25,14 @@ public class IdleTask extends Task {
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        if (!vm.getGang().equals("development")&&vm.getTaskData().getIdleTime() + 300000 < System.currentTimeMillis()) {
-            vm.addTask(TaskType.POWEROFF);
+        if (!vm.getGang().equals("development") && vm.getTaskData().getIdleTime() + 450000 < System.currentTimeMillis()) {
+            if (vm.isPoweredOn()) {
+                vm.addTask(TaskType.POWEROFF);
+            }
         }
     }
 
-      @Override
+    @Override
     public boolean resume(VirtualBoxMachine vm) {
         return false;
     }
