@@ -79,7 +79,7 @@ public class FastBuildingOwnershipDetector {
      */
     public void run() {
         try {
-            BufferedImage screenshot=vm.screenshot();
+            BufferedImage screenshot = vm.screenshot();
             vm.getTaskData().current = scan(screenshot);
             if (vm.getTaskData().previous == null) {
                 vm.getTaskData().previous = new OwnedBy[]{THEM, THEM, THEM, THEM, THEM, THEM};
@@ -92,19 +92,17 @@ public class FastBuildingOwnershipDetector {
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
-                    if (vm.getScreen()!=ScreenData.RECONNECT){
-                        sendPapaScreenshotVictoryDefeat();
-                        sendAdamScreenshotVictoryDefeat(vm);
+                    BufferedImage lastScreenshot = vm.screenshot();
+                    ScreenData sd = ScreenData.identifyScreen(lastScreenshot);
+                    if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
+                        sendFinalResults(vm, lastScreenshot);
                     }
-                    
-                    
-
                     SendPapaAsynch.sentryReasonWarning(vm, "blind");
 
                 }
                 return;
             } else {
-                vm.getTaskData().lastValidScreenshot=screenshot;
+                vm.getTaskData().lastValidScreenshot = screenshot;
             }
             vm.getTaskData().setNullCount(0);
 
@@ -118,26 +116,21 @@ public class FastBuildingOwnershipDetector {
         }
     }
 
-    private void sendPapaScreenshotVictoryDefeat() throws IOException {
-        //send papa screenshot here.
-        
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
-        File outputFile = new File(OUTPUT + safeName);
-        ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", outputFile);
-        MessageData md=new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setComment("Final screenshot before end").setResultObject(ScreenData.identifyScreen(vm.getTaskData().lastValidScreenshot));
-        Message message=new Message().setCommand("finalscreenshot").setData(md);
+    private void sendFinalResults(VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
+
+        //send final battlefield screenshot
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString();
+        ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
+        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield");
+        Message message = new Message().setCommand("finalbattlefield").setData(md);
+        SendPapaAsynch.sendToPapa(message);
+
+        //send final score screenshot;
+        ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
+        message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
         SendPapaAsynch.sendToPapa(message);
     }
- private void sendAdamScreenshotVictoryDefeat(VirtualBoxMachine vm) throws IOException {
-        //send papa screenshot here.
-        
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
-        File outputFile = new File(OUTPUT + safeName);
-        ImageIO.write(vm.screenshot(), "PNG", outputFile);
-        MessageData md=new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setComment("screenshot of current screen end").setResultObject(ScreenData.identifyScreen(vm.screenshot()));
-        Message message=new Message().setCommand("finalscreenshot").setData(md);
-        SendPapaAsynch.sendToAdam(message);
-    }
+
     private void reactToChangesInBuildingOwnership() throws RestClientException {
         System.out.println("Ownership/" + vm.getGang() + "/" + vm.getUsername() + ": " + new Date() + " " + Arrays.asList(vm.getTaskData().current));
         ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getTaskData().current, vm.getTaskData().previous);
