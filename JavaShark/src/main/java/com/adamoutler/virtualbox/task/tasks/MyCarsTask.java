@@ -235,7 +235,7 @@ public class MyCarsTask extends Task {
         } catch (IOException ex) {
             Logger.getLogger(MyCarsTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
+        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-MYCARS.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("mycars").setData(md);
         this.nextStage(vm);
         SendPapaAsynch.sendToPapa(message);
