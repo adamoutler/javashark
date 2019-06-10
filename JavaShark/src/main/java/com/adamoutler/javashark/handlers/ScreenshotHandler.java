@@ -79,7 +79,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             image = vm.screenshot();
             ScreenData sd=ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd).setReason(vm.getUsername());
             if (analyze){
                 request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
             }
