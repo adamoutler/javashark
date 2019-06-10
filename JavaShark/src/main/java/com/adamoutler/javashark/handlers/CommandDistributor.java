@@ -12,6 +12,7 @@ import com.babysharks.messaging.MessagingException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -73,9 +74,15 @@ public class CommandDistributor implements HttpHandler {
         if (!t.getRequestMethod().equals("PATCH")) {
             throw new MessagingException("IMPROPER COMMUNICATIONS!");
         }
+        verifyHash(t.getRequestBody());
         String json = convertStreamToString(t.getRequestBody());
         System.out.println(new Date() + " Received new Command\n" + json);
         return HashedMessage.decode(json).getMessage();
+    }
+
+    private void verifyHash(InputStream requestBody) {
+
+
     }
 
 }
