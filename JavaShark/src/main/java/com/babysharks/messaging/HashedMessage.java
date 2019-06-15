@@ -121,6 +121,9 @@ public class HashedMessage {
     private static void verifyHashOrDie(String messagePortion, HashedMessage hm) throws HashedMessageException {
         String hash = getSha512(messagePortion + Prop.getProp("my_secret_password"));
         if (!(hash).equals(hm.getHash())) {
+            System.out.println ("message: "+messagePortion);
+            System.out.println ("Got hash: "+hash);
+            System.out.println ("Expected: "+hm.getHash());
             throw new HashedMessageException("Hash did not match");
         }
     }
