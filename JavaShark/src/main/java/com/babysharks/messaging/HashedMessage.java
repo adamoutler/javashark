@@ -1,5 +1,6 @@
 package com.babysharks.messaging;
 
+import com.adamoutler.Prop;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.nio.charset.StandardCharsets;
@@ -16,18 +17,20 @@ import java.security.NoSuchAlgorithmException;
  * @author adamo
  */
 public class HashedMessage {
-    final public String service="JavaShark";
+
+    final public String service = "JavaShark";
     private Message message;
     public static String instance;
-    private String machine=instance;
+    private String machine = instance;
     private String hash;
+
     public HashedMessage(Message message) {
         this.message = message;
         this.hash = getSha512(message.toJson());
 
     }
-    
-    public static HashedMessage hash(Message m){
+
+    public static HashedMessage hash(Message m) {
         return new HashedMessage(m);
     }
 
@@ -55,7 +58,7 @@ public class HashedMessage {
 
     public String toJson() {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setLenient().setPrettyPrinting().create();
-        String retval=gson.toJson(this);
+        String retval = gson.toJson(this);
         return retval;
     }
 
@@ -73,9 +76,11 @@ public class HashedMessage {
         return hash;
     }
 
-    public static HashedMessage decode(String json){
-        Gson gson=new GsonBuilder().create();
-        return gson.fromJson(json, HashedMessage.class);
+    public static HashedMessage decode(String json) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        HashedMessage hm = gson.fromJson(json, HashedMessage.class);
+        verifyHash(json, hm);
+        return hm;
     }
 
     /**
@@ -90,5 +95,33 @@ public class HashedMessage {
      */
     public static void setInstance(String aInstance) {
         instance = aInstance;
+    }
+
+    public String toString() {
+        return this.getHash();
+    }
+
+    private static void verifyHash(String json, HashedMessage hm) throws HashedMessageException {
+        //{"service":"papa","message":{"command":"time","data":{"location":"berlin","username":"fezzik_king"}},"hash":"06ea821b9d5f662da8ee9c66ca3d5cbcf70a0db52cac2994cd30505d2dec4d6ff5670bb7b412db2bafba47a21a8f3c9eb78519db30b6e446212f65b5972c955e"}
+        int endOfMessage = json.indexOf('}' + ",\"hash\":\"") + 1;
+        String messagePortion = json.substring(0, endOfMessage).replaceFirst("\\{\"service\":\"papa\",\"message\":", "");
+        verifyHashOrDie(messagePortion, hm);
+        verifyTimeOrDie(hm);
+    }
+
+    private static void verifyTimeOrDie(HashedMessage hm) throws NumberFormatException, HashedMessageException {
+        long time = System.currentTimeMillis();
+        long messageTime = Long.parseLong(hm.getMessage().getTimestamp()) * 1000;
+        System.out.println("me: " + time + "\n" + "fez:" + messageTime);
+        if (time + 30000 < messageTime || time - 30000 > messageTime) {
+            throw new HashedMessageException("Message time is wrong.  We are at " + time + " and message is " + messageTime);
+        }
+    }
+
+    private static void verifyHashOrDie(String messagePortion, HashedMessage hm) throws HashedMessageException {
+        String hash = getSha512(messagePortion + Prop.getProp("my_secret_password"));
+        if (!(hash).equals(hm.getHash())) {
+            throw new HashedMessageException("Hash did not match");
+        }
     }
 }

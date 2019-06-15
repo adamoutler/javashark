@@ -32,7 +32,7 @@ public class CommandDistributor implements HttpHandler {
 
     }
 
-    public void parseCommand(HttpExchange t) throws MessagingException {
+    public void parseCommand(HttpExchange t) throws MessagingException, Exception {
         Message m = init(t);
         for (Entry<String, AbstractPapaHandler> entryPair : commands.entrySet()) {
             if (entryPair.getKey().toLowerCase().equals(m.getCommand().toLowerCase())) {
@@ -67,22 +67,24 @@ public class CommandDistributor implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        parseCommand(he);
+        try {
+            parseCommand(he);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new IOException(ex.getMessage());
+        }
     }
 
-    public Message init(HttpExchange t) throws MessagingException {
+    public Message init(HttpExchange t) throws MessagingException, Exception {
         if (!t.getRequestMethod().equals("PATCH")) {
             throw new MessagingException("IMPROPER COMMUNICATIONS!");
         }
-        verifyHash(t.getRequestBody());
         String json = convertStreamToString(t.getRequestBody());
         System.out.println(new Date() + " Received new Command\n" + json);
-        return HashedMessage.decode(json).getMessage();
+        HashedMessage hm=HashedMessage.decode(json);
+        return hm.getMessage();
     }
 
-    private void verifyHash(InputStream requestBody) {
-
-
-    }
+   
 
 }

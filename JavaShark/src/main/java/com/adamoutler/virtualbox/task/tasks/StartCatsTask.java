@@ -58,7 +58,7 @@ public class StartCatsTask extends Task {
 
                     initializeTask(vm);
                 }
-                if (vm.getTaskData().startCatsRetries==601){
+                if (vm.getTaskData().startCatsRetries==201){
                     vm.clearTasks();
                     vm.addTask(TaskType.POWEROFF);
                     vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");

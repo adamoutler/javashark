@@ -19,15 +19,16 @@ import java.util.Map;
  */
 public class MessageData {
 
+    private String gang;
     private int[] weOwn;
+    private String username;
+    private String reason;
+    private String comment;
     private int[] theyOwn;
     private int[] nobodyOwns;
     private int[] alertBuildings;
-    private String username;
     private String url;
-    private String gang;
     private String text;
-    private String reason;
     private String ScreenName;
     private String[] buildings;
     private int[] scanBuildings;
@@ -37,7 +38,6 @@ public class MessageData {
     private ArrayList<VirtualBoxMachine> available;
     private String location;
     private TaskType[] tasks;
-    private String comment;
     private Gang gangObject;
     private String reportName;
     private Map<String, String> hashes;
