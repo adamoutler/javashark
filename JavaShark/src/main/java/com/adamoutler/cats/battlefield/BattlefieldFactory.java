@@ -7,14 +7,10 @@ package com.adamoutler.cats.battlefield;
 
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.BuildingFactory;
-import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
-import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**

@@ -13,7 +13,6 @@ import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

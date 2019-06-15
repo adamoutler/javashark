@@ -7,10 +7,6 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.googletools.LocationTime;
-import com.babysharks.messaging.HashedMessage;
-import com.babysharks.messaging.Message;
-import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -8,7 +8,6 @@ package com.adamoutler.cats.battlefield.building.car;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.CarLocationOffScreenException;
 import com.adamoutler.cats.battlefield.building.Locations;
-import com.adamoutler.imagerecognition.ColoredXYCoords;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;

@@ -6,10 +6,8 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.SendPapaAsynch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

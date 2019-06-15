@@ -7,12 +7,8 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
-import com.babysharks.messaging.FakeScreenshot;
-import com.babysharks.messaging.Message;
-import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;

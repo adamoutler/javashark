@@ -8,7 +8,6 @@ package com.adamoutler.cats.citykings.hash_gathering.building.car;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.NEXTBUTTON;
-import static com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw.PREVIOUSBUTTON;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;

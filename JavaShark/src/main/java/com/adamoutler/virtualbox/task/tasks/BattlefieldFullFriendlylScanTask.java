@@ -10,10 +10,7 @@ import com.adamoutler.cats.battlefield.BattlefieldExcelGenerator;
 import com.adamoutler.cats.battlefield.BattlefieldFactory;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
-import com.adamoutler.virtualbox.TaskedMachine;
-
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.UnidentifiedGangsters;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.SendPapaAsynch;

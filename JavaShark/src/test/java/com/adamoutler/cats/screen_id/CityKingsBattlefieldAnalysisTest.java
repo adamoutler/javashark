@@ -5,7 +5,6 @@
  */
 package com.adamoutler.cats.screen_id;
 
-import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import java.awt.image.BufferedImage;
@@ -16,10 +15,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

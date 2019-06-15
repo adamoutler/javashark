@@ -6,7 +6,6 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;

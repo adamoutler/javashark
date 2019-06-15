@@ -5,28 +5,20 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering.building;
 
-import com.adamoutler.ADB;
-import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
-import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
-import com.adamoutler.imagerecognition.HashedPicCoords;
-import com.adamoutler.imagerecognition.Navigation;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageWriter;
 import se.vidstige.jadb.JadbException;
 
 /**

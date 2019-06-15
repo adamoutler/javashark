@@ -6,11 +6,9 @@
 package com.adamoutler.virtualbox.task.tasks.sentry;
 
 import com.adamoutler.cats.battlefield.Battlefield;
-import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
-import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.datastructures.GangCar;
 import com.babysharks.datastructures.Gang;
+import com.babysharks.datastructures.GangCar;
 import com.babysharks.datastructures.Gangster;
 import java.io.File;
 import java.io.IOException;

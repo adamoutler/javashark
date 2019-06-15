@@ -5,22 +5,11 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.cats.screen_id.ScreenData;
-import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
-import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.task.MyCars;
-import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.SendPapaAsynch;
 import com.sun.net.httpserver.HttpExchange;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.UUID;
-import javax.imageio.ImageIO;
 
 /**
  *

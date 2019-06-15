@@ -7,7 +7,6 @@ package com.adamoutler.virtualbox;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
-import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;

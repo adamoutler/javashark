@@ -6,7 +6,6 @@ package com.adamoutler.javashark.handlers;
  * and open the template in the editor.
  */
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.sun.net.httpserver.HttpExchange;

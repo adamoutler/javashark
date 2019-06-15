@@ -6,8 +6,6 @@
 package com.adamoutler.imagerecognition;
 
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
-import static com.adamoutler.imagerecognition.DirectTesseract.tesseractLinux;
-import static com.adamoutler.imagerecognition.DirectTesseract.tesseractWindows;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -19,7 +17,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;

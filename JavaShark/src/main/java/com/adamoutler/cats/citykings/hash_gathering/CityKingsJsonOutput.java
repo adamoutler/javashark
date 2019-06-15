@@ -6,7 +6,6 @@
 package com.adamoutler.cats.citykings.hash_gathering;
 
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
-import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
@@ -21,8 +20,6 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.paint.Color;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFSheet;

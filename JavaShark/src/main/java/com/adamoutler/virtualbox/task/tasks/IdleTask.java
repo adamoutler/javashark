@@ -5,10 +5,8 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
-import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.SendPapaAsynch;
 
 /**
  *
