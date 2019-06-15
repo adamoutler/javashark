@@ -10,7 +10,6 @@ import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
-import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -113,7 +112,6 @@ public class CityKingsMatchVisual {
             }
             System.out.println("gangsters added");
             this.gang=newGang;
-            OCR ocr=new OCR();
             this.battlefield=new CityKingsBattlefieldAnalysis(boardScreenshot);
            
             

@@ -5,7 +5,6 @@
  */
 package com.adamoutler.cats.screen_id;
 
-import com.adamoutler.imagerecognition.OCR;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.TesseractBuilder;
@@ -208,6 +207,30 @@ public class CityKingsBattlefieldAnalysis {
         }
         return value;
     }
+ private String doOcrOnTheirGaining() {
+        PicCoords coords = getCoordinatesTheirGaining();
+        if (coords == null) {
+            return "0";
+        }
+        String value = "";
+        try {
+            TesseractBuilder tb = new TesseractBuilder(battlefield)
+                    .setCharset("+0123456789")
+                    .crop(coords)
+                    .setMode(TesseractBuilder.Mode.SINGLEWORD)
+                    .invert().greyScale()
+                    
+                    .resize(7,3).brightenImage().brightenImage().brightenImage()
+                    .resize(2).bicubic().resize(2).bicubic();
+        
+            value = tb.execute();
+            tb.writePicture(value);
+           System.out.println();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return value;
+    }
 
     private String getTheirScore() {
         System.out.println("trying to get their score");
@@ -233,16 +256,7 @@ public class CityKingsBattlefieldAnalysis {
 
     }
 
-    private String getTheirGaining() {
-        PicCoords coords = getCoordinatesTheirGaining();
-        if (coords == null) {
-            return "0";
-        }
-        BufferedImage toOCR = coords.getImageAtCoords(battlefield);
 
-        String value = new OCR().discern(toOCR).trim();
-        return value;
-    }
 
     public static BufferedImage copyImage(BufferedImage source) {
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
@@ -253,7 +267,7 @@ public class CityKingsBattlefieldAnalysis {
     }
 
     public String toString() {
-        return "Us: " + doOCRonOurScore() + " +:" + doOcrOnOurGaining() + " " + " time:" + getFormattedTime() + " them:" + getTheirScore() + " +:" + getTheirGaining() + " target:" + getTargetScore() + " ";
+        return "Us: " + doOCRonOurScore() + " +:" + doOcrOnOurGaining() + " " + " time:" + getFormattedTime() + " them:" + getTheirScore() + " +:" + doOcrOnTheirGaining() + " target:" + getTargetScore() + " ";
     }
 
     private String doGainingScore(PicCoords coords) {

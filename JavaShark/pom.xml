@@ -126,18 +126,7 @@
             <scope>test</scope>
             <version>2.44.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.opera</groupId>
-            <artifactId>operadriver</artifactId>
-            <scope>test</scope>
-            <version>1.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-remote-driver</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+      
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -187,11 +176,7 @@
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
-        <dependency>
-            <groupId>cn.easyproject</groupId>
-            <artifactId>easyocr</artifactId>
-            <version>3.0.4-RELEASE</version>
-        </dependency>
+       
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -225,11 +210,7 @@
             <artifactId>xmlbeans</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>cn.easyproject</groupId>
-            <artifactId>easyocr-linkbold-plugin</artifactId>
-            <version>3.0.3-RELEASE</version>
-        </dependency>
+      
         
 
     </dependencies>
