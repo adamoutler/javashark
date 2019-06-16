@@ -9,6 +9,7 @@ import com.adamoutler.cats.citykings.hash_gathering.building.car.CarBadgeHash;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.HashedPicCoords;
 import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.imagerecognition.TempFolderImage;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,29 +25,36 @@ import javax.imageio.ImageIO;
  */
 public class Car {
 
-   transient PicCoords carBadgeLocation = new PicCoords(60, 238, 310, 290);
-    private static transient HashedPicCoords parkedCarIndicator = new HashedPicCoords(206, 252, 19, 22, 34185158);
+    transient private PicCoords friendlyCarBadgeLocation = new PicCoords(60, 238, 310, 290);
+    transient private PicCoords foeCarBadgeLocation = new PicCoords(60, 238, 310, 282);
+    
+    private static transient HashedPicCoords[] unscouttedCar = new HashedPicCoords[]{new HashedPicCoords(156,106,20,24,1976587239)};
+    private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25, -747845219)};
     private String nameHash = "";
     private String uniqueHash = "";
     private int location = 0;
     private int building;
     private byte[] carBadge = new byte[]{};
     private boolean parked = false;
+    private boolean unscoutted=false;
 
     Car() {
     }
 
+    public Car(BufferedImage bi,boolean friendly){
+        this.setCarScreenshot(bi, friendly);
+    }
     /**
      * @return the parkedCarIndicator
      */
-    public static HashedPicCoords getParkedCarIndicator() {
+    public static HashedPicCoords[] getParkedCarIndicator() {
         return parkedCarIndicator;
     }
 
     /**
      * @param aParkedCarIndicator the parkedCarIndicator to set
      */
-    public static void setParkedCarIndicator(HashedPicCoords aParkedCarIndicator) {
+    public static void setParkedCarIndicator(HashedPicCoords[] aParkedCarIndicator) {
         parkedCarIndicator = aParkedCarIndicator;
     }
 
@@ -77,8 +85,6 @@ public class Car {
     public void setUniqueHash(String uniqueHash) {
         this.uniqueHash = uniqueHash;
     }
-
-   
 
     /**
      * @return the location
@@ -119,13 +125,43 @@ public class Car {
         return carBadge;
     }
 
-    public Car setCarScreenshot(BufferedImage bi) {
-        BufferedImage badge = carBadgeLocation.getImageAtCoords(bi);
-        this.setParked(parkedCarIndicator.hashMatches(badge));
+    final public Car setCarScreenshot(BufferedImage bi, boolean friendly) {
+        PicCoords badgeCoords = getBadgeCoords(friendly);
+        
+        BufferedImage badge = badgeCoords.getImageAtCoords(bi);
+        this.checkUnscouttedCar(badge);
+        setParked(false);
+        checkParkedCar(badge);
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(badge)));
-        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getUniqueHash(badge)));
+        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getAttackHash(badge)));
         this.carBadge = ByteImage.getPngBytes(badge);
         return this;
+    }
+
+    private PicCoords getBadgeCoords(boolean friendly) {
+        PicCoords badgeCoords;
+        if (friendly) {
+            badgeCoords = friendlyCarBadgeLocation;
+        } else {
+            badgeCoords = foeCarBadgeLocation;
+        }
+        return badgeCoords;
+    }
+
+    private void checkParkedCar(BufferedImage badge) {
+        for (HashedPicCoords p : parkedCarIndicator) {
+            if (p.hashMatches(badge)) {
+                setParked(true);
+            }
+        }
+    }
+    
+    private void checkUnscouttedCar(BufferedImage badge) {
+        for (HashedPicCoords p : unscouttedCar) {
+            if (p.hashMatches(badge)) {
+                unscoutted=true;
+            }
+        }
     }
 
     /**
@@ -217,6 +253,13 @@ public class Car {
 
     public void clearPics() {
         this.carBadge = null;
+    }
+
+    /**
+     * @return the unscoutted
+     */
+    public boolean isUnscoutted() {
+        return unscoutted;
     }
 
 }

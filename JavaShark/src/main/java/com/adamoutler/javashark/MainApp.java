@@ -100,7 +100,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("sentrystatus", new SentryStatusHandler());
         commandDistributor.register("sentrystart", new StartSentry());
         commandDistributor.register("deepbuildingscan", new BattlefieldScan());
-        commandDistributor.register("deepbuildingrecon", new DeepBuildingReconHandler());
+        commandDistributor.register("deepbuildingrecon", new BattlefieldScan());
         commandDistributor.register("sentrystop", new StopSentry());
         commandDistributor.register("addtask", new TaskHandler());
         commandDistributor.register("addsidetask", new TemporaryTaskHandler());
@@ -108,6 +108,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("whoauthorizedthis", new AuthorizedHandler());
         commandDistributor.register("analyzescreen", new AnalyzeScreenshotHandler());
         commandDistributor.register("battlefieldscan", new BattlefieldScan());
+
         commandDistributor.register("mycars", new MyCarsHandler());
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);

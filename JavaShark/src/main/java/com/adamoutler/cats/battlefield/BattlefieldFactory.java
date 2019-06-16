@@ -7,11 +7,14 @@ package com.adamoutler.cats.battlefield;
 
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.BuildingFactory;
+import com.adamoutler.cats.battlefield.building.car.Car;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,21 +47,29 @@ public class BattlefieldFactory {
 
     public Battlefield scanBattleField(VirtualBoxMachine vm) {
         new BattlefieldNavigator().navigateToCK(vm);
-        System.out.println(vm.getUsername()+": logging board screenshot and beginning battlefield scan");
+        System.out.println(vm.getUsername() + ": logging board screenshot and beginning battlefield scan");
         battlefield.setBoardScreenshot(vm.screenshot());
         battlefield.setBuildings(prepareBuildings());
         for (Building building : battlefield.getBuildings()) {
             new BattlefieldNavigator().navigateToCK(vm);
             battlefield.setBoardScreenshot(vm.screenshot());
             boolean value = new BattlefieldNavigator().navigateToBuildingScreen(vm, building.getBuildingNumber());
-            for (int retries = 0; retries < 3; retries++) {
-                if (vm.isKillThread()) {
-                    break;
+            try {
+                for (int retries = 0; retries < 3; retries++) {
+                    if (vm.isKillThread()) {
+                        break;
+                    }
+                    if (new BuildingFactory(vm, building).scan()) {
+                        break;
+                    }
+                    if (new Car(vm.screenshot(), friendly).isUnscoutted()) {
+                        throw new BuildingUnscouttedException("");
+                    }
+                    System.err.println(vm.getUsername()+": ERROR! Retrying building scan!");
                 }
-                if (new BuildingFactory(vm, building).scan()) {
-                    break;
-                }
-                System.err.println("ERROR: Retrying building scan!");
+            } catch (BuildingUnscouttedException ex) {
+                System.err.println(vm.getUsername()+": Building is not scoutted");
+                Logger.getLogger(BattlefieldFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (building.isSuspectProblem() || vm.isKillThread()) {
                 System.err.println("Exception!  Building scanned bad!");

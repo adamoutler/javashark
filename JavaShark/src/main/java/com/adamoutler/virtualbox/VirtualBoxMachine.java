@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,8 +51,8 @@ public class VirtualBoxMachine extends TaskedMachine {
 
         String[] machineNameAr = machineName.split("_");
         gang = machineNameAr[0];
-        user = machineNameAr[1].replaceAll("[^a-zA-Z0-9]+","");
-;
+        user = machineNameAr[1].replaceAll("[^a-zA-Z0-9]+", "");
+        ;
         portNumber = machineNameAr[2];
         adbName = "127.0.0.1:" + portNumber;
         rdpPort = machineNameAr[3];
@@ -65,27 +66,26 @@ public class VirtualBoxMachine extends TaskedMachine {
 
     public VirtualBoxMachine(String gang, String user, String port, String rdp) {
         this.gang = gang;
-        this.user = user.replaceAll("[^a-zA-Z0-9]+","");
-;
+        this.user = user.replaceAll("[^a-zA-Z0-9]+", "");
+        ;
         this.portNumber = port;
         adbName = "127.0.0.1:" + portNumber;
         rdpPort = rdp;
         this.getVMName();
     }
 
-    
-    public void logUnidentifiedScreen(String name){
+    public void logUnidentifiedScreen(String name) {
         try {
-            String filename=System.getProperty("java.io.tmpdir")+"/"+name+System.currentTimeMillis()+".png";
-            System.out.println("Could not identify screen!  Wrote \""+filename+"\" screen to logs");
-            FileOutputStream fos=new FileOutputStream(filename);
+            String filename = System.getProperty("java.io.tmpdir") + "/" + name + System.currentTimeMillis() + ".png";
+            System.out.println("Could not identify screen!  Wrote \"" + filename + "\" screen to logs");
+            FileOutputStream fos = new FileOutputStream(filename);
             ImageIO.write(screenshot(), "PNG", fos);
         } catch (IOException ex) {
             Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     public BufferedImage screenshot() {
         try {
             return VirtualBoxScreenShot.getScreenshot(this);
@@ -244,7 +244,7 @@ public class VirtualBoxMachine extends TaskedMachine {
             }
 
         } catch (IOException | JadbException ex) {
-           System.out.println("Error Couldn't send adb command... "+ex.getMessage());
+            System.out.println("Error Couldn't send adb command... " + ex.getMessage());
         } catch (NullPointerException ex) {
         }
         return sb.toString();
@@ -259,13 +259,13 @@ public class VirtualBoxMachine extends TaskedMachine {
     }
 
     public ScreenData getScreen() {
-        try{
-        if (this.isPoweredOn()) {
-            screenID = ScreenData.identifyScreen(this);
-        } else {
-            screenID = ScreenData.OFF;
-        }
-        } catch (Exception ex){
+        try {
+            if (this.isPoweredOn()) {
+                screenID = ScreenData.identifyScreen(this);
+            } else {
+                screenID = ScreenData.OFF;
+            }
+        } catch (Exception ex) {
             return ScreenData.UNRESPONSIVE;
         }
         screenDescription = screenID.getDescription();
@@ -334,7 +334,6 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.poweredOn = poweredOn;
     }
 
-
     public void tap(XYCoords coords) {
         this.adbShell("input", "tap", coords.getXStr(), coords.getYStr());
     }
@@ -354,12 +353,15 @@ public class VirtualBoxMachine extends TaskedMachine {
      * @param hashes the hashes to set
      */
     public void setHashes(Map<String, String> hashes) {
-        this.hashes = hashes;
+        if (hashes != null) {
+            this.hashes = hashes;
+        } else {
+            this.hashes = new HashMap<>();
+        }
     }
-
-    /**
-     * @return the killThread
-     */
+        /**
+         * @return the killThread
+         */
     public boolean isKillThread() {
         return killThread;
     }
@@ -372,8 +374,7 @@ public class VirtualBoxMachine extends TaskedMachine {
     }
 
     public void resumeSentry() {
-       
+
     }
 
-    
 }

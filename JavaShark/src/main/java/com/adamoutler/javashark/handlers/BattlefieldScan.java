@@ -22,7 +22,7 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         int[] buildingsToScan=request.getData().getScanBuildings();
-        if (buildingsToScan==null){
+        if (buildingsToScan==null||buildingsToScan.length==0){
             buildingsToScan=new int[]{1,2,3,4,5,6};
         }
         Boolean friendly=request.getData().isFriendlyScan();
@@ -35,11 +35,16 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         vm.getTaskData().setFriendlyScan(friendly);
         vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.setHashes(request.getData().getHashes());
-        if (new SentryTools(vm).isOnWatch()){
-            vm.clearTasks();
-            addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN,TaskType.WATCH);
+        vm.clearTasks();
+        addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK);
+        if (request.getCommand().contains("recon")){
+            addTasks(TaskType.DEEPBUILDINGRECON);
         } else {
-            addTasks(TaskType.CLEAR,TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BATTLEFIELDSCAN);
+           addTasks(TaskType.BATTLEFIELDSCAN);
+        }
+        if (new SentryTools(vm).isOnWatch()){
+           addTasks(TaskType.WATCH);
+        } else {
         }
         request.getData().addAvailable(vm).setReason("scanning");
         this.sendSucessMessage(he, request);

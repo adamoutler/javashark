@@ -6,7 +6,8 @@
 package com.adamoutler.cats.battlefield.building;
 
 import com.adamoutler.cats.battlefield.building.car.Car;
-import com.adamoutler.cats.battlefield.building.car.CarFactory;
+import com.adamoutler.cats.battlefield.building.car.FoeCarFactory;
+import com.adamoutler.cats.battlefield.building.car.FriendlyCarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
@@ -41,7 +42,12 @@ public class BuildingFactory {
             for (int retries = 0; retries < 5; retries++) {
                 if(vm.isKillThread())break;
                 setUpCarData();
-                boolean b = new CarFactory(vm, building).scan();
+                boolean b;
+                if (building.isFriendlyScan() ){
+                    b=new FriendlyCarFactory(vm, building).scan();
+                }  else {
+                    b=new FoeCarFactory(vm, building).scan();
+                }
                 if (checkCarData() && b) {
                     break;
                 }
@@ -61,17 +67,17 @@ public class BuildingFactory {
 
     private void setCarsInBuilding() {
         if (meetsFriendlyScanCriteria()) {
-            building.setCars(CarFactory.createBlanks(building, building.getTosb().numberWeOwn()));
+            building.setCars(FriendlyCarFactory.createBlanks(building, building.getTosb().numberWeOwn()));
             sleep(2000);
         } else if (meetsFoeScanCriteria()) {
-            building.setCars(CarFactory.createBlanks(building, building.getTosb().numberTheyOwn()));
+            building.setCars(FriendlyCarFactory.createBlanks(building, building.getTosb().numberTheyOwn()));
             sleep(2000);
         }
 
     }
 
     private boolean meetsFoeScanCriteria() {
-        return !building.isFriendlyScan() && building.isFriendlyScan() && building.getSlotsTheirs() > 0;
+        return !building.isFriendlyScan()  && building.getSlotsTheirs() > 0;
     }
 
     private boolean meetsFriendlyScanCriteria() {

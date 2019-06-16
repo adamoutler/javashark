@@ -37,7 +37,8 @@ public class HashedPicCoords extends PicCoords {
     }
 
     public boolean hashMatches(BufferedImage image){
-        return getHash(image)==hash;
+        int testhash=getHash(image);
+        return testhash==hash;
     }
 
     /**

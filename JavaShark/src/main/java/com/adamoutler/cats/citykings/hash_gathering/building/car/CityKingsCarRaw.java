@@ -75,11 +75,6 @@ public final class CityKingsCarRaw implements Cloneable {
     private CityKingsCarRaw setCarScreenshot(byte[] carScreenshot) {
         this.setCarBadge(carScreenshot);
         BufferedImage bi = ByteImage.getImageFromBytes(carScreenshot);
-        this.setParked(parkedCarIndicator.hashMatches(bi));
-        this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(bi)));
-        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getUniqueHash(getUniquePic())));
-        
-
         Screenshottable.writePic(bi, "CarInBuilding" + this.getBuilding() + "Slot" + this.location);
 
         return this;

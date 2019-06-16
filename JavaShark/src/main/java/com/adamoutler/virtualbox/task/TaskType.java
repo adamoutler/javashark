@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFoeScanTask;
 import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFriendlylScanTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
@@ -39,8 +40,8 @@ public enum TaskType {
     IDLE(new IdleTask(), "Machine is idle"),
     WATCH(new WatchTask(), "Machine is on Sentry Duty"),
     BATTLEFIELDSCAN(new BattlefieldFullFriendlylScanTask(), "Performing Deep Building Scanning, Friendly Machines"),
-    DEEPBUILDINGSCAN(new DeepBuildingFriendlyScanTask(), "Deep Building Scanning, Friendly Machines"),
-    DEEPBUILDINGRECON(new DeepBuildingFoeScanTask(), "Deep Building Scanning, Foe Machines"),
+    DEEPBUILDINGSCAN(new BattlefieldFullFriendlylScanTask(), "Deep Building Scanning, Friendly Machines"),
+    DEEPBUILDINGRECON(new BattlefieldFullFoeScanTask(), "Deep Building Scanning, Foe Machines"),
     POWERON(new PowerOnTask(),"Turn the machine on"),
     STARTCATS(new StartCatsTask(),"Start CATS"),
     POWEROFF(new PoweroffTask(),"Machine is powered off"),
