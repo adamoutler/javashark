@@ -25,6 +25,10 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
 
+        if (vm.getCurrentTask()!=TaskType.WATCH){
+            this.sendConflictReq(he, "User not on watch");
+            return;
+        }
         vm.getTaskData().setTelegramid(request.getData().getTelegramid());
         vm.setTemporaryTask(TaskType.MYCARS);
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
