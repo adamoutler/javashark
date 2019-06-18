@@ -182,7 +182,7 @@ public class Building {
     /**
      * @return the isLinked
      */
-    public boolean isIsLinked() {
+    public boolean isLinked() {
         return isLinked;
     }
 

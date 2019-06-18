@@ -244,17 +244,17 @@ public class BattlefieldExcelGenerator {
         LinkedList<Integer> buildingsNobody = new LinkedList();
         LinkedList<Boolean> linked = new LinkedList<>();
         for (Building building : match.getBuildings()) {
-            linked.add(building.isIsLinked());
+            linked.add(building.isLinked());
             if (null != building.getBuildingOwnedBy()) {
                 switch (building.getBuildingOwnedBy()) {
                     case US:
-                        gainingUs = gainingUs + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
+                        gainingUs = gainingUs + (building.isLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
                         break;
                     case THEM:
-                        gainingThem = gainingThem + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
+                        gainingThem = gainingThem + (building.isLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
                         break;
                     case NOBODY:
-                        gainingNobody = gainingNobody + (building.isIsLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
+                        gainingNobody = gainingNobody + (building.isLinked() ? building.getSlotsTotal() * 2 : building.getSlotsTotal());
                         break;
                     default:
                         break;
@@ -474,137 +474,31 @@ public class BattlefieldExcelGenerator {
         r.getCell(1).setCellStyle(h2);
         r.getCell(2).setCellStyle(h2);
         r = sheet.createRow(i++);
-        int building = 0;
-        r.createCell(0).setCellValue("Building " + (building + 1));
+
+        for (Building building : match.getBuildings()) {
+        r.createCell(0).setCellValue("Building " + (building.getBuildingNumber()));
         r.getCell(0).setCellStyle(h3);
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
+        r.createCell(1).setCellValue(building.isLinked()?"🔗linked":"");
         r.createCell(3).setCellValue("value:");
         r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r.createCell(4).setCellValue(building.isLinked() ? (building.getSlotsTotal()* 2) : building.getSlotsTotal());
         r = sheet.createRow(i++);
         r.createCell(0).setCellValue("Total:");
         r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
+        r.createCell(1).setCellValue(building.getSlotsTotal());
         r.createCell(2).setCellValue("Us:");
         r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
+        r.createCell(3).setCellValue(building.getSlotsOurs());
         r.createCell(4).setCellValue("Them:");
         r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
+        r.createCell(5).setCellValue(building.getSlotsTheirs());
         r.createCell(6).setCellValue("Nobody:");
         r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
+        r.createCell(7).setCellValue(building.getSlotsUnowned());
         i++;
         r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building " + (building + 1));
-        r.getCell(0).setCellStyle(h3);
-        if (match.getBuildings().size()==1){
-                    return sheet;
+
         }
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
-        i++;
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building " + (building + 1));
-        r.getCell(0).setCellStyle(h3);
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
-        i++;
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building " + (building + 1));
-        r.getCell(0).setCellStyle(h3);
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
-        i++;
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building " + (building + 1));
-        r.getCell(0).setCellStyle(h3);
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
-        i++;
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Building " + (building + 1));
-        r.getCell(0).setCellStyle(h3);
-
-        r.createCell(2).setCellValue(linked.get(building) == true ? "Linked" : "");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(linked.get(building) == true ? (buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building)) * 2 : buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(buildingsUs.get(building) + buildingsThem.get(building) + buildingsNobody.get(building));
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(buildingsUs.get(building));
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(buildingsThem.get(building));
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(buildingsNobody.get(building++));
-        i++;
 
         return sheet;
     }

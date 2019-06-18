@@ -1,0 +1,339 @@
+{
+  "time": 1560728922144,
+  "friendly": true,
+  "buildings": [
+    {
+      "buildingName": "",
+      "buildingNumber": 1,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 21,
+      "slotsTheirs": 11,
+      "slotsOurs": 0,
+      "slotsUnowned": 10,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 2,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 15,
+      "slotsTheirs": 0,
+      "slotsOurs": 9,
+      "slotsUnowned": 6,
+      "friendlyScan": true,
+      "isLinked": true,
+      "cars": [
+        {
+          "nameHash": "3d75d665",
+          "uniqueHash": "7538c3f9",
+          "location": 1,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "fefc9c21",
+          "uniqueHash": "9c7ba026",
+          "location": 2,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "f5dd6932",
+          "location": 3,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "3d75d665",
+          "uniqueHash": "ac975da9",
+          "location": 4,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "b727893b",
+          "location": 5,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "4531e67e",
+          "uniqueHash": "5f6f3781",
+          "location": 6,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "825b144e",
+          "uniqueHash": "d937595c",
+          "location": 7,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "4a50d1f1",
+          "location": 8,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "7f96008c",
+          "uniqueHash": "49ea026a",
+          "location": 9,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 3,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 21,
+      "slotsTheirs": 11,
+      "slotsOurs": 0,
+      "slotsUnowned": 10,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 4,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 21,
+      "slotsTheirs": 0,
+      "slotsOurs": 12,
+      "slotsUnowned": 9,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "ca86a60b",
+          "location": 1,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "363018f7",
+          "location": 2,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "e6f0af5d",
+          "location": 3,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "642f3c64",
+          "uniqueHash": "5f6f3781",
+          "location": 4,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "9a0e9da2",
+          "uniqueHash": "ee765efc",
+          "location": 5,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "4531e67e",
+          "uniqueHash": "49ea026a",
+          "location": 6,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "19ec340b",
+          "uniqueHash": "d937595c",
+          "location": 7,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "642f3c64",
+          "uniqueHash": "ca86a60b",
+          "location": 8,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "642f3c64",
+          "uniqueHash": "cdc133b7",
+          "location": 9,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "19ec340b",
+          "uniqueHash": "5026d88d",
+          "location": 10,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "311e58b2",
+          "uniqueHash": "e6f0af5d",
+          "location": 11,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "9a0e9da2",
+          "uniqueHash": "52e7ae21",
+          "location": 12,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 5,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 15,
+      "slotsTheirs": 0,
+      "slotsOurs": 8,
+      "slotsUnowned": 7,
+      "friendlyScan": true,
+      "isLinked": true,
+      "cars": [
+        {
+          "nameHash": "fefc9c21",
+          "uniqueHash": "cc5be45e",
+          "location": 1,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "825b144e",
+          "uniqueHash": "928b2619",
+          "location": 2,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "3d75d665",
+          "uniqueHash": "bf4a8b7f",
+          "location": 3,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "825b144e",
+          "uniqueHash": "49ea026a",
+          "location": 4,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "52e7ae21",
+          "location": 5,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "4531e67e",
+          "uniqueHash": "ef08710d",
+          "location": 6,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "df4333f5",
+          "location": 7,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "93ac519e",
+          "location": 8,
+          "building": 5,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 6,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 21,
+      "slotsTheirs": 11,
+      "slotsOurs": 0,
+      "slotsUnowned": 10,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    }
+  ],
+  "excelFile": "https://javashark.baby-sharks.com/excel/1560729059379-development-AdamOutler-65f0517a-2b54-42c6-ac42-10ca6dcef67d.xls",
+  "jsonFile": "https://javashark.baby-sharks.com/excel/1560729059379-development-AdamOutler-65f0517a-2b54-42c6-ac42-10ca6dcef67d",
+  "reportContainsFlaws": false,
+  "battlefield": {
+    "targetScore": "138000",
+    "ourScore": "106164",
+    "theirScore": "82467",
+    "ourGaining": "81",
+    "theirGaining": "63",
+    "hours": "2",
+    "minutes": "2",
+    "seconds": "0",
+    "formattedTime": "2h2m"
+  }
+}
