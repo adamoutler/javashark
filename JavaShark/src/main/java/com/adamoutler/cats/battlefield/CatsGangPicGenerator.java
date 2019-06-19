@@ -34,7 +34,6 @@ public class CatsGangPicGenerator {
     public static boolean saveGangPicToFile(File f, Battlefield battlefield){
         BufferedImage bi=organizePictures(battlefield);
         try {
-            f = File.createTempFile("file3", ".png");
             ImageIO.write(bi, "PNG", new FileOutputStream(f));
             return true;
         } catch (IOException ex) {

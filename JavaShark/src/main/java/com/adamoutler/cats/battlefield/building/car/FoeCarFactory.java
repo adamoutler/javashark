@@ -73,8 +73,6 @@ public class FoeCarFactory implements CarFactory {
                         throw new BuildingUnscouttedException(vm.getUsername() + ": Building " + building.getBuildingNumber() + " is unscoutted");
                     }
                     foundCars.put(c.getNameHash() + c.getUniqueHash(), c);
-                    vm.writeBabySharksDebug(vm, "test");
-
                 }
                 scans++;
 
