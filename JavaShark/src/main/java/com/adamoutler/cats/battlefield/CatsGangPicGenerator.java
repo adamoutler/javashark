@@ -30,9 +30,9 @@ import javax.imageio.ImageIO;
  * @author adamo
  */
 public class CatsGangPicGenerator {
-    
-    public static boolean saveGangPicToFile(File f, Battlefield battlefield){
-        BufferedImage bi=organizePictures(battlefield);
+
+    public static boolean saveGangPicToFile(File f, Battlefield battlefield) {
+        BufferedImage bi = organizePictures(battlefield);
         try {
             ImageIO.write(bi, "PNG", new FileOutputStream(f));
             return true;
@@ -41,14 +41,18 @@ public class CatsGangPicGenerator {
             return false;
         }
     }
-    
-    
-     public static BufferedImage organizePictures(Battlefield battlefield) {
+
+    public static BufferedImage organizePictures(Battlefield battlefield) {
         LinkedList<Car> cars = new LinkedList<>();
         battlefield.getBuildings().forEach(b -> {
             cars.addAll(b.getCars());
         });
-        PicCoords pc = (ByteImage.getImageFromBytes(cars.get(0).getCarBadge()).getHeight() == Car.foeCarBadgeLocation.getH() ? Car.foeCarBadgeLocation : Car.friendlyCarBadgeLocation);
+        PicCoords pc;
+        if (battlefield.getBuildings().get(0).isFriendlyScan()) {
+            pc = Car.friendlyCarBadgeLocation;
+        } else {
+            pc = Car.foeCarBadgeLocation;
+        }
         int columns = 5;
         LinkedList<BufferedImage> rowOfCars = new LinkedList<>();
         LinkedList<BufferedImage> carRows = new LinkedList<>();
@@ -82,7 +86,7 @@ public class CatsGangPicGenerator {
         ll.add(smallShark);
         ll.add(pic);
         BufferedImage returnValue = ImageJoiner.joinImagesBelow(ll);
-        return scale(returnValue,965, 1280);
+        return returnValue;
 
     }
 
