@@ -574,7 +574,7 @@ public class BattlefieldExcelGenerator {
             Logger.getLogger(BattlefieldExcelGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
         HashedMessage hm=new HashedMessage(new Message());
-        sheet.getRow(9).createCell(0).setCellValue("Server:  "+HashedMessage.service + "  -  "+HashedMessage.instance);
+        sheet.getRow(9).createCell(0).setCellValue("Server:  "+HashedMessage.name + "  -  "+HashedMessage.instance);
         
 
         return sheet;
