@@ -18,10 +18,10 @@ import java.security.NoSuchAlgorithmException;
  */
 public class HashedMessage {
 
-    final public String service = "JavaShark";
+    final public static String service = "JavaShark";
     private Message message;
     public static String instance;
-    private String machine = instance;
+    public String machine = instance;
     private String hash;
 
     public HashedMessage(Message message) {

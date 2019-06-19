@@ -60,7 +60,7 @@ public class CatsGangPicGenerator {
             }
 
         }
-        if (rowOfCars.size() > 0) {
+        if (rowOfCars.size() < columns) {
             while (rowOfCars.size() < columns) {
                 BufferedImage bi = WritePicture.createImage(pc, pc, "joined babysharks", false, new Color(0xff, 0x60, 0x5a), Color.blue, new java.awt.Font("Verdana", java.awt.Font.BOLD, 20));
                 try {

@@ -13,6 +13,8 @@ import com.adamoutler.imagerecognition.IncreaseSize;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.WritePicture;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.babysharks.messaging.HashedMessage;
+import com.babysharks.messaging.Message;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
@@ -66,6 +68,7 @@ public class BattlefieldExcelGenerator {
     public String createOutputFiles(File f, Battlefield match, boolean friendly) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         createStyles(workbook);
+        HSSFSheet coverSheet = createCoversheet(workbook, match);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
         HSSFSheet carsByHash = createCarsByHashSheet(workbook, match);
@@ -83,15 +86,19 @@ public class BattlefieldExcelGenerator {
         header.createCell(1).setCellValue("Car 2");
         header.createCell(2).setCellValue("Car 3");
         header.createCell(3).setCellValue("hash value");
-        header.createCell(4).setCellValue("Papa Command");
+        if (match.getBuildings().get(0).isFriendlyScan()) {
+            header.createCell(4).setCellValue("Papa Command");
+        }
 
         header.getCell(0).setCellStyle(bold);
         header.getCell(1).setCellStyle(bold);
         header.getCell(2).setCellStyle(bold);
         header.getCell(3).setCellStyle(bold);
-        header.getCell(4).setCellStyle(bold);
+        if (match.getBuildings().get(0).isFriendlyScan()) {
+            header.getCell(4).setCellStyle(bold);
+        }
 
-        carsByHash.setColumnWidth(3, 2500);
+        carsByHash.setColumnWidth(3, 3200);
         carsByHash.setColumnWidth(4, 6000);
         carsByHash.setColumnWidth(4, 7000);
         int row = 1;
@@ -102,7 +109,9 @@ public class BattlefieldExcelGenerator {
                 carPos++;
             }
             carsByHash.getRow(row).createCell(3).setCellValue(entry.getKey());
-            carsByHash.getRow(row).createCell(4).setCellValue("/hashes " + entry.getKey() + " ");
+            if (match.getBuildings().get(0).isFriendlyScan()) {
+                carsByHash.getRow(row).createCell(4).setCellValue("/hashes " + entry.getKey() + " ");
+            }
             carsByHash.getRow(row).createCell(5).setCellValue(" ");
             row++;
 
@@ -177,7 +186,7 @@ public class BattlefieldExcelGenerator {
             sheet.createRow(buildingLabelNumber + 1);
 
             Cell c = sheet.createRow(buildingLabelNumber + 2).createCell(0);
-            c.setCellValue((building + 1));
+            c.setCellValue((match.getBuildings().get(building).getBuildingNumber()));
             c.setCellStyle(largeStyle);
 
             int buildingRow = buildingLabelNumber;
@@ -188,6 +197,8 @@ public class BattlefieldExcelGenerator {
             }
 
             for (Car car : match.getBuildings().get(building).getCars()) {
+                int i = match.getBuildings().get(building).getCars().lastIndexOf(car) + 1;
+                car.setLocation(i);
                 System.out.println("Car " + car.getLocation() + " -c" + car.getColumn() + "r" + car.getRow());
 
                 writePictureTo(workbook, sheet, totalRows - car.getColumn(), car.getRow() + buildingRow, car.getCarJpg());
@@ -222,6 +233,27 @@ public class BattlefieldExcelGenerator {
         HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short) x, y, (short) (x + 1), y + 1);
         sheet.getRow(y).setHeight((short) 1500);
         sheet.setColumnWidth(x, 4000);
+        anchor.setAnchorType(AnchorType.DONT_MOVE_DO_RESIZE);
+        patriarch.createPicture(anchor, wb.addPicture(baos.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
+
+    } private void writeBigPictureTo(Workbook wb, HSSFSheet sheet, int x, int y, byte[] bi) throws IOException {
+        if (bi == null) {
+            return;
+        }
+        if (sheet.getRow(y) == null) {
+            sheet.createRow(y);
+        }
+        if (sheet.getRow(y + 1) == null) {
+            sheet.createRow(y + 1);
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write(bi);
+        //ImageIO.write(bi, "jpg", baos);
+        HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+        HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short) x, y, (short) (x + 1), y + 1);
+        sheet.getRow(y).setHeight((short) 8000);
+        sheet.setColumnWidth(x, 20000);
         anchor.setAnchorType(AnchorType.DONT_MOVE_DO_RESIZE);
         patriarch.createPicture(anchor, wb.addPicture(baos.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
 
@@ -521,6 +553,31 @@ public class BattlefieldExcelGenerator {
         return sheet;
     }
 
-   
+    private HSSFSheet createCoversheet(HSSFWorkbook workbook, Battlefield match) {
+        boolean friendly=match.getBuildings().get(0).isFriendlyScan();
+        HSSFSheet sheet = workbook.createSheet((friendly ? "Friendly " : "Enemy ") + "scan");
+        int row = 10;
+        for (int i=0; i<20; i++){
+            sheet.createRow(i);
+        }
+        sheet.getRow(0).createCell(0).setCellValue("                         Baby Sharks " +(friendly?"scan":"reconissance"));
+        sheet.getRow(0).getCell(0).setCellStyle(h1);
+        sheet.getRow(2).createCell(0).setCellValue((friendly?"Classified":"For Official Baby Sharks Use Only"));
+        sheet.getRow(2).getCell(0).setCellStyle(bold);
+        sheet.getRow(4).createCell(0).setCellValue("Report Date: "+new Date().toGMTString());
+
+        try {
+        byte[] shark = ByteImage.getJpgBytes(ByteImage.getPngBytes(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("sharks.jpg"))));
+
+            writeBigPictureTo(workbook, sheet, 0,6, shark);
+        } catch (IOException ex) {
+            Logger.getLogger(BattlefieldExcelGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HashedMessage hm=new HashedMessage(new Message());
+        sheet.getRow(9).createCell(0).setCellValue("Server:  "+HashedMessage.service + "  -  "+HashedMessage.instance);
+        
+
+        return sheet;
+    }
 
 }
