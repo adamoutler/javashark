@@ -81,7 +81,7 @@ public class CatsGangPicGenerator {
 
         }
         BufferedImage pic = ImageJoiner.joinImagesBelow(carRows);
-        BufferedImage smallShark = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), " Baby Sharks Recon Report " + new Date().toGMTString(), false, new Color(0xff, 0x60, 0x5a), Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 57));
+        BufferedImage smallShark = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, new Color(0xff, 0x60, 0x5a), Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 53));
         LinkedList<BufferedImage> ll = new LinkedList<>();
         ll.add(smallShark);
         ll.add(pic);
