@@ -7,12 +7,16 @@ package com.adamoutler.cats.battlefield;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.awt.Desktop;
 import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,8 +29,7 @@ import static org.junit.Assert.*;
  * @author adamo
  */
 public class BattlefieldExcelGeneratorTest {
-    
- 
+
     public BattlefieldExcelGeneratorTest() {
         detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1560715362325-development-AdamOutler-dfb3c7cd-69ba-417b-947f-8cc6aea5490e");
 
@@ -53,13 +56,13 @@ public class BattlefieldExcelGeneratorTest {
 
     public Battlefield testSomeMethod() {
         try {
-            FileReader fr=new FileReader(detailReport);
-            System.out.println(detailReport.getAbsolutePath()+" "+ detailReport.exists());
-            Gson gson=new GsonBuilder().setPrettyPrinting().create();
-            Battlefield match=gson.fromJson(fr, Battlefield.class);
-           // new BattlefieldExcelGenerator().createOutputFiles(detailReport, match, true);
+            FileReader fr = new FileReader(detailReport);
+            System.out.println(detailReport.getAbsolutePath() + " " + detailReport.exists());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Battlefield match = gson.fromJson(fr, Battlefield.class);
+            // new BattlefieldExcelGenerator().createOutputFiles(detailReport, match, true);
             return match;
-            
+
         } catch (IOException ex) {
             Logger.getLogger(BattlefieldExcelGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,12 +78,12 @@ public class BattlefieldExcelGeneratorTest {
         File f = File.createTempFile("excel", ".xls");
         Battlefield match = testSomeMethod();
         BattlefieldExcelGenerator instance = new BattlefieldExcelGenerator();
-        String result = instance.createOutputFiles(f, match,false);
-        if (!GraphicsEnvironment.isHeadless()){
+        String result = instance.createOutputFiles(f, match, false);
+        if (!GraphicsEnvironment.isHeadless()) {
             instance.openSheet(f);
         }
 
     }
 
-    
+   
 }

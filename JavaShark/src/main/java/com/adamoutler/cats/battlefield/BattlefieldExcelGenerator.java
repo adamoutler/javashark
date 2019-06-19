@@ -5,11 +5,20 @@ package com.adamoutler.cats.battlefield;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.car.Car;
+import com.adamoutler.imagerecognition.ByteImage;
+import com.adamoutler.imagerecognition.ImageJoiner;
+import com.adamoutler.imagerecognition.IncreaseSize;
+import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.imagerecognition.WritePicture;
+import com.adamoutler.imagerecognition.XYCoords;
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,11 +26,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -51,7 +62,8 @@ public class BattlefieldExcelGenerator {
     public BattlefieldExcelGenerator() {
 
     }
-    public String createOutputFiles(File f, Battlefield match,boolean friendly) throws IOException {
+
+    public String createOutputFiles(File f, Battlefield match, boolean friendly) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         createStyles(workbook);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
@@ -61,7 +73,7 @@ public class BattlefieldExcelGenerator {
         writeSheet(f, workbook);
         return "";
     }
-    
+
     private HSSFSheet createCarsByHashSheet(HSSFWorkbook workbook, Battlefield match) throws IOException {
         HSSFSheet carsByHash = workbook.createSheet("Cars By User");
 
@@ -176,8 +188,8 @@ public class BattlefieldExcelGenerator {
             }
 
             for (Car car : match.getBuildings().get(building).getCars()) {
-                System.out.println("Car "+car.getLocation()+" -c"+car.getColumn()+"r"+car.getRow());
-                        
+                System.out.println("Car " + car.getLocation() + " -c" + car.getColumn() + "r" + car.getRow());
+
                 writePictureTo(workbook, sheet, totalRows - car.getColumn(), car.getRow() + buildingRow, car.getCarJpg());
             }
 
@@ -193,14 +205,16 @@ public class BattlefieldExcelGenerator {
     }
 
     private void writePictureTo(Workbook wb, HSSFSheet sheet, int x, int y, byte[] bi) throws IOException {
-        if (bi==null) return;
+        if (bi == null) {
+            return;
+        }
         if (sheet.getRow(y) == null) {
             sheet.createRow(y);
         }
         if (sheet.getRow(y + 1) == null) {
             sheet.createRow(y + 1);
         }
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(bi);
         //ImageIO.write(bi, "jpg", baos);
@@ -296,53 +310,57 @@ public class BattlefieldExcelGenerator {
 
         int minutesRemaining = 9999999;
         try {
-            minutesRemaining = ((Integer.parseInt(match.getBattlefield().getHours())*60) + Integer.parseInt(match.getBattlefield().getMinutes()));
-            
-        }catch (ArithmeticException ex){
-            System.out.println("could not get minutes remaining.");
-        }
-        int ourCurrentScore=1;
-        try { 
-            ourCurrentScore=Integer.parseInt(match.getBattlefield().getOurCurrentScore());
-        } catch (ArithmeticException ex){}
-        
-        int ourGainingScore=1;
-        try {
-             ourGainingScore=Integer.parseInt(match.getBattlefield().getOurGainingScore());
-        }catch (ArithmeticException ex){}
-        
-        
-        int theirGainingScore=1;
-        try {
-            theirGainingScore=Integer.parseInt(match.getBattlefield().getTheirGainingScore());
-        }catch (ArithmeticException ex){}
-        
-        int theirCurrentScore=1;
-        try {
-            theirCurrentScore=Integer.parseInt(match.getBattlefield().getTheirCurrentScore());
-        }catch (ArithmeticException ex){}
-        
-        int targetScore=99999999;
-        try {
-            targetScore=Integer.parseInt(match.getBattlefield().getIVScore());
-        }catch (ArithmeticException ex){}
-        
-        int timeTillOurIV=99999999;
-        try {
-            timeTillOurIV = ((targetScore-ourCurrentScore)/ourGainingScore);
-        }catch (ArithmeticException ex){
-            System.out.println("could not get minutes remaining.");
-        }
-                int timeTillTheirIV=99999999;
+            minutesRemaining = ((Integer.parseInt(match.getBattlefield().getHours()) * 60) + Integer.parseInt(match.getBattlefield().getMinutes()));
 
-                try {
-            timeTillTheirIV = ((targetScore-theirCurrentScore)/theirGainingScore);
-        }catch (ArithmeticException ex){
+        } catch (ArithmeticException ex) {
             System.out.println("could not get minutes remaining.");
         }
-                    DecimalFormat decimalFormat = new DecimalFormat("##.####");
+        int ourCurrentScore = 1;
+        try {
+            ourCurrentScore = Integer.parseInt(match.getBattlefield().getOurCurrentScore());
+        } catch (ArithmeticException ex) {
+        }
 
-        try{
+        int ourGainingScore = 1;
+        try {
+            ourGainingScore = Integer.parseInt(match.getBattlefield().getOurGainingScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int theirGainingScore = 1;
+        try {
+            theirGainingScore = Integer.parseInt(match.getBattlefield().getTheirGainingScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int theirCurrentScore = 1;
+        try {
+            theirCurrentScore = Integer.parseInt(match.getBattlefield().getTheirCurrentScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int targetScore = 99999999;
+        try {
+            targetScore = Integer.parseInt(match.getBattlefield().getIVScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int timeTillOurIV = 99999999;
+        try {
+            timeTillOurIV = ((targetScore - ourCurrentScore) / ourGainingScore);
+        } catch (ArithmeticException ex) {
+            System.out.println("could not get minutes remaining.");
+        }
+        int timeTillTheirIV = 99999999;
+
+        try {
+            timeTillTheirIV = ((targetScore - theirCurrentScore) / theirGainingScore);
+        } catch (ArithmeticException ex) {
+            System.out.println("could not get minutes remaining.");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("##.####");
+
+        try {
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Target:");
             r.getCell(0).setCellStyle(bold);
@@ -352,11 +370,11 @@ public class BattlefieldExcelGenerator {
             r.createCell(3).setCellValue(match.getBattlefield().getFormattedTime());
             r.createCell(4).setCellValue("%:");
             r.getCell(4).setCellStyle(bold);
-            r.createCell(5).setCellValue( decimalFormat.format((1-(minutesRemaining/((float)24*(float)60)))*100)+"%");
-            
+            r.createCell(5).setCellValue(decimalFormat.format((1 - (minutesRemaining / ((float) 24 * (float) 60))) * 100) + "%");
+
             r.createCell(6).setCellValue("Left:");
             r.getCell(6).setCellStyle(bold);
-            r.createCell(7).setCellValue(minutesRemaining+"m");
+            r.createCell(7).setCellValue(minutesRemaining + "m");
 
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Us:");
@@ -365,10 +383,10 @@ public class BattlefieldExcelGenerator {
             r.createCell(4).setCellValue("%:");
             r.getCell(4).setCellStyle(bold);
 
-            int ourscore=0;
-                    
+            int ourscore = 0;
+
             try {
-                r.createCell(5).setCellValue("" + decimalFormat.format(((float)ourCurrentScore/(float)targetScore)*100 )+ "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float) ourCurrentScore / (float) targetScore) * 100) + "%");
             } catch (ArithmeticException ex) {
             }
             r.createCell(2).setCellValue("Gaining:");
@@ -388,7 +406,7 @@ public class BattlefieldExcelGenerator {
             r.getCell(4).setCellStyle(bold);
 
             try {
-                r.createCell(5).setCellValue("" + decimalFormat.format(((float)theirCurrentScore/(float)targetScore)*100) + "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float) theirCurrentScore / (float) targetScore) * 100) + "%");
             } catch (ArithmeticException ex) {
             }
             r.createCell(2).setCellValue("Gaining:");
@@ -476,31 +494,33 @@ public class BattlefieldExcelGenerator {
         r = sheet.createRow(i++);
 
         for (Building building : match.getBuildings()) {
-        r.createCell(0).setCellValue("Building " + (building.getBuildingNumber()));
-        r.getCell(0).setCellStyle(h3);
-        r.createCell(1).setCellValue(building.isLinked()?"🔗linked":"");
-        r.createCell(3).setCellValue("value:");
-        r.getCell(3).setCellStyle(bold);
-        r.createCell(4).setCellValue(building.isLinked() ? (building.getSlotsTotal()* 2) : building.getSlotsTotal());
-        r = sheet.createRow(i++);
-        r.createCell(0).setCellValue("Total:");
-        r.getCell(0).setCellStyle(bold);
-        r.createCell(1).setCellValue(building.getSlotsTotal());
-        r.createCell(2).setCellValue("Us:");
-        r.getCell(2).setCellStyle(bold);
-        r.createCell(3).setCellValue(building.getSlotsOurs());
-        r.createCell(4).setCellValue("Them:");
-        r.getCell(4).setCellStyle(bold);
-        r.createCell(5).setCellValue(building.getSlotsTheirs());
-        r.createCell(6).setCellValue("Nobody:");
-        r.getCell(6).setCellStyle(bold);
-        r.createCell(7).setCellValue(building.getSlotsUnowned());
-        i++;
-        r = sheet.createRow(i++);
+            r.createCell(0).setCellValue("Building " + (building.getBuildingNumber()));
+            r.getCell(0).setCellStyle(h3);
+            r.createCell(1).setCellValue(building.isLinked() ? "🔗linked" : "");
+            r.createCell(3).setCellValue("value:");
+            r.getCell(3).setCellStyle(bold);
+            r.createCell(4).setCellValue(building.isLinked() ? (building.getSlotsTotal() * 2) : building.getSlotsTotal());
+            r = sheet.createRow(i++);
+            r.createCell(0).setCellValue("Total:");
+            r.getCell(0).setCellStyle(bold);
+            r.createCell(1).setCellValue(building.getSlotsTotal());
+            r.createCell(2).setCellValue("Us:");
+            r.getCell(2).setCellStyle(bold);
+            r.createCell(3).setCellValue(building.getSlotsOurs());
+            r.createCell(4).setCellValue("Them:");
+            r.getCell(4).setCellStyle(bold);
+            r.createCell(5).setCellValue(building.getSlotsTheirs());
+            r.createCell(6).setCellValue("Nobody:");
+            r.getCell(6).setCellStyle(bold);
+            r.createCell(7).setCellValue(building.getSlotsUnowned());
+            i++;
+            r = sheet.createRow(i++);
 
         }
 
         return sheet;
     }
+
+   
 
 }

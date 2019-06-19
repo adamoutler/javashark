@@ -25,8 +25,8 @@ import javax.imageio.ImageIO;
  */
 public class Car {
 
-    transient private PicCoords friendlyCarBadgeLocation = new PicCoords(60, 238, 310, 290);
-    transient private PicCoords foeCarBadgeLocation = new PicCoords(60, 238, 310, 282);
+    transient public static PicCoords friendlyCarBadgeLocation = new PicCoords(60, 238, 310, 290);
+    transient public static PicCoords foeCarBadgeLocation = new PicCoords(60, 238, 310, 282);
     
     private static transient HashedPicCoords[] unscouttedCar = new HashedPicCoords[]{new HashedPicCoords(156,106,20,24,1976587239)};
     private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25, -747845219)};

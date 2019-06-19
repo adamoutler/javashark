@@ -8,6 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.battlefield.Battlefield;
 import com.adamoutler.cats.battlefield.BattlefieldExcelGenerator;
 import com.adamoutler.cats.battlefield.BattlefieldFactory;
+import com.adamoutler.cats.battlefield.CatsGangPicGenerator;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -70,10 +71,13 @@ public class BattlefieldFullFoeScanTask extends Task {
                     long time = System.currentTimeMillis();
                     String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
+                    File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
+                    CatsGangPicGenerator.saveGangPicToFile(groupPicture, report);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())
                             .setReason("Recon Complete json")
+                            .setTeamPicture("https://javashark.baby-sharks.com/excel/" + groupPicture.getName())
                             .setResultObject("https://javashark.baby-sharks.com/excel/" + papaJson.getName());
                     boolean errored = false;
                     try {

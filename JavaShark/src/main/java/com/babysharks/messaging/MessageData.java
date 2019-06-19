@@ -28,6 +28,7 @@ public class MessageData {
     private int[] nobodyOwns;
     private int[] alertBuildings;
     private String url;
+    private String teamPicture;
     private String text;
     private String ScreenName;
     private String[] buildings;
@@ -402,6 +403,22 @@ public class MessageData {
      */
     public MessageData setTelegramid(String telegramid) {
         this.telegramid = telegramid;
+        return this;
+    }
+
+    /**
+     * @return the teamPicture
+     */
+    public String getTeamPicture() {
+        return teamPicture;
+    }
+
+    /**
+     * @param teamPicture the teamPicture to set
+     * @return reference to this object
+     */
+    public MessageData setTeamPicture(String teamPicture) {
+        this.teamPicture = teamPicture;
         return this;
     }
 }
