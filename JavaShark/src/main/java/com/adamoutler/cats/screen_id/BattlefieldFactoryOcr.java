@@ -27,7 +27,7 @@ public class BattlefieldFactoryOcr {
         String returnValue = "";
         try {
             TesseractBuilder tb = new TesseractBuilder(screenshot)
-                    .setCharset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=_+[],.#&<>!@")
+                    .setCharset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-()^$@![]{}+=_,;^")
                     .crop(opponentName).writePicture()
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
                     .resize(5, 5).greyScale().brightenImage().brightenImage().brightenImage();
