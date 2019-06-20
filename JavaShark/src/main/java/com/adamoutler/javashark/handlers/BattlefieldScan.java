@@ -43,7 +43,7 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         vm.clearTasks();
         addTasks(TaskType.CLEAR, TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK);
         if (request.getCommand().contains("recon")) {
-            request.getData().setReason("performing reconissance");
+            request.getData().setReason("recon");
             addTasks(TaskType.DEEPBUILDINGRECON);
         } else {
             request.getData().setReason("scanning");
