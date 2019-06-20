@@ -55,12 +55,12 @@ public class BattlefieldFullFoeScanTask extends Task {
                             if (b.isSuspectProblem()) {
                                 m.getData().setComment(
                                         b.getSuspsectProblemReason());
-                                m.getData().setReason("SCAN ERROR!")
+                                m.getData().setReason("RECON ERROR!")
                                         .setResultObject(null);
                             }
                         }
                         if (m.getData().getReason() == null || m.getData().getReason().isEmpty()) {
-                            m.getData().setReason("Scan Canceled");
+                            m.getData().setReason("Recon Canceled");
                         }
                         vm.setKillThread(false);
                         SendPapaAsynch.sendToPapa(m);
@@ -87,7 +87,7 @@ public class BattlefieldFullFoeScanTask extends Task {
                         Logger.getLogger(BattlefieldFullFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
                         SendPapaAsynch.sendToAdam(m);
                         m.getData().setComment(m.getData().getReason());
-                        m.getData().setResultObject(null).setReason("Error during scanning");
+                        m.getData().setResultObject(null).setReason("Error during recon");
                         errored = true;
 
                     }

@@ -21,7 +21,7 @@ public class DeepBuildingReconHandler extends SentryAbstractPapaHandler {
         vm.clearTasks();
         vm.setHashes(request.getData().getHashes());
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGRECON);
-        request.getData().addAvailable(vm).setReason("scanning");
+        request.getData().addAvailable(vm).setReason("reconoitering");
         this.sendSucessMessage(he, request);
     }
 }
