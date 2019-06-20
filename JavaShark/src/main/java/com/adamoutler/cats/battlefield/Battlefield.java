@@ -20,6 +20,8 @@ import java.util.LinkedList;
  */
 public class Battlefield {
 
+
+
     public enum buildingData {
         BUILDING1NAME(new PicCoords(178, 345, 110, 25)),
         BUILDING1SIZE(new PicCoords(314, 345, 36, 22)),
@@ -47,6 +49,7 @@ public class Battlefield {
         }
 
     }
+    private String ocrName="";
     private final long time = System.currentTimeMillis();
     private boolean friendly;
     private LinkedList<Building> buildings;
@@ -188,6 +191,23 @@ public class Battlefield {
         }
     }
 
+    /**
+     * set the ocr name of the opponent
+     * @param opponentName
+     * @return 
+     */
+    public Battlefield setOcrName(String opponentName) {
+        ocrName=opponentName;
+        return this;
+    }
+    
+    /**
+     * 
+     * @return the OCR recognized name.
+     */
+    public String getOcrName(){
+        return ocrName;
+    }
 
 
 }

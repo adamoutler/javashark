@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.battlefield;
 
+import com.adamoutler.cats.screen_id.BattlefieldFactoryOcr;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.BuildingFactory;
 import com.adamoutler.cats.battlefield.building.car.Car;
@@ -47,6 +48,7 @@ public class BattlefieldFactory {
 
     public Battlefield scanBattleField(VirtualBoxMachine vm) {
         new BattlefieldNavigator().navigateToCK(vm);
+        getOpponentName(vm);
         System.out.println(vm.getUsername() + ": logging board screenshot and beginning battlefield scan");
         battlefield.setBoardScreenshot(vm.screenshot());
         battlefield.setBuildings(prepareBuildings());
@@ -65,10 +67,10 @@ public class BattlefieldFactory {
                     if (new Car(vm.screenshot(), friendly).isUnscoutted()) {
                         throw new BuildingUnscouttedException("");
                     }
-                    System.err.println(vm.getUsername()+": ERROR! Retrying building scan!");
+                    System.err.println(vm.getUsername() + ": ERROR! Retrying building scan!");
                 }
             } catch (BuildingUnscouttedException ex) {
-                System.err.println(vm.getUsername()+": Building is not scoutted");
+                System.err.println(vm.getUsername() + ": Building is not scoutted");
                 Logger.getLogger(BattlefieldFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (building.isSuspectProblem() || vm.isKillThread()) {
@@ -101,5 +103,14 @@ public class BattlefieldFactory {
         int y = coords.getY() + 7;
         int foundLoc = new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int) 0xECAD21, startX, y, startX + 110, 10);
         return foundLoc > 0;
+    }
+
+    private void getOpponentName(VirtualBoxMachine vm) {
+        final BufferedImage screenshot=vm.screenshot();
+        Thread t = new Thread(() -> {
+           battlefield.setOcrName(BattlefieldFactoryOcr.setOpponentName(screenshot,battlefield));
+        });
+        t.setName("OCR on opponent name");
+        t.start();
     }
 }

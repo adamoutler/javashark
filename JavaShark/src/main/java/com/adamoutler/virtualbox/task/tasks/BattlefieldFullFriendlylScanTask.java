@@ -8,9 +8,11 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.battlefield.Battlefield;
 import com.adamoutler.cats.battlefield.BattlefieldExcelGenerator;
 import com.adamoutler.cats.battlefield.BattlefieldFactory;
+import com.adamoutler.cats.battlefield.CatsGangPicGenerator;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import static com.adamoutler.virtualbox.task.tasks.Task.WEBSERVEREXCELLOCATION;
 import com.adamoutler.virtualbox.task.tasks.sentry.UnidentifiedGangsters;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.SendPapaAsynch;
@@ -67,12 +69,14 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     }
                     Message m = new Message().setCommand("deepbuildingscancomplete");
                     long time = System.currentTimeMillis();
-                    String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
+                    String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString() + "OCRName-" + report.getOcrName();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
+                    File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
+                    CatsGangPicGenerator.saveGangPicToFile(groupPicture, report);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())
-                            .setReason("Scan Complete json")
+                            .setReason("Scan Complete json").setTeamPicture("https://javashark.baby-sharks.com/excel/" + groupPicture.getName())
                             .setResultObject("https://javashark.baby-sharks.com/excel/" + papaJson.getName());
                     boolean errored = false;
                     try {
