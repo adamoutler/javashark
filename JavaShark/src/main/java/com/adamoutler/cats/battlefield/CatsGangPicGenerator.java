@@ -34,8 +34,10 @@ public class CatsGangPicGenerator {
     public static boolean saveGangPicToFile(File f, Battlefield battlefield) {
         BufferedImage bi = organizePictures(battlefield);
         try {
-            ImageIO.write(bi, "PNG", new FileOutputStream(f));
-            System.out.println("Wrote group picture to " + f.getAbsolutePath());
+            try (FileOutputStream fos = new FileOutputStream(f)) {
+                ImageIO.write(bi, "PNG", fos);
+                System.out.println("Wrote group picture to " + f.getAbsolutePath());
+            }
             return true;
         } catch (IOException ex) {
             Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
