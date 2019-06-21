@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
  */
 public class BattlefieldFactoryOcr {
 
-    static PicCoords opponentName = new PicCoords(684, 71, 160, 60);
+    public static PicCoords opponentName = new PicCoords(684, 71, 160, 60);
 
     public static String setOpponentName(BufferedImage screenshot, Battlefield battlefield) {
        
@@ -33,6 +33,7 @@ public class BattlefieldFactoryOcr {
                     .resize(5, 5).greyScale().brightenImage().brightenImage().brightenImage();
             returnValue = tb.execute();
             tb.writePicture(returnValue);
+            battlefield.setOcrNamePic(opponentName.getImageAtCoords(screenshot));
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,6 +8,7 @@ package com.adamoutler.cats.battlefield;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.babysharks.datastructures.Gang;
@@ -50,6 +51,7 @@ public class Battlefield {
 
     }
     private String ocrName="";
+    private byte[] ocrNamePic;
     private final long time = System.currentTimeMillis();
     private boolean friendly;
     private LinkedList<Building> buildings;
@@ -207,6 +209,23 @@ public class Battlefield {
      */
     public String getOcrName(){
         return ocrName;
+    }
+
+    /**
+     * @return the ocrNamePic
+     */
+    public BufferedImage getOcrNamePic() {
+        return ByteImage.getImageFromBytes(ocrNamePic);
+    }
+
+    /**
+     * @param ocrNamePic the ocrNamePic to set
+     * @return reference to this object
+     */
+    public Battlefield setOcrNamePic(BufferedImage ocrNamePic) {
+        byte[] bytes=ByteImage.getJpgBytes(ByteImage.getPngBytes(ocrNamePic));
+        this.ocrNamePic = bytes;
+        return this;
     }
 
 

@@ -95,7 +95,8 @@ public class WritePicture {
         }
     }
 
-        public static void replaceAllButColor(BufferedImage picture, int colorToPreserve, int newColor, int tollerance) {
+        
+    public static void replaceAllButColor(BufferedImage picture, int colorToPreserve, int newColor, int tollerance) {
         int r = getRed(colorToPreserve);
         int g = getGreen(colorToPreserve);
         int b = getBlue(colorToPreserve);
@@ -174,7 +175,7 @@ public class WritePicture {
         return margin;
     }
 
-    static boolean withinRange(int value, int center, int minMax) {
+    static boolean withinRange(long value, int center, int minMax) {
         return (center - minMax <= value && value <= center + minMax);
     }
 

@@ -73,6 +73,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
                     File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
                     CatsGangPicGenerator.saveGangPicToFile(groupPicture, report);
+                    report.setOcrNamePic(null);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())

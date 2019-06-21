@@ -34,7 +34,7 @@ public class CatsGangPicGeneratorTest {
     private final File detailReport;
 
     public CatsGangPicGeneratorTest() {
-        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1560715362325-development-AdamOutler-dfb3c7cd-69ba-417b-947f-8cc6aea5490e");
+        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1561079896895-development-AdamOutler-2f184fb4-fafc-467e-bf7f-2986ec96c271OCRName-5531655158");
 
     }
 
