@@ -223,6 +223,11 @@ public class Battlefield {
      * @return reference to this object
      */
     public Battlefield setOcrNamePic(BufferedImage ocrNamePic) {
+        if (ocrNamePic==null){
+            this.ocrNamePic=null;
+            return this;
+        }
+        
         byte[] bytes=ByteImage.getJpgBytes(ByteImage.getPngBytes(ocrNamePic));
         this.ocrNamePic = bytes;
         return this;
