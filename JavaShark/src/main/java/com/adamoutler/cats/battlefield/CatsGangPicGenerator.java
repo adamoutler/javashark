@@ -80,7 +80,7 @@ public class CatsGangPicGenerator {
         }
         BufferedImage pic = ImageJoiner.joinImagesBelow(carRows);
         BufferedImage header = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
-        BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 45), "Opponent OCR name: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 30));
+        BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 50), "Opponent identifier: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
         BufferedImage bi= scale(battlefield.getOcrNamePic(), (int)Math.round(BattlefieldFactoryOcr.opponentName.getW()*.75),(int)Math.round(BattlefieldFactoryOcr.opponentName.getH()*.75));
         
         WritePicture.replaceColor(bi, 0xfffffF, color.getRGB(), 100);
