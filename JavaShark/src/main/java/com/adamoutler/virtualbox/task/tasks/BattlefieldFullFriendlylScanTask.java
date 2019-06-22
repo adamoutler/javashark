@@ -69,7 +69,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     }
                     Message m = new Message().setCommand("deepbuildingscancomplete");
                     long time = System.currentTimeMillis();
-                    String name = "" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString() + "OCRName-" + report.getOcrName();
+                    String name = "scan-" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString() + "OCRName-" + report.getOcrName();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
                     File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
                     CatsGangPicGenerator.saveGangPicToFile(groupPicture, report);
