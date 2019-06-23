@@ -43,7 +43,7 @@ public class ReportFactoryTest {
     @Test
     public void testGetReport() throws Exception {
         System.out.println("getReport");
-        String filename = "https://javashark.baby-sharks.com/excel/1556476463787-development-AdamOutler-ed7c7a7f-d278-4642-a69f-a6b27887254a.xls";
+        String filename = "https://javashark.baby-sharks.com/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
         ReportFactory instance = new ReportFactory();
         instance.setRepoFolder("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/");
         CityKingsMatchRaw expResult = null;

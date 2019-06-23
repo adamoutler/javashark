@@ -31,8 +31,7 @@ import static org.junit.Assert.*;
 public class BattlefieldExcelGeneratorTest {
 
     public BattlefieldExcelGeneratorTest() {
-        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1560715362325-development-AdamOutler-dfb3c7cd-69ba-417b-947f-8cc6aea5490e");
-
+        detailReport = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/scan-1560715362325-development-AdamOutler-dfb3c7cd-69ba-417b-947f-8cc6aea5490eOCRName-Test");
     }
 
     @BeforeClass
