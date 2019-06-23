@@ -32,17 +32,14 @@ public class SentryTools {
 
     public boolean isBusy() {
         TaskType current = vm.getCurrentTask();
-        if (current == TaskType.IDLE || current == TaskType.POWEROFF) {
-            return false;
-        }
-        return true;
+        return !(current == TaskType.IDLE || current == TaskType.POWEROFF);
     }
 
     public VirtualBoxMachine getCurrent(TaskType task) {
         ArrayList<VirtualBoxMachine> vms = new VirtualBox().getGangMachines(gang);
-        for (VirtualBoxMachine vm : vms) {
-            if (vm.getCurrentTask() == task) {
-                return vm;
+        for (VirtualBoxMachine virtualMachine : vms) {
+            if (virtualMachine.getCurrentTask() == task) {
+                return virtualMachine;
             }
         }
         return null;

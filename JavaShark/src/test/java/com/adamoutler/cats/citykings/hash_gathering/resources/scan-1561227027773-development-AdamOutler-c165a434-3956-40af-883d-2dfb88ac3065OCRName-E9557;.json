@@ -1,0 +1,382 @@
+{
+  "ocrName": "E9557;",
+  "time": 1561226843291,
+  "friendly": true,
+  "buildings": [
+    {
+      "buildingName": "",
+      "buildingNumber": 1,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 11,
+      "slotsTheirs": 0,
+      "slotsOurs": 7,
+      "slotsUnowned": 4,
+      "friendlyScan": true,
+      "isLinked": true,
+      "cars": [
+        {
+          "nameHash": "8a80e9b2",
+          "uniqueHash": "b59c9981",
+          "location": 1,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "f5dd6932",
+          "location": 2,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "52e7ae21",
+          "location": 3,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "7f96008c",
+          "uniqueHash": "49ea026a",
+          "location": 4,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "ca86a60b",
+          "location": 5,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "575cc06",
+          "uniqueHash": "d937595c",
+          "location": 6,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "57f25af",
+          "uniqueHash": "51843216",
+          "location": 7,
+          "building": 1,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 2,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 21,
+      "slotsTheirs": 17,
+      "slotsOurs": 4,
+      "slotsUnowned": 0,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "e46a67b7",
+          "uniqueHash": "1b8f8bfb",
+          "location": 1,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e46a67b7",
+          "uniqueHash": "cc5be45e",
+          "location": 2,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e46a67b7",
+          "uniqueHash": "d937595c",
+          "location": 3,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "3d75d665",
+          "uniqueHash": "df4333f5",
+          "location": 4,
+          "building": 2,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 3,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 17,
+      "slotsTheirs": 0,
+      "slotsOurs": 9,
+      "slotsUnowned": 8,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "7f96008c",
+          "uniqueHash": "ca86a60b",
+          "location": 1,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6c1c6857",
+          "uniqueHash": "ca86a60b",
+          "location": 2,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "fefc9c21",
+          "uniqueHash": "cc5be45e",
+          "location": 3,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "575cc06",
+          "uniqueHash": "dc06a8ba",
+          "location": 4,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "f3db1434",
+          "uniqueHash": "ca86a60b",
+          "location": 5,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6c1c6857",
+          "uniqueHash": "cb419034",
+          "location": 6,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e09a6b72",
+          "uniqueHash": "1b8f8bfb",
+          "location": 7,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "9fd3fd04",
+          "uniqueHash": "ca86a60b",
+          "location": 8,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "9a0e9da2",
+          "uniqueHash": "52e7ae21",
+          "location": 9,
+          "building": 3,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 4,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 19,
+      "slotsTheirs": 15,
+      "slotsOurs": 4,
+      "slotsUnowned": 0,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "e6f0af5d",
+          "location": 1,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "fefc9c21",
+          "uniqueHash": "ef08710d",
+          "location": 2,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "363018f7",
+          "location": 3,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "575cc06",
+          "uniqueHash": "3b6c28ea",
+          "location": 4,
+          "building": 4,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 5,
+      "buildingOwnedBy": "THEM",
+      "slotsTotal": 21,
+      "slotsTheirs": 13,
+      "slotsOurs": 0,
+      "slotsUnowned": 8,
+      "friendlyScan": true,
+      "isLinked": false,
+      "cars": [],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    },
+    {
+      "buildingName": "",
+      "buildingNumber": 6,
+      "buildingOwnedBy": "US",
+      "slotsTotal": 17,
+      "slotsTheirs": 0,
+      "slotsOurs": 10,
+      "slotsUnowned": 7,
+      "friendlyScan": true,
+      "isLinked": true,
+      "cars": [
+        {
+          "nameHash": "1c86e7d3",
+          "uniqueHash": "e6f0af5d",
+          "location": 1,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "6a61a551",
+          "uniqueHash": "b727893b",
+          "location": 2,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "7f96008c",
+          "uniqueHash": "928b2619",
+          "location": 3,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "f3db1434",
+          "uniqueHash": "5f6f3781",
+          "location": 4,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "cdc133b7",
+          "location": 5,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "fefc9c21",
+          "uniqueHash": "9c7ba026",
+          "location": 6,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e09a6b72",
+          "uniqueHash": "dc06a8ba",
+          "location": 7,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "e3abb8b5",
+          "uniqueHash": "b304557d",
+          "location": 8,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "f3db1434",
+          "uniqueHash": "49ea026a",
+          "location": 9,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        },
+        {
+          "nameHash": "57f25af",
+          "uniqueHash": "8d1cf4c6",
+          "location": 10,
+          "building": 6,
+          "parked": false,
+          "unscoutted": false
+        }
+      ],
+      "suspectProblem": false,
+      "suspsectProblemReason": ""
+    }
+  ],
+  "excelFile": "https://javashark.baby-sharks.com/excel/scan-1561227027773-development-AdamOutler-c165a434-3956-40af-883d-2dfb88ac3065OCRName-E9557;.xls",
+  "jsonFile": "https://javashark.baby-sharks.com/excel/scan-1561227027773-development-AdamOutler-c165a434-3956-40af-883d-2dfb88ac3065OCRName-E9557;",
+  "reportContainsFlaws": false,
+  "battlefield": {
+    "targetScore": "129000",
+    "ourScore": "102923",
+    "theirScore": "73350",
+    "ourGaining": "73",
+    "theirGaining": "61",
+    "hours": "1",
+    "minutes": "46",
+    "seconds": "0",
+    "formattedTime": "1h46m"
+  }
+}
