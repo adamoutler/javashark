@@ -30,6 +30,11 @@ public class UnidentifiedGangsters {
             if (building.isSuspectProblem()) {
                 report.setReportContainsFlaws(true);
             }
+            
+            if (building.getCars()==null||building.getCars().isEmpty()||building.getTosb()==null){
+                return;
+            }
+            
             if (building.getTosb().getTotalSlots() < 3) {
                 System.err.println("Failure to acquire building");
                 report.setReportContainsFlaws(true);
