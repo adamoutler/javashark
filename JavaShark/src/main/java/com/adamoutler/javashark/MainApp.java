@@ -11,6 +11,7 @@ import com.adamoutler.javashark.handlers.BattlefieldScan;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.DeepBuildingReconHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
+import com.adamoutler.javashark.handlers.LastCarSearchHandler;
 import com.adamoutler.javashark.handlers.MyCarsHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.SentryStatusHandler;
@@ -110,6 +111,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("battlefieldscan", new BattlefieldScan());
 
         commandDistributor.register("mycars", new MyCarsHandler());
+        commandDistributor.register("lastcars", new LastCarSearchHandler());
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());

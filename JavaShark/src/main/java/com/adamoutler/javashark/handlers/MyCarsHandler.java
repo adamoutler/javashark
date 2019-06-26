@@ -15,9 +15,7 @@ import java.util.ArrayList;
  *
  * @author adamo
  *
- * curl -X PATCH -d
- * '{"message":{"command":mycars","data":{"gang":"bs2","username":"Baluhu""}}}'
- * https://javashark.baby-sharks.com/api/dev/command
+ * curl -X PATCH -d '{"message":{"command":"mycars","data":{"gang":"bs2","username":"Baluhu"}}}'  https://javashark.baby-sharks.com/api/dev/command
  *
  */
 public class MyCarsHandler extends SentryAbstractPapaHandler {

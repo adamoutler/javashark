@@ -17,32 +17,28 @@ import java.util.List;
 public abstract class FileSearch {
 
     abstract String getSearchPath();
-String searchPath="";
+    String searchPath = "";
     String extension = "";
-    String startsWith="";
-    int maxResults=1;
-    
-    abstract FilenameFilter getFilter();
-    
+    String startsWith = "";
+    int maxResults = 1;
 
-    
-    
+    abstract FilenameFilter getFilter();
+
     public FileSearch setExtension(String extension) {
         this.extension = extension;
         return this;
     }
-    
-    
-    public FileSearch setMaxResults(int results){
-        this.maxResults=results;
+
+    public FileSearch setMaxResults(int results) {
+        this.maxResults = results;
         return this;
     }
-    
-    public List<File> search(){
-        
+
+    public List<File> search() {
+
         File[] listFiles = new File(getSearchPath()).listFiles(getFilter());
         return Arrays.asList(listFiles);
-        
+
     }
-    
+
 }

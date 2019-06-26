@@ -20,6 +20,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -53,8 +56,11 @@ public class CatsGangPicGenerator {
         battlefield.getBuildings().forEach(b -> {
             cars.addAll(b.getCars());
         });
+        Collections.sort(cars, (Car car1, Car car2) -> Collator.getInstance().compare(car1.getNameHash(), car2.getNameHash()));
+
         PicCoords pc;
-        if (battlefield.getBuildings().get(0).isFriendlyScan()) {
+        if (battlefield.getBuildings()
+                .get(0).isFriendlyScan()) {
             pc = Car.friendlyCarBadgeLocation;
         } else {
             pc = Car.foeCarBadgeLocation;
@@ -62,7 +68,9 @@ public class CatsGangPicGenerator {
         int columns = 5;
         LinkedList<BufferedImage> rowOfCars = new LinkedList<>();
         LinkedList<BufferedImage> carRows = new LinkedList<>();
-        for (int i = 1; i < cars.size() + 1; i++) {
+        for (int i = 1;
+                i < cars.size()
+                + 1; i++) {
             rowOfCars.add(ByteImage.getImageFromBytes(cars.get(i - 1).getCarJpg()));
             if (i % columns == 0 && i > 0) {
                 carRows.add(ImageJoiner.joinImagesSide(rowOfCars));
@@ -70,7 +78,9 @@ public class CatsGangPicGenerator {
             }
 
         }
-        if (rowOfCars.size() < columns) {
+
+        if (rowOfCars.size()
+                < columns) {
             while (rowOfCars.size() < columns) {
                 BufferedImage bi = WritePicture.createImage(pc, pc, "", false, color, Color.blue, new java.awt.Font("Verdana", java.awt.Font.BOLD, 20));
                 rowOfCars.add(bi);
@@ -81,13 +91,18 @@ public class CatsGangPicGenerator {
         BufferedImage pic = ImageJoiner.joinImagesBelow(carRows);
         BufferedImage header = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
         BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 50), "Opponent identifier: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
-        BufferedImage bi= scale(battlefield.getOcrNamePic(), (int)Math.round(BattlefieldFactoryOcr.opponentName.getW()*.75),(int)Math.round(BattlefieldFactoryOcr.opponentName.getH()*.75));
-        
-        WritePicture.replaceColor(bi, 0xfffffF, color.getRGB(), 100);
-        WritePicture.addImage(footer,bi, 1, footer.getWidth()-BattlefieldFactoryOcr.opponentName.getW(), 15);
+        BufferedImage bi = scale(battlefield.getOcrNamePic(), (int) Math.round(BattlefieldFactoryOcr.opponentName.getW() * .75), (int) Math.round(BattlefieldFactoryOcr.opponentName.getH() * .75));
+
+        WritePicture.replaceColor(bi,
+                0xfffffF, color.getRGB(), 100);
+        WritePicture.addImage(footer, bi,
+                1, footer.getWidth() - BattlefieldFactoryOcr.opponentName.getW(), 15);
         LinkedList<BufferedImage> imageCombinations = new LinkedList<>();
+
         imageCombinations.add(header);
+
         imageCombinations.add(pic);
+
         imageCombinations.add(footer);
         BufferedImage combinedImage = ImageJoiner.joinImagesBelow(imageCombinations);
         return combinedImage;

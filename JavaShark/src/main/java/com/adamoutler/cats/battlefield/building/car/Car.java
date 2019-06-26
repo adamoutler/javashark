@@ -27,8 +27,8 @@ public class Car {
 
     transient public static PicCoords friendlyCarBadgeLocation = new PicCoords(60, 238, 310, 290);
     transient public static PicCoords foeCarBadgeLocation = new PicCoords(60, 238, 310, 282);
-    
-    private static transient HashedPicCoords[] unscouttedCar = new HashedPicCoords[]{new HashedPicCoords(156,106,20,24,1976587239)};
+
+    private static transient HashedPicCoords[] unscouttedCar = new HashedPicCoords[]{new HashedPicCoords(156, 106, 20, 24, 1976587239)};
     private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25, -747845219)};
     private String nameHash = "";
     private String uniqueHash = "";
@@ -36,14 +36,15 @@ public class Car {
     private int building;
     private byte[] carBadge = new byte[]{};
     private boolean parked = false;
-    private boolean unscoutted=false;
+    private boolean unscoutted = false;
 
     Car() {
     }
 
-    public Car(BufferedImage bi,boolean friendly){
+    public Car(BufferedImage bi, boolean friendly) {
         this.setCarScreenshot(bi, friendly);
     }
+
     /**
      * @return the parkedCarIndicator
      */
@@ -127,7 +128,7 @@ public class Car {
 
     final public Car setCarScreenshot(BufferedImage bi, boolean friendly) {
         PicCoords badgeCoords = getBadgeCoords(friendly);
-        
+
         BufferedImage badge = badgeCoords.getImageAtCoords(bi);
         this.checkUnscouttedCar(badge);
         setParked(false);
@@ -155,11 +156,11 @@ public class Car {
             }
         }
     }
-    
+
     private void checkUnscouttedCar(BufferedImage badge) {
         for (HashedPicCoords p : unscouttedCar) {
             if (p.hashMatches(badge)) {
-                unscoutted=true;
+                unscoutted = true;
             }
         }
     }
@@ -203,6 +204,10 @@ public class Car {
 
     public byte[] getCarJpg() {
         return ByteImage.getJpgBytes(getCarBadge());
+    }
+
+    public BufferedImage getCarAsJpg() {
+        return ByteImage.getImageFromBytes(ByteImage.getJpgBytes(getCarBadge()));
     }
 
     public int getRow() {

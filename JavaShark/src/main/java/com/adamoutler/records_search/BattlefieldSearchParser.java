@@ -28,9 +28,9 @@ import java.util.logging.Logger;
  */
 public class BattlefieldSearchParser {
 
-    public List<File> getRecords(String folder, String fileExtension, String gang, String opponentName) throws SearchException {
+    public List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {
         throwExceptionIfFolderNotSpecified(folder);
-        BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension);
+        BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension,startsWith);
         List<File> files = brs.search();
         return files;
     }
@@ -85,15 +85,16 @@ public class BattlefieldSearchParser {
         return retval;
     }
 
-    private BattleRecordSearch createBattleSearch(String gang, String opponentName, String folder, String fileExtension) {
+    private BattleRecordSearch createBattleSearch(String gang, String opponentName, String folder, String fileExtension, String startsWith) {
         String oGang = Optional.of(gang).orElse("");
         String oOpponentName = Optional.of(opponentName).orElse("");
-        BattleRecordSearch brs = setSearchParameters(folder, oGang, oOpponentName, fileExtension);
+        String oStartsWith = Optional.of(startsWith).orElse("");
+        BattleRecordSearch brs = setSearchParameters(folder, oGang, oOpponentName, fileExtension,oStartsWith);
         return brs;
     }
 
-    private BattleRecordSearch setSearchParameters(String folder, String oGang, String oOpponentName, String fileExtension) {
-        BattleRecordSearch brs = new BattleRecordSearch().setFolder(folder).setGang(oGang).setOpponentGangOCRName(oOpponentName);
+    private BattleRecordSearch setSearchParameters(String folder, String oGang, String oOpponentName, String fileExtension,String startsWith) {
+        BattleRecordSearch brs = new BattleRecordSearch().setFolder(folder).setGang(oGang).setOpponentGangOCRName(oOpponentName).setStartsWith(startsWith);
         brs.setFolder(folder).setExtension(fileExtension);
         return brs;
     }

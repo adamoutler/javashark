@@ -6,6 +6,7 @@
 package com.adamoutler.cats.battlefield;
 
 import com.adamoutler.cats.battlefield.building.Building;
+import com.adamoutler.cats.battlefield.building.car.Car;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.imagerecognition.ByteImage;
@@ -13,6 +14,7 @@ import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.babysharks.datastructures.Gang;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -231,6 +233,14 @@ public class Battlefield {
         byte[] bytes=ByteImage.getJpgBytes(ByteImage.getPngBytes(ocrNamePic));
         this.ocrNamePic = bytes;
         return this;
+    }
+    
+    public ArrayList<Car> getAllCars(){
+        ArrayList<Car> cars=new ArrayList<>();
+        for (Building b:buildings){
+            cars.addAll(b.getCars());
+        }
+        return cars;
     }
 
 

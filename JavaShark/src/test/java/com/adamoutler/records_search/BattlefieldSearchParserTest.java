@@ -57,7 +57,7 @@ public class BattlefieldSearchParserTest {
     public void testGetRecords() throws Exception {
         System.out.println("getRecords");
         BattlefieldSearchParser instance = new BattlefieldSearchParser();
-        List<File> result = instance.getRecords(folder, fileExtension, gang, opponentName);
+        List<File> result = instance.getRecords(folder, fileExtension, gang, opponentName,"");
         assert (result.size() > 2);
 
     }

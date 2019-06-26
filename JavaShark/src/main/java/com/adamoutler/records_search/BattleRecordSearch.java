@@ -16,7 +16,7 @@ public class BattleRecordSearch extends FileSearch {
 
     String gang = "";
     String ocrName = "";
-    private String prefix="";
+    private String startsWith="";
     
 
     public BattleRecordSearch(){
@@ -46,19 +46,22 @@ public class BattleRecordSearch extends FileSearch {
     FilenameFilter getFilter() {
         
         FilenameFilter ff = (File file, String string) -> {
-            if (!this.extension.isEmpty() && !string.endsWith(extension)) {
-                return false;
-            } else if (extension.isEmpty() && !string.endsWith(".***")) {
+           
+            if (extension.isEmpty()&& string.matches("(.*[.].*)")){
                 
+                return false;
+            }
+            if (!string.endsWith(extension)) {
+                return false;
+            } 
+            if (!startsWith.isEmpty() && !string.startsWith(startsWith)){
+                return false;
             }
             String[] namesplit = string.split("-");
             if (!gang.isEmpty() && namesplit.length>1&& !namesplit[2].equals(gang)) {
                 return false;
             }
             if (!ocrName.isEmpty() && !string.contains("OCRName-" + ocrName)) {
-                return false;
-            }
-            if (!prefix.isEmpty() && !string.startsWith(prefix)){
                 return false;
             }
 
@@ -70,12 +73,13 @@ public class BattleRecordSearch extends FileSearch {
         return ff;
     }
 
+ 
+
     /**
-     * @param prefix the prefix to set
-     * @return reference to this object.
+     * @param startsWith the startsWith to set
      */
-    public BattleRecordSearch setPrefix(String prefix) {
-        this.prefix = prefix;
+    public BattleRecordSearch setStartsWith(String startsWith) {
+        this.startsWith = startsWith;
         return this;
     }
 }
