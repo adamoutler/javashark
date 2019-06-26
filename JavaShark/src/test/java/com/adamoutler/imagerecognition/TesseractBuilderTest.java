@@ -123,17 +123,17 @@ public class TesseractBuilderTest {
      */
     @Test
     public void testExecute() throws Exception {
-        File f1 = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/CITYKINGS.png");
+        File f1 = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.png");
 
         System.out.println("execute");
-        String expResult = "143353";
+        String expResult = "15355";
         String result = new TesseractBuilder(f1)
                 .setCharset("1234567890")
                 .setMode(TesseractBuilder.Mode.SINGLEWORD)
                 .crop(CityKingsBattlefieldAnalysis.OURSCORECOORDS)
                 .resize(3).writePicture().execute();
         assertEquals(expResult, result);
-        expResult = "17h 17m";
+        expResult = "22h 20m";
         result = new TesseractBuilder(f1)
                 .setCharset("0123456789hms")
                 .crop(CityKingsBattlefieldAnalysis.TIMEREMAININGCOORDS)

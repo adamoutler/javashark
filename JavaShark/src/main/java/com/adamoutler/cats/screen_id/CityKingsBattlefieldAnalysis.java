@@ -148,7 +148,10 @@ public class CityKingsBattlefieldAnalysis {
                     .setCharset("0123456789")
                     .crop(CityKingsBattlefieldAnalysis.TARGETSCORECOORDS)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
-                    .resize(5, 5).invert().greyScale();
+                    .resize(5).bicubic().invert().greyScale().brightenImage()
+                    .brightenImage().brightenImage().brightenImage()
+                    .brightenImage().brightenImage().brightenImage()
+                    .brightenImage().bicubic().writePicture("Target Score");
             value = tb.execute();
             tb.writePicture(value);
 
@@ -221,6 +224,8 @@ public class CityKingsBattlefieldAnalysis {
                     .invert().greyScale()
                     
                     .resize(7,3).brightenImage().brightenImage().brightenImage()
+                    .brightenImage().brightenImage().brightenImage()
+                    .brightenImage().brightenImage().brightenImage()
                     .resize(2).bicubic().resize(2).bicubic();
         
             value = tb.execute();
