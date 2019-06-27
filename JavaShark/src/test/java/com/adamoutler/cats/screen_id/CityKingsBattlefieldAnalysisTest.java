@@ -73,7 +73,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetLeftSideOfOurGainingScore() {
         System.out.println("getLeftSideOfOurGainingScore");
-        XYCoords expResult = new XYCoords(228, 136);
+        XYCoords expResult = new XYCoords(227, 136);
         XYCoords result = instance.getLeftSideOfOurGainingScore();
         assertEquals(expResult,result);
     }
@@ -85,7 +85,7 @@ public class CityKingsBattlefieldAnalysisTest {
     @Test
     public void testGetCoordinatesOurGaining() {
         System.out.println("getCoordinatesOurGaining");
-        PicCoords expResult = new PicCoords(228, 136, 58, 45);
+        PicCoords expResult = new PicCoords(227, 136, 58, 45);
         PicCoords result = instance.getCoordinatesOurGaining();
         assertEquals(expResult,result );
 
@@ -150,28 +150,70 @@ public class CityKingsBattlefieldAnalysisTest {
             File test;
             BufferedImage bbi;
             CityKingsBattlefieldAnalysis minstance;
-            
-             test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.png");
+            test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.png");
             bbi = ImageIO.read(test);
             minstance = new CityKingsBattlefieldAnalysis(bbi);
-            
-//I'm getting a 31 here instead of 81    
             assertEquals("63", minstance.getOurGainingScore());
             assertEquals("5355", minstance.getOurCurrentScore());
             assertEquals("22", minstance.getHours());
             assertEquals("20", minstance.getMinutes());
-           
-//i'm getting a 133000 here but i'm expecting 138000 
             assertEquals("138000", minstance.getIVScore());
             assertEquals("7665", minstance.getTheirCurrentScore());
             assertEquals("81", minstance.getTheirGainingScore());
-     
-          
-
         } catch (IOException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    
+    @Test
+    public void testCoords2() {
+        try {
+            File test;
+            BufferedImage bbi;
+            CityKingsBattlefieldAnalysis minstance;
+            test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.1.png");
+            bbi = ImageIO.read(test);
+            minstance = new CityKingsBattlefieldAnalysis(bbi);
+            assertEquals("63", minstance.getOurGainingScore());
+            assertEquals("12285", minstance.getOurCurrentScore());
+            assertEquals("20", minstance.getHours());
+            assertEquals("30", minstance.getMinutes());
+            assertEquals("138000", minstance.getIVScore());
+            assertEquals("16575", minstance.getTheirCurrentScore());
+            assertEquals("81", minstance.getTheirGainingScore());
+        } catch (IOException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @Test
+    public void testCoords3() {
+        try {
+            File test;
+            BufferedImage bbi;
+            CityKingsBattlefieldAnalysis minstance;
+            test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.2.png");
+            bbi = ImageIO.read(test);
+            minstance = new CityKingsBattlefieldAnalysis(bbi);
+            assertEquals("82", minstance.getOurGainingScore());
+            assertEquals("85573", minstance.getOurCurrentScore());
+            assertEquals("2", minstance.getHours());
+            assertEquals("12", minstance.getMinutes());
+            assertEquals("140000", minstance.getIVScore());
+            assertEquals("89060", minstance.getTheirCurrentScore());
+            assertEquals("64", minstance.getTheirGainingScore());
+        } catch (IOException ex) {
+            Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    
+    
+    
+    
+    
 }

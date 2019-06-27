@@ -34,7 +34,7 @@ public class CityKingsBattlefieldAnalysis {
     transient final int xCoordOfTheirScoreWall = 632;
     transient final int xCoordOfTheirScoreAwayFromWall = 896;
     transient final int topOfScore = 136;
-    transient final int scoreHeight = 45;
+    transient final int scoreHeight = 43;
     transient final int arrowHeadWidth = 8;
     transient final int arrowHeadHeightToCenter = 21;
     transient final int BLUE = 0x4179d9;
@@ -83,7 +83,7 @@ public class CityKingsBattlefieldAnalysis {
 
     XYCoords getLeftSideOfOurGainingScore() {
         XYCoords scanStart = new XYCoords(xCoordOfOurScoreAwayFromWall, topOfScore);
-        int ourGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(BLUE, scanStart.getX(), scanStart.getY(), xCoordOfOurScoreWall);
+        int ourGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(BLUE, scanStart.getX(), scanStart.getY(), xCoordOfOurScoreWall,10);
         return new XYCoords(ourGainingStart, scanStart.getY());
     }
 
@@ -152,8 +152,7 @@ public class CityKingsBattlefieldAnalysis {
                     .brightenImage().brightenImage().brightenImage()
                     .brightenImage().brightenImage().brightenImage()
                     .brightenImage().bicubic().writePicture("Target Score");
-            value = tb.execute();
-            tb.writePicture(value);
+            value = tb.writePicture().execute();
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
@@ -176,7 +175,7 @@ public class CityKingsBattlefieldAnalysis {
                     .crop(coords)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
                     .resize(2).greyScale();
-            value = tb.execute();
+            value = tb.writePicture().execute();
             tb.writePicture(value);
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
