@@ -222,6 +222,12 @@ public class CatsGangPicGenerator {
                         break;
                     }
                 }
+                 for (Car existing : newCars) {
+                    if (existing.getUniqueHash().equals(test.getUniqueHash())) {
+                        add = false;
+                        break;
+                    }
+                }
                 if (add) {
                     newCars.add(test);
                 }
