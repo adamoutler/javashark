@@ -61,7 +61,7 @@ public enum ScreenData {
     GANGFIGHTSVICTORY(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Gang Fights, victory screen"),
     JOINALEAGUE(new HashedPicCoords[]{new HashedPicCoords(399, 168, 209, 41, 2014501043)}, new ColoredXYCoords[]{}, "CATS Loaded, on Ultimate Home screen, new league available"),
     LEAGUEFIGHTDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 600, 120, 37, -1685251910)}, new ColoredXYCoords[]{}, "Ultimate League, defeat screen"),
-    LEAGUEFIGHTRANKING(new HashedPicCoords[]{new HashedPicCoords(456, 162, 131, 43,  -1246167547)}, new ColoredXYCoords[]{}, "Ultimate League fight complete, ranking screen"),
+    LEAGUEFIGHTRANKING(new HashedPicCoords[]{new HashedPicCoords(456,162,131,43,149289225)}, new ColoredXYCoords[]{}, "Ultimate League fight complete, ranking screen"),
     LEAGUEFIGHTWON(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Ultimate League, fight won"),
     MOVIESNOINTERESTINGMOVIES(new HashedPicCoords[]{new HashedPicCoords(430, 607, 152, 38, -2104934140)}, new ColoredXYCoords[]{}, "Go to the Movies, no movies available"),
     MYGANG(new HashedPicCoords[]{new HashedPicCoords(394, 20, 158, 36, -1955260861)}, new ColoredXYCoords[]{}, "My Gang screen"),
