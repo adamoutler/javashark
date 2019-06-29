@@ -12,13 +12,19 @@ import com.adamoutler.imagerecognition.ImageJoiner;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.WritePicture;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.records_search.SearchException;
+import com.adamoutler.records_search.search_assemblers.HistoricalImageSearch;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -36,8 +42,43 @@ import javax.imageio.ImageIO;
  */
 public class CatsGangPicGenerator {
 
+    public static boolean saveAllReconFromTodayToFile(File targetLocation, Battlefield battlefield) {
+
+        LinkedList<Battlefield> battlefields = new LinkedList<>();
+        battlefields.add(battlefield);
+
+        try {
+            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(battlefield.getOcrName(), "/var/www/baby-sharks/excel/", new Date());
+            Gson gson = new GsonBuilder().create();
+            for (File record : records) {
+                try {
+                    FileReader fr = new FileReader(record);
+                    battlefields.add(gson.fromJson(fr, Battlefield.class));
+
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            BufferedImage bi = organizePictures(battlefields.toArray(new Battlefield[battlefields.size()]));
+
+            try (FileOutputStream fos = new FileOutputStream(targetLocation)) {
+                ImageIO.write(bi, "PNG", fos);
+                System.out.println("Wrote group picture to " + targetLocation.getAbsolutePath());
+            }
+            return true;
+        } catch (IOException | SearchException ex) {
+            Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
     public static boolean saveGangPicToFile(File f, Battlefield battlefield) {
-        BufferedImage bi = organizePictures(battlefield, null);
+
+        LinkedList<Battlefield> battlefields = new LinkedList<>();
+        battlefields.add(battlefield);
+
+        BufferedImage bi = organizePictures(battlefields.toArray(new Battlefield[battlefields.size()]));
         try {
             try (FileOutputStream fos = new FileOutputStream(f)) {
                 ImageIO.write(bi, "PNG", fos);
@@ -68,11 +109,14 @@ public class CatsGangPicGenerator {
             pc = Car.foeCarBadgeLocation;
         }
         LinkedList<BufferedImage> carRows = getCarRows(cars, pc, color);
-        BufferedImage pic = ImageJoiner.joinImagesBelow(carRows);
-        BufferedImage header = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
-        BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 50), "Opponent identifier: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
-       
-        
+        int width = 1551;
+        BufferedImage pic = null;
+        if (carRows.size() > 0) {
+            pic = ImageJoiner.joinImagesBelow(carRows);
+        }
+        BufferedImage header = WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
+        BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 50), "Opponent identifier: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
+
         BufferedImage bi = scale(battlefield.getOcrNamePic(), (int) Math.round(BattlefieldFactoryOcr.opponentName.getW() * .75), (int) Math.round(BattlefieldFactoryOcr.opponentName.getH() * .75));
 
         if (bi != null) {
@@ -83,12 +127,13 @@ public class CatsGangPicGenerator {
 
         imageCombinations.add(header);
 
-        imageCombinations.add(pic);
-
+        if (pic != null) {
+            imageCombinations.add(pic);
+        }
         LinkedList<BufferedImage> additional = new LinkedList<>();
         if (battlefields.length > 1) {
             if (battlefields[1] != null) {
-                additional.add(WritePicture.createImage(new PicCoords(0, 0, pic.getWidth(), 80), new XYCoords(20, 65), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49)));
+                additional.add(WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49)));
                 additional.addAll(processAdditionalBattlefields(pc, color, battlefields));
                 BufferedImage additionalPics = ImageJoiner.joinImagesBelow(additional);
                 imageCombinations.add(additionalPics);

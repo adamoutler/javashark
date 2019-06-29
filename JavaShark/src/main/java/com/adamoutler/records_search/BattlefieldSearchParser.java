@@ -10,16 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.TemporalField;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -125,8 +121,14 @@ public class BattlefieldSearchParser {
     private static long setTimeOrZero(File testFile) throws IOException {
         long retval = 0;
         if (testFile != null) {
-            retval = Files.readAttributes(testFile.toPath(), BasicFileAttributes.class).creationTime().toMillis();
+            retval = getCreatedEpochMillis(testFile);
         }
+        return retval;
+    }
+
+    public static long getCreatedEpochMillis(File testFile) throws IOException {
+        long retval;
+        retval = Files.readAttributes(testFile.toPath(), BasicFileAttributes.class).creationTime().toMillis();
         return retval;
     }
 

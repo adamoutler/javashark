@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class HistoricalImageSearch {
 
-    final static SimpleDateFormat f = new SimpleDateFormat("MMM");
+    final static SimpleDateFormat MMM = new SimpleDateFormat("MMM");
 
     static Gson gson = new GsonBuilder().create();
 
@@ -44,17 +43,44 @@ public class HistoricalImageSearch {
 
     public static BufferedImage getCarsByDate(String hash, String folder, String gang, Date[] dates,boolean scan) throws SearchException {
         BattlefieldSearchParser bsp = new BattlefieldSearchParser();
-        List<File> files = bsp.getRecords(folder, "", gang, "", scan?"scan":"recon");
+        List<File> files = BattlefieldSearchParser.getRecords(folder, "", gang, "", scan?"scan":"recon");
 
-        Map<Date, File> map = bsp.findOneRecordForEachDate(files, dates);
+        Map<Date, File> map = BattlefieldSearchParser.findOneRecordForEachDate(files, dates);
         return combineDatesAndImages(map, hash);
     }
+    
+     public static LinkedList<File> getReconRecordsFromDayBasedOnOpponent(String opponentName,String folder,  Date date) throws SearchException {
+        BattlefieldSearchParser bsp = new BattlefieldSearchParser();
+        List<File> files = BattlefieldSearchParser.getRecords(folder, "", "",opponentName, "recon");
+        if (files==null||files.isEmpty()) return null;
+        LinkedList<File> datedFiles=reduceByDate( files,date,86400000 );
+        
+        return datedFiles;
+    }
 
+    private static LinkedList<File> reduceByDate(List<File> files, Date dates, long maxDistanceFromDateMs) {
+        long originDate=dates.getTime();
+        LinkedList<File> reducedFiles=new LinkedList<>();
+        for (File f:files){
+            try {
+                long created=BattlefieldSearchParser.getCreatedEpochMillis(f);
+                if (Math.abs(originDate-created)<maxDistanceFromDateMs){
+                   reducedFiles.add(f);
+                   
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(HistoricalImageSearch.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        return reducedFiles;
+    }
+     
     private static BufferedImage combineDatesAndImages(Map<Date, File> map, String hash) {
         LinkedList<BufferedImage> rows = new LinkedList<>();
         map.entrySet().stream().forEach(e -> {
             try {
-                String mon = f.format(e.getKey());
+                String mon = MMM.format(e.getKey());
                 if (e.getValue() == null || !e.getValue().exists()) {
                     return;
                 }
@@ -77,4 +103,6 @@ public class HistoricalImageSearch {
         return returnValue;
 
     }
+
+
 }
