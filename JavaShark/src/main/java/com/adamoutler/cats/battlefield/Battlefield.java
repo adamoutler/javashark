@@ -186,6 +186,7 @@ public class Battlefield {
      * @param boardScreenshot the boardScreenshot to set
      */
     public void setBoardScreenshot(BufferedImage boardScreenshot) {
+        this.screenshot=ByteImage.getPngBytes(boardScreenshot);
         this.boardScreenshot = boardScreenshot;
     }
 
