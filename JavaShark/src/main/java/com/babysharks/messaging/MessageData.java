@@ -42,6 +42,7 @@ public class MessageData {
     private Gang gangObject;
     private String reportName;
     private Map<String, String> hashes;
+    private SearchQuery query;
     private boolean debug = false;
 
     /**
@@ -419,6 +420,22 @@ public class MessageData {
      */
     public MessageData setTeamPicture(String teamPicture) {
         this.teamPicture = teamPicture;
+        return this;
+    }
+
+    /**
+     * @return the query
+     */
+    public SearchQuery getQuery() {
+        return query;
+    }
+
+    /**
+     * @param query the query to set
+     * @return reference to this object
+     */
+    public MessageData setQuery(SearchQuery query) {
+        this.query = query;
         return this;
     }
 }

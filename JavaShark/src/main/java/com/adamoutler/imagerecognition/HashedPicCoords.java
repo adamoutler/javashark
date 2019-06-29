@@ -53,4 +53,11 @@ public class HashedPicCoords extends PicCoords {
         BufferedImage subImage=bi.getSubimage(x, y, getW(), getH());
         return subImage;
     }
+     
+      @Override
+      public String toString(){
+          return super.toString()+","+hash;
+          
+      }
+            
 }

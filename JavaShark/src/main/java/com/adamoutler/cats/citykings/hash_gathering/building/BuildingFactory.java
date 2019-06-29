@@ -76,6 +76,8 @@ public class BuildingFactory {
                         continue;
                     }
                 } else {
+                    System.out.println(vm.getGang()+" "+ vm.getUsername()+" "+ckb.getBuildingNumber()+" Unscouted hash:"+ScreenData.CITYKINGSBUILDINGNOSCOUT.getHashes()[0].getHash(ss)+" ParkedCar hash:"+ScreenData.PARKEDCAR.getHashes()[0].getHash(ss));
+
                     if (!sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
                         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
                             if (ckb.getOwnershipBar().getNumberTheyOwn()==0){

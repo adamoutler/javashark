@@ -5,6 +5,7 @@
  */
 package com.adamoutler.records_search;
 
+import com.babysharks.messaging.SearchQuery;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,25 +29,69 @@ import java.util.logging.Logger;
  */
 public class BattlefieldSearchParser {
 
-    public List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {
+    private String gang;
+    private String ocrName;
+    private String startsWith;
+    private String extension;
+    private Long timestamp;
+
+    public BattlefieldSearchParser() {
+
+    }
+
+    public BattlefieldSearchParser(SearchQuery sq) {
+        this.gang = emptyIfNull(sq.getGang());
+        this.ocrName = emptyIfNull(sq.getOpponentName());
+        this.startsWith = emptyIfNull(sq.getType());
+        this.extension = emptyIfNull(sq.getExtension());
+        if (sq.getCenterTimestamp() != null) {
+            this.timestamp = sq.getCenterTimestamp();
+        }
+    }
+
+    private String emptyIfNull(String s) {
+        if (s == null) {
+            return "";
+        }
+        if (s.isEmpty()) {
+            return "";
+        }
+        return s;
+    }
+
+    
+    
+
+    
+
+            
+            
+            
+    public List getRecords() throws SearchException{
+        return getRecords("/var/www/baby-sharks/excel",extension,gang,ocrName,startsWith);
+    }
+    
+    
+    
+    
+    public static List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {
         throwExceptionIfFolderNotSpecified(folder);
-        BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension,startsWith);
+        BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension, startsWith);
         List<File> files = brs.search();
         return files;
     }
 
-    public Map<Date, File> findOneRecordForEachDate(List<File> files, Date[] dates) throws SearchException {
+    public static Map<Date, File> findOneRecordForEachDate(List<File> files, Date[] dates) throws SearchException {
         if (files == null || files.isEmpty()) {
             throw new SearchException("no records available");
         }
-        SimpleDateFormat sobj = new SimpleDateFormat("dd-MM-yyyy");// format specified in double quotes
         Arrays.sort(dates);
         HashMap<Date, File> bestMatchFileMap = matchDatesToFiles(dates, files);
         return bestMatchFileMap;
 
     }
 
-    private HashMap<Date, File> matchDatesToFiles(Date[] dates, List<File> files) {
+    private static HashMap<Date, File> matchDatesToFiles(Date[] dates, List<File> files) {
         HashMap<Date, File> bestMatchFileMap = new HashMap<>();
         for (Date checkDate : dates) {
             long preferredTime = checkDate.toInstant().toEpochMilli();
@@ -58,15 +103,15 @@ public class BattlefieldSearchParser {
         return bestMatchFileMap;
     }
 
-    private File getBestFileMatchToDate(List<File> files, long preferredTime) {
+    private static File  getBestFileMatchToDate(List<File> files, long preferredTime) {
         File currentBestFile = null;
         try {
             for (File testFile : files) {
                 long currentFileCreated = setTimeOrZero(currentBestFile);
                 long testFileCreated = setTimeOrZero(testFile);
-                long currentFileDifference=Math.abs(currentFileCreated - preferredTime);
-                long testFileDifference=Math.abs(testFileCreated - preferredTime);
-                if (currentFileDifference > testFileDifference||currentFileCreated==0) {
+                long currentFileDifference = Math.abs(currentFileCreated - preferredTime);
+                long testFileDifference = Math.abs(testFileCreated - preferredTime);
+                if (currentFileDifference > testFileDifference || currentFileCreated == 0) {
                     currentBestFile = testFile;
                 }
             }
@@ -77,7 +122,7 @@ public class BattlefieldSearchParser {
         return currentBestFile;
     }
 
-    private long setTimeOrZero(File testFile) throws IOException {
+    private static long setTimeOrZero(File testFile) throws IOException {
         long retval = 0;
         if (testFile != null) {
             retval = Files.readAttributes(testFile.toPath(), BasicFileAttributes.class).creationTime().toMillis();
@@ -85,21 +130,21 @@ public class BattlefieldSearchParser {
         return retval;
     }
 
-    private BattleRecordSearch createBattleSearch(String gang, String opponentName, String folder, String fileExtension, String startsWith) {
+    private static BattleRecordSearch createBattleSearch(String gang, String opponentName, String folder, String fileExtension, String startsWith) {
         String oGang = Optional.of(gang).orElse("");
         String oOpponentName = Optional.of(opponentName).orElse("");
         String oStartsWith = Optional.of(startsWith).orElse("");
-        BattleRecordSearch brs = setSearchParameters(folder, oGang, oOpponentName, fileExtension,oStartsWith);
+        BattleRecordSearch brs = setSearchParameters(folder, oGang, oOpponentName, fileExtension, oStartsWith);
         return brs;
     }
 
-    private BattleRecordSearch setSearchParameters(String folder, String oGang, String oOpponentName, String fileExtension,String startsWith) {
+    private static BattleRecordSearch setSearchParameters(String folder, String oGang, String oOpponentName, String fileExtension, String startsWith) {
         BattleRecordSearch brs = new BattleRecordSearch().setFolder(folder).setGang(oGang).setOpponentGangOCRName(oOpponentName).setStartsWith(startsWith);
         brs.setFolder(folder).setExtension(fileExtension);
         return brs;
     }
 
-    private void throwExceptionIfFolderNotSpecified(String folder) throws SearchException {
+    private static void throwExceptionIfFolderNotSpecified(String folder) throws SearchException {
         if (folder == null || folder.isEmpty()) {
             throw new SearchException("No folder specified");
         }

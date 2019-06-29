@@ -85,7 +85,7 @@ public class CatsGangPicGenerator {
                 BufferedImage bi = WritePicture.createImage(pc, pc, "", false, color, Color.blue, new java.awt.Font("Verdana", java.awt.Font.BOLD, 20));
                 rowOfCars.add(bi);
             }
-            carRows.add(ImageJoiner.joinImagesSide(rowOfCars));
+            if (rowOfCars.size()>0) carRows.add(ImageJoiner.joinImagesSide(rowOfCars));
 
         }
         BufferedImage pic = ImageJoiner.joinImagesBelow(carRows);

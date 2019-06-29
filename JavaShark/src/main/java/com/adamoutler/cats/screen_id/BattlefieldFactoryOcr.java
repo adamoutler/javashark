@@ -27,10 +27,13 @@ public class BattlefieldFactoryOcr {
         String returnValue = "";
         try {
             TesseractBuilder tb = new TesseractBuilder(screenshot)
-                    .setCharset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-()^$@![]{}+=_,;^")
-                    .crop(opponentName).writePicture()
+                    .setCharset("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890- ")
+                    .crop(opponentName)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
-                    .resize(5, 5).greyScale().brightenImage().brightenImage().brightenImage();
+                    .invert().brightenImage().brightenImage().invert()
+                    .resize (5,2).resize (4,3).resize (4,3)
+                    .invert().bicubic().invert()
+                    .greyScale().brightenImage().writePicture();
             returnValue = tb.execute();
             tb.writePicture(returnValue);
             battlefield.setOcrNamePic(opponentName.getImageAtCoords(screenshot));

@@ -10,6 +10,7 @@ import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.CarLocationOffScreenException;
 import com.adamoutler.cats.battlefield.building.Locations;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -54,6 +55,7 @@ public class FoeCarFactory implements CarFactory {
         try {
             while (passes < 2) {  //do two passes;
                 BufferedImage screenshot = vm.screenshot();
+
                 selectNextCar();
 
                 building.setTosb(new TeamOwnershipPercentageBar(screenshot));
