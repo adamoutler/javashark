@@ -217,6 +217,7 @@ public class Battlefield {
      * @return the ocrNamePic
      */
     public BufferedImage getOcrNamePic() {
+        if(ocrNamePic==null) return null;
         return ByteImage.getImageFromBytes(ocrNamePic);
     }
 

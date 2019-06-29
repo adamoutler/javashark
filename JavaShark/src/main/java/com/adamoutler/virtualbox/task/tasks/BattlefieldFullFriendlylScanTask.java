@@ -73,7 +73,6 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
                     File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
                     CatsGangPicGenerator.saveGangPicToFile(groupPicture, report);
-                    report.setOcrNamePic(null);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())
@@ -82,8 +81,8 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     boolean errored = false;
                     try {
                         File excelFile = new File(WEBSERVEREXCELLOCATION + name + ".xls");
-                        UnidentifiedGangsters.createReport(vm, report);
                         writeFiles(report, fullJson, papaJson, excelFile);
+                        UnidentifiedGangsters.createReport(vm, report);
                     } catch (Exception ex) {
                         Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
                         SendPapaAsynch.sendToAdam(m);
@@ -120,6 +119,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
         try (FileOutputStream fos = new FileOutputStream(fullJson)) {
             fos.write(new GsonBuilder().setLenient().create().toJson(report).getBytes());
         }
+                    report.setOcrNamePic(null);
 
         try {
             new BattlefieldExcelGenerator().createOutputFiles(excelFile, report, true);
