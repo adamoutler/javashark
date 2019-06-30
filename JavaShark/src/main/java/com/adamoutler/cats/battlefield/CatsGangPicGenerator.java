@@ -216,7 +216,7 @@ public class CatsGangPicGenerator {
         LinkedList<Car> newCars = new LinkedList<>();
         for (int i = 1; i < battlefields.length; i++) {
             System.out.println("Adding previous battlefield "+i);
-            Battlefield battlefield = battlefields[1];
+            Battlefield battlefield = battlefields[i];
             if (battlefield == null || battlefield.getAllCars() == null || battlefield.getAllCars().isEmpty()) {
                 continue;
             }
