@@ -69,7 +69,7 @@ public enum ScreenData {
     QUICKFIGHTSLOST(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Quick Fights defeat screen"),
     QUICKFIGHTSWON(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Quick Fight won screen"),
     RECONNECT(new HashedPicCoords[]{new HashedPicCoords(423,597,188,62,-133649367),new HashedPicCoords(423, 597, 188, 62, -775156857)}, new ColoredXYCoords[]{}, "Logged in on another device, reconnect screen shown"),
-    PARKEDCAR(new HashedPicCoords[]{new HashedPicCoords(225,382,3,4,-1870893589)},new ColoredXYCoords[]{},"Car is a parked car"),
+    PARKEDCAR(new HashedPicCoords[]{new HashedPicCoords(209,257,13,20,1427120404)},new ColoredXYCoords[]{},"Car is a parked car"),
     STORE(new HashedPicCoords[]{new HashedPicCoords(11,695,41,48,1553001173),new HashedPicCoords(11, 695, 41, 48, 2015281703)}, new ColoredXYCoords[]{}, "Zepto Lab Store screen"),
     TOPGANGS(new HashedPicCoords[]{new HashedPicCoords(701, 30, 178, 42, 1779073125)}, new ColoredXYCoords[]{}, "Top Gangs scoreboard screen"),
     TOPPLAYERS(new HashedPicCoords[]{new HashedPicCoords(440,15,176,28,-1197974399),new HashedPicCoords(440, 15, 176, 28, 42390409)}, new ColoredXYCoords[]{}, "Top Players scoreboard creen"),
