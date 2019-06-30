@@ -144,6 +144,8 @@ public class Car {
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(badge)));
         this.setUniqueHash(Integer.toHexString(CarBadgeHash.getAttackHash(badge)));
         this.carBadge = ByteImage.getPngBytes(badge);
+        
+        System.out.println("Car "+this.location+" name:"+ this.nameHash+" attack:"+this.uniqueHash);
         return this;
     }
 
