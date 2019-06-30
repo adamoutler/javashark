@@ -125,12 +125,11 @@ public class CatsGangPicGenerator {
 
         
         if (bi==null){
-            bi=WritePicture.createImage(new PicCoords(0, 0, 100, 80), new XYCoords(20, 65), "opponent name not found " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
+            bi=WritePicture.createImage(new PicCoords(0, 0, 200, 60), new XYCoords(20, 50), "opponent name not found " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
         }
         
-        if (bi.getHeight() > 80) {
-            WritePicture.replaceColor(bi, 0xfffffF, color.getRGB(), 100);
-        }
+        WritePicture.replaceColor(bi, 0xdedede, color.getRGB(), 100);
+        
         WritePicture.addImage(footer, bi, 1, footer.getWidth() - BattlefieldFactoryOcr.opponentName.getW(), 15);
         LinkedList<BufferedImage> imageCombinations = new LinkedList<>();
 
@@ -140,7 +139,7 @@ public class CatsGangPicGenerator {
         LinkedList<BufferedImage> additional = new LinkedList<>();
         if (battlefields.length > 1) {
             if (battlefields[1] != null) {
-                additional.add(WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49)));
+                additional.add(WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 30)));
                 additional.addAll(processAdditionalBattlefields(pc, color, battlefields));
                 BufferedImage additionalPics = ImageJoiner.joinImagesBelow(additional);
                 imageCombinations.add(additionalPics);
