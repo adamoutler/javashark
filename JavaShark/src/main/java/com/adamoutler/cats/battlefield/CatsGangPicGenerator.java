@@ -115,23 +115,21 @@ public class CatsGangPicGenerator {
         BufferedImage pic = null;
         if (carRows.size() > 0) {
             pic = ImageJoiner.joinImagesBelow(carRows);
+        }else {
+            pic = WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), "0-cars found in search " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
         }
         BufferedImage header = WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 65), " Baby Sharks " + (battlefield.getBuildings().get(0).isFriendlyScan() ? "Scan" : "Recon") + " Report " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 49));
         BufferedImage footer = WritePicture.createImage(new PicCoords(0, 0, width, 80), new XYCoords(20, 50), "Opponent identifier: \"" + battlefield.getOcrName() + "\"", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
 
         BufferedImage bi = scale(battlefield.getOcrNamePic(), (int) Math.round(BattlefieldFactoryOcr.opponentName.getW() * .75), (int) Math.round(BattlefieldFactoryOcr.opponentName.getH() * .75));
 
-        if (bi != null) {
-            WritePicture.replaceColor(bi, 0xfffffF, color.getRGB(), 100);
-            WritePicture.addImage(footer, bi, 1, footer.getWidth() - BattlefieldFactoryOcr.opponentName.getW(), 15);
-        }
+        WritePicture.replaceColor(bi, 0xfffffF, color.getRGB(), 100);
+        WritePicture.addImage(footer, bi, 1, footer.getWidth() - BattlefieldFactoryOcr.opponentName.getW(), 15);
         LinkedList<BufferedImage> imageCombinations = new LinkedList<>();
 
         imageCombinations.add(header);
 
-        if (pic != null) {
-            imageCombinations.add(pic);
-        }
+        imageCombinations.add(pic);
         LinkedList<BufferedImage> additional = new LinkedList<>();
         if (battlefields.length > 1) {
             if (battlefields[1] != null) {
