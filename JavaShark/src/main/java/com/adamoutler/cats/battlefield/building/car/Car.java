@@ -128,10 +128,12 @@ public class Car {
 
     final public Car setCarScreenshot(BufferedImage bi, boolean friendly) {
         PicCoords badgeCoords = getBadgeCoords(friendly);
+        
         if (ScreenData.CITYKINGSBUILDINGNOSCOUT.matchesHashes(bi)){
              unscoutted = true;
              System.out.println("Parked Car detected");
         } 
+        System.out.print("ParkedCarCoordinatesHash: "+ScreenData.PARKEDCAR.getHashes()[0].getHash(bi));
         if(ScreenData.PARKEDCAR.matchesHashes(bi)){
             parked=true;
         }
