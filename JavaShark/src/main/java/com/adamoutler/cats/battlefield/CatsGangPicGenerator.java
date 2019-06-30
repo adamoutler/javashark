@@ -216,8 +216,9 @@ public class CatsGangPicGenerator {
 
         LinkedList<Car> newCars = new LinkedList<>();
         for (int i = 1; i < battlefields.length; i++) {
+            System.out.println("Adding previous battlefield "+i);
             Battlefield battlefield = battlefields[1];
-            if (battlefield == null || battlefield.getAllCars() == null || battlefield.getAllCars().size() == 0) {
+            if (battlefield == null || battlefield.getAllCars() == null || battlefield.getAllCars().isEmpty()) {
                 continue;
             }
             ArrayList<Car> testCars = battlefield.getAllCars();
@@ -226,12 +227,14 @@ public class CatsGangPicGenerator {
                 for (Car existing : existingCars) {
                     if (existing.getUniqueHash().equals(test.getUniqueHash())) {
                         add = false;
+                        System.out.println("found car in this scan's cars already");
                         break;
                     }
                 }
                 for (Car existing : newCars) {
                     if (existing.getUniqueHash().equals(test.getUniqueHash())) {
                         add = false;
+                        System.out.println("found car in added cars already");
                         break;
                     }
                 }
@@ -240,6 +243,7 @@ public class CatsGangPicGenerator {
                 }
             }
         }
+        System.out.println("Found "+newCars.size()+" new cars in old records.");
         return getCarRows(newCars, pc, color);
 
     }
