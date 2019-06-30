@@ -52,8 +52,9 @@ public class HistoricalImageSearch {
      public static LinkedList<File> getReconRecordsFromDayBasedOnOpponent(String opponentName,String folder,  Date date) throws SearchException {
         BattlefieldSearchParser bsp = new BattlefieldSearchParser();
         List<File> files = BattlefieldSearchParser.getRecords(folder, "", "",opponentName, "recon");
+        System.out.println ("files found: " +files.size()+" "+files.toString());
         if (files==null||files.isEmpty()) return null;
-        LinkedList<File> datedFiles=reduceByDate( files,date,86400000 );
+        LinkedList<File> datedFiles=reduceByDate( files,date,864000000 );
         
         return datedFiles;
     }
