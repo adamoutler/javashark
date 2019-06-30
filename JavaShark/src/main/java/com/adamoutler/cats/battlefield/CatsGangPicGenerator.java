@@ -49,14 +49,16 @@ public class CatsGangPicGenerator {
 
         try {
             LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(battlefield.getOcrName(), "/var/www/baby-sharks/excel/", new Date());
-            Gson gson = new GsonBuilder().create();
-            for (File record : records) {
-                try {
-                    FileReader fr = new FileReader(record);
-                    battlefields.add(gson.fromJson(fr, Battlefield.class));
+            if (records != null) {
+                Gson gson = new GsonBuilder().create();
+                for (File record : records) {
+                    try {
+                        FileReader fr = new FileReader(record);
+                        battlefields.add(gson.fromJson(fr, Battlefield.class));
 
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             BufferedImage bi = organizePictures(battlefields.toArray(new Battlefield[battlefields.size()]));
@@ -222,7 +224,7 @@ public class CatsGangPicGenerator {
                         break;
                     }
                 }
-                 for (Car existing : newCars) {
+                for (Car existing : newCars) {
                     if (existing.getUniqueHash().equals(test.getUniqueHash())) {
                         add = false;
                         break;
