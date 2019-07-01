@@ -138,7 +138,7 @@ public class CatsGangPicGenerator {
         LinkedList<BufferedImage> additional = new LinkedList<>();
         if (battlefields.length > 1) {
             if (battlefields[1] != null) {
-                additional.add(WritePicture.createImage(new PicCoords(0, 0, width, 50), new XYCoords(20, 65), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 30)));
+                additional.add(WritePicture.createImage(new PicCoords(0, 0, width, 55), new XYCoords(20, 50), "Previous results", false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 30)));
                 additional.addAll(processAdditionalBattlefields(pc, color, battlefields));
                 BufferedImage additionalPics = ImageJoiner.joinImagesBelow(additional);
                 imageCombinations.add(additionalPics);
