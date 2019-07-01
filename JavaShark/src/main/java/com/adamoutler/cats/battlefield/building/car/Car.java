@@ -87,6 +87,10 @@ public class Car {
         this.uniqueHash = uniqueHash;
     }
 
+    public String getCarNameHash(){
+        return this.nameHash+this.uniqueHash;
+    }
+    
     /**
      * @return the location
      */

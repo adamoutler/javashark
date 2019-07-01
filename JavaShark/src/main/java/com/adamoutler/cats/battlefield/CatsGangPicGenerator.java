@@ -224,14 +224,14 @@ public class CatsGangPicGenerator {
             for (Car test : testCars) {
                 boolean add = true;
                 for (Car existing : existingCars) {
-                    if (existing.getUniqueHash().equals(test.getUniqueHash())) {
+                    if (existing.equals(test)) {
                         add = false;
                         System.out.println("found car in this scan's cars already");
                         break;
                     }
                 }
                 for (Car existing : newCars) {
-                    if (existing.getUniqueHash().equals(test.getUniqueHash())) {
+                    if (existing.equals(test)) {
                         add = false;
                         System.out.println("found car in added cars already");
                         break;
