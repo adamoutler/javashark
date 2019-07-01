@@ -81,8 +81,8 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     boolean errored = false;
                     try {
                         File excelFile = new File(WEBSERVEREXCELLOCATION + name + ".xls");
-                        writeFiles(report, fullJson, papaJson, excelFile);
                         UnidentifiedGangsters.createReport(vm, report);
+                        writeFiles(report, fullJson, papaJson, excelFile);
                     } catch (Exception ex) {
                         Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
                         SendPapaAsynch.sendToAdam(m);
