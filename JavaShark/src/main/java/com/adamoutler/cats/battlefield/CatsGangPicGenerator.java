@@ -123,13 +123,12 @@ public class CatsGangPicGenerator {
 
         BufferedImage bi = scale(battlefield.getOcrNamePic(), (int) Math.round(BattlefieldFactoryOcr.opponentName.getW() * .75), (int) Math.round(BattlefieldFactoryOcr.opponentName.getH() * .75));
 
-        
-        if (bi==null){
-            bi=WritePicture.createImage(new PicCoords(0, 0, 200, 60), new XYCoords(20, 50), "opponent name not found " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
+        if (bi == null) {
+            bi = WritePicture.createImage(new PicCoords(0, 0, 200, 60), new XYCoords(20, 50), "opponent name not found " + new Date().toGMTString(), false, color, Color.DARK_GRAY, new java.awt.Font("courrier", java.awt.Font.BOLD, 21));
         }
-        
+
         WritePicture.replaceColor(bi, 0xdedede, color.getRGB(), 100);
-        
+
         WritePicture.addImage(footer, bi, 1, footer.getWidth() - BattlefieldFactoryOcr.opponentName.getW(), 15);
         LinkedList<BufferedImage> imageCombinations = new LinkedList<>();
 
@@ -215,7 +214,7 @@ public class CatsGangPicGenerator {
 
         LinkedList<Car> newCars = new LinkedList<>();
         for (int i = 1; i < battlefields.length; i++) {
-            System.out.println("Adding previous battlefield "+i);
+            System.out.println("Adding previous battlefield " + i);
             Battlefield battlefield = battlefields[i];
             if (battlefield == null || battlefield.getAllCars() == null || battlefield.getAllCars().isEmpty()) {
                 continue;
@@ -242,7 +241,9 @@ public class CatsGangPicGenerator {
                 }
             }
         }
-        System.out.println("Found "+newCars.size()+" new cars in old records.");
+        System.out.println("Found " + newCars.size() + " new cars in old records.");
+        Collections.sort(newCars, (Car car1, Car car2) -> Collator.getInstance().compare(car1.getNameHash(), car2.getNameHash()));
+
         return getCarRows(newCars, pc, color);
 
     }
