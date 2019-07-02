@@ -74,7 +74,7 @@ public class FoeCarFactory implements CarFactory {
                         removeBlankCars(building);
                         throw new BuildingUnscouttedException(vm.getUsername() + ": Building " + building.getBuildingNumber() + " is unscoutted");
                     }
-                    foundCars.put(c.getNameHash() + c.getUniqueHash(), c);
+                    foundCars.put(c.getNameHash() + c.getAttackHash(), c);
                 }
                 scans++;
 
@@ -147,7 +147,7 @@ public class FoeCarFactory implements CarFactory {
     private void removeBlankCars(Building building) {
         ArrayList<Car> al = new ArrayList<>();
         for (Car c : building.getCars()) {
-            if (c.getUniqueHash() == null || c.getUniqueHash().isEmpty()) {
+            if (c.getAttackHash() == null || c.getAttackHash().isEmpty()) {
                 al.add(c);
             }
         }

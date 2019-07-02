@@ -44,10 +44,10 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     BattlefieldFactory battleFactory = new BattlefieldFactory(vm.getTaskData().isFriendlyScan(), vm.getTaskData().getBuildingsToScan());
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
-                    if (vm.isKillThread()) {
+                    if (vm.isKillThread()||report.isReportContainsFlaws()) {
 
                         Message m = new Message()
-                                .setCommand("deepbuildingscancomplete")
+                                .setCommand("deepbuildingscanfailed")
                                 .setData(new Message().getData()
                                         .setGang(vm.getGang())
                                         .setUsername(vm.getUsername()));

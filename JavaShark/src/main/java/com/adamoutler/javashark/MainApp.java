@@ -9,7 +9,6 @@ import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
 import com.adamoutler.javashark.handlers.BattlefieldScan;
 import com.adamoutler.javashark.handlers.CommandDistributor;
-import com.adamoutler.javashark.handlers.DeepBuildingReconHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.LastCarSearchHandler;
 import com.adamoutler.javashark.handlers.MyCarsHandler;

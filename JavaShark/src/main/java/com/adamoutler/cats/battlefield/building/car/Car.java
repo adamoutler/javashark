@@ -31,7 +31,7 @@ public class Car {
 
     private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25,  -1260088858)};
     private String nameHash = "";
-    private String uniqueHash = "";
+    private String attackHash = "";
     private int location = 0;
     private int building;
     private byte[] carBadge = new byte[]{};
@@ -76,19 +76,19 @@ public class Car {
     /**
      * @return the uniqueHash
      */
-    public String getUniqueHash() {
-        return uniqueHash;
+    public String getAttackHash() {
+        return attackHash;
     }
 
     /**
      * @param uniqueHash the uniqueHash to set
      */
-    public void setUniqueHash(String uniqueHash) {
-        this.uniqueHash = uniqueHash;
+    public void setAttackHash(String uniqueHash) {
+        this.attackHash = uniqueHash;
     }
 
     public String getCarNameHash(){
-        return this.nameHash+this.uniqueHash;
+        return this.nameHash+this.attackHash;
     }
     
     /**
@@ -146,12 +146,12 @@ public class Car {
         setParked(false);
        
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(badge)));
-        this.setUniqueHash(Integer.toHexString(CarBadgeHash.getAttackHash(badge)));
+        this.setAttackHash(Integer.toHexString(CarBadgeHash.getAttackHash(badge)));
         this.carBadge = ByteImage.getPngBytes(badge);
         if (this.nameHash.equals("591f2758")){
             this.parked=true;
         }
-        System.out.println("Car "+this.location+" name:"+ this.nameHash+" attack:"+this.uniqueHash);
+        System.out.println("Car "+this.location+" name:"+ this.nameHash+" attack:"+this.attackHash);
         return this;
     }
 
@@ -250,13 +250,13 @@ public class Car {
     public int hashCode() {
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.nameHash);
-        hash = 97 * hash + Objects.hashCode(this.uniqueHash);
+        hash = 97 * hash + Objects.hashCode(this.attackHash);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Location:" + this.location + " user:" + this.getNameHash() + " unique:" + this.getUniqueHash();
+        return "Location:" + this.location + " user:" + this.getNameHash() + " unique:" + this.getAttackHash();
 
     }
 

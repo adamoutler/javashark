@@ -153,7 +153,7 @@ public class GangCar {
         c.setColumnn(car.getColumn());
         c.setLocation(car.getLocation());
         c.setRow(car.getRow());
-        c.setUnique_hash(car.getUniqueHash());
+        c.setUnique_hash(car.getAttackHash());
         c.addName_hash(car.getNameHash());
         return c;
     }
