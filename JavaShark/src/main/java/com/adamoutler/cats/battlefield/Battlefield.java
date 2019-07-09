@@ -191,6 +191,7 @@ public class Battlefield {
     }
 
     public void clearScreenshots() {
+        this.screenshot=null;
         for (Building building : buildings) {
             building.clearBuildingPics();
         }
