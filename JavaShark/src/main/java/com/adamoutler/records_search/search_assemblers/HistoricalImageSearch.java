@@ -54,7 +54,7 @@ public class HistoricalImageSearch {
         List<File> files = BattlefieldSearchParser.getRecords(folder, "", "",opponentName, "recon");
         System.out.println ("files found: " +files.size()+" "+files.toString());
         if (files==null||files.isEmpty()) return null;
-        LinkedList<File> datedFiles=reduceByDate( files,date,864000000 );
+        LinkedList<File> datedFiles=reduceByDate( files,date,86400000 );
         
         return datedFiles;
     }
