@@ -74,7 +74,7 @@ public class FoeCarFactory implements CarFactory {
                         removeBlankCars(building);
                         throw new BuildingUnscouttedException(vm.getUsername() + ": Building " + building.getBuildingNumber() + " is unscoutted");
                     }
-                    foundCars.put(c.getNameHash() + c.getAttackHash(), c);
+                    foundCars.put(c.getNameHash() + c.getAttackHash()+c.getTieBreaker(), c);
                 }
                 scans++;
 

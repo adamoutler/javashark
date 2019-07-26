@@ -146,6 +146,7 @@ public class GangCar {
         c.addName_hash(car.getNameHash());
         return c;
     }
+
     public static GangCar convertCar(Car car) {
         GangCar c = new GangCar();
         c.setBuilding(car.getBuilding());
@@ -157,12 +158,14 @@ public class GangCar {
         c.addName_hash(car.getNameHash());
         return c;
     }
+
     public void clearCarScreenshot() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.car_badge=null;
     }
 
     public void clearRowAndColumn() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.row = 0;
+        this.columnn = 0;
     }
 
 }

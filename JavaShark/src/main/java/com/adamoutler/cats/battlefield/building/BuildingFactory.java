@@ -106,7 +106,7 @@ public class BuildingFactory {
     private boolean checkCarData() {
         for (Car testCar : building.getCars()) {
             for (Car otherCar : building.getCars()) {
-                if (testCar.equals(otherCar) && testCar.getLocation() != otherCar.getLocation()) {
+                if (testCar.equals(otherCar) && testCar.isSameImage(otherCar)&& testCar.getLocation() != otherCar.getLocation()) {
                     System.out.println("duplicate cars:" + testCar);
                     System.out.println("duplicate cars:" + otherCar);
                     building.setSuspsectProblemReason("Duplicate car detected");
