@@ -26,7 +26,7 @@ public class PicColors {
     public XYCoords scanUpRightForLackOfColor(int[] colors, int startingAtX, int startingAtY, int maximumDifference) {
         XYCoords xy = new XYCoords(startingAtX, startingAtY);
 
-        while (xy.x < image.getWidth() && xy.y < image.getHeight()) {
+        while (xy.x < image.getWidth()-2 && xy.y < image.getHeight()-2) {
             boolean colorFoundMatching = false;
             for (int color : colors) {
                 if (colorMatchesAtXY(xy.x, xy.y, color, maximumDifference)) {
