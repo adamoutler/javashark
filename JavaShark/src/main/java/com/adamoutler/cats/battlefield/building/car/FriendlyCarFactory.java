@@ -62,7 +62,7 @@ public class FriendlyCarFactory implements CarFactory {
         Car currentCar = new Car().setCarScreenshot(screenshot,true);
         if (building.getCars().isEmpty()) return;
         Car lastCar = building.getCars().get(building.getCars().size() - 1);
-        if (currentCar.equals(lastCar)) { //missed last tap
+        if (currentCar.equals(lastCar)&&currentCar.isSameImage(lastCar)) { //missed last tap
             vm.longTap(NEXTBUTTON);
             sleep(4000);
             screenshot = vm.screenshot();
@@ -100,7 +100,7 @@ public class FriendlyCarFactory implements CarFactory {
         for (int i = 0; i < 5; i++) {
             boolean duplicateCar = false;
             for (Car otherCar : building.getCars()) {
-                if (testCar.equals(otherCar)) {
+                if (testCar.equals(otherCar)&&testCar.isSameImage(otherCar)) {
                     duplicateCar = true;
                 }
             }

@@ -23,6 +23,24 @@ public class PicColors {
         return (getRed(xy) >= getRed(i) && getBlue(xy) >= getBlue(i) && getGreen(xy) >= getGreen(i));
     }
 
+    public XYCoords scanUpRightForLackOfColor(int[] colors, int startingAtX, int startingAtY, int maximumDifference) {
+        XYCoords xy = new XYCoords(startingAtX, startingAtY);
+
+        while (xy.x < image.getWidth() && xy.y < image.getHeight()) {
+            boolean colorFoundMatching = false;
+            for (int color : colors) {
+                if (colorMatchesAtXY(xy.x, xy.y, color, maximumDifference)) {
+                    colorFoundMatching = true;
+                }
+            }
+            xy.x++;
+            xy.y++;
+
+        }
+        return xy;
+
+    }
+
     public int scanDownYCoordinateForColorAtXCoordinate(int color, int x, int startingAtY, int endingAtY) {
         for (int y = startingAtY; y <= endingAtY; y++) {
             if (colorMatchesAtXY(x, y, color)) {

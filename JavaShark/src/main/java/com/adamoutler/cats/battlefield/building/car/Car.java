@@ -5,12 +5,14 @@
  */
 package com.adamoutler.cats.battlefield.building.car;
 
+import com.adamoutler.cats.battlefield.building.Locations;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CarBadgeHash;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.TempFolderImage;
+import com.adamoutler.imagerecognition.XYCoords;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,8 +30,9 @@ public class Car {
 
     transient public static PicCoords friendlyCarBadgeLocation = new PicCoords(60, 238, 310, 290);
     transient public static PicCoords foeCarBadgeLocation = new PicCoords(60, 238, 310, 282);
+    transient public static XYCoords diagonalScanStartPosition = new XYCoords(45, 120);
 
-    private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25,  -1260088858)};
+    private static transient HashedPicCoords[] parkedCarIndicator = new HashedPicCoords[]{new HashedPicCoords(143, 14, 24, 25, -1260088858)};
     private String nameHash = "";
     private String attackHash = "";
     private int location = 0;
@@ -37,6 +40,7 @@ public class Car {
     private byte[] carBadge = new byte[]{};
     private boolean parked = false;
     private boolean unscoutted = false;
+    private String tieBreaker = "";
 
     Car() {
     }
@@ -87,10 +91,10 @@ public class Car {
         this.attackHash = uniqueHash;
     }
 
-    public String getCarNameHash(){
-        return this.nameHash+this.attackHash;
+    public String getCarNameHash() {
+        return this.nameHash + this.attackHash;
     }
-    
+
     /**
      * @return the location
      */
@@ -132,26 +136,28 @@ public class Car {
 
     final public Car setCarScreenshot(BufferedImage bi, boolean friendly) {
         PicCoords badgeCoords = getBadgeCoords(friendly);
-        
-        if (ScreenData.CITYKINGSBUILDINGNOSCOUT.matchesHashes(bi)){
-             unscoutted = true;
-             System.out.println("Parked Car detected");
-        } 
-        System.out.print("ParkedCarCoordinatesHash: "+ScreenData.PARKEDCAR.getHashes()[0].getHash(bi));
-        if(ScreenData.PARKEDCAR.matchesHashes(bi)){
-            parked=true;
+
+        if (ScreenData.CITYKINGSBUILDINGNOSCOUT.matchesHashes(bi)) {
+            unscoutted = true;
+            System.out.println("Parked Car detected");
+        }
+        System.out.print("ParkedCarCoordinatesHash: " + ScreenData.PARKEDCAR.getHashes()[0].getHash(bi));
+        if (ScreenData.PARKEDCAR.matchesHashes(bi)) {
+            parked = true;
         }
 
         BufferedImage badge = badgeCoords.getImageAtCoords(bi);
         setParked(false);
-       
+
         this.setNameHash(Integer.toHexString(CarBadgeHash.getNameHash(badge)));
         this.setAttackHash(Integer.toHexString(CarBadgeHash.getAttackHash(badge)));
         this.carBadge = ByteImage.getPngBytes(badge);
-        if (this.nameHash.equals("591f2758")){
-            this.parked=true;
+        if (this.nameHash.equals("591f2758")) {
+            this.parked = true;
         }
-        System.out.println("Car "+this.location+" name:"+ this.nameHash+" attack:"+this.attackHash);
+        this.tieBreaker = getTieBreakerValueFromImage(badge);
+
+        System.out.println("Car " + this.location + " name:" + this.nameHash + " attack:" + this.attackHash);
         return this;
     }
 
@@ -164,10 +170,6 @@ public class Car {
         }
         return badgeCoords;
     }
-
-    
-
- 
 
     /**
      * @return the parked
@@ -240,6 +242,11 @@ public class Car {
         }
         return false;
     }
+    
+    public boolean isSameImage(Car c){
+        return this.tieBreaker.equals(c.getTieBreaker());
+    }
+    
 
     /**
      * get a hashcode of the namehash and the carhash.
@@ -269,6 +276,20 @@ public class Car {
      */
     public boolean isUnscoutted() {
         return unscoutted;
+    }
+
+    private String getTieBreakerValueFromImage(BufferedImage badge) {
+        PicColors pc = new PicColors(badge);
+        XYCoords xy = pc.scanUpRightForLackOfColor(new int[]{Locations.BLUE}, diagonalScanStartPosition.getX(), diagonalScanStartPosition.getY(), 30);
+        int color = pc.getColor(xy);
+        return xy.getXStr() + "/" + xy.getYStr() + "/" + color;
+    }
+
+    /**
+     * @return the tieBreaker
+     */
+    public String getTieBreaker() {
+        return tieBreaker;
     }
 
 }

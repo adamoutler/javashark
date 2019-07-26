@@ -44,7 +44,7 @@ public enum Locations {
         this.tapLocation = tapLocation;
         this.verifyLocation = colorLocation;
     }
-    final static int BLUE = 0xa9cafa;
+    final public static int BLUE = 0xa9cafa;
 
     /**
      * @return the tapLocation
