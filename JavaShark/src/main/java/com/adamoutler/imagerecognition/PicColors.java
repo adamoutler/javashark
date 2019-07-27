@@ -26,10 +26,10 @@ public class PicColors {
     public XYCoords scanUpRightForLackOfColor(int[] colors, int startingAtX, int startingAtY, int maximumDifference) {
         XYCoords xy = new XYCoords(startingAtX, startingAtY);
 
-        while (xy.x < image.getWidth()-2 && xy.y < image.getHeight()-2) {
-            boolean colorFoundMatching = false;
+        boolean colorFoundMatching = false;
+        while (!colorFoundMatching &&(xy.x < image.getWidth()-2 && xy.y < image.getHeight()-2)) {
             for (int color : colors) {
-                if (colorMatchesAtXY(xy.x, xy.y, color, maximumDifference)) {
+                if (!colorMatchesAtXY(xy.x, xy.y, color, maximumDifference)) {
                     colorFoundMatching = true;
                 }
             }
