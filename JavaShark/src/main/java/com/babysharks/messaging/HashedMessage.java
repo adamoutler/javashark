@@ -114,7 +114,7 @@ public class HashedMessage {
         long time = System.currentTimeMillis();
         long messageTime = Long.parseLong(hm.getMessage().getTimestamp()) * 1000;
         System.out.println("me: " + time + "\n" + "fez:" + messageTime);
-        if (time + 30000 < messageTime || time - 30000 > messageTime) {
+        if (time + 300000 < messageTime || time - 300000 > messageTime) {
             throw new HashedMessageException("Message time is wrong.  We are at " + time + " and message is " + messageTime);
         }
     }
