@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.cats.battlefield.BattlefieldNavigator;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -40,6 +41,10 @@ public class StartCatsTask extends Task {
                     || sd.equals(ScreenData.CITYKINGS)
                     || sd.equals(ScreenData.RECONNECT)) {
                 complete(vm);
+            }  else if (sd.equals(ScreenData.WHATCANYOUDOTODAY)){
+                vm.tap(BattlefieldNavigator.BACKBUTTON);
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
             } else {
 
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});

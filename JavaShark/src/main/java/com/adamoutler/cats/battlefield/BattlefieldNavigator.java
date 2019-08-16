@@ -88,6 +88,12 @@ public class BattlefieldNavigator {
                     vm.writeBabySharksDebug(vm, "Attempting to navigate to CK couldn't recognize screen");
                     reported = true;
                 }
+
+            case WHATCANYOUDOTODAY:
+                vm.tap(BattlefieldNavigator.BACKBUTTON);
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                break;
             case BLACKSCREEN://do nothing. we are loading.
                 break;
             default:
