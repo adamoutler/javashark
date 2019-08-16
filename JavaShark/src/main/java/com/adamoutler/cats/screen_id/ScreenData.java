@@ -42,7 +42,7 @@ public enum ScreenData {
     CITYKINGCAR1(new HashedPicCoords[]{new HashedPicCoords(50, 500, 30, 50, 568723105), new HashedPicCoords(50, 500, 30, 50, 939994303)}, new ColoredXYCoords[]{}, "City Kings, Examining Sentry Owner Car 1 "),
     CITYKINGCAR2(new HashedPicCoords[]{new HashedPicCoords(125, 500, 30, 50, 1662308771), new HashedPicCoords(125, 500, 30, 50, 329160736)}, new ColoredXYCoords[]{}, "City Kings, Examining Sentry Owner Car 2 "),
     CITYKINGCAR3(new HashedPicCoords[]{new HashedPicCoords(200, 500, 30, 50, -1586536709), new HashedPicCoords(200, 500, 30, 50, -65634)}, new ColoredXYCoords[]{}, "City Kings, Examining Sentry Owner Car 3 "),
-    CITYKINGS(new HashedPicCoords[]{new HashedPicCoords(10, 250, 30, 300, 340035611), new HashedPicCoords(10, 250, 30, 300, -1414606706)}, new ColoredXYCoords[]{}, "City Kings, battlefield screen"),
+    CITYKINGS(new HashedPicCoords[]{new HashedPicCoords(10,250,30,300,-1202752614),new HashedPicCoords(10, 250, 30, 300, 340035611), new HashedPicCoords(10, 250, 30, 300, -1414606706)}, new ColoredXYCoords[]{}, "City Kings, battlefield screen"),
     CITYKINGSBUILDINGNOSCOUT(new HashedPicCoords[]{new HashedPicCoords(576, 311, 35, 47, 78595734),new HashedPicCoords(576, 311, 35, 47, 1362682216), new HashedPicCoords(576, 311, 35, 47, 1362682216)}, new ColoredXYCoords[]{}, "City Kings, building Attack Screen, no scout"),
     CITYKINGSBUILDINGATTACK(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 1632103356), new HashedPicCoords(26, 84, 91, 154, 1788496405)}, new ColoredXYCoords[]{}, "City Kings, Building Attack screen"),
     CITYKINGSBUILDINGDEFEND(new HashedPicCoords[]{new HashedPicCoords(26, 84, 91, 154, 2137932298), new HashedPicCoords(26, 84, 91, 154, 1587988222)}, new ColoredXYCoords[]{}, "City Kings, building defend screen"),
@@ -70,14 +70,15 @@ public enum ScreenData {
     QUICKFIGHTSWON(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "Quick Fight won screen"),
     RECONNECT(new HashedPicCoords[]{new HashedPicCoords(423,597,188,62,-133649367),new HashedPicCoords(423, 597, 188, 62, -775156857)}, new ColoredXYCoords[]{}, "Logged in on another device, reconnect screen shown"),
     PARKEDCAR(new HashedPicCoords[]{new HashedPicCoords(209,257,13,20,1427120404),new HashedPicCoords(209,257,13,20,1548660185)},new ColoredXYCoords[]{},"Car is a parked car"),
-    STORE(new HashedPicCoords[]{new HashedPicCoords(11,695,41,48,1553001173),new HashedPicCoords(11, 695, 41, 48, 2015281703)}, new ColoredXYCoords[]{}, "Zepto Lab Store screen"),
     TOPGANGS(new HashedPicCoords[]{new HashedPicCoords(701, 30, 178, 42, 1779073125)}, new ColoredXYCoords[]{}, "Top Gangs scoreboard screen"),
     TOPPLAYERS(new HashedPicCoords[]{new HashedPicCoords(440,15,176,28,-1197974399),new HashedPicCoords(440, 15, 176, 28, 42390409)}, new ColoredXYCoords[]{}, "Top Players scoreboard creen"),
     TOPULTIMATELEAGUE(new HashedPicCoords[]{new HashedPicCoords(166,15,214,29,-1958419302),new HashedPicCoords(166, 15, 214, 29, 1087084394)}, new ColoredXYCoords[]{}, "Top Ultimate League scoreboard screen"),
     VIP(new HashedPicCoords[]{new HashedPicCoords(100,190,40,40,166196393),new HashedPicCoords(100, 190, 40, 40, 643568160)}, new ColoredXYCoords[]{}, "VIP screen"),
     ZEPTOSCREEN(new HashedPicCoords[]{new HashedPicCoords(470,480,59,10,-339401605),new HashedPicCoords(470, 480, 59, 10, 37205478)}, new ColoredXYCoords[]{}, "Zeptolab icon loading screen"),
     OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 577, 173, 47, -1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button"),
-    UNRESPONSIVE(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "The machine did not return a screenshot");
+    UNRESPONSIVE(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "The machine did not return a screenshot"),
+    WHATCANYOUDOTODAY(new HashedPicCoords[]{new HashedPicCoords(324,149,56,52,1559680746)},new ColoredXYCoords[]{},"what do you want to do today"),
+    STORE(new HashedPicCoords[]{new HashedPicCoords(11,695,41,48,1553001173),new HashedPicCoords(11, 695, 41, 48, 2015281703)}, new ColoredXYCoords[]{}, "Zepto Lab Store screen");
 
     /**
      * hash arrays
