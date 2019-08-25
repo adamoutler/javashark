@@ -27,7 +27,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
         vm.setKillThread(true);
 
         SentryTools st = new SentryTools(vm);
-        if (!vm.isPoweredOn() ) {
+        if (vm==null||!vm.isPoweredOn() ) {
             VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
             if (otherVM == null) {
                 request.getData().addAvailable(vm).setReason("stopped already");
