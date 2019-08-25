@@ -25,15 +25,15 @@ public class StopSentry extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
         vm.setKillThread(true);
-        VirtualBoxMachine killvm=vm;
-        SentryTools st=new SentryTools(vm);
-        if (!st.isBusy()){
-            VirtualBoxMachine otherVM=st.getCurrent(TaskType.WATCH);
-            if (otherVM==null){
-               request.getData().addAvailable(vm).setReason("stopped already");
+
+        SentryTools st = new SentryTools(vm);
+        if (!vm.isPoweredOn() ) {
+            VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
+            if (otherVM == null) {
+                request.getData().addAvailable(vm).setReason("stopped already");
             } else {
                 otherVM.addTask(TaskType.CLEAR);
-                vmControl=new VirtualBoxControl(otherVM);
+                vmControl = new VirtualBoxControl(otherVM);
                 request.getData().addAvailable(otherVM).setReason("stopping");
             }
         } else {

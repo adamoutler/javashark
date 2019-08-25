@@ -17,13 +17,11 @@ import java.util.ArrayList;
 public class SentryTools {
 
     final VirtualBoxMachine vm;
-    final String gang;
-    final String username;
+
 
     public SentryTools(VirtualBoxMachine vm) {
         this.vm = vm;
-        this.gang = vm.getGang();
-        this.username = vm.getUsername();
+
     }
 
     public boolean isOnWatch() {
@@ -31,16 +29,25 @@ public class SentryTools {
     }
 
     public boolean isBusy() {
+        try {
         TaskType current = vm.getCurrentTask();
-        return !(current == TaskType.IDLE || current == TaskType.POWEROFF);
+            return !(current == TaskType.IDLE || current == TaskType.POWEROFF);
+        } catch (Exception ex){
+            System.out.println("attempted SentryTools.isBusy but vm was not powered on.");
+            return false;
+        }
     }
 
     public VirtualBoxMachine getCurrent(TaskType task) {
-        ArrayList<VirtualBoxMachine> vms = new VirtualBox().getGangMachines(gang);
+        try {
+        ArrayList<VirtualBoxMachine> vms = new VirtualBox().getGangMachines(vm.getGang());
         for (VirtualBoxMachine virtualMachine : vms) {
             if (virtualMachine.getCurrentTask() == task) {
                 return virtualMachine;
             }
+        }
+        } catch (Exception ex){
+            System.out.println("attempted SentryTools.getCurrent but an error occurred.");
         }
         return null;
     }
