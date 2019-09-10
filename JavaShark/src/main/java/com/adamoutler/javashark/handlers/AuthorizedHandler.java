@@ -5,6 +5,7 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
@@ -64,7 +65,8 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
             PicCoords theirScore=new PicCoords(632,69,213,118);
             BufferedImage whoAuthorizedThis=theirScore.getImageAtCoords(image);
             ImageIO.write(whoAuthorizedThis, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName);
+            ScreenData screen=ScreenData.identifyScreen(image);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(screen).setScreenName(screen.name());
         }
 
         System.out.println("sending message with URL back: " + request.getData().getUrl());
