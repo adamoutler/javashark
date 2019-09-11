@@ -19,7 +19,10 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 /**
- * curl -X PATCH -d '{"message":{"command":"whoauthorizedthis","data":{"gang":"development","username":"adam_outler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
+ * curl -X PATCH -d
+ * '{"message":{"command":"whoauthorizedthis","data":{"gang":"development","username":"adam_outler"}}}'
+ * https://baby-sharks.adamoutler.com/api/dev/command
+ *
  * @author adamo
  */
 public class AuthorizedHandler extends SentryAbstractPapaHandler {
@@ -40,7 +43,7 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
         if (vm == null || !vm.isPoweredOn()) {
             //log the machine is off.
 
-            System.out.println(this.gang+" "+this.username+" requested machine is powered off.");
+            System.out.println(this.gang + " " + this.username + " requested machine is powered off.");
             vm = null;
             // for each machine in the gang
             for (VirtualBoxMachine thisVm : TaskManager.getGangMachines(gang)) {
@@ -62,11 +65,11 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
             request.getData().setUrl(null);
         } else {
             image = vm.screenshot();
-            PicCoords theirScore=new PicCoords(632,69,213,118);
-            BufferedImage whoAuthorizedThis=theirScore.getImageAtCoords(image);
+            PicCoords theirScore = new PicCoords(632, 69, 213, 118);
+            BufferedImage whoAuthorizedThis = theirScore.getImageAtCoords(image);
             ImageIO.write(whoAuthorizedThis, "PNG", outputFile);
-            ScreenData screen=ScreenData.identifyScreen(image);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(screen).setScreenName(screen.name());
+            ScreenData screen = ScreenData.identifyScreen(image);
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(screen).setText(screen.getDescription());
         }
 
         System.out.println("sending message with URL back: " + request.getData().getUrl());
