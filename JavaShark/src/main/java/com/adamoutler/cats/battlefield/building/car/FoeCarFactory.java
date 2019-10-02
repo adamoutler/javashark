@@ -67,14 +67,16 @@ public class FoeCarFactory implements CarFactory {
                 if (cursorIsAtStartPosition(screenshot) && scans > 1) {
                     passes++;
                 }
+                if (!ScreenData.PARKEDCAR.matchesHashes(screenshot)) {
 
-                Car c = new Car().setCarScreenshot(screenshot, false);
-                if (!c.isParked()) {
-                    if (c.isUnscoutted()) {
-                        removeBlankCars(building);
-                        throw new BuildingUnscouttedException(vm.getUsername() + ": Building " + building.getBuildingNumber() + " is unscoutted");
+                    Car c = new Car().setCarScreenshot(screenshot, false);
+                    if (!c.isParked()) {
+                        if (c.isUnscoutted()) {
+                            removeBlankCars(building);
+                            throw new BuildingUnscouttedException(vm.getUsername() + ": Building " + building.getBuildingNumber() + " is unscoutted");
+                        }
+                        foundCars.put(c.getNameHash() + c.getAttackHash() + c.getTieBreaker(), c);
                     }
-                    foundCars.put(c.getNameHash() + c.getAttackHash()+c.getTieBreaker(), c);
                 }
                 scans++;
 
