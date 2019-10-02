@@ -65,8 +65,10 @@ public class MyCarsTask extends Task {
     void runTask(VirtualBoxMachine vm) {
         BufferedImage screenshot = vm.screenshot();
         ScreenData sd = ScreenData.identifyScreen(screenshot);
+        System.out.println("Performing mycars on "+vm.getGang()+" "+vm.getUsername()+" stage:"+vm.getTaskData().myCarsStage);
         switch (vm.getTaskData().myCarsStage) {
             case 0: //navigate to city kings
+                
                 if (!sd.equals(ScreenData.CITYKINGS)) {
                     new BattlefieldNavigator().navigateToCK(vm);
                     screenshot = vm.screenshot();
