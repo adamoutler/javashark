@@ -13,6 +13,7 @@ import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
 import com.adamoutler.virtualbox.task.tasks.DeepBuildingFoeScanTask;
 import com.adamoutler.virtualbox.task.tasks.DeepBuildingFriendlyScanTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
+import com.adamoutler.virtualbox.task.tasks.Idle20MinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.MyCarsTask;
@@ -50,8 +51,10 @@ public enum TaskType {
     FACEBOOK(new CorrectiveActionFacebook(), "Opening Facebook Screen"),
     CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK"),
     IDLE1MINUTE(new IdleMinuteTask(),"Waiting for one minute"),
+    HOLD(new Idle20MinuteTask(), "Holding machine online for 20 minutes"),
     UPDATECATS(new UpdateCatsTask(),"Updating CATS."),
     MYCARS(new MyCarsTask(),"Examining my cars");
+    
     
     
     private IfaceTask task;

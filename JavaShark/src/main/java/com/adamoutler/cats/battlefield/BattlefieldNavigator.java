@@ -87,6 +87,7 @@ public class BattlefieldNavigator {
                 if (!reported) {
                     vm.writeBabySharksDebug(vm, "Attempting to navigate to CK couldn't recognize screen");
                     reported = true;
+                    vm.longTap(BACKBUTTON);
                 }
 
             case WHATCANYOUDOTODAY:
