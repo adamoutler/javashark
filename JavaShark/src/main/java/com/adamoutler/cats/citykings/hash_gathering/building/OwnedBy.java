@@ -11,8 +11,8 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
  */
 public enum OwnedBy {
         NOBODY(0x5e6a83, "noone"),
-        US(0x4179d9, "us"),
-        THEM(0xeb4c47, "them");
+        US(0x90b3eb, "us"),
+        THEM(0xFF6564, "them");
         int color;
         String friendlyName;
 
