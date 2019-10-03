@@ -50,7 +50,7 @@ public enum ScreenData {
     CITYKINGSGANGINFO(new HashedPicCoords[]{new HashedPicCoords(412, 574, 181, 46, -988303182)}, new ColoredXYCoords[]{}, "City Kings, gang info screen"),
     CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 782978378), new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
     CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(416,130,219,81,-1276194734)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
-    CITYKINGSDEFEAT(new HashedPicCoords[]{new HashedPicCoords(416, 114, 206, 82, -2112005523)}, new ColoredXYCoords[]{}, ""),
+    CITYKINGSDEFEAT(new HashedPicCoords[]{new HashedPicCoords(416,114,206,82,-907069408)}, new ColoredXYCoords[]{}, ""),
     EXITSCREEN(new HashedPicCoords[]{new HashedPicCoords(387,576,238,43,-1235775934),new HashedPicCoords(387,576,238,43,-1310101643),new HashedPicCoords(387, 576, 238, 43, -1304481246)}, new ColoredXYCoords[]{}, "Are you sure you want to quit?"),
     FACEBOOK(new HashedPicCoords[]{new HashedPicCoords(452, 49, 137, 29, -1556342175)}, new ColoredXYCoords[]{}, "Facebook login"),
     FRIENDS(new HashedPicCoords[]{new HashedPicCoords(843, 44, 144, 15, -117038954), new HashedPicCoords(843, 44, 144, 15, 167789077)}, new ColoredXYCoords[]{}, "Gang Friends screen"),
