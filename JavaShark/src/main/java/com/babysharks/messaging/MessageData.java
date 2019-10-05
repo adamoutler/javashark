@@ -44,6 +44,7 @@ public class MessageData {
     private Map<String, String> hashes;
     private SearchQuery query;
     private boolean debug = false;
+    private ErrorType errorType;
 
     /**
      * @return the weOwn

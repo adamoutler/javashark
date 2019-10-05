@@ -2,9 +2,12 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.ErrorType;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,7 +15,9 @@ import java.util.ArrayList;
  * and open the template in the editor.
  */
 /**
- * curl -X PATCH -d '{"message":{"command":"sentrystatus","data":{"gang":"development","username":"adamoutler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
+ * curl -X PATCH -d
+ * '{"message":{"command":"sentrystatus","data":{"gang":"development","username":"adamoutler"}}}'
+ * https://baby-sharks.adamoutler.com/api/dev/command
  *
  * @author adamo
  */
@@ -20,11 +25,16 @@ public class SentryStatusHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        ArrayList<VirtualBoxMachine> active = new VirtualBox().getGangMachines(gang);
-        request.getData().setGang(gang).setAvailable(active);
-        for (VirtualBoxMachine v : active) {
-            v.getScreen();
+        try {
+            ArrayList<VirtualBoxMachine> active = new VirtualBox().getGangMachines(gang);
+            request.getData().setGang(gang).setAvailable(active);
+            for (VirtualBoxMachine v : active) {
+                v.getScreen();
+            }
+            sendSucessMessage(t, request);
+        } catch (Exception ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            this.sendArbitrary(404, t, username, ErrorType.WHATEVER);
         }
-        sendSucessMessage(t, request);
     }
 }

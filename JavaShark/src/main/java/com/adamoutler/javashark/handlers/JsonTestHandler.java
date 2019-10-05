@@ -7,6 +7,7 @@ package com.adamoutler.javashark.handlers;
  */
 
 
+import static com.babysharks.messaging.ErrorType.NOERROR;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -31,7 +32,7 @@ public class JsonTestHandler extends AbstractPapaHandler {
                                 .setWeOwn(new int[] {1,2}).setText("help!")
                                 .setReason("alert")
                                 .setBuildings(new String[]{Integer.toString((int)(Math.random() * 6) + 1)})));
-        sendSucessMessage(t, message);    
+        sendSucessMessage(t, message,NOERROR);    
     }
 
  

@@ -7,6 +7,8 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
+import static com.babysharks.messaging.ErrorType.INVALIDFILE;
+import static com.babysharks.messaging.ErrorType.UNRECOGNIZEDSCREEN;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -30,12 +32,12 @@ public class AnalyzeScreenshotHandler extends AbstractPapaHandler {
         String filename=screenshotURL.substring(screenshotURL.lastIndexOf("/"));
         File screenshotFile=new File(ScreenshotHandler.OUTPUT+File.separator+filename);
         if (! screenshotFile.exists()){
-            this.sendBadReq(t,"invalid file");
+            this.sendBadReq(t,"invalid file",INVALIDFILE);
         }
         BufferedImage image=ImageIO.read(screenshotFile);
         ScreenData d=ScreenData.identifyScreen(image);
         if (!d.equals(ScreenData.CITYKINGS)){
-            this.sendBadReq(t, "unrecognized screen");
+            this.sendBadReq(t, "unrecognized screen",UNRECOGNIZEDSCREEN);
         }
         CityKingsBattlefieldAnalysis ckb=new CityKingsBattlefieldAnalysis(image);
         request.getData().setResultObject(ckb);

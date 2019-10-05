@@ -9,6 +9,7 @@ import com.adamoutler.javashark.sentry_tools.SentryTools;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.babysharks.messaging.ErrorType;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
+       try {
         VirtualBoxControl vmControl = new VirtualBoxControl(vm);
         vm.setKillThread(true);
 
@@ -42,7 +44,9 @@ public class StopSentry extends SentryAbstractPapaHandler {
         }
         vmControl.stopVM();
         this.sendSucessMessage(he, request);
-
+       } catch (Exception ex){
+           this.sendBadReq(he, username, ErrorType.WHATEVER);
+       }
     }
 
 }

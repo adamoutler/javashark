@@ -7,6 +7,8 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.records_search.SearchException;
 import com.adamoutler.records_search.search_assemblers.HistoricalImageSearch;
+import static com.babysharks.messaging.ErrorType.COULDNOTFINDMATCHINGRECORDS;
+import static com.babysharks.messaging.ErrorType.COULDNOTFINDREQUESTEDUSERINRECORDS;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,11 +31,11 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
         try {
             BufferedImage bi = HistoricalImageSearch.getLastCars(hash, "/var/www/baby-sharks/excel", request.getData().getGang());
             if (bi.getWidth() == 1) {
-                this.sendArbitrary(404, he, "Could not find user");
+                this.sendArbitrary(404, he, "Could not find user", COULDNOTFINDREQUESTEDUSERINRECORDS);
             }
 
             String outputFolder = "/var/www/baby-sharks/screenshots/";
-            String safeName = "LastCars-"+ request.getData().getGang() + "-"
+            String safeName = "LastCars-" + request.getData().getGang() + "-"
                     + request.getData().getUsername()
                             .replaceAll("[^a-zA-Z0-9]", "")
                     + UUID.randomUUID().toString() + ".png";
@@ -44,8 +46,8 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
                             + output.getName());
             this.sendSucessMessage(he, request);
         } catch (SearchException ex) {
-            this.sendArbitrary(404, he, "Could not find matching records");
-            Logger.getLogger(LastCarSearchHandler.class.getName()).log(Level.SEVERE, null, ex);
+            this.sendArbitrary(404, he, "Could not find matching records", COULDNOTFINDMATCHINGRECORDS);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
     }

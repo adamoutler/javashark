@@ -9,6 +9,7 @@ import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
+import static com.babysharks.messaging.ErrorType.NOSENTRIESACTIVE;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -63,6 +64,7 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
         BufferedImage image;
         if (vm == null) {
             request.getData().setUrl(null);
+            this.sendArbitrary(404, t, username, NOSENTRIESACTIVE);
         } else {
             image = vm.screenshot();
             PicCoords theirScore = new PicCoords(632, 69, 213, 118);

@@ -9,6 +9,8 @@ import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
+import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.NOSENTRIESACTIVE;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -71,6 +73,8 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         BufferedImage image;
         if (vm == null) {
             request.getData().setUrl(null);
+            this.sendArbitrary(404, t, username, NOSENTRIESACTIVE);
+            return;
         } else {
             image = vm.screenshot();
             ScreenData sd=ScreenData.identifyScreen(image);

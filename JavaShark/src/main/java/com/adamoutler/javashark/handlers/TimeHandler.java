@@ -6,6 +6,7 @@ package com.adamoutler.javashark.handlers;
  * and open the template in the editor.
  */
 import com.adamoutler.googletools.LocationTime;
+import com.babysharks.messaging.ErrorType;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -26,13 +27,16 @@ public class TimeHandler extends AbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
+        try {
         String place = getRequest().getData().getLocation();
-
         HashedMessage message = new HashedMessage(
                 new Message().setCommand("time")
                         .setData(new MessageData()
                                 .setResultObject(LocationTime.getDateTimeObject(place, key))));
-        sendSucessMessage(t, message);
+        sendSucessMessage(t, message,ErrorType.NOERROR);
+        } catch (Exception ex){
+            this.sendBadReq(t, key, ErrorType.NOPLACEINFO);
+        }
     }
 
     private void firstContactGoogle() {

@@ -47,6 +47,7 @@ public class CommandDistributor implements HttpHandler {
             System.out.println("handling with " + aph.getClass().getTypeName());
             aph.handle(t);
         } catch (Exception ex) {
+            sendErrorMessage(t);
             Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             t.close();

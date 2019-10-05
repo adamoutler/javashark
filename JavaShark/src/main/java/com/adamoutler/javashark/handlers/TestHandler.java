@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark.handlers;
 
+import static com.babysharks.messaging.ErrorType.NOERROR;
 import com.babysharks.messaging.HashedMessage;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class TestHandler extends AbstractPapaHandler {
                 .append(n).append("---end of request---").append(n);
 
         sb.append(n).append(response).append(n);
-        sendSucessString(t, sb.toString());
+        sendSucessString(t, sb.toString(), NOERROR);
 
     }
 

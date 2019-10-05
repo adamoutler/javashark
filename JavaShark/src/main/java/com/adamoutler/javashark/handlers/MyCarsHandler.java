@@ -7,15 +7,21 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import static com.babysharks.messaging.ErrorType.USERNOTONWATCH;
+import static com.babysharks.messaging.ErrorType.VMERROR;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author adamo
  *
- * curl -X PATCH -d '{"message":{"command":"mycars","data":{"gang":"bs2","username":"Baluhu"}}}'  https://javashark.baby-sharks.com/api/dev/command
+ * curl -X PATCH -d
+ * '{"message":{"command":"mycars","data":{"gang":"bs2","username":"Baluhu"}}}'
+ * https://javashark.baby-sharks.com/api/dev/command
  *
  */
 public class MyCarsHandler extends SentryAbstractPapaHandler {
@@ -23,12 +29,19 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
 
-        if (vm.getCurrentTask()!=TaskType.WATCH){
-            this.sendConflictReq(he, "User not on watch");
+        try {
+            if (vm.getCurrentTask() != TaskType.WATCH) {
+                this.sendConflictReq(he, "User not on watch", USERNOTONWATCH);
+                return;
+            }
+            vm.getTaskData().setTelegramid(request.getData().getTelegramid());
+            vm.setTemporaryTask(TaskType.MYCARS);
+        } catch (Exception ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            this.sendConflictReq(he, "VM Error", VMERROR);
             return;
+
         }
-        vm.getTaskData().setTelegramid(request.getData().getTelegramid());
-        vm.setTemporaryTask(TaskType.MYCARS);
         ArrayList<VirtualBoxMachine> vms = new ArrayList<>();
         vms.add(vm);
         request.getData().setAvailable(vms);
