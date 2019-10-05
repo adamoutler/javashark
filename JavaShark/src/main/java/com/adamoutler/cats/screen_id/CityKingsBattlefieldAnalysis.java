@@ -61,7 +61,7 @@ public class CityKingsBattlefieldAnalysis {
         ourGaining = getGaining(doGainingScore(ourGainingCoords));
         theirGaining = getGaining(doGainingScore(theirGainingCoords));
         try {
-            formattedTime = getTime(battlefield).replaceAll(" ","");
+            formattedTime = getTime(battlefield).replaceAll(" ", "");
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,7 +83,7 @@ public class CityKingsBattlefieldAnalysis {
 
     XYCoords getLeftSideOfOurGainingScore() {
         XYCoords scanStart = new XYCoords(xCoordOfOurScoreAwayFromWall, topOfScore);
-        int ourGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(BLUE, scanStart.getX(), scanStart.getY(), xCoordOfOurScoreWall,10);
+        int ourGainingStart = picColors.scanRightXCoordinateForColorAtYCoordinate(BLUE, scanStart.getX(), scanStart.getY(), xCoordOfOurScoreWall, 10);
         return new XYCoords(ourGainingStart, scanStart.getY());
     }
 
@@ -197,19 +197,19 @@ public class CityKingsBattlefieldAnalysis {
                     .crop(coords)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
                     .invert().greyScale()
-                    
-                    .resize(7,3).brightenImage().brightenImage().brightenImage()
+                    .resize(7, 3).brightenImage().brightenImage().brightenImage()
                     .resize(2).bicubic().resize(2).bicubic();
-        
+
             value = tb.execute();
             tb.writePicture(value);
-           System.out.println();
+            System.out.println();
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return value;
     }
- private String doOcrOnTheirGaining() {
+
+    private String doOcrOnTheirGaining() {
         PicCoords coords = getCoordinatesTheirGaining();
         if (coords == null) {
             return "0";
@@ -221,15 +221,14 @@ public class CityKingsBattlefieldAnalysis {
                     .crop(coords)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
                     .invert().greyScale()
-                    
-                    .resize(7,3).brightenImage().brightenImage().brightenImage()
+                    .resize(7, 3).brightenImage().brightenImage().brightenImage()
                     .brightenImage().brightenImage().brightenImage()
                     .brightenImage().brightenImage().brightenImage()
                     .resize(2).bicubic().resize(2).bicubic();
-        
+
             value = tb.execute();
             tb.writePicture(value);
-           System.out.println();
+            System.out.println();
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysis.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -259,8 +258,6 @@ public class CityKingsBattlefieldAnalysis {
         return "0";
 
     }
-
-
 
     public static BufferedImage copyImage(BufferedImage source) {
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
@@ -310,7 +307,9 @@ public class CityKingsBattlefieldAnalysis {
     private String parseTime(String time) {
         String[] timeSplit = time.split(" ");
         for (String t : timeSplit) {
-            if (t.length()<2) continue;
+            if (t.length() < 2) {
+                continue;
+            }
             char c = t.charAt(t.length() - 1);
             switch (c) {
                 case 'h':

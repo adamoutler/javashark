@@ -31,14 +31,18 @@ public class MyCarsHandler extends SentryAbstractPapaHandler {
 
         try {
             if (vm.getCurrentTask() != TaskType.WATCH) {
-                this.sendConflictReq(he, "User not on watch", USERNOTONWATCH);
+                request.getData().setErrorType(USERNOTONWATCH);
+
+                this.sendConflictReq(he, "User not on watch");
                 return;
             }
             vm.getTaskData().setTelegramid(request.getData().getTelegramid());
             vm.setTemporaryTask(TaskType.MYCARS);
         } catch (Exception ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-            this.sendConflictReq(he, "VM Error", VMERROR);
+            request.getData().setErrorType(VMERROR);
+
+            this.sendConflictReq(he, "VM Error");
             return;
 
         }

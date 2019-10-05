@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.awt.Desktop;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,7 +22,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -56,8 +54,6 @@ public class CatsGangPicGeneratorTest {
     public void tearDown() {
     }
 
-    
-
     /**
      * Test of organizePictures method, of class BattlefieldExcelGenerator.
      */
@@ -66,7 +62,7 @@ public class CatsGangPicGeneratorTest {
         System.out.println("organizePictures");
         Battlefield battlefield = testSomeMethod(detailReport);
         Battlefield battlefield2 = testSomeMethod(detailReport2);
-        BufferedImage result = CatsGangPicGenerator.organizePictures(battlefield,battlefield2);
+        BufferedImage result = CatsGangPicGenerator.organizePictures(battlefield, battlefield2);
         File f = null;
         try {
             f = File.createTempFile("file3", ".png");
@@ -84,12 +80,13 @@ public class CatsGangPicGeneratorTest {
         }
 
     }
-  @Test
+
+    @Test
     public void testOrganizePictures2() {
         System.out.println("organizePictures");
         Battlefield battlefield = testSomeMethod(detailReport);
         Battlefield battlefield2 = testSomeMethod(detailReport2);
-        BufferedImage result = CatsGangPicGenerator.organizePictures(battlefield2,battlefield);
+        BufferedImage result = CatsGangPicGenerator.organizePictures(battlefield2, battlefield);
         File f = null;
         try {
             f = File.createTempFile("file3", ".png");
@@ -107,6 +104,7 @@ public class CatsGangPicGeneratorTest {
         }
 
     }
+
     public void openSheet(File f) throws IOException {
         Desktop d = Desktop.getDesktop();
         d.open(f);

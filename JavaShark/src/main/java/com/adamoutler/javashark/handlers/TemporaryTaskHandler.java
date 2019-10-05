@@ -6,7 +6,8 @@
 package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.NOSUCHTASK;
+import static com.babysharks.messaging.ErrorType.VMERROR;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
@@ -24,13 +25,17 @@ public class TemporaryTaskHandler extends SentryAbstractPapaHandler {
         try {
             vm.getAdbName();
         } catch (Exception ex) {
-            this.sendBadReq(he, username, ErrorType.VMERROR);
+            request.getData().setErrorType(VMERROR);
+
+            this.sendBadReq(he, username);
             return;
         }
         try {
             vm.setTemporaryTask(TaskType.MYCARS);
         } catch (Exception ex) {
-            this.sendBadReq(he, username, ErrorType.NOSUCHTASK);
+            request.getData().setErrorType(NOSUCHTASK);
+
+            this.sendBadReq(he, username);
         }
 
         request.getData()

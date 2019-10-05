@@ -16,22 +16,22 @@ import org.junit.Test;
  * @author adamo
  */
 public class MessageTest {
-    
+
     public MessageTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -46,5 +46,5 @@ public class MessageTest {
         String expResult = "";
         String result = instance.toJson();
     }
-    
+
 }

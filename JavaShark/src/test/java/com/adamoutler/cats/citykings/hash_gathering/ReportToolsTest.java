@@ -37,8 +37,9 @@ public class ReportToolsTest {
     public void tearDown() {
     }
     String name = "https://javashark.baby-sharks.com/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
-    String repo="src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/";
+    String repo = "src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/";
     String gangName = "staging";
+
     /**
      * Test of getReport method, of class ReportTools.
      */
@@ -47,7 +48,7 @@ public class ReportToolsTest {
         System.out.println("getReport");
         ReportTools expResult = null;
         ReportTools result = ReportTools.getReport(gangName, repo, name);
-       // assertEquals(expResult, result);
+        // assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
 
@@ -60,7 +61,7 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-      //  Gangster result = instance.getGangster(nameHashes);
+        //  Gangster result = instance.getGangster(nameHashes);
 
     }
 
@@ -73,7 +74,7 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-    //    Gangster result = instance.getUserBadgePaneFromUserHash(nameHashes);
+        //    Gangster result = instance.getUserBadgePaneFromUserHash(nameHashes);
 
     }
 
@@ -86,7 +87,7 @@ public class ReportToolsTest {
         String[] nameHashes = null;
         ReportTools instance = null;
         Gangster expResult = null;
-     //   Gangster result = instance.getUserBadgesFromHashes(nameHashes);
+        //   Gangster result = instance.getUserBadgesFromHashes(nameHashes);
 
     }
 

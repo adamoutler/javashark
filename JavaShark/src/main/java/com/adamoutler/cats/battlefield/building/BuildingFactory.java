@@ -37,16 +37,18 @@ public class BuildingFactory {
     public boolean scan() {
         building.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
         ScreenData sd = ScreenData.identifyScreen(building.getTosb().getBi());
-        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)&& isValidBuilding()) {
+        if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN) && isValidBuilding()) {
             tapAttackOrDefend();
             for (int retries = 0; retries < 5; retries++) {
-                if(vm.isKillThread())break;
+                if (vm.isKillThread()) {
+                    break;
+                }
                 setUpCarData();
                 boolean b;
-                if (building.isFriendlyScan() ){
-                    b=new FriendlyCarFactory(vm, building).scan();
-                }  else {
-                    b=new FoeCarFactory(vm, building).scan();
+                if (building.isFriendlyScan()) {
+                    b = new FriendlyCarFactory(vm, building).scan();
+                } else {
+                    b = new FoeCarFactory(vm, building).scan();
                 }
                 if (checkCarData() && b) {
                     break;
@@ -77,7 +79,7 @@ public class BuildingFactory {
     }
 
     private boolean meetsFoeScanCriteria() {
-        return !building.isFriendlyScan()  && building.getSlotsTheirs() > 0;
+        return !building.isFriendlyScan() && building.getSlotsTheirs() > 0;
     }
 
     private boolean meetsFriendlyScanCriteria() {
@@ -87,8 +89,8 @@ public class BuildingFactory {
     private void tapAttackOrDefend() {
         BufferedImage screen = vm.screenshot();
         int i = 0;
-        ScreenData sd=vm.getScreen();
-        while (sd!=ScreenData.CITYKINGSBUILDINGDEFEND && sd!=ScreenData.CITYKINGSBUILDINGATTACK){
+        ScreenData sd = vm.getScreen();
+        while (sd != ScreenData.CITYKINGSBUILDINGDEFEND && sd != ScreenData.CITYKINGSBUILDINGATTACK) {
             if (i++ == 4) {
                 vm.logUnidentifiedScreen("Expecting defend or attack screen");
                 vm.writeBabySharksDebug(vm, "Attempting to enter building but couldn't recognize screen");
@@ -99,14 +101,14 @@ public class BuildingFactory {
                 vm.longTap(building.isFriendlyScan() ? DEFENDBUTTON : ATTACKBUTTON);
             }
             sleep(2000);
-            sd=vm.getScreen();
+            sd = vm.getScreen();
         }
     }
 
     private boolean checkCarData() {
         for (Car testCar : building.getCars()) {
             for (Car otherCar : building.getCars()) {
-                if (testCar.equals(otherCar) && testCar.isSameImage(otherCar)&& testCar.getLocation() != otherCar.getLocation()) {
+                if (testCar.equals(otherCar) && testCar.isSameImage(otherCar) && testCar.getLocation() != otherCar.getLocation()) {
                     System.out.println("duplicate cars:" + testCar);
                     System.out.println("duplicate cars:" + otherCar);
                     building.setSuspsectProblemReason("Duplicate car detected");
@@ -137,11 +139,11 @@ public class BuildingFactory {
     }
 
     private boolean isValidBuilding() {
-       if (building.isFriendlyScan()){
-           return building.getTosb().numberWeOwn()>0;
-       } else {
-           return building.getTosb().numberTheyOwn()>0;
-       }
+        if (building.isFriendlyScan()) {
+            return building.getTosb().numberWeOwn() > 0;
+        } else {
+            return building.getTosb().numberTheyOwn() > 0;
+        }
     }
 
 }

@@ -11,8 +11,9 @@ import java.io.IOException;
  *
  * @author adamo
  */
-public class HashedMessageException extends IOException{
-    HashedMessageException(String message){
+public class HashedMessageException extends IOException {
+
+    HashedMessageException(String message) {
         super(message);
     }
 }

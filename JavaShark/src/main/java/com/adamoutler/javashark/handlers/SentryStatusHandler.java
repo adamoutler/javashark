@@ -2,7 +2,7 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.WHATEVER;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +34,9 @@ public class SentryStatusHandler extends SentryAbstractPapaHandler {
             sendSucessMessage(t, request);
         } catch (Exception ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-            this.sendArbitrary(404, t, username, ErrorType.WHATEVER);
+            request.getData().setErrorType(WHATEVER);
+
+            this.sendArbitrary(404, t, username);
         }
     }
 }

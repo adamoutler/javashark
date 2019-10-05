@@ -42,10 +42,12 @@ public class FriendlyCarFactory implements CarFactory {
     public boolean scan() {
         int offset = 0;
         for (Car c : building.getCars()) {
-            if(vm.isKillThread())break;
+            if (vm.isKillThread()) {
+                break;
+            }
             BufferedImage screenshot = vm.screenshot();
             screenshot = correctCursorLocationIfRequired(c, offset, screenshot);
-            c.setCarScreenshot(screenshot,true);
+            c.setCarScreenshot(screenshot, true);
             selectNextCar();
 
         }
@@ -59,10 +61,12 @@ public class FriendlyCarFactory implements CarFactory {
 
         sleep(3000);
         BufferedImage screenshot = vm.screenshot();
-        Car currentCar = new Car().setCarScreenshot(screenshot,true);
-        if (building.getCars().isEmpty()) return;
+        Car currentCar = new Car().setCarScreenshot(screenshot, true);
+        if (building.getCars().isEmpty()) {
+            return;
+        }
         Car lastCar = building.getCars().get(building.getCars().size() - 1);
-        if (currentCar.equals(lastCar)&&currentCar.isSameImage(lastCar)) { //missed last tap
+        if (currentCar.equals(lastCar) && currentCar.isSameImage(lastCar)) { //missed last tap
             vm.longTap(NEXTBUTTON);
             sleep(4000);
             screenshot = vm.screenshot();
@@ -96,11 +100,11 @@ public class FriendlyCarFactory implements CarFactory {
     private BufferedImage doCursorOffScreenLocationBasedCorrection(BufferedImage screenshot) {
         sleep(2000);
         screenshot = vm.screenshot();
-        Car testCar = new Car().setCarScreenshot(screenshot,true);
+        Car testCar = new Car().setCarScreenshot(screenshot, true);
         for (int i = 0; i < 5; i++) {
             boolean duplicateCar = false;
             for (Car otherCar : building.getCars()) {
-                if (testCar.equals(otherCar)&&testCar.isSameImage(otherCar)) {
+                if (testCar.equals(otherCar) && testCar.isSameImage(otherCar)) {
                     duplicateCar = true;
                 }
             }
@@ -111,7 +115,7 @@ public class FriendlyCarFactory implements CarFactory {
                 screenshot = vm.screenshot();
 
             } else {
-                System.out.println(vm.getUsername() + ": building"+building.getBuildingNumber()+". I cant see the car in the map.");
+                System.out.println(vm.getUsername() + ": building" + building.getBuildingNumber() + ". I cant see the car in the map.");
                 break;
             }
             sleep(2000);
@@ -126,11 +130,11 @@ public class FriendlyCarFactory implements CarFactory {
         boolean retry = true;
         building.setSuspectProblem(false);
         for (int positionRetry = 0; positionRetry < 4; positionRetry++) {
-            if (screenshot.getWidth()<location.getVerifyLocation().getX()||screenshot.getHeight()<location.getVerifyLocation().getY()){
-                screenshot=vm.screenshot();
+            if (screenshot.getWidth() < location.getVerifyLocation().getX() || screenshot.getHeight() < location.getVerifyLocation().getY()) {
+                screenshot = vm.screenshot();
             }
             if (location.getVerifyLocation().approximateColorMatch(screenshot)) {
-                System.out.println(vm.getUsername() + ": building"+building.getBuildingNumber()+" car " + carLocation + " scanned.");
+                System.out.println(vm.getUsername() + ": building" + building.getBuildingNumber() + " car " + carLocation + " scanned.");
                 retry = false;
                 break;
             }
@@ -161,7 +165,7 @@ public class FriendlyCarFactory implements CarFactory {
 
     public static LinkedList<Car> createBlanks(Building b, int number) {
         LinkedList<Car> al = new LinkedList<>();
-        for (int i = 1; i < number+1; i++) {
+        for (int i = 1; i < number + 1; i++) {
             Car car = new Car().setLocation(i).setBuilding(b.getBuildingNumber());
             al.add(car);
         }

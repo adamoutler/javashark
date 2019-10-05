@@ -45,7 +45,7 @@ public class BuildingFactory {
     final public static XYCoords foeFirstCar = new XYCoords(477, 271);
     transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
     transient final public static XYCoords ATTACKBUTTON = new XYCoords(670, 390);
-    
+
     private BufferedImage mapScreenshot;
 
     static private CityKingsBuildingRaw createBuilding(VirtualBoxMachine vm, BufferedImage screenshot, int buildingNumber, boolean friendly) {
@@ -69,22 +69,22 @@ public class BuildingFactory {
                 if (friendly) {
                     if (!sd.equals(ScreenData.CITYKINGSBUILDINGDEFEND)) {
                         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
-                            if (ckb.getOwnershipBar().getNumberWeOwn() == 0){
+                            if (ckb.getOwnershipBar().getNumberWeOwn() == 0) {
                                 return ckb;
                             }
                         }
                         continue;
                     }
                 } else {
-                    System.out.println(vm.getGang()+" "+ vm.getUsername()+" "+ckb.getBuildingNumber()+" Unscouted hash:"+ScreenData.CITYKINGSBUILDINGNOSCOUT.getHashes()[0].getHash(ss)+" ParkedCar hash:"+ScreenData.PARKEDCAR.getHashes()[0].getHash(ss));
+                    System.out.println(vm.getGang() + " " + vm.getUsername() + " " + ckb.getBuildingNumber() + " Unscouted hash:" + ScreenData.CITYKINGSBUILDINGNOSCOUT.getHashes()[0].getHash(ss) + " ParkedCar hash:" + ScreenData.PARKEDCAR.getHashes()[0].getHash(ss));
 
                     if (!sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
                         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {
-                            if (ckb.getOwnershipBar().getNumberTheyOwn()==0){
+                            if (ckb.getOwnershipBar().getNumberTheyOwn() == 0) {
                                 return ckb;
                             }
                         }
-                        if (!sd.equals(ScreenData.CITYKINGSBUILDINGNOSCOUT)){
+                        if (!sd.equals(ScreenData.CITYKINGSBUILDINGNOSCOUT)) {
                             continue;
                         }
                     }
@@ -113,7 +113,7 @@ public class BuildingFactory {
                     } else {
                         vm.adbShell("input", "tap", foeFirstCar.getXStr(), foeFirstCar.getYStr());
                     }
-                    ckb.setSuspsectProblemReason("rescan building "+ckb.getBuildingNumber() +" due to final cursor position problem");
+                    ckb.setSuspsectProblemReason("rescan building " + ckb.getBuildingNumber() + " due to final cursor position problem");
                     ckb.setSuspectProblem(true);
                     System.out.println("Could not verify all cars were accounted in building");
                     sleep(1000);
@@ -231,6 +231,5 @@ public class BuildingFactory {
         int foundLoc = new PicColors(newScreenshot).scanRightXCoordinateForColorAtYCoordinate((int) 0xECAD21, startX, y, startX + 110, 10);
         return foundLoc > 0;
     }
-
 
 }

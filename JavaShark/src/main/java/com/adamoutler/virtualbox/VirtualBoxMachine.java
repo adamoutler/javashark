@@ -359,9 +359,10 @@ public class VirtualBoxMachine extends TaskedMachine {
             this.hashes = new HashMap<>();
         }
     }
-        /**
-         * @return the killThread
-         */
+
+    /**
+     * @return the killThread
+     */
     public boolean isKillThread() {
         return killThread;
     }

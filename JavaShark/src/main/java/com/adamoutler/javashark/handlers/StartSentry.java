@@ -34,13 +34,17 @@ public class StartSentry extends SentryAbstractPapaHandler {
             for (VirtualBoxMachine machine : gangMachines) {
                 if (machine.getCurrentTask().equals(TaskType.WATCH)) {
                     request.getData().setReason("Other Sentry Active");
-                    this.sendConflictReq(he, username, OTHERSENTRYACTIVE);
+                    request.getData().setErrorType(OTHERSENTRYACTIVE);
+
+                    this.sendConflictReq(he, username);
                     return;
                 }
 
             }
         } catch (Exception ex) {
-            this.sendBadReq(he, username, VMERROR);
+            request.getData().setErrorType(VMERROR);
+
+            this.sendBadReq(he, username);
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 
             return;

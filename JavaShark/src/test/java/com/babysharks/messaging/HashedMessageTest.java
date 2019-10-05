@@ -16,26 +16,25 @@ import org.junit.Test;
  * @author adamo
  */
 public class HashedMessageTest {
-    
+
     public HashedMessageTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-
 
     /**
      * Test of toJson method, of class HashedMessage.
@@ -47,5 +46,5 @@ public class HashedMessageTest {
         String result = instance.toJson();
         System.out.println(result);
     }
-    
+
 }

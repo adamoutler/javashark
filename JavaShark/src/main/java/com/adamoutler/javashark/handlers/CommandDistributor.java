@@ -81,10 +81,8 @@ public class CommandDistributor implements HttpHandler {
         }
         String json = convertStreamToString(t.getRequestBody());
         System.out.println(new Date() + " Received new Command\n" + json);
-        HashedMessage hm=HashedMessage.decode(json);
+        HashedMessage hm = HashedMessage.decode(json);
         return hm.getMessage();
     }
-
-   
 
 }

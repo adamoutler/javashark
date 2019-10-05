@@ -6,11 +6,9 @@
 package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.VMERROR;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * curl -X PATCH -d *
@@ -27,7 +25,9 @@ public class DeepBuildingScanHandler extends SentryAbstractPapaHandler {
             vm.clearTasks();
             vm.setHashes(request.getData().getHashes());
         } catch (Exception ex) {
-            this.sendBadReq(he, username, ErrorType.VMERROR);
+            request.getData().setErrorType(VMERROR);
+
+            this.sendBadReq(he, username);
             return;
         }
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGSCAN);

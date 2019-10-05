@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
 import static com.babysharks.messaging.ErrorType.INVALIDFILE;
+import static com.babysharks.messaging.ErrorType.NOERROR;
 import static com.babysharks.messaging.ErrorType.UNRECOGNIZEDSCREEN;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
@@ -21,27 +22,28 @@ import javax.imageio.ImageIO;
  */
 public class AnalyzeScreenshotHandler extends AbstractPapaHandler {
 
-
     public AnalyzeScreenshotHandler() {
-        
+
     }
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        String screenshotURL=request.getData().getUrl();
-        String filename=screenshotURL.substring(screenshotURL.lastIndexOf("/"));
-        File screenshotFile=new File(ScreenshotHandler.OUTPUT+File.separator+filename);
-        if (! screenshotFile.exists()){
-            this.sendBadReq(t,"invalid file",INVALIDFILE);
+        String screenshotURL = request.getData().getUrl();
+        String filename = screenshotURL.substring(screenshotURL.lastIndexOf("/"));
+        File screenshotFile = new File(ScreenshotHandler.OUTPUT + File.separator + filename);
+        if (!screenshotFile.exists()) {
+            request.getData().setErrorType(INVALIDFILE);
+            this.sendBadReq(t, "invalid file");
         }
-        BufferedImage image=ImageIO.read(screenshotFile);
-        ScreenData d=ScreenData.identifyScreen(image);
-        if (!d.equals(ScreenData.CITYKINGS)){
-            this.sendBadReq(t, "unrecognized screen",UNRECOGNIZEDSCREEN);
+        BufferedImage image = ImageIO.read(screenshotFile);
+        ScreenData d = ScreenData.identifyScreen(image);
+        if (!d.equals(ScreenData.CITYKINGS)) {
+            request.getData().setErrorType(UNRECOGNIZEDSCREEN);
+            this.sendBadReq(t, "unrecognized screen");
         }
-        CityKingsBattlefieldAnalysis ckb=new CityKingsBattlefieldAnalysis(image);
+        CityKingsBattlefieldAnalysis ckb = new CityKingsBattlefieldAnalysis(image);
         request.getData().setResultObject(ckb);
-       
+        request.getData().setErrorType(NOERROR);
         this.sendSucessMessage(t, request);
     }
 

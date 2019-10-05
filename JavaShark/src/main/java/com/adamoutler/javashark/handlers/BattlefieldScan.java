@@ -7,6 +7,7 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.javashark.sentry_tools.SentryTools;
 import com.adamoutler.virtualbox.task.TaskType;
+import static com.babysharks.messaging.ErrorType.NOERROR;
 import static com.babysharks.messaging.ErrorType.USERHASNOSENTRY;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
@@ -36,7 +37,9 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
             friendly = true;
         }
         if (vm == null) {
-            this.sendBadReq(he, username + " has no sentry",USERHASNOSENTRY);
+            request.getData().setErrorType(USERHASNOSENTRY);
+
+            this.sendBadReq(he, username + " has no sentry");
         }
         vm.getTaskData().setFriendlyScan(friendly);
         vm.getTaskData().setBuildingsToScan(buildingsToScan);
@@ -55,6 +58,7 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         } else {
         }
         request.getData().addAvailable(vm);
+        request.getData().setErrorType(NOERROR);
         this.sendSucessMessage(he, request);
     }
 }

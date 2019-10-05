@@ -41,7 +41,7 @@ public class StartCatsTask extends Task {
                     || sd.equals(ScreenData.CITYKINGS)
                     || sd.equals(ScreenData.RECONNECT)) {
                 complete(vm);
-            }  else if (sd.equals(ScreenData.WHATCANYOUDOTODAY)){
+            } else if (sd.equals(ScreenData.WHATCANYOUDOTODAY)) {
                 vm.tap(BattlefieldNavigator.BACKBUTTON);
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
@@ -61,13 +61,13 @@ public class StartCatsTask extends Task {
 
                     initializeTask(vm);
                 }
-                if (vm.getTaskData().startCatsRetries==201){
+                if (vm.getTaskData().startCatsRetries == 201) {
                     vm.clearTasks();
                     vm.addTask(TaskType.POWEROFF);
                     vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
 
                 }
-                
+
             }
         }
     }

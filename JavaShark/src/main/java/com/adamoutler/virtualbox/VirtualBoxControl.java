@@ -42,7 +42,7 @@ public class VirtualBoxControl {
         this.vm = vm;
     }
 
-    public  void main(String[] args) {
+    public void main(String[] args) {
 
 //        VirtualBoxMachine vm = new VirtualBox().getUserMachine("development", "adamoutler");
 //        VirtualBoxControl vbox = new VirtualBoxControl(vm);
@@ -50,7 +50,6 @@ public class VirtualBoxControl {
 //        vbox.startVirtualMachine();
 //        vbox.startCats();
 //        vbox.startSentry(9999999);
-
     }
 
     /**
@@ -79,8 +78,8 @@ public class VirtualBoxControl {
             args.add(vm.getVMName());
             this.executeProcess(args, 5);
 
-            new JadbConnection().connectToTcpDevice(new InetSocketAddress("127.0.0.1",vm.getPortNumberInt()));
-            List l=new JadbConnection().getDevices();
+            new JadbConnection().connectToTcpDevice(new InetSocketAddress("127.0.0.1", vm.getPortNumberInt()));
+            List l = new JadbConnection().getDevices();
             //todo verify device
             return true;
         } catch (IOException | JadbException | ConnectionToRemoteDeviceException ex) {

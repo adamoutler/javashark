@@ -7,10 +7,8 @@ package com.adamoutler.cats.battlefield;
 
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.car.Car;
-import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.imagerecognition.ByteImage;
-import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.babysharks.datastructures.Gang;
 import java.awt.image.BufferedImage;
@@ -22,8 +20,6 @@ import java.util.LinkedList;
  * @author adamo
  */
 public class Battlefield {
-
-
 
     public enum buildingData {
         BUILDING1NAME(new PicCoords(178, 345, 110, 25)),
@@ -52,7 +48,7 @@ public class Battlefield {
         }
 
     }
-    private String ocrName="";
+    private String ocrName = "";
     private byte[] ocrNamePic;
     private final long time = System.currentTimeMillis();
     private boolean friendly;
@@ -186,12 +182,12 @@ public class Battlefield {
      * @param boardScreenshot the boardScreenshot to set
      */
     public void setBoardScreenshot(BufferedImage boardScreenshot) {
-        this.screenshot=ByteImage.getPngBytes(boardScreenshot);
+        this.screenshot = ByteImage.getPngBytes(boardScreenshot);
         this.boardScreenshot = boardScreenshot;
     }
 
     public void clearScreenshots() {
-        this.screenshot=null;
+        this.screenshot = null;
         for (Building building : buildings) {
             building.clearBuildingPics();
         }
@@ -199,19 +195,20 @@ public class Battlefield {
 
     /**
      * set the ocr name of the opponent
+     *
      * @param opponentName
-     * @return 
+     * @return
      */
     public Battlefield setOcrName(String opponentName) {
-        ocrName=opponentName;
+        ocrName = opponentName;
         return this;
     }
-    
+
     /**
-     * 
+     *
      * @return the OCR recognized name.
      */
-    public String getOcrName(){
+    public String getOcrName() {
         return ocrName;
     }
 
@@ -219,7 +216,9 @@ public class Battlefield {
      * @return the ocrNamePic
      */
     public BufferedImage getOcrNamePic() {
-        if(ocrNamePic==null) return null;
+        if (ocrNamePic == null) {
+            return null;
+        }
         return ByteImage.getImageFromBytes(ocrNamePic);
     }
 
@@ -228,23 +227,22 @@ public class Battlefield {
      * @return reference to this object
      */
     public Battlefield setOcrNamePic(BufferedImage ocrNamePic) {
-        if (ocrNamePic==null){
-            this.ocrNamePic=null;
+        if (ocrNamePic == null) {
+            this.ocrNamePic = null;
             return this;
         }
-        
-        byte[] bytes=ByteImage.getJpgBytes(ByteImage.getPngBytes(ocrNamePic));
+
+        byte[] bytes = ByteImage.getJpgBytes(ByteImage.getPngBytes(ocrNamePic));
         this.ocrNamePic = bytes;
         return this;
     }
-    
-    public ArrayList<Car> getAllCars(){
-        ArrayList<Car> cars=new ArrayList<>();
-        for (Building b:buildings){
+
+    public ArrayList<Car> getAllCars() {
+        ArrayList<Car> cars = new ArrayList<>();
+        for (Building b : buildings) {
             cars.addAll(b.getCars());
         }
         return cars;
     }
-
 
 }

@@ -27,8 +27,8 @@ public class LocationTime {
                 + "&inputtype=textquery&input=" + location;
         JsonElement jes = getLocation(locationRequest);
         System.out.println(jes.toString());
-        if (jes.toString().contains("ZERO_RESULTS")){
-            GooglePlaceDetail gpd= new GooglePlaceDetail();
+        if (jes.toString().contains("ZERO_RESULTS")) {
+            GooglePlaceDetail gpd = new GooglePlaceDetail();
             gpd.setName("I don't know that place");
             return gpd;
         }
@@ -61,44 +61,42 @@ public class LocationTime {
 
     static String check = "/time ";
 
-    public String  getDetails(String apiKey, String place) {
- 
-     
+    public String getDetails(String apiKey, String place) {
 
         try {
             GooglePlaceDetail dr = getLocation(place, apiKey);
             return getFriendlyTime(dr);
 
         } catch (Exception ex) {
-          return  "I don't know that place.";
+            return "I don't know that place.";
 
         }
-
-        
 
     }
 
     private static String getFriendlyTime(GooglePlaceDetail dr) {
-        return "It is "+getCurrentTime(dr) + " in " + dr.getAddressComponents().get(0).getLongName()+ "(" +dr.getAddressComponents().get(0).getShortName() + ").";
+        return "It is " + getCurrentTime(dr) + " in " + dr.getAddressComponents().get(0).getLongName() + "(" + dr.getAddressComponents().get(0).getShortName() + ").";
     }
-    
-    public static DateTimeResult getDateTimeObject(String place,String apiKey){
-        DateTimeResult dtr =new DateTimeResult(getLocation(place, apiKey));
+
+    public static DateTimeResult getDateTimeObject(String place, String apiKey) {
+        DateTimeResult dtr = new DateTimeResult(getLocation(place, apiKey));
         return dtr;
     }
 
     public static boolean isTimeExtractionCommand(String value) {
         return value.toLowerCase().contains(check);
     }
-public static String getCurrentTime(GooglePlaceDetail result){
-        
-        long offset=getUtcOffset( result);
-        String curDate=UserTimeCalculator.calculateUTCTimeWithOffset(offset);
+
+    public static String getCurrentTime(GooglePlaceDetail result) {
+
+        long offset = getUtcOffset(result);
+        String curDate = UserTimeCalculator.calculateUTCTimeWithOffset(offset);
         return curDate;
-        
+
     }
- public static int getUtcOffset(GooglePlaceDetail result) {
-        
-       return result.getUtcOffset();
+
+    public static int getUtcOffset(GooglePlaceDetail result) {
+
+        return result.getUtcOffset();
     }
 }

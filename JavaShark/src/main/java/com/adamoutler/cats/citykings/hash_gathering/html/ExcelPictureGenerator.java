@@ -13,14 +13,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  * @author adamo
  */
 public class ExcelPictureGenerator {
+
     HSSFSheet sheet;
-    
-   public String toHTML(HSSFWorkbook wb){
-       StringBuffer app=new StringBuffer();
-       ToHtml.create(wb, app);
-       
-       
-       return "";
-       
-   }
+
+    public String toHTML(HSSFWorkbook wb) {
+        StringBuffer app = new StringBuffer();
+        ToHtml.create(wb, app);
+
+        return "";
+
+    }
 }

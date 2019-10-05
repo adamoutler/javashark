@@ -16,16 +16,16 @@ import java.io.FileReader;
  * @author adamo
  */
 public class ReportFactory {
-    private String repoFolder="/var/www/baby-sharks/excel/";
-    
-    
-    public CityKingsMatchRaw getReport(String filename) throws FileNotFoundException{
-        String name=filename.substring(0, filename.lastIndexOf(".")).replaceAll(".*/", "");
+
+    private String repoFolder = "/var/www/baby-sharks/excel/";
+
+    public CityKingsMatchRaw getReport(String filename) throws FileNotFoundException {
+        String name = filename.substring(0, filename.lastIndexOf(".")).replaceAll(".*/", "");
         Gson gson = new GsonBuilder().create();
-        File f=new File(getRepoFolder()+name);
-        System.out.println("loading "+f.getAbsolutePath());
-        FileReader fr=new FileReader(new File(getRepoFolder()+"/"+name));
-        CityKingsMatchRaw match=gson.fromJson(fr, CityKingsMatchRaw.class);
+        File f = new File(getRepoFolder() + name);
+        System.out.println("loading " + f.getAbsolutePath());
+        FileReader fr = new FileReader(new File(getRepoFolder() + "/" + name));
+        CityKingsMatchRaw match = gson.fromJson(fr, CityKingsMatchRaw.class);
         return match;
     }
 
@@ -42,5 +42,5 @@ public class ReportFactory {
     public void setRepoFolder(String repoFolder) {
         this.repoFolder = repoFolder;
     }
-    
+
 }

@@ -17,18 +17,19 @@ public class UpdateCatsTask extends Task {
     void initializeTask(VirtualBoxMachine vm) {
         ready(vm);
 
-            vm.adbShell(new String[]{"input keyevent KEYCODE_HOME; am start -a android.intent.action.VIEW -d 'market://details?id=com.zeptolab.cats.google'"});
-            vm.getTaskData().setIdleNow();
+        vm.adbShell(new String[]{"input keyevent KEYCODE_HOME; am start -a android.intent.action.VIEW -d 'market://details?id=com.zeptolab.cats.google'"});
+        vm.getTaskData().setIdleNow();
     }
 
     @Override
     void runTask(VirtualBoxMachine vm) {
-        if (System.currentTimeMillis()>vm.getTaskData().getIdleTime()+60000){
+        if (System.currentTimeMillis() > vm.getTaskData().getIdleTime() + 60000) {
             vm.adbShell(new String[]{"input tap 730 262"});
             complete(vm);
-            
+
         }
     }
+
     @Override
     public boolean resume(VirtualBoxMachine vm) {
         return false;

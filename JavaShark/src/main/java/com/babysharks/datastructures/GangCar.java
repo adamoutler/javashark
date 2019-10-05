@@ -160,7 +160,7 @@ public class GangCar {
     }
 
     public void clearCarScreenshot() {
-        this.car_badge=null;
+        this.car_badge = null;
     }
 
     public void clearRowAndColumn() {

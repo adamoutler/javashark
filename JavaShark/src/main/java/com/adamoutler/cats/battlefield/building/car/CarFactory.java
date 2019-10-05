@@ -12,5 +12,5 @@ package com.adamoutler.cats.battlefield.building.car;
 public interface CarFactory {
 
     boolean scan();
-    
+
 }

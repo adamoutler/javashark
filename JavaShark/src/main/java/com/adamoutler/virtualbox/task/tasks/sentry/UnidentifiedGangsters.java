@@ -30,11 +30,11 @@ public class UnidentifiedGangsters {
             if (building.isSuspectProblem()) {
                 report.setReportContainsFlaws(true);
             }
-            
-            if (building.getCars()==null||building.getCars().isEmpty()||building.getTosb()==null){
+
+            if (building.getCars() == null || building.getCars().isEmpty() || building.getTosb() == null) {
                 return;
             }
-            
+
             if (building.getTosb().getTotalSlots() < 3) {
                 System.err.println("Failure to acquire building");
                 report.setReportContainsFlaws(true);
@@ -43,14 +43,14 @@ public class UnidentifiedGangsters {
             building.getCars().forEach((car) -> {
                 Gangster g = gang.get_gangster_by_hash(car.getNameHash());
                 g.addCar(GangCar.convertCar(car));
-                try{
-                for (Map.Entry<String, String> e : vm.getHashes().entrySet()) {
-                    if (g.get_hashes().contains(e.getKey())) {
-                        g.set_Username(e.getValue());
+                try {
+                    for (Map.Entry<String, String> e : vm.getHashes().entrySet()) {
+                        if (g.get_hashes().contains(e.getKey())) {
+                            g.set_Username(e.getValue());
+                        }
                     }
-                }}
-                catch (Exception ex){
-                    
+                } catch (Exception ex) {
+
                 }
             });
         });

@@ -30,8 +30,8 @@ public class DirectTesseract {
      * path to expected location of Linux Tesseract
      */
     public static File tesseractLinux = new File("/usr/bin/tesseract");
-    public static final String TESSDATA=System.getProperty("user.home")+File.separator+"userContent"+File.separator+"jTessBoxEditor"+File.separator+"samples"+File.separator+"vie"+File.separator+"tessdata";
-    public static final String TESSPATTERNS=TESSDATA+File.separator+"catstest.txt";
+    public static final String TESSDATA = System.getProperty("user.home") + File.separator + "userContent" + File.separator + "jTessBoxEditor" + File.separator + "samples" + File.separator + "vie" + File.separator + "tessdata";
+    public static final String TESSPATTERNS = TESSDATA + File.separator + "catstest.txt";
 
     public static String runTesseractSingleWord(BufferedImage bi) {
         try {
@@ -40,7 +40,7 @@ public class DirectTesseract {
             FileOutputStream fos = new FileOutputStream(inputFile);
             ImageIO.write(bi, "PNG", fos);
             fos.close();
-            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"-l","eng","--tessdata-dir",TESSDATA, "-c","tessedit_char_whitelist=0123456789hms+","--psm", "8", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
+            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(), "-l", "eng", "--tessdata-dir", TESSDATA, "-c", "tessedit_char_whitelist=0123456789hms+", "--psm", "8", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
             pb.redirectErrorStream(true);
             Process p = pb.start();
             inputFile.deleteOnExit();
@@ -55,7 +55,7 @@ public class DirectTesseract {
             FileInputStream fis = new FileInputStream(textFile + ".txt");
             while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
                 char i = (char) fis.read();
-                if (i=='\uffff') {
+                if (i == '\uffff') {
                     break;
                 }
                 sb.append(i);
@@ -70,14 +70,14 @@ public class DirectTesseract {
         return "";
     }
 
-     public static String runTesseractMultiWord(BufferedImage bi) {
+    public static String runTesseractMultiWord(BufferedImage bi) {
         try {
             File inputFile = File.createTempFile("TesseractJavaShark", ".png");
             File textFile = File.createTempFile("TesseractJavaShark", "");
             FileOutputStream fos = new FileOutputStream(inputFile);
             ImageIO.write(bi, "PNG", fos);
             fos.close();
-            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(),"-l","eng","--tessdata-dir",TESSDATA, "-c","tessedit_char_whitelist=0123456789hms+","--psm", "7", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
+            ProcessBuilder pb = new ProcessBuilder(getTesseractPathFile().getAbsolutePath(), "-l", "eng", "--tessdata-dir", TESSDATA, "-c", "tessedit_char_whitelist=0123456789hms+", "--psm", "7", inputFile.getAbsolutePath(), textFile.getAbsolutePath());
             pb.redirectErrorStream(true);
             Process p = pb.start();
             inputFile.deleteOnExit();
@@ -92,7 +92,7 @@ public class DirectTesseract {
             FileInputStream fis = new FileInputStream(textFile + ".txt");
             while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
                 char i = (char) fis.read();
-                if (i=='\uffff') {
+                if (i == '\uffff') {
                     break;
                 }
                 sb.append(i);
@@ -106,6 +106,7 @@ public class DirectTesseract {
         }
         return "";
     }
+
     /**
      * Provide references to the location of Tesseract
      *

@@ -75,7 +75,7 @@ public class CityKingsBattlefieldAnalysisTest {
         System.out.println("getLeftSideOfOurGainingScore");
         XYCoords expResult = new XYCoords(227, 136);
         XYCoords result = instance.getLeftSideOfOurGainingScore();
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -87,7 +87,7 @@ public class CityKingsBattlefieldAnalysisTest {
         System.out.println("getCoordinatesOurGaining");
         PicCoords expResult = new PicCoords(227, 136, 58, 45);
         PicCoords result = instance.getCoordinatesOurGaining();
-        assertEquals(expResult,result );
+        assertEquals(expResult, result);
 
     }
 
@@ -100,7 +100,7 @@ public class CityKingsBattlefieldAnalysisTest {
         System.out.println("getCoordinatesOurScore");
         PicCoords expResult = new PicCoords(294, 126, 96, 60);
         PicCoords result = instance.getCoordinatesOurScore();
-        assertEquals(expResult,result );
+        assertEquals(expResult, result);
 
     }
 
@@ -113,7 +113,7 @@ public class CityKingsBattlefieldAnalysisTest {
         System.out.println("getRightSideOfTheirGainingScore");
         XYCoords expResult = new XYCoords(739, 136);
         XYCoords result = instance.getLeftSideOfTheirGainingScore();
-        assertEquals(expResult,result );
+        assertEquals(expResult, result);
 
     }
 
@@ -127,7 +127,7 @@ public class CityKingsBattlefieldAnalysisTest {
         PicCoords expResult = new PicCoords(739, 136, 59, 45);
         PicCoords result = instance.getCoordinatesTheirGaining();
 
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
 
     }
 
@@ -166,7 +166,6 @@ public class CityKingsBattlefieldAnalysisTest {
 
     }
 
-    
     @Test
     public void testCoords2() {
         try {
@@ -211,9 +210,4 @@ public class CityKingsBattlefieldAnalysisTest {
 
     }
 
-    
-    
-    
-    
-    
 }

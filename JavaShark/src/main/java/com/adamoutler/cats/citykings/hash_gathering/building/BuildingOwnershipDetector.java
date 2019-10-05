@@ -86,7 +86,7 @@ public class BuildingOwnershipDetector {
             String s = new GsonBuilder().create().toJson(bod);
 
             String outputFile = getBuildingOwnershipFileName(-1);
-            
+
             try (Writer writer = new FileWriter(outputFile)) {
                 Gson gson = new GsonBuilder().create();
                 gson.toJson(bod, writer);
@@ -104,15 +104,14 @@ public class BuildingOwnershipDetector {
     private static String getBuildingOwnershipFileName(int numberToGoBack) {
         String tempdir = System.getProperty("java.io.tmpdir");
         String tempName = "BuildingOwnershipObject";
-        String[] fileNames = new File(tempdir).list((File dir, String name)->{
-          return name.startsWith(tempName);
+        String[] fileNames = new File(tempdir).list((File dir, String name) -> {
+            return name.startsWith(tempName);
         });
         ArrayList<String> list = new ArrayList<>();
-        for (String s:fileNames){
+        for (String s : fileNames) {
             list.add(s.replaceAll("[^\\d]", ""));
-        }        
-        
-        
+        }
+
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -126,15 +125,14 @@ public class BuildingOwnershipDetector {
             }
         });
         Collections.reverse(list);
-        System.out.println("file numbers: "+list);
-        
-        Long l=Long.parseLong(list.get(0));
-        
-        
-        System.out.println("newest file: "+l+".  going back: "+numberToGoBack+". Result"+(l-numberToGoBack));
-        System.out.println("File name: "+tempdir + File.separator + tempName + (l- numberToGoBack) + ".json");
+        System.out.println("file numbers: " + list);
+
+        Long l = Long.parseLong(list.get(0));
+
+        System.out.println("newest file: " + l + ".  going back: " + numberToGoBack + ". Result" + (l - numberToGoBack));
+        System.out.println("File name: " + tempdir + File.separator + tempName + (l - numberToGoBack) + ".json");
         try {
-            return tempdir + File.separator + tempName + (l- numberToGoBack) + ".json";
+            return tempdir + File.separator + tempName + (l - numberToGoBack) + ".json";
         } catch (NumberFormatException | IndexOutOfBoundsException ex) {
             return tempdir + File.separator + tempName + "0.json";
         }

@@ -25,8 +25,8 @@ public class XYCoords {
     public int getX() {
         return x;
     }
-    
-    public String getXStr(){
+
+    public String getXStr() {
         return Integer.toString(x);
     }
 
@@ -36,15 +36,16 @@ public class XYCoords {
     public int getY() {
         return y;
     }
-    public String getYStr(){
+
+    public String getYStr() {
         return Integer.toString(y);
     }
 
     @Override
-    public boolean equals(Object o){
-        if (o.getClass().equals(this.getClass())){
-            XYCoords xy=(XYCoords)o;
-            if (xy.getX()==this.getX() && xy.getY()==this.getY()){
+    public boolean equals(Object o) {
+        if (o.getClass().equals(this.getClass())) {
+            XYCoords xy = (XYCoords) o;
+            if (xy.getX() == this.getX() && xy.getY() == this.getY()) {
                 return true;
             }
         }
@@ -58,8 +59,9 @@ public class XYCoords {
         hash = 37 * hash + this.y;
         return hash;
     }
+
     @Override
-    public String toString(){
-        return "x:"+x+"  y:"+y;
+    public String toString() {
+        return "x:" + x + "  y:" + y;
     }
 }

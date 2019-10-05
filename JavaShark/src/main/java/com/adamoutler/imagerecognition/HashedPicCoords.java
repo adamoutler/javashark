@@ -16,8 +16,8 @@ public class HashedPicCoords extends PicCoords {
 
     int hash;
 
-    private static boolean debug=false;
-    
+    private static boolean debug = false;
+
     public HashedPicCoords(int x, int y, int w, int h) {
         super(x, y, w, h);
     }
@@ -27,18 +27,20 @@ public class HashedPicCoords extends PicCoords {
         this.hash = hash;
     }
 
-    public  int getHash(BufferedImage image) {
-        BufferedImage bi=image.getSubimage(x, y, getW(), getH());
-        byte[] bytes=ByteImage.getPngBytes(bi);
-        int imageHash=Arrays.hashCode(bytes);
-        
-        if (debug) System.out.println("" + x + "," + y + ","+ getW() + ","+ getH() + "," + imageHash);
+    public int getHash(BufferedImage image) {
+        BufferedImage bi = image.getSubimage(x, y, getW(), getH());
+        byte[] bytes = ByteImage.getPngBytes(bi);
+        int imageHash = Arrays.hashCode(bytes);
+
+        if (debug) {
+            System.out.println("" + x + "," + y + "," + getW() + "," + getH() + "," + imageHash);
+        }
         return imageHash;
     }
 
-    public boolean hashMatches(BufferedImage image){
-        int testhash=getHash(image);
-        return testhash==hash;
+    public boolean hashMatches(BufferedImage image) {
+        int testhash = getHash(image);
+        return testhash == hash;
     }
 
     /**
@@ -47,17 +49,17 @@ public class HashedPicCoords extends PicCoords {
     public static void setDebug(boolean aDebug) {
         debug = aDebug;
     }
-    
+
     @Override
-     public  BufferedImage getImageAtCoords(BufferedImage bi){
-        BufferedImage subImage=bi.getSubimage(x, y, getW(), getH());
+    public BufferedImage getImageAtCoords(BufferedImage bi) {
+        BufferedImage subImage = bi.getSubimage(x, y, getW(), getH());
         return subImage;
     }
-     
-      @Override
-      public String toString(){
-          return super.toString()+","+hash;
-          
-      }
-            
+
+    @Override
+    public String toString() {
+        return super.toString() + "," + hash;
+
+    }
+
 }

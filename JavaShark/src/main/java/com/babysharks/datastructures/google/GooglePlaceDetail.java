@@ -17,13 +17,14 @@ public class GooglePlaceDetail {
     private List<AddressComponent> addressComponents = new ArrayList<>();
     @SerializedName("utc_offset")
     @Expose
-    private Integer utcOffset=99999999;
+    private Integer utcOffset = 99999999;
     @SerializedName("url")
     @Expose
-    private String url="0.0.0.0";
+    private String url = "0.0.0.0";
     @SerializedName("name")
     @Expose
-    private String name="Unknown Place";
+    private String name = "Unknown Place";
+
     public List<AddressComponent> getAddressComponents() {
         return addressComponents;
     }

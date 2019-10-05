@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
  */
 public class ReportTools {
 
-
     CityKingsMatchRaw battlefield;
     Gangs gangs = new Gangs();
 
@@ -34,8 +33,8 @@ public class ReportTools {
         ReportFactory r = new ReportFactory();
         r.setRepoFolder(repo);
         ReportTools rt = new ReportTools(gangName, r.getReport(name));
-        for (CityKingsBuildingRaw building:rt.battlefield.getBuildings()){
-            for (CityKingsCarRaw car:building.getCars()){
+        for (CityKingsBuildingRaw building : rt.battlefield.getBuildings()) {
+            for (CityKingsCarRaw car : building.getCars()) {
                 rt.gangs.get_Gang_By_Name(gangName).get_gangster_by_hash(car.getNameHash()).addCar(GangCar.convertCar(car));
             }
         }

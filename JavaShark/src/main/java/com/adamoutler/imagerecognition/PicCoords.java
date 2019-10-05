@@ -12,15 +12,16 @@ import java.awt.image.BufferedImage;
  * @author adamo
  */
 public class PicCoords extends XYCoords {
+
     private int w;
     private int h;
-    public PicCoords(int x, int y, int w, int h){
-        super(x,y);
-        this.w=w;
-        this.h=h;
+
+    public PicCoords(int x, int y, int w, int h) {
+        super(x, y);
+        this.w = w;
+        this.h = h;
     }
 
-  
     /**
      * @return the w
      */
@@ -34,18 +35,17 @@ public class PicCoords extends XYCoords {
     public int getH() {
         return h;
     }
-    
-    public  BufferedImage getImageAtCoords(BufferedImage bi){
-        BufferedImage subImage=bi.getSubimage(x, y, getW(), getH());
+
+    public BufferedImage getImageAtCoords(BufferedImage bi) {
+        BufferedImage subImage = bi.getSubimage(x, y, getW(), getH());
         return subImage;
     }
-    
-    
-    public String toString(){
-        StringBuilder sb=new StringBuilder();
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         sb.append(" W:").append(getW()).append(" H:").append(this.getH());
         return sb.toString();
     }
-           
+
 }

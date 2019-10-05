@@ -12,10 +12,11 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
  * @author adamo
  */
 class TemporaryTaskHandler {
-    public static void doTemporaryTask(VirtualBoxMachine vm){
+
+    public static void doTemporaryTask(VirtualBoxMachine vm) {
         vm.getTemporaryTask().getTask().init(vm);
         vm.getTemporaryTask().getTask().exec(vm);
         vm.setTemporaryTask(null);
-        
+
     }
 }

@@ -34,7 +34,7 @@ public class PoweroffTask extends Task {
 
     }
 
-     @Override
+    @Override
     public boolean resume(VirtualBoxMachine vm) {
         return false;
     }

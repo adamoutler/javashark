@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gang {
 
     String gang_name;
-   private ArrayList<Gangster>  gangsters = new ArrayList<>();
+    private ArrayList<Gangster> gangsters = new ArrayList<>();
     String reportName;
 
     public Gang(String gang) {

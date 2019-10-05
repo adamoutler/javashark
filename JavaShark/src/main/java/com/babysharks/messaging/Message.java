@@ -13,11 +13,10 @@ import com.google.gson.GsonBuilder;
  * @author adamo
  */
 public class Message {
+
     private String command;
     private MessageData data = new MessageData();
     private String timestamp;
-    
-    
 
     public Message() {
         generateTimeStamp();
@@ -64,7 +63,7 @@ public class Message {
         return timestamp;
     }
 
-      public String toJson() {
+    public String toJson() {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setLenient().setPrettyPrinting().create();
         this.timestamp = getTimestamp();
         return gson.toJson(this);

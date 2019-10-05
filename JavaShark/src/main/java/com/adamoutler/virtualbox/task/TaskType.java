@@ -10,8 +10,6 @@ import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFoeScanTask;
 import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFriendlylScanTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionCKTask;
 import com.adamoutler.virtualbox.task.tasks.CorrectiveActionFacebook;
-import com.adamoutler.virtualbox.task.tasks.DeepBuildingFoeScanTask;
-import com.adamoutler.virtualbox.task.tasks.DeepBuildingFriendlyScanTask;
 import com.adamoutler.virtualbox.task.tasks.ForceRemoveTask;
 import com.adamoutler.virtualbox.task.tasks.Idle20MinuteTask;
 import com.adamoutler.virtualbox.task.tasks.IdleMinuteTask;
@@ -43,20 +41,18 @@ public enum TaskType {
     BATTLEFIELDSCAN(new BattlefieldFullFriendlylScanTask(), "Performing Deep Building Scanning, Friendly Machines"),
     DEEPBUILDINGSCAN(new BattlefieldFullFriendlylScanTask(), "Deep Building Scanning, Friendly Machines"),
     DEEPBUILDINGRECON(new BattlefieldFullFoeScanTask(), "Deep Building Scanning, Foe Machines"),
-    POWERON(new PowerOnTask(),"Turn the machine on"),
-    STARTCATS(new StartCatsTask(),"Start CATS"),
-    POWEROFF(new PoweroffTask(),"Machine is powered off"),
-    SKIP(new ForceRemoveTask(),"Skip the current task"),
+    POWERON(new PowerOnTask(), "Turn the machine on"),
+    STARTCATS(new StartCatsTask(), "Start CATS"),
+    POWEROFF(new PoweroffTask(), "Machine is powered off"),
+    SKIP(new ForceRemoveTask(), "Skip the current task"),
     CLEAR(new IdleTask(), "Clearing all tasks"),
     FACEBOOK(new CorrectiveActionFacebook(), "Opening Facebook Screen"),
-    CORRECTIVEACTIONCK(new CorrectiveActionCKTask(),"Performing steps to get to CK"),
-    IDLE1MINUTE(new IdleMinuteTask(),"Waiting for one minute"),
+    CORRECTIVEACTIONCK(new CorrectiveActionCKTask(), "Performing steps to get to CK"),
+    IDLE1MINUTE(new IdleMinuteTask(), "Waiting for one minute"),
     HOLD(new Idle20MinuteTask(), "Holding machine online for 20 minutes"),
-    UPDATECATS(new UpdateCatsTask(),"Updating CATS."),
-    MYCARS(new MyCarsTask(),"Examining my cars");
-    
-    
-    
+    UPDATECATS(new UpdateCatsTask(), "Updating CATS."),
+    MYCARS(new MyCarsTask(), "Examining my cars");
+
     private IfaceTask task;
     private String taskDescription;
 
@@ -72,7 +68,6 @@ public enum TaskType {
         return task;
     }
 
-   
     /**
      * @return the taskName
      */
@@ -80,7 +75,7 @@ public enum TaskType {
         return taskDescription;
     }
 
-      private static String getTaskFile(VirtualBoxMachine vm) {
+    private static String getTaskFile(VirtualBoxMachine vm) {
         String fileName = System.getProperty("java.io.tmpdir") + "/" + vm.getVMName();
         return fileName;
     }
@@ -93,7 +88,7 @@ public enum TaskType {
             try {
                 String contents = new String(Files.readAllBytes(Paths.get(fileName)));
                 currentTask = TaskType.valueOf(contents);
-                System.out.println(vm.getVMName()+" found resumable task "+currentTask);
+                System.out.println(vm.getVMName() + " found resumable task " + currentTask);
             } catch (IOException ex) {
                 currentTask = TaskType.IDLE;
                 System.out.println("resumable task not found");
@@ -110,6 +105,5 @@ public enum TaskType {
             Logger.getLogger(Task.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
 }

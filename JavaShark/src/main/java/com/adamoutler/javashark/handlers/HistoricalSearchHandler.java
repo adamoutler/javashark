@@ -5,31 +5,26 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.records_search.BattleRecordSearch;
 import com.adamoutler.records_search.BattlefieldSearchParser;
-import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.WHATEVER;
+import com.babysharks.messaging.SearchQuery;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
-import com.babysharks.messaging.SearchQuery;
 
 /**
  *
  * @author adamo
  */
-public class HistoricalSearchHandler extends AbstractPapaHandler{
+public class HistoricalSearchHandler extends AbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        SearchQuery sq=request.getData().getQuery();
+        SearchQuery sq = request.getData().getQuery();
         new BattlefieldSearchParser(sq);
-        this.sendArbitrary(400, he, "WTF", ErrorType.WHATEVER);
-        
+        request.getData().setErrorType(WHATEVER);
+
+        this.sendArbitrary(400, he, "WTF");
+
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

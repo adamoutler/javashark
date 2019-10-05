@@ -54,15 +54,15 @@ public class VirtualBoxTest {
         VirtualBox instance = new VirtualBox();
         instance.processVMList(value, al);
         // TODO review the generated test code and remove the default call to fail.
-        VirtualBoxMachine m0=al.get(0);
-        VirtualBoxMachine m1=al.get(1);
-        VirtualBoxMachine m2=al.get(2);
-        assertEquals("127.0.0.1:5558",m0.getAdbName());
-        assertEquals("development",m0.getGang());
-        assertEquals("javashark",m1.getUsername());
-        assertEquals("10553",m1.getRdpPort());
-        assertEquals("5562",m2.getPortNumber());
-        assertEquals(5562,m2.getPortNumberInt());
+        VirtualBoxMachine m0 = al.get(0);
+        VirtualBoxMachine m1 = al.get(1);
+        VirtualBoxMachine m2 = al.get(2);
+        assertEquals("127.0.0.1:5558", m0.getAdbName());
+        assertEquals("development", m0.getGang());
+        assertEquals("javashark", m1.getUsername());
+        assertEquals("10553", m1.getRdpPort());
+        assertEquals("5562", m2.getPortNumber());
+        assertEquals(5562, m2.getPortNumberInt());
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.babysharks.messaging.ErrorType;
 import static com.babysharks.messaging.ErrorType.NOERROR;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
@@ -18,40 +17,42 @@ import java.io.OutputStream;
  *
  * @author adamo
  */
-public abstract class AbstractPapaHandler implements  HttpHandler {
+public abstract class AbstractPapaHandler implements HttpHandler {
 
     Message request;
-    
 
-    public void setMessage(Message m){
+    public void setMessage(Message m) {
         this.setRequest(m);
     }
 
     public void sendSucessMessage(HttpExchange t, Message message) throws IOException {
-        HashedMessage hm=new HashedMessage(message);
+        message.getData().setErrorType(NOERROR);
+        HashedMessage hm = new HashedMessage(message);
         String response = hm.toJson();
-        writeOutResponse(t, response,200,NOERROR);
+        writeOutResponse(t, response, 200);
     }
-    
-    public void sendSucessMessage(HttpExchange t, HashedMessage message,ErrorType errorType) throws IOException {
+
+    public void sendSucessMessage(HttpExchange t, HashedMessage message) throws IOException {
+        message.getMessage().getData().setErrorType(NOERROR);
         String response = message.toJson();
-        System.out.println("Sending response  "+ response);
-        writeOutResponse(t, response,200,NOERROR);
+        System.out.println("Sending response  " + response);
+        writeOutResponse(t, response, 200);
     }
 
-    public void sendSucessString(HttpExchange t, String response,ErrorType errorType) throws IOException {
-        
-        writeOutResponse(t, response,200,NOERROR);
+    public void sendSucessString(HttpExchange t, String response) throws IOException {
+        writeOutResponse(t, response, 200);
     }
 
-    public void sendBadReq(HttpExchange t, String response,ErrorType errorType) throws IOException {
-        writeOutResponse(t, response, 400,errorType);
+    public void sendBadReq(HttpExchange t, String response) throws IOException {
+        writeOutResponse(t, response, 400);
     }
-    public void sendConflictReq(HttpExchange t, String response,ErrorType errorType) throws IOException {
-        writeOutResponse(t, response, 409,errorType);
+
+    public void sendConflictReq(HttpExchange t, String response) throws IOException {
+        writeOutResponse(t, response, 409);
     }
-    public void sendArbitrary(int code, HttpExchange t, String response,ErrorType errorType) throws IOException {
-        writeOutResponse(t, response, code,errorType);
+
+    public void sendArbitrary(int code, HttpExchange t, String response) throws IOException {
+        writeOutResponse(t, response, code);
     }
 
     static String convertStreamToString(java.io.InputStream is) {
@@ -59,9 +60,10 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         return s.hasNext() ? s.next() : "";
     }
 
-    private void writeOutResponse(HttpExchange t, String response, int code, ErrorType errorType) throws IOException {
-        byte[] responseBytes=response.getBytes("UTF-8");
-        System.out.println(new String(responseBytes));
+    private void writeOutResponse(HttpExchange t, String response, int code) throws IOException {
+        byte[] responseBytes = response.getBytes("UTF-8");
+        String s = new String(responseBytes);
+        System.out.println(s);
         t.sendResponseHeaders(code, responseBytes.length);
         try (OutputStream responseStream = t.getResponseBody()) {
             responseStream.write(responseBytes);
@@ -83,5 +85,4 @@ public abstract class AbstractPapaHandler implements  HttpHandler {
         this.request = request;
     }
 
-    
 }

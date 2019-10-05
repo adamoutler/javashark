@@ -5,10 +5,10 @@
  */
 package com.adamoutler.cats.battlefield;
 
-import com.adamoutler.cats.screen_id.BattlefieldFactoryOcr;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.BuildingFactory;
 import com.adamoutler.cats.battlefield.building.car.Car;
+import com.adamoutler.cats.screen_id.BattlefieldFactoryOcr;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -106,9 +106,9 @@ public class BattlefieldFactory {
     }
 
     private void getOpponentName(VirtualBoxMachine vm) {
-        final BufferedImage screenshot=vm.screenshot();
+        final BufferedImage screenshot = vm.screenshot();
         Thread t = new Thread(() -> {
-           battlefield.setOcrName(BattlefieldFactoryOcr.setOpponentName(screenshot,battlefield));
+            battlefield.setOcrName(BattlefieldFactoryOcr.setOpponentName(screenshot, battlefield));
         });
         t.setName("OCR on opponent name");
         t.start();

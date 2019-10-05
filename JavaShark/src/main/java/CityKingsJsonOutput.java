@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 import com.adamoutler.cats.citykings.hash_gathering.*;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
@@ -50,7 +49,8 @@ public class CityKingsJsonOutput {
     public CityKingsJsonOutput() {
 
     }
-    public String createOutputFiles(File f, CityKingsMatchVisual match,boolean friendly) throws IOException {
+
+    public String createOutputFiles(File f, CityKingsMatchVisual match, boolean friendly) throws IOException {
         HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
         createStyles(workbook);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
@@ -60,7 +60,7 @@ public class CityKingsJsonOutput {
         writeSheet(f, workbook);
         return "";
     }
-    
+
     private HSSFSheet createCarsByHashSheet(HSSFWorkbook workbook, CityKingsMatchVisual match) throws IOException {
         HSSFSheet carsByHash = workbook.createSheet("Cars By User");
 
@@ -292,53 +292,57 @@ public class CityKingsJsonOutput {
 
         int minutesRemaining = 9999999;
         try {
-            minutesRemaining = ((Integer.parseInt(match.getBattlefield().getHours())*60) + Integer.parseInt(match.getBattlefield().getMinutes()));
-            
-        }catch (ArithmeticException ex){
-            System.out.println("could not get minutes remaining.");
-        }
-        int ourCurrentScore=1;
-        try { 
-            ourCurrentScore=Integer.parseInt(match.getBattlefield().getOurCurrentScore());
-        } catch (ArithmeticException ex){}
-        
-        int ourGainingScore=1;
-        try {
-             ourGainingScore=Integer.parseInt(match.getBattlefield().getOurGainingScore());
-        }catch (ArithmeticException ex){}
-        
-        
-        int theirGainingScore=1;
-        try {
-            theirGainingScore=Integer.parseInt(match.getBattlefield().getTheirGainingScore());
-        }catch (ArithmeticException ex){}
-        
-        int theirCurrentScore=1;
-        try {
-            theirCurrentScore=Integer.parseInt(match.getBattlefield().getTheirCurrentScore());
-        }catch (ArithmeticException ex){}
-        
-        int targetScore=99999999;
-        try {
-            targetScore=Integer.parseInt(match.getBattlefield().getIVScore());
-        }catch (ArithmeticException ex){}
-        
-        int timeTillOurIV=99999999;
-        try {
-            timeTillOurIV = ((targetScore-ourCurrentScore)/ourGainingScore);
-        }catch (ArithmeticException ex){
-            System.out.println("could not get minutes remaining.");
-        }
-                int timeTillTheirIV=99999999;
+            minutesRemaining = ((Integer.parseInt(match.getBattlefield().getHours()) * 60) + Integer.parseInt(match.getBattlefield().getMinutes()));
 
-                try {
-            timeTillTheirIV = ((targetScore-theirCurrentScore)/theirGainingScore);
-        }catch (ArithmeticException ex){
+        } catch (ArithmeticException ex) {
             System.out.println("could not get minutes remaining.");
         }
-                    DecimalFormat decimalFormat = new DecimalFormat("##.####");
+        int ourCurrentScore = 1;
+        try {
+            ourCurrentScore = Integer.parseInt(match.getBattlefield().getOurCurrentScore());
+        } catch (ArithmeticException ex) {
+        }
 
-        try{
+        int ourGainingScore = 1;
+        try {
+            ourGainingScore = Integer.parseInt(match.getBattlefield().getOurGainingScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int theirGainingScore = 1;
+        try {
+            theirGainingScore = Integer.parseInt(match.getBattlefield().getTheirGainingScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int theirCurrentScore = 1;
+        try {
+            theirCurrentScore = Integer.parseInt(match.getBattlefield().getTheirCurrentScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int targetScore = 99999999;
+        try {
+            targetScore = Integer.parseInt(match.getBattlefield().getIVScore());
+        } catch (ArithmeticException ex) {
+        }
+
+        int timeTillOurIV = 99999999;
+        try {
+            timeTillOurIV = ((targetScore - ourCurrentScore) / ourGainingScore);
+        } catch (ArithmeticException ex) {
+            System.out.println("could not get minutes remaining.");
+        }
+        int timeTillTheirIV = 99999999;
+
+        try {
+            timeTillTheirIV = ((targetScore - theirCurrentScore) / theirGainingScore);
+        } catch (ArithmeticException ex) {
+            System.out.println("could not get minutes remaining.");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("##.####");
+
+        try {
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Target:");
             r.getCell(0).setCellStyle(bold);
@@ -348,11 +352,11 @@ public class CityKingsJsonOutput {
             r.createCell(3).setCellValue(match.getBattlefield().getFormattedTime());
             r.createCell(4).setCellValue("%:");
             r.getCell(4).setCellStyle(bold);
-            r.createCell(5).setCellValue( decimalFormat.format((1-(minutesRemaining/((float)24*(float)60)))*100)+"%");
-            
+            r.createCell(5).setCellValue(decimalFormat.format((1 - (minutesRemaining / ((float) 24 * (float) 60))) * 100) + "%");
+
             r.createCell(6).setCellValue("Left:");
             r.getCell(6).setCellStyle(bold);
-            r.createCell(7).setCellValue(minutesRemaining+"m");
+            r.createCell(7).setCellValue(minutesRemaining + "m");
 
             r = sheet.createRow(i++);
             r.createCell(0).setCellValue("Us:");
@@ -361,10 +365,10 @@ public class CityKingsJsonOutput {
             r.createCell(4).setCellValue("%:");
             r.getCell(4).setCellStyle(bold);
 
-            int ourscore=0;
-                    
+            int ourscore = 0;
+
             try {
-                r.createCell(5).setCellValue("" + decimalFormat.format(((float)ourCurrentScore/(float)targetScore)*100 )+ "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float) ourCurrentScore / (float) targetScore) * 100) + "%");
             } catch (ArithmeticException ex) {
             }
             r.createCell(2).setCellValue("Gaining:");
@@ -384,7 +388,7 @@ public class CityKingsJsonOutput {
             r.getCell(4).setCellStyle(bold);
 
             try {
-                r.createCell(5).setCellValue("" + decimalFormat.format(((float)theirCurrentScore/(float)targetScore)*100) + "%");
+                r.createCell(5).setCellValue("" + decimalFormat.format(((float) theirCurrentScore / (float) targetScore) * 100) + "%");
             } catch (ArithmeticException ex) {
             }
             r.createCell(2).setCellValue("Gaining:");

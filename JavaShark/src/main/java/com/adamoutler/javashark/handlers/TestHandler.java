@@ -5,7 +5,6 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import static com.babysharks.messaging.ErrorType.NOERROR;
 import com.babysharks.messaging.HashedMessage;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.io.IOException;
  */
 public class TestHandler extends AbstractPapaHandler {
 
-    
     @Override
     public void handle(HttpExchange t) throws IOException {
         String response = "This is the response";
@@ -38,7 +36,7 @@ public class TestHandler extends AbstractPapaHandler {
                 .append(n).append("---end of request---").append(n);
 
         sb.append(n).append(response).append(n);
-        sendSucessString(t, sb.toString(), NOERROR);
+        sendSucessString(t, sb.toString());
 
     }
 

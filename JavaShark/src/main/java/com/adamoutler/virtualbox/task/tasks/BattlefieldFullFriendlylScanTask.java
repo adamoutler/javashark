@@ -44,7 +44,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     BattlefieldFactory battleFactory = new BattlefieldFactory(vm.getTaskData().isFriendlyScan(), vm.getTaskData().getBuildingsToScan());
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
-                    if (vm.isKillThread()||report.isReportContainsFlaws()) {
+                    if (vm.isKillThread() || report.isReportContainsFlaws()) {
 
                         Message m = new Message()
                                 .setCommand("deepbuildingscanfailed")
@@ -119,7 +119,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
         try (FileOutputStream fos = new FileOutputStream(fullJson)) {
             fos.write(new GsonBuilder().setLenient().create().toJson(report).getBytes());
         }
-                    report.setOcrNamePic(null);
+        report.setOcrNamePic(null);
 
         try {
             new BattlefieldExcelGenerator().createOutputFiles(excelFile, report, true);

@@ -33,7 +33,7 @@ public class VirtualBoxScreenShot {
         f.setReadable(true, false);
         f.setExecutable(true, false);
         f.setWritable(true, false);
-        
+
         return f;
     }
 
@@ -57,12 +57,12 @@ public class VirtualBoxScreenShot {
     }
 
     private static synchronized File getVboxScreenshot(String vmName) throws IOException, InterruptedException {
-        File ramdisk=new File("/tmp/ramdisk");
+        File ramdisk = new File("/tmp/ramdisk");
         File f;
-        if (ramdisk.exists()){
-         f=  File.createTempFile("screenshot", ".png",ramdisk);  
+        if (ramdisk.exists()) {
+            f = File.createTempFile("screenshot", ".png", ramdisk);
         } else {
-         f = File.createTempFile("screenshot", ".png");
+            f = File.createTempFile("screenshot", ".png");
         }
         ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", vmName, "screenshotpng", f.getAbsolutePath()});
         Process p = pb.start();
@@ -84,7 +84,7 @@ public class VirtualBoxScreenShot {
             BufferedImage screenshot = getScreenshot(vm);
             StringBuilder sb = new StringBuilder();
             sb.append("/").append(vm.getUsername()).append("-").append(vm.getGang()).append("-").append(vm.getCurrentTask()).append(UUID.randomUUID()).append(".png");
-            writeToFile(screenshot,baseFolder+sb.toString());
+            writeToFile(screenshot, baseFolder + sb.toString());
             return sb.toString();
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(VirtualBoxScreenShot.class.getName()).log(Level.SEVERE, null, ex);

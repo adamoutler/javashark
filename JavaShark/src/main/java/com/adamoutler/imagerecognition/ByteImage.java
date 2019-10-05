@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  */
 public class ByteImage {
 
-        public static BufferedImage getImageFromBytes(byte[] bytes) {
+    public static BufferedImage getImageFromBytes(byte[] bytes) {
 
         try {
             return ImageIO.read(new ByteArrayInputStream(bytes));
@@ -28,7 +28,7 @@ public class ByteImage {
         }
         return null;
     }
-    
+
     public static byte[] getPngBytes(BufferedImage bi) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
@@ -42,7 +42,9 @@ public class ByteImage {
     }
 
     public static byte[] getJpgBytes(byte[] bi) {
-        if (bi==null) return null;
+        if (bi == null) {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
 
@@ -54,7 +56,5 @@ public class ByteImage {
         }
         return null;
     }
-
-
 
 }

@@ -11,9 +11,10 @@ import java.io.IOException;
  *
  * @author adamo
  */
-public class MessagingException extends IOException{
-    public MessagingException(String s){
+public class MessagingException extends IOException {
+
+    public MessagingException(String s) {
         super(s);
     }
-    
+
 }

@@ -13,11 +13,11 @@ public class PostProcessing {
 
     public static int getIntFromString(String input) {
         String[] stringAr = input.split(" ");
-        if (stringAr.length>1&& isNumeric(stringAr[1])) {
+        if (stringAr.length > 1 && isNumeric(stringAr[1])) {
             return Integer.parseInt(stringAr[1].trim());
         }
         for (String s : stringAr) {
-            if (isNumeric(s)){
+            if (isNumeric(s)) {
                 return Integer.parseInt(s.trim());
             }
 

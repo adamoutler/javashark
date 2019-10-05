@@ -9,7 +9,6 @@ import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
-import com.babysharks.messaging.ErrorType;
 import static com.babysharks.messaging.ErrorType.NOSENTRIESACTIVE;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
@@ -21,7 +20,10 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 /**
- * curl -X PATCH -d '{"message":{"command":"screenshot","data":{"gang":"development","username":"adam_outler"}}}' https://baby-sharks.adamoutler.com/api/dev/command
+ * curl -X PATCH -d
+ * '{"message":{"command":"screenshot","data":{"gang":"development","username":"adam_outler"}}}'
+ * https://baby-sharks.adamoutler.com/api/dev/command
+ *
  * @author adamo
  */
 public class ScreenshotHandler extends SentryAbstractPapaHandler {
@@ -34,16 +36,16 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        boolean analyze=false;
-        
-        if (request.getData().getResultObject()!=null&&((String)request.getData().getResultObject()).equals("analyze")){
-            analyze=true;
+        boolean analyze = false;
+
+        if (request.getData().getResultObject() != null && ((String) request.getData().getResultObject()).equals("analyze")) {
+            analyze = true;
         }
-        if (username.contains("analyze")){
-                analyze=true;
+        if (username.contains("analyze")) {
+            analyze = true;
         }
-        if (username.contains(" ")){
-            username=username.split(" ")[0];
+        if (username.contains(" ")) {
+            username = username.split(" ")[0];
         }
         //
         System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username + this.gang);
@@ -53,7 +55,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         if (vm == null || !vm.isPoweredOn()) {
             //log the machine is off.
 
-            System.out.println(this.gang+" "+this.username+" requested machine is powered off.");
+            System.out.println(this.gang + " " + this.username + " requested machine is powered off.");
             vm = null;
             // for each machine in the gang
             for (VirtualBoxMachine thisVm : TaskManager.getGangMachines(gang)) {
@@ -73,14 +75,16 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         BufferedImage image;
         if (vm == null) {
             request.getData().setUrl(null);
-            this.sendArbitrary(404, t, username, NOSENTRIESACTIVE);
+            request.getData().setErrorType(NOSENTRIESACTIVE);
+
+            this.sendArbitrary(404, t, username);
             return;
         } else {
             image = vm.screenshot();
-            ScreenData sd=ScreenData.identifyScreen(image);
+            ScreenData sd = ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
             request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd).setReason(vm.getUsername());
-            if (analyze){
+            if (analyze) {
                 request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
             }
         }

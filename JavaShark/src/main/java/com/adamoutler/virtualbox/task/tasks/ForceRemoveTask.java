@@ -11,7 +11,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
  *
  * @author adamo
  */
-public class ForceRemoveTask  extends Task{
+public class ForceRemoveTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
@@ -22,7 +22,7 @@ public class ForceRemoveTask  extends Task{
     synchronized public void runTask(VirtualBoxMachine vm) {
         complete(vm);
     }
-       
+
     @Override
     public boolean resume(VirtualBoxMachine vm) {
         return false;

@@ -17,22 +17,22 @@ import org.junit.Test;
  * @author adamo
  */
 public class ReportFactoryTest {
-    
+
     public ReportFactoryTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -48,9 +48,8 @@ public class ReportFactoryTest {
         instance.setRepoFolder("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/");
         CityKingsMatchRaw expResult = null;
         CityKingsMatchRaw result = instance.getReport(filename);
-       assert (result.getBuildings().size()==6);
-       
-       
+        assert (result.getBuildings().size() == 6);
+
     }
 
     /**
@@ -77,5 +76,5 @@ public class ReportFactoryTest {
         instance.setRepoFolder(repoFolder);
         assertEquals(repoFolder, instance.getRepoFolder());
     }
-    
+
 }

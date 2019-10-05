@@ -5,7 +5,6 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering.building.car;
 
-
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicCoords;
 import java.awt.image.BufferedImage;
@@ -20,8 +19,8 @@ public class CarBadgeHash {
 
     final static PicCoords NAMEHASHCOORD = new PicCoords(89, 15, 143, 24);
     final static PicCoords UNIQUEHASHCOORD = new PicCoords(6, 232, 300, 38);
-    final static PicCoords BOTTOMLINEHASHCOORD=new PicCoords(0,0,300, 38);
-    
+    final static PicCoords BOTTOMLINEHASHCOORD = new PicCoords(0, 0, 300, 38);
+
     /**
      * gets the hash of the name portion of the picture.
      *
@@ -40,25 +39,23 @@ public class CarBadgeHash {
      * @return hashcode representing the image.
      */
     public static int getTheWholeCarHash(BufferedImage attackInfo) {
-        BufferedImage name = attackInfo.getSubimage(0, 0, attackInfo.getWidth()-1, attackInfo.getHeight()-1);
+        BufferedImage name = attackInfo.getSubimage(0, 0, attackInfo.getWidth() - 1, attackInfo.getHeight() - 1);
         return getHash(name);
     }
-    
-    
-    public static int getAttackHash(BufferedImage carBadge){
-        int startX=(int)Math.round(carBadge.getWidth()*.6);
-        int endX=(int)Math.round(carBadge.getWidth()*.3);
-        int top=(int)Math.round(carBadge.getHeight()-57);
-        BufferedImage attack=carBadge.getSubimage(startX, top, endX, 24);
-        int hash=getHash(attack);
+
+    public static int getAttackHash(BufferedImage carBadge) {
+        int startX = (int) Math.round(carBadge.getWidth() * .6);
+        int endX = (int) Math.round(carBadge.getWidth() * .3);
+        int top = (int) Math.round(carBadge.getHeight() - 57);
+        BufferedImage attack = carBadge.getSubimage(startX, top, endX, 24);
+        int hash = getHash(attack);
         return hash;
     }
-    
+
     public static int getBottomHash(BufferedImage attackInfo) {
-        BufferedImage name = attackInfo.getSubimage(attackInfo.getHeight()-4, 0, attackInfo.getWidth()-1, attackInfo.getHeight()-1);
+        BufferedImage name = attackInfo.getSubimage(attackInfo.getHeight() - 4, 0, attackInfo.getWidth() - 1, attackInfo.getHeight() - 1);
         return getHash(name);
     }
-    
 
     private static int getHash(BufferedImage bi) {
         byte[] bytes = imageToByteArray(bi);

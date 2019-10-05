@@ -49,15 +49,14 @@ public class CityKingsJsonOutputTest {
     public void tearDown() {
     }
 
-    
     public CityKingsMatchRaw testSomeMethod() {
         try {
-            FileReader fr=new FileReader(detailReport);
-            System.out.println(detailReport.getAbsolutePath()+" "+ detailReport.exists());
-            Gson gson=new GsonBuilder().setPrettyPrinting().create();
-            CityKingsMatchRaw match=gson.fromJson(fr, CityKingsMatchRaw.class);
+            FileReader fr = new FileReader(detailReport);
+            System.out.println(detailReport.getAbsolutePath() + " " + detailReport.exists());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            CityKingsMatchRaw match = gson.fromJson(fr, CityKingsMatchRaw.class);
             return match;
-            
+
         } catch (IOException ex) {
             Logger.getLogger(CityKingsJsonOutputTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,7 +73,7 @@ public class CityKingsJsonOutputTest {
         CityKingsMatchRaw match = testSomeMethod();
         CityKingsJsonOutput instance = new CityKingsJsonOutput();
 //        String result = instance.createOutputFiles(f, match,false);
-        if (!GraphicsEnvironment.isHeadless()){
+        if (!GraphicsEnvironment.isHeadless()) {
             instance.openSheet(f);
         }
 

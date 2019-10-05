@@ -7,22 +7,17 @@ package com.adamoutler.cats.battlefield;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.awt.Desktop;
 import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -84,5 +79,4 @@ public class BattlefieldExcelGeneratorTest {
 
     }
 
-   
 }

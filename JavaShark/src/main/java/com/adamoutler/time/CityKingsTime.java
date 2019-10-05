@@ -28,11 +28,11 @@ public class CityKingsTime {
 //        System.out.println(calculateCKTimes(uHour, uMinute, uSecond));
 //    }
 
-    public static String getCityKingsTime(){
-                ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-     return calculateCKTimes(getHour(now),getMinute(now),getSecond(now));
+    public static String getCityKingsTime() {
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+        return calculateCKTimes(getHour(now), getMinute(now), getSecond(now));
     }
-    
+
     static int getHour(ZonedDateTime now) {
         return now.getHour();
     }
@@ -45,16 +45,19 @@ public class CityKingsTime {
         return now.getSecond();
     }
 
-    static int maybeAdd24(int value){
-        if (value<0)return value+24;
+    static int maybeAdd24(int value) {
+        if (value < 0) {
+            return value + 24;
+        }
         return value;
     }
+
     static String calculateCKTimes(int uHour, int utcMinutes, int utcSeconds) {
 
         //calculate
-        int stopHours = maybeAdd24(CKSTOPTIME-uHour);
-        int startHours = maybeAdd24(CKSTARTTIME-uHour );
-        int goodHours = maybeAdd24(CKGOODTIME-uHour );
+        int stopHours = maybeAdd24(CKSTOPTIME - uHour);
+        int startHours = maybeAdd24(CKSTARTTIME - uHour);
+        int goodHours = maybeAdd24(CKGOODTIME - uHour);
         int minutesleft = 59 - utcMinutes;
         int secondsleft = 59 - utcSeconds;
         String minutes;
@@ -74,9 +77,9 @@ public class CityKingsTime {
 
         //display
         if (uHour > CKSTOPTIME && uHour <= CKSTARTTIME) {
-                return " DO NOT START CK! Odds of Instant Victory are greatly reduced for a coordinated strike, it is better to wait for " + goodHours + " hours, " + minutes + " minutes, " + seconds + " seconds. Want to see the flowchart? Just ask!";
+            return " DO NOT START CK! Odds of Instant Victory are greatly reduced for a coordinated strike, it is better to wait for " + goodHours + " hours, " + minutes + " minutes, " + seconds + " seconds. Want to see the flowchart? Just ask!";
         } else {
-            if (uHour<=CKGOODTIME){
+            if (uHour <= CKGOODTIME) {
                 return " DO NOT START CK! Odds of Instant Victory are greatly reduced for a coordinated strike, it is better to wait for " + goodHours + " hours, " + minutes + " minutes, " + seconds + " seconds. Want to see the flowchart? Just ask!";
             } else {
                 return " Go for it! It's prime hours to start a new City Kings round for the next " + stopHours + " hours, " + minutes + " minutes, " + seconds + " seconds. Want to see the flowchart? Just ask!";

@@ -8,11 +8,10 @@ package com.adamoutler.cats.screen_id;
 import com.adamoutler.cats.battlefield.Battlefield;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.TesseractBuilder;
-import com.adamoutler.virtualbox.VirtualBoxMachine;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -23,7 +22,7 @@ public class BattlefieldFactoryOcr {
     public static PicCoords opponentName = new PicCoords(684, 71, 160, 60);
 
     public static String setOpponentName(BufferedImage screenshot, Battlefield battlefield) {
-       
+
         String returnValue = "";
         try {
             TesseractBuilder tb = new TesseractBuilder(screenshot)
@@ -31,7 +30,7 @@ public class BattlefieldFactoryOcr {
                     .crop(opponentName)
                     .setMode(TesseractBuilder.Mode.SINGLEWORD)
                     .invert().brightenImage().brightenImage().invert()
-                    .resize (5,2).resize (4,3).resize (4,3)
+                    .resize(5, 2).resize(4, 3).resize(4, 3)
                     .invert().bicubic().invert()
                     .greyScale().brightenImage().writePicture();
             returnValue = tb.execute();

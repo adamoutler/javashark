@@ -27,7 +27,7 @@ public class PicColors {
         XYCoords xy = new XYCoords(startingAtX, startingAtY);
 
         boolean colorFoundMatching = false;
-        while (!colorFoundMatching &&(xy.x < image.getWidth()-2 && xy.y < image.getHeight()-2)) {
+        while (!colorFoundMatching && (xy.x < image.getWidth() - 2 && xy.y < image.getHeight() - 2)) {
             for (int color : colors) {
                 if (!colorMatchesAtXY(xy.x, xy.y, color, maximumDifference)) {
                     colorFoundMatching = true;

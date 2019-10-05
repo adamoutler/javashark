@@ -439,4 +439,18 @@ public class MessageData {
         this.query = query;
         return this;
     }
+
+    /**
+     * @return the errorType
+     */
+    public ErrorType getErrorType() {
+        return errorType;
+    }
+
+    /**
+     * @param errorType the errorType to set
+     */
+    public void setErrorType(ErrorType errorType) {
+        this.errorType = errorType;
+    }
 }

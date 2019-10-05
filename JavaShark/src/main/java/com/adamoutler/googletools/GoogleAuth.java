@@ -22,7 +22,7 @@ public class GoogleAuth {
             // You can specify a credential file by providing a path to GoogleCredentials.
             // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
             GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath));
-                   // credentials.createScoped(Lists.newArrayList());
+            // credentials.createScoped(Lists.newArrayList());
             /*
             Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 

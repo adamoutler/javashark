@@ -10,7 +10,8 @@ package com.adamoutler.cats.battlefield.building;
  * @author adamo
  */
 public class CarLocationOffScreenException extends Exception {
-    CarLocationOffScreenException(String value){
+
+    CarLocationOffScreenException(String value) {
         super(value);
     }
 }

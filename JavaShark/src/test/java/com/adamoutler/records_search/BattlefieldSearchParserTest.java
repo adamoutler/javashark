@@ -6,16 +6,12 @@
 package com.adamoutler.records_search;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -57,7 +53,7 @@ public class BattlefieldSearchParserTest {
     public void testGetRecords() throws Exception {
         System.out.println("getRecords");
         BattlefieldSearchParser instance = new BattlefieldSearchParser();
-        List<File> result = instance.getRecords(folder, fileExtension, gang, opponentName,"");
+        List<File> result = instance.getRecords(folder, fileExtension, gang, opponentName, "");
         assert (result.size() > 2);
 
     }
@@ -69,11 +65,7 @@ public class BattlefieldSearchParserTest {
     @Test
     public void testFindOneRecordForEachDate() {
         //this can't be tested in production because it relies upon dates which may or may not exist
-        
-        
-        
-        
-        
+
 //        System.out.println("findOneRecordWithinTemporalFieldForEachDate");
 //        List<File> files = new BattlefieldSearchParser().getRecords(folder, fileExtension, gang, opponentName);
 //        Date[] dates=new Date[]{new DateTime(2019,6,22,0,0).toDate()};
@@ -92,9 +84,6 @@ public class BattlefieldSearchParserTest {
 //        result = instance.findOneRecordForEachDate(files, dates);
 //        expResult="recon-1561079896895-development-AdamOutler-2f184fb4-fafc-467e-bf7f-2986ec96c271OCRName-5531655158.json";
 //        assertEquals(expResult, result.get((Date)result.keySet().toArray()[0]).getName());
-        
-        
-        
     }
 
 }

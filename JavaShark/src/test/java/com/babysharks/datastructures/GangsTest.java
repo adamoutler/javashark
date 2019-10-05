@@ -15,26 +15,24 @@ import org.junit.BeforeClass;
  * @author adamo
  */
 public class GangsTest {
-    
+
     public GangsTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-   
-    
 }

@@ -32,8 +32,6 @@ import javax.imageio.ImageIO;
  */
 public class MyCarsTask extends Task {
 
-
-
     enum TapLocations {
         BUTTON1(new XYCoords(65, 525)),
         BUTTON2(new XYCoords(135, 525)),
@@ -65,10 +63,10 @@ public class MyCarsTask extends Task {
     void runTask(VirtualBoxMachine vm) {
         BufferedImage screenshot = vm.screenshot();
         ScreenData sd = ScreenData.identifyScreen(screenshot);
-        System.out.println("Performing mycars on "+vm.getGang()+" "+vm.getUsername()+" stage:"+vm.getTaskData().myCarsStage);
+        System.out.println("Performing mycars on " + vm.getGang() + " " + vm.getUsername() + " stage:" + vm.getTaskData().myCarsStage);
         switch (vm.getTaskData().myCarsStage) {
             case 0: //navigate to city kings
-                
+
                 if (!sd.equals(ScreenData.CITYKINGS)) {
                     new BattlefieldNavigator().navigateToCK(vm);
                     screenshot = vm.screenshot();
@@ -83,18 +81,18 @@ public class MyCarsTask extends Task {
                 vm.tap(EXPANDSIDEBARLOCATION);
             case 2: //verify car 1 and repeat this stage up to 3 times
                 giveUpIfRetriesTooHigh(vm);
-                if (vm.getTaskData().carsScreenshots.size()==1) {
-                    vm.getTaskData().myCarsStage=3;
+                if (vm.getTaskData().carsScreenshots.size() == 1) {
+                    vm.getTaskData().myCarsStage = 3;
                 }
                 navigateToProperScreenOrIncreaseStage(sd, ScreenData.CITYKINGCAR1, vm, TapLocations.BUTTON1.getCoords());
                 break;
             case 3: // verify car1 again. if not car 1, die.  else screenshot car 1, add to list. navigate to car 2. reset retry counter
-                
+
                 if (sd != ScreenData.CITYKINGCAR1) {
                     giveUp(vm);
                     break;
                 }
-                addVerfiedScreenshot(vm, screenshot,0);
+                addVerfiedScreenshot(vm, screenshot, 0);
                 vm.tap(TapLocations.BUTTON2.getCoords());
                 break;
             case 4: // verify car 2. repeat this staget up to 3 times.
@@ -106,7 +104,7 @@ public class MyCarsTask extends Task {
                     giveUp(vm);
                     break;
                 }
-                addVerfiedScreenshot(vm, screenshot,1);
+                addVerfiedScreenshot(vm, screenshot, 1);
                 vm.tap(TapLocations.BUTTON3.getCoords());
                 break;
             case 6: // verify car 3. repeat this staget up to 3 times.
@@ -118,7 +116,7 @@ public class MyCarsTask extends Task {
                     giveUp(vm);
                     break;
                 }
-                addVerfiedScreenshot(vm, screenshot,2);
+                addVerfiedScreenshot(vm, screenshot, 2);
                 vm.tap(TapLocations.BUTTON3.getCoords());
                 break;
             case 8: // build picture and send to papa on a new thread.
@@ -126,7 +124,7 @@ public class MyCarsTask extends Task {
                 contractScreen(vm);
                 break;
             case 9:
-                if (!sd.equals(ScreenData.CITYKINGS)){
+                if (!sd.equals(ScreenData.CITYKINGS)) {
                     contractScreen(vm);
                 } else {
                     nextStage(vm);
@@ -159,7 +157,7 @@ public class MyCarsTask extends Task {
         vm.getTaskData().retries++;
     }
 
-    private void addVerfiedScreenshot(VirtualBoxMachine vm, BufferedImage screenshot,int expectedNumber) {
+    private void addVerfiedScreenshot(VirtualBoxMachine vm, BufferedImage screenshot, int expectedNumber) {
         if (vm.getTaskData().carsScreenshots.size() == expectedNumber) {
             vm.getTaskData().carsScreenshots.add(CARBADGELOCATION.getImageAtCoords(screenshot));
             vm.getTaskData().retries = 0;
@@ -229,9 +227,10 @@ public class MyCarsTask extends Task {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void writePic(VirtualBoxMachine vm) {
-       BufferedImage output=ImageJoiner.joinImagesSide(vm.getTaskData().carsScreenshots);
-       String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername()+ vm.getGang().toLowerCase() + "-") + UUID.randomUUID().toString();
+        BufferedImage output = ImageJoiner.joinImagesSide(vm.getTaskData().carsScreenshots);
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang().toLowerCase() + "-") + UUID.randomUUID().toString();
         try {
             ImageIO.write(output, "PNG", new File(OUTPUT + safeName + "-MYCARS.png"));
         } catch (IOException ex) {
@@ -242,6 +241,7 @@ public class MyCarsTask extends Task {
         this.nextStage(vm);
         SendPapaAsynch.sendToPapa(message);
     }
+
     @Override
     public boolean resume(VirtualBoxMachine vm) {
         return false;

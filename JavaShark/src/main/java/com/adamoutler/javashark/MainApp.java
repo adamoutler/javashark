@@ -41,7 +41,6 @@ import java.util.logging.Logger;
  */
 public class MainApp extends ParametersImpl {
 
-
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
             Message message = new Message().setCommand("JavaSharkOnline")
@@ -138,7 +137,7 @@ public class MainApp extends ParametersImpl {
         }
 
         public void execute(Runnable task) {
-            
+
             task.run();
         }
     }

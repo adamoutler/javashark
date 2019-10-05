@@ -23,9 +23,9 @@ public class Prop {
 
     static {
         try {
-            
+
             File f = new File("./properties.prop");
-            System.out.println("Looking for properties file in "+f.getAbsolutePath());
+            System.out.println("Looking for properties file in " + f.getAbsolutePath());
             FileInputStream is = new FileInputStream(f.getAbsolutePath());
             p.load(is);
         } catch (IOException ex) {

@@ -9,7 +9,7 @@ import com.adamoutler.javashark.sentry_tools.SentryTools;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.ErrorType;
+import static com.babysharks.messaging.ErrorType.WHATEVER;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
@@ -24,29 +24,31 @@ public class StopSentry extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-       try {
-        VirtualBoxControl vmControl = new VirtualBoxControl(vm);
-        vm.setKillThread(true);
+        try {
+            VirtualBoxControl vmControl = new VirtualBoxControl(vm);
+            vm.setKillThread(true);
 
-        SentryTools st = new SentryTools(vm);
-        if (vm==null||!vm.isPoweredOn() ) {
-            VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
-            if (otherVM == null) {
-                request.getData().addAvailable(vm).setReason("stopped already");
+            SentryTools st = new SentryTools(vm);
+            if (vm == null || !vm.isPoweredOn()) {
+                VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
+                if (otherVM == null) {
+                    request.getData().addAvailable(vm).setReason("stopped already");
+                } else {
+                    otherVM.addTask(TaskType.CLEAR);
+                    vmControl = new VirtualBoxControl(otherVM);
+                    request.getData().addAvailable(otherVM).setReason("stopping");
+                }
             } else {
-                otherVM.addTask(TaskType.CLEAR);
-                vmControl = new VirtualBoxControl(otherVM);
-                request.getData().addAvailable(otherVM).setReason("stopping");
+                addTasks(TaskType.CLEAR);
+                request.getData().addAvailable(vm).setReason("stopping");
             }
-        } else {
-            addTasks(TaskType.CLEAR);
-            request.getData().addAvailable(vm).setReason("stopping");
+            vmControl.stopVM();
+            this.sendSucessMessage(he, request);
+        } catch (Exception ex) {
+            request.getData().setErrorType(WHATEVER);
+
+            this.sendBadReq(he, username);
         }
-        vmControl.stopVM();
-        this.sendSucessMessage(he, request);
-       } catch (Exception ex){
-           this.sendBadReq(he, username, ErrorType.WHATEVER);
-       }
     }
 
 }

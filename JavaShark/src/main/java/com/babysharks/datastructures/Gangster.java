@@ -18,15 +18,15 @@ import java.util.List;
  */
 public class Gangster {
 
-    String username="MISSING";
+    String username = "MISSING";
     String in_game_username;
     Float UTC_offset;
     String location;
     private String imageLocation;
-    List<String> name_hashes=new ArrayList<>();
+    List<String> name_hashes = new ArrayList<>();
     transient private BufferedImage allCarsPic;
-    transient private LinkedList<BufferedImage> carPics=new LinkedList<>();
-    private List<GangCar> cars=new ArrayList<>();
+    transient private LinkedList<BufferedImage> carPics = new LinkedList<>();
+    private List<GangCar> cars = new ArrayList<>();
 
     Gangster(CityKingsCarRaw car) {
         this.name_hashes.add(car.getNameHash());
@@ -139,7 +139,6 @@ public class Gangster {
         return name_hashes;
     }
 
-
     /**
      * @return the carPics
      */
@@ -188,7 +187,7 @@ public class Gangster {
     public Gangster addCar(GangCar car) {
         this.cars.add(car);
         this.carPics.add(car.getCarBufferedImage());
-        this.allCarsPic=ImageJoiner.joinImagesSide(carPics);
+        this.allCarsPic = ImageJoiner.joinImagesSide(carPics);
         return this;
     }
 
@@ -221,7 +220,5 @@ public class Gangster {
     public void setImageLocation(String imageLocation) {
         this.imageLocation = imageLocation;
     }
-
-
 
 }

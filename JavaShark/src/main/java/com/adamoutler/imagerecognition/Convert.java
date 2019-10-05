@@ -11,8 +11,8 @@ public class Convert {
                 int rgba = image.getRGB(x, y);
                 Color col = new Color(rgba, true);
                 col = new Color(255 - col.getRed(),
-                                255 - col.getGreen(),
-                                255 - col.getBlue());
+                        255 - col.getGreen(),
+                        255 - col.getBlue());
                 image.setRGB(x, y, col.getRGB());
             }
         }

@@ -24,7 +24,7 @@ public class VMTaskData {
     private long idleTime = System.currentTimeMillis();
     public int startCatsRetries = 0;
     private int[] buildingsToScan = new int[]{1, 2, 3, 4, 5, 6};
-    private boolean friendlyScan=true;
+    private boolean friendlyScan = true;
     BufferedImage lastValidScreenshot;
     public int myCarsStage;
     public LinkedList<BufferedImage> carsScreenshots;

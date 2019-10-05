@@ -37,11 +37,15 @@ public class ImageJoiner {
     }
 
     public static BufferedImage joinImagesSide(LinkedList<BufferedImage> images) {
-        if (images.size()==0) return null;
+        if (images.size() == 0) {
+            return null;
+        }
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         image.setRGB(0, 0, new Color(0, 0, 0, 0).getRGB());
         for (int i = 0; i < images.size(); i++) {
-            if(images.get(i)==null) continue;
+            if (images.get(i) == null) {
+                continue;
+            }
             image = joinImagesSide(image, images.get(i));
         }
         return image;
@@ -71,8 +75,8 @@ public class ImageJoiner {
 
         //do some calculate first
         int h1 = img1.getHeight();
-         int h2 = img2.getHeight();
-        int height=h1>=h2?h1:h2;
+        int h2 = img2.getHeight();
+        int height = h1 >= h2 ? h1 : h2;
         int wid = img1.getWidth() + img2.getWidth();
         //create a new buffer and draw two image into the new image
         BufferedImage newImage = new BufferedImage(wid, height, BufferedImage.TYPE_INT_ARGB);

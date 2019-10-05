@@ -17,10 +17,8 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

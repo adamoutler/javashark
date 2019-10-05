@@ -86,7 +86,7 @@ public class FastCarFactory {
         CityKingsCarRaw lastCar = new CityKingsCarRaw("f");//create a dummy last car
         System.out.println("recording car 1");
         int redo = 0;
-        for (int i = 1; i <= (friendly ? building.getOwnershipBar().numberWeOwn(): building.getOwnershipBar().numberTheyOwn()+building.getOwnershipBar().numberUnowned()); i++) {
+        for (int i = 1; i <= (friendly ? building.getOwnershipBar().numberWeOwn() : building.getOwnershipBar().numberTheyOwn() + building.getOwnershipBar().numberUnowned()); i++) {
             System.out.println("Car " + i);
             sleep(sleepTime);
             CityKingsCarRaw playerCar = createCarStore(buildingNumber, i);
@@ -111,9 +111,9 @@ public class FastCarFactory {
                         break;
 
                 }
-       
+
                 //if we corrected the problem
-                if (playerCar.isParked()||!playerCar.equals(lastCar)) {
+                if (playerCar.isParked() || !playerCar.equals(lastCar)) {
                     redo = 0;
                     navigateToLocation(i);
                 } else {
@@ -129,7 +129,7 @@ public class FastCarFactory {
                 navigateToLocation(i);
             }
 
-            if (redo > 0||playerCar.isParked()) {
+            if (redo > 0 || playerCar.isParked()) {
                 System.out.println("Rescanning car.");
                 i--;
                 continue;

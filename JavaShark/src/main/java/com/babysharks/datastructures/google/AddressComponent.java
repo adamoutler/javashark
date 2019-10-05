@@ -14,38 +14,39 @@ import java.util.List;
  * @author adamo
  */
 public class AddressComponent {
-@SerializedName("long_name")
-@Expose
-private String longName;
-@SerializedName("short_name")
-@Expose
-private String shortName;
-@SerializedName("types")
-@Expose
-private List<String> types = null;
 
-public String getLongName() {
-return longName;
-}
+    @SerializedName("long_name")
+    @Expose
+    private String longName;
+    @SerializedName("short_name")
+    @Expose
+    private String shortName;
+    @SerializedName("types")
+    @Expose
+    private List<String> types = null;
 
-public void setLongName(String longName) {
-this.longName = longName;
-}
+    public String getLongName() {
+        return longName;
+    }
 
-public String getShortName() {
-return shortName;
-}
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
 
-public void setShortName(String shortName) {
-this.shortName = shortName;
-}
+    public String getShortName() {
+        return shortName;
+    }
 
-public List<String> getTypes() {
-return types;
-}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
-public void setTypes(List<String> types) {
-this.types = types;
-}
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
 
 }

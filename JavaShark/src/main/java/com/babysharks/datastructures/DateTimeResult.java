@@ -17,39 +17,41 @@ import java.util.List;
  * @author adamo
  */
 public class DateTimeResult {
-    
+
     private GooglePlaceDetail details;
     private int utcOffset;
     private String formattedName;
     private long milisSinceEpoch;
-    private long javaSystemTime=System.currentTimeMillis();
+    private long javaSystemTime = System.currentTimeMillis();
     private String friendlyTime;
     private String javaDate;
     private String iso8601Time;
     private String utcHrOffset;
-    public DateTimeResult (GooglePlaceDetail result){
-        details=result;
-        utcOffset=result.getUtcOffset();
-        List<AddressComponent> ac=result.getAddressComponents();
-        if (ac.isEmpty()) return;
-        StringBuilder sb=new StringBuilder().append(ac.get(0).getLongName());
-        if (ac.size()>1){
+
+    public DateTimeResult(GooglePlaceDetail result) {
+        details = result;
+        utcOffset = result.getUtcOffset();
+        List<AddressComponent> ac = result.getAddressComponents();
+        if (ac.isEmpty()) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder().append(ac.get(0).getLongName());
+        if (ac.size() > 1) {
             sb.append(" (");
-            for (int i=1; i<ac.size(); i++){
-               sb.append(", ").append(ac.get(i).getShortName()); 
+            for (int i = 1; i < ac.size(); i++) {
+                sb.append(", ").append(ac.get(i).getShortName());
             }
         }
-        formattedName=sb.append(")").toString().replaceFirst(", ", "");
-        milisSinceEpoch=(javaSystemTime/1000);
-        Date date=new Date(javaSystemTime+(utcOffset*60));
+        formattedName = sb.append(")").toString().replaceFirst(", ", "");
+        milisSinceEpoch = (javaSystemTime / 1000);
+        Date date = new Date(javaSystemTime + (utcOffset * 60));
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        iso8601Time=formatter.format(date);
-        float utctime=utcOffset/60;
-        utcHrOffset= "UTC"+(utctime<0 ? "":"+")+Float.toString(utctime);
-        
-        javaDate=date.toString().replace("EST", utcHrOffset);
-        
-        
+        iso8601Time = formatter.format(date);
+        float utctime = utcOffset / 60;
+        utcHrOffset = "UTC" + (utctime < 0 ? "" : "+") + Float.toString(utctime);
+
+        javaDate = date.toString().replace("EST", utcHrOffset);
+
     }
 
     /**

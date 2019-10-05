@@ -9,8 +9,9 @@ package com.adamoutler.cats.battlefield;
  *
  * @author adamo
  */
-public class BuildingUnscouttedException extends Exception{
-    public BuildingUnscouttedException(String message){
+public class BuildingUnscouttedException extends Exception {
+
+    public BuildingUnscouttedException(String message) {
         super(message);
     }
 }

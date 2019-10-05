@@ -12,7 +12,10 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
  * @author adamo
  */
 public interface IfaceTask {
+
     public void init(VirtualBoxMachine vm);
+
     public void exec(VirtualBoxMachine vm);
+
     public boolean resume(VirtualBoxMachine vm);
 }

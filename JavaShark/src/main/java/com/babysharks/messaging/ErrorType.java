@@ -11,24 +11,26 @@ package com.babysharks.messaging;
  */
 public enum ErrorType {
     NOERROR("NO error detected."),
-    NOPLACEINFO("Place information was not available."),
+    NOPLACEINFO("Place information was not available"),
     USERHASNOSENTRY("The user has no sentry"),
     VMERROR("There was a problem accessing the requested VM"),
-    OTHERSENTRYACTIVE("Another sentry is currently active."),
-    NOSENTRIESACTIVE("No sentriesw are currently active"),
+    OTHERSENTRYACTIVE("Another sentry is currently active"),
+    NOSENTRIESACTIVE("No sentries are currently active"),
     USERNOTONWATCH("The user is not on watch"),
     NOSUCHTASK("Invalid task requested"),
     COULDNOTFINDMATCHINGRECORDS("While searching for last cars, i could not find a matching record"),
     COULDNOTFINDREQUESTEDUSERINRECORDS("While searching for last cars, i could not find the user"),
     UNRECOGNIZEDSCREEN("I could not identify the screen"),
-    INVALIDFILE("I tried to send a file, but no file exists."),
+    INVALIDFILE("I tried to send a file, but no file exists"),
     WHATEVER("Because F you, that's why. Check the logs if you wanna know.");
-    
+
     String message;
-    ErrorType(String message){
-        this.message=message;
+
+    ErrorType(String message) {
+        this.message = message;
     }
-    public String getMessage(){
+
+    public String getMessage() {
         return message;
     }
 }

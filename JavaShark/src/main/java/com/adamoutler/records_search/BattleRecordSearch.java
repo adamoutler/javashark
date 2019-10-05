@@ -16,20 +16,20 @@ public class BattleRecordSearch extends FileSearch {
 
     String gang = "";
     String ocrName = "";
-    private String startsWith="";
-    
+    private String startsWith = "";
 
-    public BattleRecordSearch(){
-        this.searchPath="/var/www/baby-sharks/excel/";
+    public BattleRecordSearch() {
+        this.searchPath = "/var/www/baby-sharks/excel/";
     }
+
     public BattleRecordSearch setGang(String gang) {
         this.gang = gang;
         return this;
     }
-    
-    public BattleRecordSearch setFolder(String folder){
-     this.searchPath=folder;
-     return this;
+
+    public BattleRecordSearch setFolder(String folder) {
+        this.searchPath = folder;
+        return this;
     }
 
     public BattleRecordSearch setOpponentGangOCRName(String ocrName) {
@@ -44,36 +44,32 @@ public class BattleRecordSearch extends FileSearch {
 
     @Override
     FilenameFilter getFilter() {
-        
+
         FilenameFilter ff = (File file, String string) -> {
-           
-            if (extension.isEmpty()&& string.matches("(.*[.].*)")){
-                
+
+            if (extension.isEmpty() && string.matches("(.*[.].*)")) {
+
                 return false;
             }
             if (!string.endsWith(extension)) {
                 return false;
-            } 
-            if (!startsWith.isEmpty() && !string.startsWith(startsWith)){
+            }
+            if (!startsWith.isEmpty() && !string.startsWith(startsWith)) {
                 return false;
             }
             String[] namesplit = string.split("-");
-            if (!gang.isEmpty() && namesplit.length>1&& !namesplit[2].equals(gang)) {
+            if (!gang.isEmpty() && namesplit.length > 1 && !namesplit[2].equals(gang)) {
                 return false;
             }
             if (!ocrName.isEmpty() && !string.contains("OCRName-" + ocrName)) {
                 return false;
             }
 
-            
-            
             return true;
         };
 
         return ff;
     }
-
- 
 
     /**
      * @param startsWith the startsWith to set

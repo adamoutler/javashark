@@ -17,23 +17,25 @@ import se.vidstige.jadb.JadbDevice;
  *
  * @author adamo
  */
-public abstract class OcrScreenshot extends Navigation{
-    public OcrScreenshot(JadbDevice jadb){
+public abstract class OcrScreenshot extends Navigation {
+
+    public OcrScreenshot(JadbDevice jadb) {
         super(jadb);
     }
-    
-        private AtomicBoolean ocr = new AtomicBoolean(false);
+
+    private AtomicBoolean ocr = new AtomicBoolean(false);
 
     abstract public void setStringsOCR();
-    
-    public void runOCR(){
+
+    public void runOCR() {
         try {
-            BufferedImage image=getScreenshot();
+            BufferedImage image = getScreenshot();
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(OcrScreenshot.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+
     /**
      * @return the ocr
      */
@@ -46,11 +48,12 @@ public abstract class OcrScreenshot extends Navigation{
             sleep(50);
         }
     }
+
     /**
      * @param ocr the ocr to set
      */
     public void setOcr(boolean ocr) {
         this.ocr.set(ocr);
     }
-    
+
 }

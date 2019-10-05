@@ -88,7 +88,7 @@ public class SendPapaAsynchTest {
     @Test
     public void testOnlineWarning() {
         System.out.println("onlineWarning");
-        SendPapaAsynch.onlineWarning(vm,true);
+        SendPapaAsynch.onlineWarning(vm, true);
     }
 
     /**
@@ -124,7 +124,6 @@ public class SendPapaAsynchTest {
         Message mess = new Message().setCommand("alert").setData(new MessageData().setReason("UNIT TESTING"));
         HashedMessage hm = new HashedMessage(mess);
         String expResult = "{\"status\":\"success\"}";
-       
 
         mess.getData().setText("help");
         mess.getData().setReason("alert");

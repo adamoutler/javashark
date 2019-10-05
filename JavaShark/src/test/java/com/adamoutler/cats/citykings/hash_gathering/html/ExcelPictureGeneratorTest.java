@@ -23,24 +23,24 @@ import org.junit.Test;
  * @author adamo
  */
 public class ExcelPictureGeneratorTest {
-    
+
     public ExcelPictureGeneratorTest() {
     }
-    
-    File f=new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1554671457358-staging-AdamOutler-b460f0c2-cd56-4d91-a9e6-29e8ced0b3fe.xls");
-    
+
+    File f = new File("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/1554671457358-staging-AdamOutler-b460f0c2-cd56-4d91-a9e6-29e8ced0b3fe.xls");
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -50,20 +50,20 @@ public class ExcelPictureGeneratorTest {
         try {
             String s;
             //s=ExcelToHTML.excel2Html(f);
-            
+
             //System.out.println(s);
-            HSSFWorkbook workbook= (HSSFWorkbook) HSSFWorkbookFactory.create(f);
-            
+            HSSFWorkbook workbook = (HSSFWorkbook) HSSFWorkbookFactory.create(f);
+
             ToHtml.main(f.getAbsolutePath(), "a/file.html");
-            
-            s=new ExcelPictureGenerator().toHTML(workbook);
+
+            s = new ExcelPictureGenerator().toHTML(workbook);
             System.out.println(s);
         } catch (IOException | EncryptedDocumentException ex) {
             Logger.getLogger(ExcelPictureGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(ExcelPictureGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
 }

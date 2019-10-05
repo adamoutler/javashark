@@ -11,11 +11,8 @@ package com.adamoutler.time;
  */
 public class User {
 
-    
-    
-    
     Integer getTz_offset() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

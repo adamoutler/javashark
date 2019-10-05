@@ -49,12 +49,6 @@ public class ScreenDataTest {
     public void tearDown() {
     }
 
-
-
-    
-
-
-
     /**
      * Test of identifyScreen method, of class ScreenData.
      */
@@ -66,7 +60,7 @@ public class ScreenDataTest {
 
             try {
                 System.out.println(f.getAbsolutePath());
-                if (f.getAbsolutePath().endsWith("svn")){
+                if (f.getAbsolutePath().endsWith("svn")) {
                     continue;
                 }
                 BufferedImage bi = ImageIO.read(f);
@@ -75,18 +69,18 @@ public class ScreenDataTest {
                 ScreenData result = ScreenData.identifyScreen(bi);
                 if (expResult.getHashes().length > 0) {
                     HashedPicCoords hpc = expResult.getHashes()[0];
-                    if (!result.equals(expResult)){
-                        System.out.println("Expected values for "+ id+" are as follows");
-                        for (int i=0; i<expResult.getHashes().length;i++){
-                            HashedPicCoords coords =expResult.getHashes()[i];
-                            System.out.println(i+": new HashedPicCoords("+coords.getX() + "," + coords.getY() + "," + coords.getW() + "," + coords.getH() + "," + coords.getHash(bi)+")");
-                            
+                    if (!result.equals(expResult)) {
+                        System.out.println("Expected values for " + id + " are as follows");
+                        for (int i = 0; i < expResult.getHashes().length; i++) {
+                            HashedPicCoords coords = expResult.getHashes()[i];
+                            System.out.println(i + ": new HashedPicCoords(" + coords.getX() + "," + coords.getY() + "," + coords.getW() + "," + coords.getH() + "," + coords.getHash(bi) + ")");
+
                         }
                     }
-                    if (expResult.name().equals("ULTIMATEGARAGE")){
+                    if (expResult.name().equals("ULTIMATEGARAGE")) {
                         System.out.println(expResult);
                     }
-                    assertEquals(expResult.name(),result.name());
+                    assertEquals(expResult.name(), result.name());
                     //assertEquals(expResult, result);
                 }
                 if (id.equals(result.name())) {
@@ -103,7 +97,6 @@ public class ScreenDataTest {
 
         }
     }
-
 
     private File getTestFile(ScreenData sd) {
 

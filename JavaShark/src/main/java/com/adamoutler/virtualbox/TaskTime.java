@@ -14,8 +14,6 @@ public class TaskTime {
     private long timeStarted;
     private long timeComplete;
 
-  
-
     public TaskTime setTimeStarted() {
         this.timeStarted = System.currentTimeMillis();
         return this;

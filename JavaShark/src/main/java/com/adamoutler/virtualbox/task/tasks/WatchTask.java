@@ -62,7 +62,7 @@ public class WatchTask extends Task {
     public boolean resume(VirtualBoxMachine vm) {
         if (vm.isPoweredOn() && vm.getScreen().equals(ScreenData.CITYKINGS)) {
             System.out.println("putting " + vm.getUsername() + " back on sentry duty");
-            vm.resumeTask(TaskType.WATCH);            
+            vm.resumeTask(TaskType.WATCH);
             return true;
         } else {
             return false;

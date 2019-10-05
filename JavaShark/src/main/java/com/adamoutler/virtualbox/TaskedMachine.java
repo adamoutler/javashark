@@ -23,7 +23,7 @@ public class TaskedMachine {
 
     private LinkedList<TaskType> taskList = new LinkedList<>();
     private HashMap<TaskType, TaskTime> completedTasks = new HashMap<>();
-    transient private TaskType temporaryTask=null;
+    transient private TaskType temporaryTask = null;
     transient private boolean taskInitialized = false;
     transient private boolean taskReady = false;
     transient private boolean taskComplete = false;
@@ -48,7 +48,7 @@ public class TaskedMachine {
         taskInitialized = true;
         taskReady = true;
         taskComplete = false;
-        currentTaskTimes=new TaskTime().setTimeStarted();
+        currentTaskTimes = new TaskTime().setTimeStarted();
         taskList = tasks;
     }
 
@@ -112,7 +112,7 @@ public class TaskedMachine {
     }
 
     synchronized public void completeCurrentTask() {
-        if (this.temporaryTaskAvailable){
+        if (this.temporaryTaskAvailable) {
             removeTemporaryTask();
         } else {
             this.taskComplete = true;
@@ -221,13 +221,13 @@ public class TaskedMachine {
         this.temporaryTask = temporaryTask;
         this.setTemporaryTaskAvailable(true);
     }
-    
-    synchronized public void removeTemporaryTask(){
+
+    synchronized public void removeTemporaryTask() {
         this.setTemporaryTaskAvailable(false);
         setTemporaryTaskInitialized(false);
-        this.temporaryTask=null;
+        this.temporaryTask = null;
     }
-    
+
     /**
      * @return the taskReady
      */

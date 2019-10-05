@@ -55,21 +55,10 @@ public class BattlefieldSearchParser {
         return s;
     }
 
-    
-    
-
-    
-
-            
-            
-            
-    public List getRecords() throws SearchException{
-        return getRecords("/var/www/baby-sharks/excel",extension,gang,ocrName,startsWith);
+    public List getRecords() throws SearchException {
+        return getRecords("/var/www/baby-sharks/excel", extension, gang, ocrName, startsWith);
     }
-    
-    
-    
-    
+
     public static List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {
         throwExceptionIfFolderNotSpecified(folder);
         BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension, startsWith);
@@ -99,7 +88,7 @@ public class BattlefieldSearchParser {
         return bestMatchFileMap;
     }
 
-    private static File  getBestFileMatchToDate(List<File> files, long preferredTime) {
+    private static File getBestFileMatchToDate(List<File> files, long preferredTime) {
         File currentBestFile = null;
         try {
             for (File testFile : files) {

@@ -31,7 +31,9 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
         try {
             BufferedImage bi = HistoricalImageSearch.getLastCars(hash, "/var/www/baby-sharks/excel", request.getData().getGang());
             if (bi.getWidth() == 1) {
-                this.sendArbitrary(404, he, "Could not find user", COULDNOTFINDREQUESTEDUSERINRECORDS);
+                request.getData().setErrorType(COULDNOTFINDREQUESTEDUSERINRECORDS);
+
+                this.sendArbitrary(404, he, "Could not find user");
             }
 
             String outputFolder = "/var/www/baby-sharks/screenshots/";
@@ -46,7 +48,8 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
                             + output.getName());
             this.sendSucessMessage(he, request);
         } catch (SearchException ex) {
-            this.sendArbitrary(404, he, "Could not find matching records", COULDNOTFINDMATCHINGRECORDS);
+            request.getData().setErrorType(COULDNOTFINDMATCHINGRECORDS);
+            this.sendArbitrary(404, he, "Could not find matching records");
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
 

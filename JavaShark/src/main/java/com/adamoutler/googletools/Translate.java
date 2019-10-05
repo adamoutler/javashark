@@ -21,25 +21,22 @@ import org.springframework.web.client.RestTemplate;
  */
 public class Translate {
 
-    
-    
-    public  void main(String[] args){
+    public void main(String[] args) {
         try {
             GoogleAuth.authExplicit("C:\\Users\\adamo\\OneDrive\\Desktop\\svn\\Baby Sharks Projects\\JavaShark\\src\\main\\resources\\JavaShark-a966035cedbc.json");
         } catch (IOException ex) {
             Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
         }
         new Translate().translate("hola");
-    }    
-    
-    
+    }
+
     String translate(String text) {
-        
-        HashMap<String, String> map=new HashMap();
-        String s=new RestTemplate().postForObject("https://translation.googleapis.com/language/translate/v2/", text, String.class,map);
+
+        HashMap<String, String> map = new HashMap();
+        String s = new RestTemplate().postForObject("https://translation.googleapis.com/language/translate/v2/", text, String.class, map);
         System.out.println(s);
-        Data data=new RestTemplate().postForObject("https://translation.googleapis.com/language/translate/v2", text, Data.class);
-        
+        Data data = new RestTemplate().postForObject("https://translation.googleapis.com/language/translate/v2", text, Data.class);
+
         return "";
 
     }
@@ -48,33 +45,25 @@ public class Translate {
         return "";
     }
 
+    class Request {
 
-    class Request{
-        String target="en";
-        String[] q=new String[1];
-        String model="nmt";
-        String key="REPLACE_ME";
-        Request(String text){
-            q[0]=text;
+        String target = "en";
+        String[] q = new String[1];
+        String model = "nmt";
+        String key = "REPLACE_ME";
+
+        Request(String text) {
+            q[0] = text;
         }
     }
-    
 
-     String getRequest(String text){
-        Request request=new Request(text);
-        String requestJson=new GsonBuilder().create().toJson(request);
+    String getRequest(String text) {
+        Request request = new Request(text);
+        String requestJson = new GsonBuilder().create().toJson(request);
         return requestJson;
     }
-    
-    
+
 }
-
-
-
-
-
-
-
 
 class Data {
 

@@ -306,10 +306,10 @@ public class Building {
         this.friendlyScan = friendlyScan;
     }
 
-    public String toString(){
-        StringBuilder sb=new StringBuilder();
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append("Building ").append(this.buildingNumber).append(" owned by").append(this.buildingOwnedBy);
         return sb.toString();
     }
-    
+
 }

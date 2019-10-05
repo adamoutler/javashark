@@ -50,11 +50,11 @@ public class TeamOwnershipPercentageBar {
 
         owned = new ArrayList<>();
         BufferedImage bi = ByteImage.getImageFromBytes(screenshot);
-        Screenshottable.writePic(bi.getSubimage(BARLOCATION.getX(), BARLOCATION.getY(), BARLOCATION.getW(), BARLOCATION.getH()),"PicUsedForTOSB");
+        Screenshottable.writePic(bi.getSubimage(BARLOCATION.getX(), BARLOCATION.getY(), BARLOCATION.getW(), BARLOCATION.getH()), "PicUsedForTOSB");
         PicColors pc = new PicColors(bi);
         int[] validColors = new int[]{RED, BLUE, GREY};
         int maxX = BARLOCATION.getW() + BARLOCATION.getX();
-        
+
         int currentX = pc.scanRightXCoordinateForColorAtYCoordinate(validColors, STARTSCAN.getX(), STARTSCAN.getY(), maxX, 10);
         int topY = pc.scanUpYCoordinateForLackOfColorAtXCoordinate(validColors, currentX, STARTSCAN.getY(), BARLOCATION.getY(), 10) + 2;
         while (currentX < maxX && currentX != -1) {
@@ -119,7 +119,7 @@ public class TeamOwnershipPercentageBar {
     private void setTotals(ArrayList<OwnedBy> slotColor) {
         for (OwnedBy color : slotColor) {
             totalSlots++;
-            switch(color){
+            switch (color) {
                 case US:
                     numberWeOwn++;
                     break;
@@ -129,7 +129,7 @@ public class TeamOwnershipPercentageBar {
                 case NOBODY:
                     numberNobodyOwn++;
                     break;
-                
+
             }
         }
     }

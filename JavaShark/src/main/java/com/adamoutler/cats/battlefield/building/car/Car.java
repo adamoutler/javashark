@@ -92,7 +92,7 @@ public class Car {
     }
 
     public String getCarNameHash() {
-        return this.nameHash + this.attackHash+this.tieBreaker;
+        return this.nameHash + this.attackHash + this.tieBreaker;
     }
 
     /**
@@ -157,7 +157,7 @@ public class Car {
         }
         this.tieBreaker = getTieBreakerValueFromImage(badge);
 
-        System.out.println("Car " + this.location + " name:" + this.nameHash + " attack:" + this.attackHash+ " Tiebreaker: "+this.tieBreaker);
+        System.out.println("Car " + this.location + " name:" + this.nameHash + " attack:" + this.attackHash + " Tiebreaker: " + this.tieBreaker);
         return this;
     }
 
@@ -242,11 +242,10 @@ public class Car {
         }
         return false;
     }
-    
-    public boolean isSameImage(Car c){
+
+    public boolean isSameImage(Car c) {
         return this.tieBreaker.equals(c.getTieBreaker());
     }
-    
 
     /**
      * get a hashcode of the namehash and the carhash.

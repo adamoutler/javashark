@@ -8,19 +8,9 @@ package com.adamoutler.cats.battlefield;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.battlefield.building.car.Car;
 import com.adamoutler.imagerecognition.ByteImage;
-import com.adamoutler.imagerecognition.ImageJoiner;
-import com.adamoutler.imagerecognition.IncreaseSize;
-import com.adamoutler.imagerecognition.PicCoords;
-import com.adamoutler.imagerecognition.WritePicture;
-import com.adamoutler.imagerecognition.XYCoords;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
-import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -236,7 +226,9 @@ public class BattlefieldExcelGenerator {
         anchor.setAnchorType(AnchorType.DONT_MOVE_DO_RESIZE);
         patriarch.createPicture(anchor, wb.addPicture(baos.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
 
-    } private void writeBigPictureTo(Workbook wb, HSSFSheet sheet, int x, int y, byte[] bi) throws IOException {
+    }
+
+    private void writeBigPictureTo(Workbook wb, HSSFSheet sheet, int x, int y, byte[] bi) throws IOException {
         if (bi == null) {
             return;
         }
@@ -554,28 +546,27 @@ public class BattlefieldExcelGenerator {
     }
 
     private HSSFSheet createCoversheet(HSSFWorkbook workbook, Battlefield match) {
-        boolean friendly=match.getBuildings().get(0).isFriendlyScan();
+        boolean friendly = match.getBuildings().get(0).isFriendlyScan();
         HSSFSheet sheet = workbook.createSheet((friendly ? "Friendly " : "Enemy ") + "scan");
         int row = 10;
-        for (int i=0; i<20; i++){
+        for (int i = 0; i < 20; i++) {
             sheet.createRow(i);
         }
-        sheet.getRow(0).createCell(0).setCellValue("                         Baby Sharks " +(friendly?"scan":"reconissance"));
+        sheet.getRow(0).createCell(0).setCellValue("                         Baby Sharks " + (friendly ? "scan" : "reconissance"));
         sheet.getRow(0).getCell(0).setCellStyle(h1);
-        sheet.getRow(2).createCell(0).setCellValue((friendly?"Classified":"For Official Baby Sharks Use Only"));
+        sheet.getRow(2).createCell(0).setCellValue((friendly ? "Classified" : "For Official Baby Sharks Use Only"));
         sheet.getRow(2).getCell(0).setCellStyle(bold);
-        sheet.getRow(4).createCell(0).setCellValue("Report Date: "+new Date().toGMTString());
+        sheet.getRow(4).createCell(0).setCellValue("Report Date: " + new Date().toGMTString());
 
         try {
-        byte[] shark = ByteImage.getJpgBytes(ByteImage.getPngBytes(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("sharks.jpg"))));
+            byte[] shark = ByteImage.getJpgBytes(ByteImage.getPngBytes(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("sharks.jpg"))));
 
-            writeBigPictureTo(workbook, sheet, 0,6, shark);
+            writeBigPictureTo(workbook, sheet, 0, 6, shark);
         } catch (IOException ex) {
             Logger.getLogger(BattlefieldExcelGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        HashedMessage hm=new HashedMessage(new Message());
-        sheet.getRow(9).createCell(0).setCellValue("Server:  "+HashedMessage.name + "  -  "+HashedMessage.instance);
-        
+        HashedMessage hm = new HashedMessage(new Message());
+        sheet.getRow(9).createCell(0).setCellValue("Server:  " + HashedMessage.name + "  -  " + HashedMessage.instance);
 
         return sheet;
     }

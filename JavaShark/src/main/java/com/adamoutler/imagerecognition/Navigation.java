@@ -36,9 +36,11 @@ public abstract class Navigation extends Screenshottable {
     public static void tapLocation(JadbDevice jadb, XYCoords xy) throws IOException, JadbException {
         jadb.execute("input", "tap", Integer.toString(xy.getX()), Integer.toString(xy.getY()));
     }
+
     public static void pressLocation(JadbDevice jadb, XYCoords xy) throws IOException, JadbException {
-        jadb.execute("input", "swipe", Integer.toString(xy.getX()), Integer.toString(xy.getY()),Integer.toString(xy.getX()), Integer.toString(xy.getY()));
+        jadb.execute("input", "swipe", Integer.toString(xy.getX()), Integer.toString(xy.getY()), Integer.toString(xy.getX()), Integer.toString(xy.getY()));
     }
+
     public static void swipe(JadbDevice jadb, Swipe s) throws IOException, JadbException {
         jadb.execute("input", "swipe",
                 Integer.toString(s.getFromX()),

@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -230,7 +229,7 @@ public class CatsGangPicGenerator {
                     }
                 }
                 for (Car existing : newCars) {
-                    if (existing.equals(test)&& existing.isSameImage(test)) {
+                    if (existing.equals(test) && existing.isSameImage(test)) {
                         add = false;
                         System.out.println("found car in added cars already");
                         break;

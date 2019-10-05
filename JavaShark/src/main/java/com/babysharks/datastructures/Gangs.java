@@ -45,7 +45,7 @@ public class Gangs {
      *
      * @return all gangs
      */
-    HashMap<String,Gang> get_gangs() {
+    HashMap<String, Gang> get_gangs() {
         return gangs;
     }
 }

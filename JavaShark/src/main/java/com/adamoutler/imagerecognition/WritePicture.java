@@ -13,12 +13,12 @@ public class WritePicture {
     public static BufferedImage underline(BufferedImage combined) {
         Graphics2D graphics = combined.createGraphics();
         graphics.setColor(Color.gray);
-        graphics.drawRect(0, combined.getHeight()-3, combined.getWidth(), combined.getHeight()-1);
+        graphics.drawRect(0, combined.getHeight() - 3, combined.getWidth(), combined.getHeight() - 1);
         graphics.dispose();
         return combined;
     }
 
-    public  void main(String arg[]) throws Exception { //main method
+    public void main(String arg[]) throws Exception { //main method
         PicCoords pc = new PicCoords(0, 0, 30, 20);
         XYCoords xy = new XYCoords(5, 15);
         Font font = new Font("Bebas Neue Bold", Font.PLAIN, 30);
@@ -95,7 +95,6 @@ public class WritePicture {
         }
     }
 
-        
     public static void replaceAllButColor(BufferedImage picture, int colorToPreserve, int newColor, int tollerance) {
         int r = getRed(colorToPreserve);
         int g = getGreen(colorToPreserve);
@@ -103,15 +102,14 @@ public class WritePicture {
         for (int x = 0; x < picture.getWidth(); x++) {
             for (int y = 0; y < picture.getHeight(); y++) {
                 int color = picture.getRGB(x, y);
-                if (! withinRange(getRed(color), r, tollerance) || !withinRange(getBlue(color), b, tollerance)|| ! withinRange(getGreen(color), g, tollerance)) {
+                if (!withinRange(getRed(color), r, tollerance) || !withinRange(getBlue(color), b, tollerance) || !withinRange(getGreen(color), g, tollerance)) {
                     picture.setRGB(x, y, newColor);
 
                 }
             }
         }
     }
-    
-    
+
     public static BufferedImage cropExtraBackgroundOnSides(BufferedImage picture, int colorOfBackground, int tollerance, int sideMarginsPixels) {
         int r = getRed(colorOfBackground);
         int g = getGreen(colorOfBackground);
@@ -119,8 +117,8 @@ public class WritePicture {
         int y;
         int x = 0;
         boolean found = false;
-        while (!found && x < picture.getWidth()-1) {
-            for (y = 0; y < picture.getHeight()-1; y++) {
+        while (!found && x < picture.getWidth() - 1) {
+            for (y = 0; y < picture.getHeight() - 1; y++) {
 
                 int color = picture.getRGB(x, y);
                 if (!withinRange(getRed(color), r, tollerance) || !withinRange(getBlue(color), b, tollerance) || !withinRange(getGreen(color), g, tollerance)) {
@@ -130,7 +128,9 @@ public class WritePicture {
             }
             x++;
         }
-        if (x==picture.getWidth())x--;
+        if (x == picture.getWidth()) {
+            x--;
+        }
         BufferedImage picture2 = picture.getSubimage(getLeftMargin(picture, x, sideMarginsPixels), picture.getMinY(), getLeftCropWidth(picture, x), picture.getHeight());
         found = false;
         x = picture2.getWidth();
@@ -144,7 +144,9 @@ public class WritePicture {
                 }
             }
         }
-       if (x==0)x++;
+        if (x == 0) {
+            x++;
+        }
 
         picture = picture2.getSubimage(picture2.getMinX(), picture2.getMinY(), getRightCrop(x, sideMarginsPixels, picture2), picture2.getHeight());
         return picture;

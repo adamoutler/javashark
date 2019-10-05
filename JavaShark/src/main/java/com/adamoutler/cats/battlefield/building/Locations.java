@@ -19,24 +19,23 @@ import java.util.logging.Logger;
 public enum Locations {
 
     FRIENDLYCAR1(new XYCoords(820, 350), new ColoredXYCoords(910, 280, 0xa9cafa, 10)),
-    FRIENDLYCAR2(new XYCoords(820, 500), new ColoredXYCoords(910, 440,0xa9cafa,10)),
-    FRIENDLYCAR3(new XYCoords(820, 650), new ColoredXYCoords(910, 600,0xa9cafa,10)),
-    FRIENDLYCAR4(new XYCoords(630, 350), new ColoredXYCoords(710, 280,0xa9cafa,10)),
-    FRIENDLYCAR5(new XYCoords(630, 500), new ColoredXYCoords(710, 440,0xa9cafa,10)),
-    FRIENDLYCAR6(new XYCoords(630, 650), new ColoredXYCoords(710, 600,0xa9cafa,10)),
-    FRIENDLYCAR7(new XYCoords(430, 350), new ColoredXYCoords(510, 280,0xa9cafa,10)),
-    FRIENDLYCAR8(new XYCoords(430, 500), new ColoredXYCoords(510, 440,0xa9cafa,10)),
-    FRIENDLYCAR9(new XYCoords(430, 650), new ColoredXYCoords(510, 600,0xa9cafa,10)),
-   
-    FOECAR1(new XYCoords(575, 350), new ColoredXYCoords(484, 282,0xff615b,10)),
-    FOECAR2(new XYCoords(575, 500), new ColoredXYCoords(484, 442,0xff615b,10)),
-    FOECAR3(new XYCoords(575, 650), new ColoredXYCoords(484, 600,0xff615b,10)),
-    FOECAR4(new XYCoords(775, 350), new ColoredXYCoords(688, 282,0xff615b,10)),
-    FOECAR5(new XYCoords(775, 500), new ColoredXYCoords(688, 442,0xff615b,10)),
-    FOECAR6(new XYCoords(775, 650), new ColoredXYCoords(668, 600,0xff615b,10)),
-    FOECAR7(new XYCoords(975, 350), new ColoredXYCoords(889, 282,0xff615b,10)),
-    FOECAR8(new XYCoords(975, 500), new ColoredXYCoords(889, 442,0xff615b,10)),
-    FOECAR9(new XYCoords(975, 650), new ColoredXYCoords(899, 600,0xff615b,10));
+    FRIENDLYCAR2(new XYCoords(820, 500), new ColoredXYCoords(910, 440, 0xa9cafa, 10)),
+    FRIENDLYCAR3(new XYCoords(820, 650), new ColoredXYCoords(910, 600, 0xa9cafa, 10)),
+    FRIENDLYCAR4(new XYCoords(630, 350), new ColoredXYCoords(710, 280, 0xa9cafa, 10)),
+    FRIENDLYCAR5(new XYCoords(630, 500), new ColoredXYCoords(710, 440, 0xa9cafa, 10)),
+    FRIENDLYCAR6(new XYCoords(630, 650), new ColoredXYCoords(710, 600, 0xa9cafa, 10)),
+    FRIENDLYCAR7(new XYCoords(430, 350), new ColoredXYCoords(510, 280, 0xa9cafa, 10)),
+    FRIENDLYCAR8(new XYCoords(430, 500), new ColoredXYCoords(510, 440, 0xa9cafa, 10)),
+    FRIENDLYCAR9(new XYCoords(430, 650), new ColoredXYCoords(510, 600, 0xa9cafa, 10)),
+    FOECAR1(new XYCoords(575, 350), new ColoredXYCoords(484, 282, 0xff615b, 10)),
+    FOECAR2(new XYCoords(575, 500), new ColoredXYCoords(484, 442, 0xff615b, 10)),
+    FOECAR3(new XYCoords(575, 650), new ColoredXYCoords(484, 600, 0xff615b, 10)),
+    FOECAR4(new XYCoords(775, 350), new ColoredXYCoords(688, 282, 0xff615b, 10)),
+    FOECAR5(new XYCoords(775, 500), new ColoredXYCoords(688, 442, 0xff615b, 10)),
+    FOECAR6(new XYCoords(775, 650), new ColoredXYCoords(668, 600, 0xff615b, 10)),
+    FOECAR7(new XYCoords(975, 350), new ColoredXYCoords(889, 282, 0xff615b, 10)),
+    FOECAR8(new XYCoords(975, 500), new ColoredXYCoords(889, 442, 0xff615b, 10)),
+    FOECAR9(new XYCoords(975, 650), new ColoredXYCoords(899, 600, 0xff615b, 10));
     private XYCoords tapLocation;
     private ColoredXYCoords verifyLocation;
 
@@ -67,7 +66,6 @@ public enum Locations {
     public static void doBackSwipe(VirtualBoxMachine vm) {
         String[] bs = getBackSwipe(600);
         vm.adbShell("input", "swipe", bs[0], bs[1], bs[2], bs[3], bs[4]);
-        
 
     }
 

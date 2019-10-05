@@ -18,7 +18,6 @@ public class SentryTools {
 
     final VirtualBoxMachine vm;
 
-
     public SentryTools(VirtualBoxMachine vm) {
         this.vm = vm;
 
@@ -30,9 +29,9 @@ public class SentryTools {
 
     public boolean isBusy() {
         try {
-        TaskType current = vm.getCurrentTask();
+            TaskType current = vm.getCurrentTask();
             return !(current == TaskType.IDLE || current == TaskType.POWEROFF);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("attempted SentryTools.isBusy but vm was not powered on.");
             return false;
         }
@@ -40,13 +39,13 @@ public class SentryTools {
 
     public VirtualBoxMachine getCurrent(TaskType task) {
         try {
-        ArrayList<VirtualBoxMachine> vms = new VirtualBox().getGangMachines(vm.getGang());
-        for (VirtualBoxMachine virtualMachine : vms) {
-            if (virtualMachine.getCurrentTask() == task) {
-                return virtualMachine;
+            ArrayList<VirtualBoxMachine> vms = new VirtualBox().getGangMachines(vm.getGang());
+            for (VirtualBoxMachine virtualMachine : vms) {
+                if (virtualMachine.getCurrentTask() == task) {
+                    return virtualMachine;
+                }
             }
-        }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("attempted SentryTools.getCurrent but an error occurred.");
         }
         return null;
