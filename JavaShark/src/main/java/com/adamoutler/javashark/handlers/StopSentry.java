@@ -47,7 +47,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(WHATEVER);
 
-            this.sendBadReq(he, username);
+            this.sendBadReq(he, request);
         }
     }
 

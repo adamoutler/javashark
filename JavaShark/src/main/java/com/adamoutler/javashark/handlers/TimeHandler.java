@@ -37,7 +37,7 @@ public class TimeHandler extends AbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(NOPLACEINFO);
 
-            this.sendBadReq(t, key);
+            this.sendBadReq(t, request);
         }
     }
 

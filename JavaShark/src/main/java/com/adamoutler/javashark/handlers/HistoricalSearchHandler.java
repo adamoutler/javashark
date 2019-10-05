@@ -23,7 +23,7 @@ public class HistoricalSearchHandler extends AbstractPapaHandler {
         new BattlefieldSearchParser(sq);
         request.getData().setErrorType(WHATEVER);
 
-        this.sendArbitrary(400, he, "WTF");
+        this.sendArbitrary(400, he, request);
 
     }
 

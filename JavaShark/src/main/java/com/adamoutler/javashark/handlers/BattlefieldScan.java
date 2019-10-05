@@ -36,12 +36,14 @@ public class BattlefieldScan extends SentryAbstractPapaHandler {
         if (friendly == null) {
             friendly = true;
         }
-        if (vm == null) {
-            request.getData().setErrorType(USERHASNOSENTRY);
 
-            this.sendBadReq(he, username + " has no sentry");
+        try {
+            vm.getTaskData().setFriendlyScan(friendly);
+        } catch (NullPointerException ex) {
+            request.getData().setErrorType(USERHASNOSENTRY);
+            this.sendArbitrary(404, he, request);
+            return;
         }
-        vm.getTaskData().setFriendlyScan(friendly);
         vm.getTaskData().setBuildingsToScan(buildingsToScan);
         vm.setHashes(request.getData().getHashes());
         vm.clearTasks();

@@ -27,7 +27,7 @@ public class DeepBuildingReconHandler extends SentryAbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(VMERROR);
 
-            this.sendBadReq(he, username);
+            this.sendBadReq(he, request);
             return;
         }
         addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.DEEPBUILDINGRECON);

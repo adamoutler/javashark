@@ -33,13 +33,13 @@ public class AnalyzeScreenshotHandler extends AbstractPapaHandler {
         File screenshotFile = new File(ScreenshotHandler.OUTPUT + File.separator + filename);
         if (!screenshotFile.exists()) {
             request.getData().setErrorType(INVALIDFILE);
-            this.sendBadReq(t, "invalid file");
+            this.sendBadReq(t, request);
         }
         BufferedImage image = ImageIO.read(screenshotFile);
         ScreenData d = ScreenData.identifyScreen(image);
         if (!d.equals(ScreenData.CITYKINGS)) {
             request.getData().setErrorType(UNRECOGNIZEDSCREEN);
-            this.sendBadReq(t, "unrecognized screen");
+            this.sendBadReq(t, request);
         }
         CityKingsBattlefieldAnalysis ckb = new CityKingsBattlefieldAnalysis(image);
         request.getData().setResultObject(ckb);

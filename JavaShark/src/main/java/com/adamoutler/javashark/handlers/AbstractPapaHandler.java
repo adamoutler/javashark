@@ -42,18 +42,20 @@ public abstract class AbstractPapaHandler implements HttpHandler {
     public void sendSucessString(HttpExchange t, String response) throws IOException {
         writeOutResponse(t, response, 200);
     }
-
-    public void sendBadReq(HttpExchange t, String response) throws IOException {
-        writeOutResponse(t, response, 400);
+    public void sendBadReq(HttpExchange t, Message response) throws IOException {
+        
+        writeOutResponse(t, response.toJson(), 400);
+    }
+ 
+    public void sendConflictReq(HttpExchange t, Message response) throws IOException {
+        writeOutResponse(t, response.toJson(), 409);
     }
 
-    public void sendConflictReq(HttpExchange t, String response) throws IOException {
-        writeOutResponse(t, response, 409);
+    
+    public void sendArbitrary(int code, HttpExchange t, Message response) throws IOException {
+        writeOutResponse(t, response.toJson(), code);
     }
-
-    public void sendArbitrary(int code, HttpExchange t, String response) throws IOException {
-        writeOutResponse(t, response, code);
-    }
+  
 
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");

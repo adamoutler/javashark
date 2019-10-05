@@ -66,7 +66,7 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
         if (vm == null) {
             request.getData().setUrl(null);
             request.getData().setErrorType(NOSENTRIESACTIVE);
-            this.sendArbitrary(404, t, username);
+            this.sendArbitrary(404, t, request);
         } else {
             image = vm.screenshot();
             PicCoords theirScore = new PicCoords(632, 69, 213, 118);

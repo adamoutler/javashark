@@ -27,7 +27,7 @@ public class TemporaryTaskHandler extends SentryAbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(VMERROR);
 
-            this.sendBadReq(he, username);
+            this.sendBadReq(he, request);
             return;
         }
         try {
@@ -35,7 +35,7 @@ public class TemporaryTaskHandler extends SentryAbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(NOSUCHTASK);
 
-            this.sendBadReq(he, username);
+            this.sendBadReq(he, request);
         }
 
         request.getData()

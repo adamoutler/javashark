@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.babysharks.messaging.ErrorType;
 import static com.babysharks.messaging.ErrorType.OTHERSENTRYACTIVE;
 import static com.babysharks.messaging.ErrorType.VMERROR;
 import com.sun.net.httpserver.HttpExchange;
@@ -30,13 +31,17 @@ public class StartSentry extends SentryAbstractPapaHandler {
         long time = System.currentTimeMillis();
         try {
             vm.clearTasks();
+        } catch (NullPointerException ex){
+            request.getData().setErrorType(ErrorType.USERHASNOSENTRY);
+        }
+        try {
             ArrayList<VirtualBoxMachine> gangMachines = new VirtualBox().getGangMachines(gang);
             for (VirtualBoxMachine machine : gangMachines) {
                 if (machine.getCurrentTask().equals(TaskType.WATCH)) {
                     request.getData().setReason("Other Sentry Active");
                     request.getData().setErrorType(OTHERSENTRYACTIVE);
 
-                    this.sendConflictReq(he, username);
+                    this.sendConflictReq(he, request);
                     return;
                 }
 
@@ -44,7 +49,7 @@ public class StartSentry extends SentryAbstractPapaHandler {
         } catch (Exception ex) {
             request.getData().setErrorType(VMERROR);
 
-            this.sendBadReq(he, username);
+            this.sendBadReq(he, request);
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 
             return;
