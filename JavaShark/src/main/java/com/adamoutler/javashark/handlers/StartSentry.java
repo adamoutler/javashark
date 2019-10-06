@@ -55,7 +55,7 @@ public class StartSentry extends SentryAbstractPapaHandler {
             return;
         }
 
-        addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.WATCH);
+        addTasks(TaskType.POWERON, TaskType.STARTCATS, TaskType.CORRECTIVEACTIONCK, TaskType.BEGINTHEATTACK, TaskType.WATCH);
         request.getData().addAvailable(vm).setReason("starting");
         this.sendSucessMessage(he, request);
 

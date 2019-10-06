@@ -30,6 +30,13 @@ public class VMTaskData {
     public LinkedList<BufferedImage> carsScreenshots;
     public int retries;
     private String telegramid;
+    Float building1PercentOurCars;
+    Float building2PercentOurCars;
+    Float building3PercentOurCars;
+    Float building4PercentOurCars;
+    Float building5PercentOurCars;
+    Float building6PercentOurCars;
+    
 
     /**
      * @return the lastStartCats

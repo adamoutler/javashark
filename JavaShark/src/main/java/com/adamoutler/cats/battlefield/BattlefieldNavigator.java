@@ -63,7 +63,7 @@ public class BattlefieldNavigator {
             return false;
         }
         ScreenData id = vm.getScreen();
-        if (id == ScreenData.CITYKINGS) {
+        if (id == ScreenData.CITYKINGS||id== ScreenData.BEGINTHEATTACK||id== ScreenData.CITYKINGSENLIST) {
             System.out.println(vm.getUsername() + ": I'm at " + id + " screen!");
 
             return true;

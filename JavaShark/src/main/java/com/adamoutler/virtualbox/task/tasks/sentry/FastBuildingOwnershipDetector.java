@@ -9,6 +9,7 @@ import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.NOBODY;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
+import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
@@ -43,6 +44,25 @@ public class FastBuildingOwnershipDetector {
     final static XYCoords BUILDING4 = new XYCoords(630, 607);
     final static XYCoords BUILDING5 = new XYCoords(834, 512);
     final static XYCoords BUILDING6 = new XYCoords(818, 335);
+
+    public enum BuildingBar {
+        BAR1(new XYCoords(177, 380)),
+        BAR2(new XYCoords(124, 530)),
+        BAR3(new XYCoords(369, 620)),
+        BAR4(new XYCoords(644, 630)),
+        BAR5(new XYCoords(849, 536)),
+        BAR6(new XYCoords(833, 360));
+        XYCoords xy;
+
+        BuildingBar(XYCoords xy) {
+            this.xy = xy;
+        }
+
+        public XYCoords getXY() {
+            return xy;
+        }
+    }
+
     String gang;
     String username;
     VirtualBoxMachine vm;
@@ -102,6 +122,11 @@ public class FastBuildingOwnershipDetector {
                 return;
             } else {
                 vm.getTaskData().lastValidScreenshot = screenshot;
+            }
+            try {
+                lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot));
+            } catch (NullPointerException ex) {
+
             }
             vm.getTaskData().setNullCount(0);
 
@@ -226,6 +251,87 @@ public class FastBuildingOwnershipDetector {
         }
 
         return null;
+    }
+
+    public static float getPercentOurCars(BuildingBar bar, PicColors pc) throws NullPointerException {
+        int initialXCoord = bar.getXY().getX();
+        int yCoord = bar.getXY().getY();
+        int startOfOurBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, initialXCoord, yCoord, initialXCoord + 20);
+        if (startOfOurBar == -1) {
+            return 0;
+        }
+        int endOfOurBar = pc.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, startOfOurBar, yCoord, startOfOurBar + 200);
+        int pixelsOurBar = endOfOurBar - startOfOurBar;
+        int endOfBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{WHITEBORDER.getColor()}, endOfOurBar, yCoord, initialXCoord + 200);
+        int sizeOfBar = endOfBar - startOfOurBar;
+        if (sizeOfBar < 155) {
+            throw new NullPointerException("Could not read bar size");
+        }
+        float percentOurs = ((float) pixelsOurBar / (float) sizeOfBar) * 100;
+
+        return percentOurs;
+    }
+
+    public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
+        try {
+            float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar1, vm.getTaskData().building1PercentOurCars, 1);
+            vm.getTaskData().building1PercentOurCars = bar1;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar2, vm.getTaskData().building2PercentOurCars, 2);
+            vm.getTaskData().building2PercentOurCars = bar2;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar3, vm.getTaskData().building3PercentOurCars, 3);
+            vm.getTaskData().building3PercentOurCars = bar3;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar4, vm.getTaskData().building4PercentOurCars, 4);
+            vm.getTaskData().building4PercentOurCars = bar4;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar5, vm.getTaskData().building5PercentOurCars, 5);
+            vm.getTaskData().building5PercentOurCars = bar5;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
+            sendMessageToPapaIfValueDoesNotMatch(bar6, vm.getTaskData().building6PercentOurCars, 6);
+            vm.getTaskData().building6PercentOurCars = bar6;
+        } catch (Exception ex) {
+        }
+
+    }
+
+    public static void wipeBuildingData(VirtualBoxMachine vm) {
+        vm.getTaskData().building1PercentOurCars = 0f;
+        vm.getTaskData().building2PercentOurCars = 0f;
+        vm.getTaskData().building3PercentOurCars = 0f;
+        vm.getTaskData().building4PercentOurCars = 0f;
+        vm.getTaskData().building5PercentOurCars = 0f;
+        vm.getTaskData().building6PercentOurCars = 0f;
+
+    }
+
+    private static void sendMessageToPapaIfValueDoesNotMatch(float newValue, Float oldValue, int building) {
+        if (oldValue==null||oldValue == 0) {
+            return;
+        }
+        if (newValue < oldValue && newValue > 50) {
+            Message m = new Message();
+            m.setCommand("lostbuff");
+            m.getData().setBuildings(new String[]{"" + building}).setReason("Building " + building + " lost a buff from " + oldValue + " to " + newValue);
+            String s = SendPapaAsynch.sendToPapa(m);
+        }
     }
 
 }
