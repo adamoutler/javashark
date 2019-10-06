@@ -45,6 +45,7 @@ public class MessageData {
     private SearchQuery query;
     private boolean debug = false;
     private ErrorType errorType;
+    private String errorMessage;
 
     /**
      * @return the weOwn
@@ -451,6 +452,13 @@ public class MessageData {
      * @param errorType the errorType to set
      */
     public void setErrorType(ErrorType errorType) {
+        if (errorType.equals(ErrorType.NOERROR)){
+            errorType=null;
+            this.errorType=null;
+            errorMessage=null;
+            return;
+        }
         this.errorType = errorType;
+        this.errorMessage=errorType.getMessage();
     }
 }

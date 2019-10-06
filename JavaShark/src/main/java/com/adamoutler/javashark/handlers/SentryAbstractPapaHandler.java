@@ -38,10 +38,13 @@ abstract class SentryAbstractPapaHandler extends AbstractPapaHandler {
 
     void addTasks(TaskType... tasks) {
         if (tasks == null) {
+            System.out.println("added null task to" +vm.getUsername());
             return;
         }
         for (TaskType task : tasks) {
             if (task != null) {
+            System.out.println("added "+task+" task to" +vm.getUsername());
+
                 vm.addTask(task);
             }
         }
