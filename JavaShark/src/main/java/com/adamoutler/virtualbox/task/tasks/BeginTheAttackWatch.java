@@ -32,7 +32,7 @@ public class BeginTheAttackWatch extends Task {
         new BattlefieldNavigator().navigateToCK(vm);
         ScreenData sd = vm.getScreen();
         switch (sd) {
-            case BEGINTHEATTACK:
+            case CITYKINGSBEGINTHEATTACK:
                 break;
             case CITYKINGSENLIST:
                 PapaAsync.sentryReasonWarning(vm, "enlist");
@@ -50,7 +50,7 @@ public class BeginTheAttackWatch extends Task {
 
     @Override
     public boolean resume(VirtualBoxMachine vm) {
-        if (vm.isPoweredOn() && vm.getScreen().equals(ScreenData.BEGINTHEATTACK)) {
+        if (vm.isPoweredOn() && vm.getScreen().equals(ScreenData.CITYKINGSBEGINTHEATTACK)) {
             System.out.println("putting " + vm.getUsername() + " back on sentry duty");
             vm.resumeTask(TaskType.BEGINTHEATTACK);
             return true;

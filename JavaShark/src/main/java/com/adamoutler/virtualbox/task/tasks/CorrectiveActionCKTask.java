@@ -37,7 +37,7 @@ public class CorrectiveActionCKTask extends Task {
             Logger.getLogger(CorrectiveActionCKTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         ScreenData sd=vm.getScreen();
-        if (!sd.equals(ScreenData.CITYKINGS)&&!sd.equals(ScreenData.BEGINTHEATTACK)&&!sd.equals(ScreenData.CITYKINGSENLIST)) {
+        if (!sd.equals(ScreenData.CITYKINGS)&&!sd.equals(ScreenData.CITYKINGSBEGINTHEATTACK)&&!sd.equals(ScreenData.CITYKINGSENLIST)) {
             vm.adbShell(new String[]{"input keyevent KEYCODE_BACK; sleep 1; input tap 899 87;input tap 899 87;"});
         } else {
             complete(vm);
