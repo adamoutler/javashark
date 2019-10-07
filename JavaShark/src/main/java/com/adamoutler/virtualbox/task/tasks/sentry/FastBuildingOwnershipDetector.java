@@ -273,39 +273,41 @@ public class FastBuildingOwnershipDetector {
     }
 
     public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
+        String n=vm.getUsername();
+        String g=vm.getGang();
         try {
             float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1);
+            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1,n,g);
             vm.getTaskData().building1PercentOurCars = bar1;
         } catch (Exception ex) {
         }
         try {
             float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2);
+            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2,n,g);
             vm.getTaskData().building2PercentOurCars = bar2;
         } catch (Exception ex) {
         }
         try {
             float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3);
+            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3,n,g);
             vm.getTaskData().building3PercentOurCars = bar3;
         } catch (Exception ex) {
         }
         try {
             float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4);
+            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4,n,g);
             vm.getTaskData().building4PercentOurCars = bar4;
         } catch (Exception ex) {
         }
         try {
             float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5);
+            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5,n,g);
             vm.getTaskData().building5PercentOurCars = bar5;
         } catch (Exception ex) {
         }
         try {
             float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6);
+            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6,n,g);
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
@@ -322,13 +324,13 @@ public class FastBuildingOwnershipDetector {
 
     }
 
-    private static void performBuffDetection(float newValue, Float oldValue, int building) {
+    private static void performBuffDetection(float newValue, Float oldValue, int building,String username, String gang) {
         if (oldValue == null || oldValue == 0 || oldValue == newValue) {
             //we cant work with this or nothing happened.
             //nothing to do just return
         } else if (newValue < oldValue && newValue > 50) { // we lost a buff
             Message m = new Message().setCommand("lostbuff");
-            m.getData().setBuildings(new String[]{"" + building}).setReason(
+            m.getData().setUsername(username).setGang(gang).setBuildings(new String[]{"" + building}).setReason(
                     "Building " + building + " lost a buff from " + oldValue
                     + "% to " + newValue + "%");
             String s = PapaAsync.send(m);
