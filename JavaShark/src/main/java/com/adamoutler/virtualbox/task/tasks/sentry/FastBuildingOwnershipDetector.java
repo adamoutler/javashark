@@ -201,7 +201,7 @@ public class FastBuildingOwnershipDetector {
 
     MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
         MessageData data = new MessageData().setAlertBuilding(alertBuildings)
-                .setText("Help").setReason("alert").setBuildings(new String[]{
+                .setText("Help").setReason("alert" + Arrays.asList(alertBuildings).toString()).setBuildings(new String[]{
             vm.getTaskData().current[0].getFriendlyname(),
             vm.getTaskData().current[1].getFriendlyname(),
             vm.getTaskData().current[2].getFriendlyname(),
