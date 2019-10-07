@@ -49,7 +49,7 @@ public class MainApp extends ParametersImpl {
                                     + "Please silence notifications "
                                     + "for 10 seconds"));
 
-            PapaAsync.sendToPapa(message);
+            PapaAsync.send(message);
         });
         t.setName("Notify Papa Online");
         t.start();

@@ -147,12 +147,12 @@ public class FastBuildingOwnershipDetector {
         ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("finalbattlefield").setData(md);
-        PapaAsync.sendToPapa(message);
+        PapaAsync.send(message);
 
         //send final score screenshot;
         ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
         message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
-        PapaAsync.sendToPapa(message);
+        PapaAsync.send(message);
     }
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
@@ -194,7 +194,7 @@ public class FastBuildingOwnershipDetector {
         System.out.println("TIME TO FREAK OUT!!!!! OMFG");
         Message message = new Message();
         HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
-        String s = PapaAsync.sendToPapa(hm);
+        String s = PapaAsync.send(hm);
         System.out.println(s);
 
     }
@@ -331,7 +331,7 @@ public class FastBuildingOwnershipDetector {
             m.getData().setBuildings(new String[]{"" + building}).setReason(
                     "Building " + building + " lost a buff from " + oldValue
                     + "% to " + newValue + "%");
-            String s = PapaAsync.sendToPapa(m);
+            String s = PapaAsync.send(m);
         }
         /*
         else if (oldValue > 50 && newValue > oldValue) { //we buffed

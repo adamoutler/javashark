@@ -255,7 +255,7 @@ public class TaskedMachine {
 
     public void writeBabySharksDebug(VirtualBoxMachine vm, String comment) {
         String name = VirtualBoxScreenShot.writeScreenshot(vm, "/var/www/baby-sharks/screenshots");
-        PapaAsync.sendToPapa(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://javashark.baby-sharks.com/screenshots/" + comment)));
+        PapaAsync.send(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://javashark.baby-sharks.com/screenshots/" + comment)));
     }
 
     /**

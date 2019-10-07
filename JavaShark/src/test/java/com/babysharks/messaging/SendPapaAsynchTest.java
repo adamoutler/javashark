@@ -110,7 +110,7 @@ public class SendPapaAsynchTest {
         System.out.println("sendToPapa");
         Message message = new Message().setCommand("UNIT TESTING");
         String expResult = "{\"error\":\"command failed processing\"}";
-        String result = PapaAsync.sendToPapa(message);
+        String result = PapaAsync.send(message);
         assertEquals(expResult, result);
 
     }
@@ -132,7 +132,7 @@ public class SendPapaAsynchTest {
 
         hm = new HashedMessage(mess);
         expResult = "{\"status\":\"success\"}";
-        String result = PapaAsync.sendToPapa(hm);
+        String result = PapaAsync.send(hm);
         assertEquals(expResult, result);
 
     }

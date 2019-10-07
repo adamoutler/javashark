@@ -63,7 +63,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                             m.getData().setReason("Scan Canceled");
                         }
                         vm.setKillThread(false);
-                        PapaAsync.sendToPapa(m);
+                        PapaAsync.send(m);
                         return;
 
                     }
@@ -91,7 +91,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                         errored = true;
 
                     }
-                    PapaAsync.sendToPapa(m);
+                    PapaAsync.send(m);
                     vm.completeCurrentTask();
                     if (errored) {
                         System.out.println("Error occurred during scanning");

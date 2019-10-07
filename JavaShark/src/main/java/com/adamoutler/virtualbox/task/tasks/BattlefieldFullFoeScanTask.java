@@ -62,7 +62,7 @@ public class BattlefieldFullFoeScanTask extends Task {
                             m.getData().setReason("Recon Canceled");
                         }
                         vm.setKillThread(false);
-                        PapaAsync.sendToPapa(m);
+                        PapaAsync.send(m);
                         return;
 
                     }
@@ -91,7 +91,7 @@ public class BattlefieldFullFoeScanTask extends Task {
                         errored = true;
 
                     }
-                    PapaAsync.sendToPapa(m);
+                    PapaAsync.send(m);
                     vm.completeCurrentTask();
                     if (errored) {
                         System.out.println("Error occurred during scanning");

@@ -46,7 +46,7 @@ public class DeepBuildingFoeScanTask extends Task {
                         Logger.getLogger(DeepBuildingFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     m.getData().setReason("Recon Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
-                    PapaAsync.sendToPapa(m);
+                    PapaAsync.send(m);
                 } catch (Exception ex) {
 
                 }

@@ -239,7 +239,7 @@ public class MyCarsTask extends Task {
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-MYCARS.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("mycars").setData(md);
         this.nextStage(vm);
-        PapaAsync.sendToPapa(message);
+        PapaAsync.send(message);
     }
 
     @Override
