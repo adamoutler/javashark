@@ -200,8 +200,12 @@ public class FastBuildingOwnershipDetector {
     }
 
     MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
+        //final StringBuilder sb = new StringBuilder();
+        String buildingNames=Arrays.stream(alertBuildings).toString().replaceAll("]","").replaceAll("\\[","");
+        //String buildingNames = sb.toString().replaceFirst(",", "");
+
         MessageData data = new MessageData().setAlertBuilding(alertBuildings)
-                .setText("Help").setReason("alert" + Arrays.asList(alertBuildings).toString()).setBuildings(new String[]{
+                .setText("Help").setReason("alert building(s) " + buildingNames).setBuildings(new String[]{
             vm.getTaskData().current[0].getFriendlyname(),
             vm.getTaskData().current[1].getFriendlyname(),
             vm.getTaskData().current[2].getFriendlyname(),
@@ -272,42 +276,43 @@ public class FastBuildingOwnershipDetector {
         return percentOurs;
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
-        String n=vm.getUsername();
-        String g=vm.getGang();
+        String n = vm.getUsername();
+        String g = vm.getGang();
         try {
             float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1,n,g);
+            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1, n, g);
             vm.getTaskData().building1PercentOurCars = bar1;
         } catch (Exception ex) {
         }
         try {
             float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2,n,g);
+            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2, n, g);
             vm.getTaskData().building2PercentOurCars = bar2;
         } catch (Exception ex) {
         }
         try {
             float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3,n,g);
+            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3, n, g);
             vm.getTaskData().building3PercentOurCars = bar3;
         } catch (Exception ex) {
         }
         try {
             float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4,n,g);
+            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4, n, g);
             vm.getTaskData().building4PercentOurCars = bar4;
         } catch (Exception ex) {
         }
         try {
             float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5,n,g);
+            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5, n, g);
             vm.getTaskData().building5PercentOurCars = bar5;
         } catch (Exception ex) {
         }
         try {
             float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6,n,g);
+            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6, n, g);
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
@@ -324,7 +329,7 @@ public class FastBuildingOwnershipDetector {
 
     }
 
-    private static void performBuffDetection(float newValue, Float oldValue, int building,String username, String gang) {
+    private static void performBuffDetection(float newValue, Float oldValue, int building, String username, String gang) {
         if (oldValue == null || oldValue == 0 || oldValue == newValue) {
             //we cant work with this or nothing happened.
             //nothing to do just return
