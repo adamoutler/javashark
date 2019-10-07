@@ -10,7 +10,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +33,7 @@ public class WatchTask extends Task {
             vm.getTaskData().previous = fbod.scan(vm.screenshot());
             ready(vm);
             turnOffOtherSentries(vm);
-            SendPapaAsynch.sentryReasonWarning(vm, "monitoring");
+            PapaAsync.sentryReasonWarning(vm, "monitoring");
         } catch (Exception ex) {
             Logger.getLogger(WatchTask.class.getName()).log(Level.SEVERE, null, ex);
         }

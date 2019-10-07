@@ -15,7 +15,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import static com.adamoutler.virtualbox.task.tasks.Task.WEBSERVEREXCELLOCATION;
 import com.adamoutler.virtualbox.task.tasks.sentry.UnidentifiedGangsters;
 import com.babysharks.messaging.Message;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,7 +63,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                             m.getData().setReason("Scan Canceled");
                         }
                         vm.setKillThread(false);
-                        SendPapaAsynch.sendToPapa(m);
+                        PapaAsync.sendToPapa(m);
                         return;
 
                     }
@@ -85,13 +85,13 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                         writeFiles(report, fullJson, papaJson, excelFile);
                     } catch (Exception ex) {
                         Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
-                        SendPapaAsynch.sendToAdam(m);
+                        PapaAsync.sendToAdam(m);
                         m.getData().setComment(m.getData().getReason());
                         m.getData().setResultObject(null).setReason("Error during scanning");
                         errored = true;
 
                     }
-                    SendPapaAsynch.sendToPapa(m);
+                    PapaAsync.sendToPapa(m);
                     vm.completeCurrentTask();
                     if (errored) {
                         System.out.println("Error occurred during scanning");

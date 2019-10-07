@@ -8,7 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -46,7 +46,7 @@ public class DeepBuildingFoeScanTask extends Task {
                         Logger.getLogger(DeepBuildingFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     m.getData().setReason("Recon Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
-                    SendPapaAsynch.sendToPapa(m);
+                    PapaAsync.sendToPapa(m);
                 } catch (Exception ex) {
 
                 }

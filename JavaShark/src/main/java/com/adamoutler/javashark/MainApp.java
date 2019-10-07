@@ -25,7 +25,7 @@ import com.adamoutler.virtualbox.task.TaskManager;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class MainApp extends ParametersImpl {
                                     + "Please silence notifications "
                                     + "for 10 seconds"));
 
-            SendPapaAsynch.sendToPapa(message);
+            PapaAsync.sendToPapa(message);
         });
         t.setName("Notify Papa Online");
         t.start();

@@ -7,7 +7,7 @@ package com.adamoutler.virtualbox.task;
 
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -80,7 +80,7 @@ public class TaskManager {
             if (supported) {
                 System.out.println("Resuming " + resumeTask);
             } else if (!mac.getGang().equals("development")) {
-                SendPapaAsynch.resumeWarning((VirtualBoxMachine) mac, resumeTask);
+                PapaAsync.resumeWarning((VirtualBoxMachine) mac, resumeTask);
                 mac.addTask(TaskType.POWEROFF);
             }
         });

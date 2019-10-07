@@ -9,7 +9,7 @@ import com.adamoutler.cats.battlefield.BattlefieldNavigator;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 
 
 /**
@@ -22,7 +22,7 @@ public class BeginTheAttackWatch extends Task {
 
     @Override
     void initializeTask(VirtualBoxMachine vm) {
-        SendPapaAsynch.sentryReasonWarning(vm, "begin the attack monitor");
+        PapaAsync.sentryReasonWarning(vm, "begin the attack monitor");
         ready(vm);
     }
 
@@ -35,14 +35,14 @@ public class BeginTheAttackWatch extends Task {
             case BEGINTHEATTACK:
                 break;
             case CITYKINGSENLIST:
-                SendPapaAsynch.sentryReasonWarning(vm, "enlist");
+                PapaAsync.sentryReasonWarning(vm, "enlist");
                 complete(vm);
                 return;
             case CITYKINGS:
                 complete(vm);
                 return;
             default:
-                SendPapaAsynch.sentryReasonWarning(vm, "done watching");
+                PapaAsync.sentryReasonWarning(vm, "done watching");
                 complete(vm);
         }
 

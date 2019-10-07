@@ -19,7 +19,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +38,12 @@ import org.springframework.web.client.RestClientException;
  */
 public class FastBuildingOwnershipDetector {
 
-    final static XYCoords BUILDING1 = new XYCoords(165, 353);
-    final static XYCoords BUILDING2 = new XYCoords(110, 505);
-    final static XYCoords BUILDING3 = new XYCoords(355, 595);
-    final static XYCoords BUILDING4 = new XYCoords(630, 607);
-    final static XYCoords BUILDING5 = new XYCoords(834, 512);
-    final static XYCoords BUILDING6 = new XYCoords(818, 335);
+    final static XYCoords BUILDING1 = new XYCoords(156, 380);
+    final static XYCoords BUILDING2 = new XYCoords(90, 505);
+    final static XYCoords BUILDING3 = new XYCoords(345, 595);
+    final static XYCoords BUILDING4 = new XYCoords(620, 607);
+    final static XYCoords BUILDING5 = new XYCoords(827, 512);
+    final static XYCoords BUILDING6 = new XYCoords(798, 335);
 
     public enum BuildingBar {
         BAR1(new XYCoords(177, 380)),
@@ -116,7 +116,7 @@ public class FastBuildingOwnershipDetector {
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
                         sendFinalResults(vm, lastScreenshot);
                     }
-                    SendPapaAsynch.sentryReasonWarning(vm, "blind");
+                    PapaAsync.sentryReasonWarning(vm, "blind");
 
                 }
                 return;
@@ -147,12 +147,12 @@ public class FastBuildingOwnershipDetector {
         ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("finalbattlefield").setData(md);
-        SendPapaAsynch.sendToPapa(message);
+        PapaAsync.sendToPapa(message);
 
         //send final score screenshot;
         ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
         message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
-        SendPapaAsynch.sendToPapa(message);
+        PapaAsync.sendToPapa(message);
     }
 
     private void reactToChangesInBuildingOwnership() throws RestClientException {
@@ -194,7 +194,7 @@ public class FastBuildingOwnershipDetector {
         System.out.println("TIME TO FREAK OUT!!!!! OMFG");
         Message message = new Message();
         HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
-        String s = SendPapaAsynch.sendToPapa(hm);
+        String s = PapaAsync.sendToPapa(hm);
         System.out.println(s);
 
     }
@@ -256,7 +256,7 @@ public class FastBuildingOwnershipDetector {
     public static float getPercentOurCars(BuildingBar bar, PicColors pc) throws NullPointerException {
         int initialXCoord = bar.getXY().getX();
         int yCoord = bar.getXY().getY();
-        int startOfOurBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, initialXCoord, yCoord, initialXCoord + 20);
+        int startOfOurBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, initialXCoord, yCoord, initialXCoord + 100);
         if (startOfOurBar == -1) {
             return 0;
         }
@@ -275,37 +275,37 @@ public class FastBuildingOwnershipDetector {
     public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
         try {
             float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar1, vm.getTaskData().building1PercentOurCars, 1);
+            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1);
             vm.getTaskData().building1PercentOurCars = bar1;
         } catch (Exception ex) {
         }
         try {
             float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar2, vm.getTaskData().building2PercentOurCars, 2);
+            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2);
             vm.getTaskData().building2PercentOurCars = bar2;
         } catch (Exception ex) {
         }
         try {
             float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar3, vm.getTaskData().building3PercentOurCars, 3);
+            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3);
             vm.getTaskData().building3PercentOurCars = bar3;
         } catch (Exception ex) {
         }
         try {
             float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar4, vm.getTaskData().building4PercentOurCars, 4);
+            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4);
             vm.getTaskData().building4PercentOurCars = bar4;
         } catch (Exception ex) {
         }
         try {
             float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar5, vm.getTaskData().building5PercentOurCars, 5);
+            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5);
             vm.getTaskData().building5PercentOurCars = bar5;
         } catch (Exception ex) {
         }
         try {
             float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            sendMessageToPapaIfValueDoesNotMatch(bar6, vm.getTaskData().building6PercentOurCars, 6);
+            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6);
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
@@ -322,16 +322,26 @@ public class FastBuildingOwnershipDetector {
 
     }
 
-    private static void sendMessageToPapaIfValueDoesNotMatch(float newValue, Float oldValue, int building) {
-        if (oldValue==null||oldValue == 0) {
-            return;
+    private static void performBuffDetection(float newValue, Float oldValue, int building) {
+        if (oldValue == null || oldValue == 0 || oldValue == newValue) {
+            //we cant work with this or nothing happened.
+            //nothing to do just return
+        } else if (newValue < oldValue && newValue > 50) { // we lost a buff
+            Message m = new Message().setCommand("lostbuff");
+            m.getData().setBuildings(new String[]{"" + building}).setReason(
+                    "Building " + building + " lost a buff from " + oldValue
+                    + "% to " + newValue + "%");
+            String s = PapaAsync.sendToPapa(m);
         }
-        if (newValue < oldValue && newValue > 50) {
-            Message m = new Message();
-            m.setCommand("lostbuff");
-            m.getData().setBuildings(new String[]{"" + building}).setReason("Building " + building + " lost a buff from " + oldValue + " to " + newValue);
-            String s = SendPapaAsynch.sendToPapa(m);
+        /*
+        else if (oldValue > 50 && newValue > oldValue) { //we buffed
+            System.out.println("we just buffed building " + building);
+        } else if (oldValue < 50 && newValue < oldValue) { //they buffed
+            System.out.println("They just buffed building " + building);
+        } else if (oldValue < 50 && newValue > 50) { //we took a building
+            System.out.println("we took a building");
         }
+         */
     }
 
 }

@@ -13,7 +13,7 @@ import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,7 +62,7 @@ public class BattlefieldFullFoeScanTask extends Task {
                             m.getData().setReason("Recon Canceled");
                         }
                         vm.setKillThread(false);
-                        SendPapaAsynch.sendToPapa(m);
+                        PapaAsync.sendToPapa(m);
                         return;
 
                     }
@@ -85,13 +85,13 @@ public class BattlefieldFullFoeScanTask extends Task {
                         writeFiles(report, fullJson, papaJson, excelFile);
                     } catch (Exception ex) {
                         Logger.getLogger(BattlefieldFullFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
-                        SendPapaAsynch.sendToAdam(m);
+                        PapaAsync.sendToAdam(m);
                         m.getData().setComment(m.getData().getReason());
                         m.getData().setResultObject(null).setReason("Error during recon");
                         errored = true;
 
                     }
-                    SendPapaAsynch.sendToPapa(m);
+                    PapaAsync.sendToPapa(m);
                     vm.completeCurrentTask();
                     if (errored) {
                         System.out.println("Error occurred during scanning");

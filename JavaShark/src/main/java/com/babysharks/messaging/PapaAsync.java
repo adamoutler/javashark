@@ -19,9 +19,9 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author adamo
  */
-public class SendPapaAsynch {
+public class PapaAsync {
 
-    public SendPapaAsynch() {
+    public PapaAsync() {
 
     }
 
@@ -55,7 +55,7 @@ public class SendPapaAsynch {
         }
         HashedMessage hm = new HashedMessage(message);
 
-        System.out.println(sendToPapa(hm));
+        System.out.println(send(hm));
 
     }
 
@@ -69,7 +69,7 @@ public class SendPapaAsynch {
                     .setData(getData(vm).setReason(reason)));
         }
 
-        String s = sendToPapa(hm);
+        String s = send(hm);
         System.out.println(s);
 
     }
@@ -78,7 +78,7 @@ public class SendPapaAsynch {
         if (!resumeTask.equals(TaskType.POWEROFF) && !resumeTask.equals(TaskType.IDLE)) {
             HashedMessage hm = new HashedMessage(getM(vm).setCommand("resume")
                     .setData(getData(vm).setReason("Could not resume " + resumeTask)));
-            String s = sendToPapa(hm);
+            String s = send(hm);
             System.out.println(s);
         }
     }
@@ -86,7 +86,7 @@ public class SendPapaAsynch {
     public static void sendToAdam(Message m) {
         m.setCommand("adam").setData(m.getData());
         HashedMessage hm = new HashedMessage(m);
-        String s = sendToPapa(hm);
+        String s = send(hm);
         System.out.println(s);
 
     }
@@ -102,12 +102,12 @@ public class SendPapaAsynch {
         return new MessageData().setAvailable(vms).setGang(vm.getGang()).setUsername(vm.getUsername());
     }
 
-    public static String sendToPapa(Message message) {
+    public static String send(Message message) {
         HashedMessage hm = new HashedMessage(message);
-        return sendToPapa(hm);
+        return send(hm);
     }
 
-    public static String sendToPapa(HashedMessage hm) throws RestClientException, HttpServerErrorException {
+    public static String send(HashedMessage hm) throws RestClientException, HttpServerErrorException {
         String json = hm.toJson();
         System.err.println(json);
         String gang = getGangFromMessage(hm);

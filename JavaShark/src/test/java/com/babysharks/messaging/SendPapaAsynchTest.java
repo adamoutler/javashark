@@ -88,7 +88,7 @@ public class SendPapaAsynchTest {
     @Test
     public void testOnlineWarning() {
         System.out.println("onlineWarning");
-        SendPapaAsynch.onlineWarning(vm, true);
+        PapaAsync.onlineWarning(vm, true);
     }
 
     /**
@@ -99,7 +99,7 @@ public class SendPapaAsynchTest {
         System.out.println("reasonWarning");
 
         String reason = "PERFORMING UNIT TESTING";
-        SendPapaAsynch.sentryReasonWarning(vm, reason);
+        PapaAsync.sentryReasonWarning(vm, reason);
     }
 
     /**
@@ -110,7 +110,7 @@ public class SendPapaAsynchTest {
         System.out.println("sendToPapa");
         Message message = new Message().setCommand("UNIT TESTING");
         String expResult = "{\"error\":\"command failed processing\"}";
-        String result = SendPapaAsynch.sendToPapa(message);
+        String result = PapaAsync.sendToPapa(message);
         assertEquals(expResult, result);
 
     }
@@ -132,7 +132,7 @@ public class SendPapaAsynchTest {
 
         hm = new HashedMessage(mess);
         expResult = "{\"status\":\"success\"}";
-        String result = SendPapaAsynch.sendToPapa(hm);
+        String result = PapaAsync.sendToPapa(hm);
         assertEquals(expResult, result);
 
     }

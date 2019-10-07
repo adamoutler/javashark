@@ -16,7 +16,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.MyCars;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -239,7 +239,7 @@ public class MyCarsTask extends Task {
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-MYCARS.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("mycars").setData(md);
         this.nextStage(vm);
-        SendPapaAsynch.sendToPapa(message);
+        PapaAsync.sendToPapa(message);
     }
 
     @Override

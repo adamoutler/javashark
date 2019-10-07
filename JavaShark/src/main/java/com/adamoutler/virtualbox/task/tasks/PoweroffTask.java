@@ -8,7 +8,7 @@ package com.adamoutler.virtualbox.task.tasks;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.babysharks.messaging.SendPapaAsynch;
+import com.babysharks.messaging.PapaAsync;
 
 /**
  *
@@ -20,7 +20,7 @@ public class PoweroffTask extends Task {
     public void initializeTask(VirtualBoxMachine vm) {
         vm.updateStatuses();
         if (vm.isPoweredOn()) {
-            SendPapaAsynch.sentryReasonWarning(vm, "offline");
+            PapaAsync.sentryReasonWarning(vm, "offline");
         }
         new VirtualBoxControl(vm).stopVM();
         vm.setScreenID(ScreenData.OFF);
