@@ -37,7 +37,7 @@ public class StartSentry extends SentryAbstractPapaHandler {
         try {
             ArrayList<VirtualBoxMachine> gangMachines = new VirtualBox().getGangMachines(gang);
             for (VirtualBoxMachine machine : gangMachines) {
-                if (machine.getCurrentTask().equals(TaskType.WATCH)) {
+                if (!machine.equals(vm)&&machine.getCurrentTask().equals(TaskType.WATCH)) {
                     request.getData().setReason("Other Sentry Active");
                     request.getData().setErrorType(OTHERSENTRYACTIVE);
 

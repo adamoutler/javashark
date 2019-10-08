@@ -201,7 +201,7 @@ public class FastBuildingOwnershipDetector {
 
     MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
         //final StringBuilder sb = new StringBuilder();
-        String buildingNames=Arrays.stream(alertBuildings).toString().replaceAll("]","").replaceAll("\\[","");
+        String buildingNames=Arrays.toString(alertBuildings).replaceAll("]","").replaceAll("\\[","");
         //String buildingNames = sb.toString().replaceFirst(",", "");
 
         MessageData data = new MessageData().setAlertBuilding(alertBuildings)
