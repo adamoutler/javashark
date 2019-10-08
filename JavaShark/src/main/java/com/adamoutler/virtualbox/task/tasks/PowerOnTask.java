@@ -38,12 +38,16 @@ public class PowerOnTask extends Task {
 
     @Override
     void runTask(VirtualBoxMachine vm) {
+        try {
         ScreenData sd = ScreenData.identifyScreen(vm);
         if (sd.equals(ScreenData.BOOTED)) {
             complete(vm);
         } else {
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
+        }
+        } catch (java.awt.image.RasterFormatException ex) {
+            System.out.println("could not get image from " + vm.getUsername() + " likely still booting");
         }
 
     }

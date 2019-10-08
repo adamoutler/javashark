@@ -62,6 +62,7 @@ public class TaskManager {
             if (vm.isTemporaryTaskAvailable()) {
                 vm.getTemporaryTask().getTask().exec(vm);
             } else {
+                
                 executeCurrentTask(vm);
             }
         });

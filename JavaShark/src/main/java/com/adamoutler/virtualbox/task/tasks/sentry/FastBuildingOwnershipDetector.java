@@ -38,12 +38,12 @@ import org.springframework.web.client.RestClientException;
  */
 public class FastBuildingOwnershipDetector {
 
-    final static XYCoords BUILDING1 = new XYCoords(156, 380);
+    final static XYCoords BUILDING1 = new XYCoords(156, 355);
     final static XYCoords BUILDING2 = new XYCoords(90, 505);
     final static XYCoords BUILDING3 = new XYCoords(345, 595);
     final static XYCoords BUILDING4 = new XYCoords(620, 607);
     final static XYCoords BUILDING5 = new XYCoords(827, 512);
-    final static XYCoords BUILDING6 = new XYCoords(798, 335);
+    final static XYCoords BUILDING6 = new XYCoords(798, 340);
 
     public enum BuildingBar {
         BAR1(new XYCoords(177, 380)),
@@ -201,7 +201,7 @@ public class FastBuildingOwnershipDetector {
 
     MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
         //final StringBuilder sb = new StringBuilder();
-        String buildingNames=Arrays.toString(alertBuildings).replaceAll("]","").replaceAll("\\[","");
+        String buildingNames = Arrays.toString(alertBuildings).replaceAll("]", "").replaceAll("\\[", "");
         //String buildingNames = sb.toString().replaceFirst(",", "");
 
         MessageData data = new MessageData().setAlertBuilding(alertBuildings)

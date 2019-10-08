@@ -31,13 +31,16 @@ public class StartSentry extends SentryAbstractPapaHandler {
         long time = System.currentTimeMillis();
         try {
             vm.clearTasks();
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             request.getData().setErrorType(ErrorType.USERHASNOSENTRY);
+            this.sendConflictReq(he, request);
+
+            return;
         }
         try {
             ArrayList<VirtualBoxMachine> gangMachines = new VirtualBox().getGangMachines(gang);
             for (VirtualBoxMachine machine : gangMachines) {
-                if (!machine.equals(vm)&&machine.getCurrentTask().equals(TaskType.WATCH)) {
+                if (!machine.equals(vm) && machine.getCurrentTask().equals(TaskType.WATCH)) {
                     request.getData().setReason("Other Sentry Active");
                     request.getData().setErrorType(OTHERSENTRYACTIVE);
 

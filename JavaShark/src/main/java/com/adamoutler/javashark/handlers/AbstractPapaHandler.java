@@ -44,16 +44,16 @@ public abstract class AbstractPapaHandler implements HttpHandler {
     }
     public void sendBadReq(HttpExchange t, Message response) throws IOException {
         
-        writeOutResponse(t, response.toJson(), 400);
+        writeOutResponse(t, response.toJson(), 200);
     }
  
     public void sendConflictReq(HttpExchange t, Message response) throws IOException {
-        writeOutResponse(t, response.toJson(), 409);
+        writeOutResponse(t, response.toJson(), 200);
     }
 
     
-    public void sendArbitrary(int code, HttpExchange t, Message response) throws IOException {
-        writeOutResponse(t, response.toJson(), code);
+    public void sendArbitrary(HttpExchange t, Message response) throws IOException {
+        writeOutResponse(t, response.toJson(), 200);
     }
   
 

@@ -33,7 +33,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
             if (bi.getWidth() == 1) {
                 request.getData().setErrorType(COULDNOTFINDREQUESTEDUSERINRECORDS);
 
-                this.sendArbitrary(404, he, request);
+                this.sendArbitrary( he, request);
             }
 
             String outputFolder = "/var/www/baby-sharks/screenshots/";
@@ -49,7 +49,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
             this.sendSucessMessage(he, request);
         } catch (SearchException ex) {
             request.getData().setErrorType(COULDNOTFINDMATCHINGRECORDS);
-            this.sendArbitrary(404, he, request);
+            this.sendArbitrary( he, request);
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
 

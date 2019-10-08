@@ -77,7 +77,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             request.getData().setUrl(null);
             request.getData().setErrorType(NOSENTRIESACTIVE);
 
-            this.sendArbitrary(404, t, request);
+            this.sendArbitrary( t, request);
             return;
         } else {
             image = vm.screenshot();

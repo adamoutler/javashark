@@ -24,7 +24,7 @@ public class TaskHandler extends SentryAbstractPapaHandler {
             if (this.request.getData().getTasks().length == 0|| this.request.getData().getTasks()[0]==null) {
                 request.getData().setErrorType(NOSUCHTASK);
                 
-                this.sendArbitrary(404, he, request);
+                this.sendArbitrary( he, request);
                 return;
             }
 

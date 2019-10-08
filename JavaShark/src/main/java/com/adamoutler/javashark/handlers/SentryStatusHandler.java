@@ -36,7 +36,7 @@ public class SentryStatusHandler extends SentryAbstractPapaHandler {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
             request.getData().setErrorType(WHATEVER);
 
-            this.sendArbitrary(404, t, request);
+            this.sendArbitrary( t, request);
         }
     }
 }
