@@ -9,6 +9,7 @@ import com.adamoutler.cats.battlefield.BattlefieldNavigator;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.babysharks.messaging.Message;
 import com.babysharks.messaging.PapaAsync;
 
 
@@ -35,14 +36,20 @@ public class BeginTheAttackWatch extends Task {
             case CITYKINGSBEGINTHEATTACK:
                 break;
             case CITYKINGSENLIST:
-                PapaAsync.sentryReasonWarning(vm, "enlist");
+                Message m=new Message().setCommand("newround");
+                m.getData().setGang(vm.getGang()).setUsername(vm.getUsername())
+                        .setReason("City Kings enlist is showing!");
+                PapaAsync.send(m);
                 complete(vm);
                 return;
             case CITYKINGS:
                 complete(vm);
                 return;
             default:
-                PapaAsync.sentryReasonWarning(vm, "done watching");
+                Message n=new Message().setCommand("BeginTheAttackFailure");
+                n.getData().setGang(vm.getGang()).setUsername(vm.getUsername())
+                        .setReason("I couldn't recognize the screen while watching for Enlist Button.");
+                PapaAsync.send(n);
                 complete(vm);
         }
 

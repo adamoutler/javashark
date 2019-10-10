@@ -8,6 +8,7 @@ package com.babysharks.messaging;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.datastructures.Gang;
+import com.babysharks.datastructures.indidents.BuildingChangeIncident;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class MessageData {
     private boolean debug = false;
     private ErrorType errorType;
     private String errorMessage;
-    private String[] incidents;
+    private BuildingChangeIncident[] incidents;
 
     /**
      * @return the weOwn
@@ -463,7 +464,7 @@ public class MessageData {
         this.errorMessage=errorType.getMessage();
     }
 
-    public void setIncidents(String[] incidents) {
+    public void setIncidents(BuildingChangeIncident[] incidents) {
         this.incidents=incidents;
     }
 }

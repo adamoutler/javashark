@@ -59,6 +59,18 @@ public class PapaAsync {
 
     }
 
+    public static void enlistWarning(VirtualBoxMachine vm, String reason) {
+        HashedMessage hm = null;
+        
+            hm = new HashedMessage(getM(vm).setCommand("enlist")
+                    .setData(getData(vm).setReason(reason)));
+        
+
+        String s = send(hm);
+        System.out.println(s);
+
+    }
+    
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
         HashedMessage hm = null;
         if (System.currentTimeMillis() > time + 10000) {
