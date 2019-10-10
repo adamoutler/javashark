@@ -46,6 +46,7 @@ public class MessageData {
     private boolean debug = false;
     private ErrorType errorType;
     private String errorMessage;
+    private String[] incidents;
 
     /**
      * @return the weOwn
@@ -460,5 +461,9 @@ public class MessageData {
         }
         this.errorType = errorType;
         this.errorMessage=errorType.getMessage();
+    }
+
+    public void setIncidents(String[] incidents) {
+        this.incidents=incidents;
     }
 }

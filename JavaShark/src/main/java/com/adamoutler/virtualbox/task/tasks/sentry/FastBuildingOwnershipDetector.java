@@ -16,6 +16,7 @@ import com.adamoutler.imagerecognition.XYCoords;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.datastructures.indidents.BuildingChangeIncident;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -44,6 +45,22 @@ public class FastBuildingOwnershipDetector {
     final static XYCoords BUILDING4 = new XYCoords(620, 607);
     final static XYCoords BUILDING5 = new XYCoords(827, 512);
     final static XYCoords BUILDING6 = new XYCoords(798, 340);
+
+    private static void sendPapaIncidentMessage(ArrayList<BuildingChangeIncident> incidents, String username, String gang) {
+        StringBuilder sb = new StringBuilder();
+        ArrayList<String> buildings = new ArrayList<>();
+        incidents.stream().forEach((b) -> {
+            buildings.add(Integer.toString(b.getBuilding()));
+            sb.append("\n").append(b.getBuilding()).append("-").append("before: ").append(b.getBefore()).append(" after:").append(b.getAfter());
+        });
+
+        Message m = new Message().setCommand("lostbuff");
+        m.getData().setUsername(username).setGang(gang)
+                .setBuildings(buildings.toArray(new String[buildings.size()]))
+                .setReason(sb.toString())
+                .setIncidents(buildings.toArray(new String[buildings.size()]));
+        String s = PapaAsync.send(m);
+    }
 
     public enum BuildingBar {
         BAR1(new XYCoords(177, 380)),
@@ -277,46 +294,49 @@ public class FastBuildingOwnershipDetector {
     }
 
     @SuppressWarnings("UseSpecificCatch")
-    public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
-        String n = vm.getUsername();
-        String g = vm.getGang();
+    final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
+        ArrayList<BuildingChangeIncident> incidents = new ArrayList<>();
+        String username = vm.getUsername();
+        String gang = vm.getGang();
         try {
             float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            performBuffDetection(bar1, vm.getTaskData().building1PercentOurCars, 1, n, g);
+            performBuffDetection(incidents, bar1, vm.getTaskData().building1PercentOurCars, 0);
             vm.getTaskData().building1PercentOurCars = bar1;
         } catch (Exception ex) {
         }
         try {
             float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            performBuffDetection(bar2, vm.getTaskData().building2PercentOurCars, 2, n, g);
+            performBuffDetection(incidents, bar2, vm.getTaskData().building2PercentOurCars, 1);
             vm.getTaskData().building2PercentOurCars = bar2;
         } catch (Exception ex) {
         }
         try {
             float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            performBuffDetection(bar3, vm.getTaskData().building3PercentOurCars, 3, n, g);
+            performBuffDetection(incidents, bar3, vm.getTaskData().building3PercentOurCars, 2);
             vm.getTaskData().building3PercentOurCars = bar3;
         } catch (Exception ex) {
         }
         try {
             float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            performBuffDetection(bar4, vm.getTaskData().building4PercentOurCars, 4, n, g);
+            performBuffDetection(incidents, bar4, vm.getTaskData().building4PercentOurCars, 3);
             vm.getTaskData().building4PercentOurCars = bar4;
         } catch (Exception ex) {
         }
         try {
             float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            performBuffDetection(bar5, vm.getTaskData().building5PercentOurCars, 5, n, g);
+            performBuffDetection(incidents, bar5, vm.getTaskData().building5PercentOurCars, 4);
             vm.getTaskData().building5PercentOurCars = bar5;
         } catch (Exception ex) {
         }
         try {
             float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            performBuffDetection(bar6, vm.getTaskData().building6PercentOurCars, 6, n, g);
+            performBuffDetection(incidents, bar6, vm.getTaskData().building6PercentOurCars, 5);
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
-
+        if (incidents.size() > 0) {
+            sendPapaIncidentMessage(incidents, username, gang);
+        }
     }
 
     public static void wipeBuildingData(VirtualBoxMachine vm) {
@@ -329,26 +349,24 @@ public class FastBuildingOwnershipDetector {
 
     }
 
-    private static void performBuffDetection(float newValue, Float oldValue, int building, String username, String gang) {
+    private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, int building) {
         if (oldValue == null || oldValue == 0 || oldValue == newValue) {
             //we cant work with this or nothing happened.
             //nothing to do just return
-        } else if (newValue < oldValue && newValue > 50) { // we lost a buff
-            Message m = new Message().setCommand("lostbuff");
-            m.getData().setUsername(username).setGang(gang).setBuildings(new String[]{"" + building}).setReason(
-                    "Building " + building + " lost a buff from " + oldValue
-                    + "% to " + newValue + "%");
-            String s = PapaAsync.send(m);
+            return;
         }
-        /*
-        else if (oldValue > 50 && newValue > oldValue) { //we buffed
+        BuildingChangeIncident bce = new BuildingChangeIncident(building, oldValue, newValue);
+        if (newValue < oldValue && newValue > 50) { // we lost a buff
+            incidents.add(bce);
+        } else if (oldValue > 50 && newValue > oldValue) { //we buffed
             System.out.println("we just buffed building " + building);
         } else if (oldValue < 50 && newValue < oldValue) { //they buffed
             System.out.println("They just buffed building " + building);
+            //incidents.add(bce);
         } else if (oldValue < 50 && newValue > 50) { //we took a building
             System.out.println("we took a building");
+  
         }
-         */
     }
 
 }
