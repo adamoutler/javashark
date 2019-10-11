@@ -17,6 +17,8 @@ import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident;
+import com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType;
+import static com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType.LOSTBUFF;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -54,12 +56,44 @@ public class FastBuildingOwnershipDetector {
             sb.append("\n").append(b.getBuilding()).append("-").append("before: ").append(b.getBefore()).append(" after:").append(b.getAfter());
         });
 
-        Message m = new Message().setCommand("lostbuff");
+        Message m = getMessageForIncidentGroup(incidents);
+
         m.getData().setUsername(username).setGang(gang)
                 .setBuildings(buildings.toArray(new String[buildings.size()]))
                 .setReason(sb.toString())
                 .setIncidents(incidents.toArray(new BuildingChangeIncident[buildings.size()]));
         String s = PapaAsync.send(m);
+    }
+
+    private static Message getMessageForIncidentGroup(ArrayList<BuildingChangeIncident> incidents) {
+        Message m = new Message();
+        incidents.stream().forEach(i -> {
+            if (m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
+                return;
+            }
+            String existingCommand = m.getCommand();
+            switch (i.getType()) {
+                case LOSTBUFF:
+                    m.setCommand(IncidentType.LOSTBUFF.toString());
+                    break;
+                case THEYBUFFED:
+                    m.setCommand(IncidentType.THEYBUFFED.toString());
+
+                    break;
+                case WEBUFFED:
+                    if (existingCommand == null || existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
+                        return;
+                    }
+                    m.setCommand(IncidentType.WEBUFFED.toString());
+
+                    break;
+                default:
+                    throw new AssertionError(i.getType().name());
+
+            }
+
+        });
+        return m;
     }
 
     public enum BuildingBar {
@@ -355,17 +389,20 @@ public class FastBuildingOwnershipDetector {
             //nothing to do just return
             return;
         }
-        BuildingChangeIncident bce = new BuildingChangeIncident(building, oldValue, newValue);
+        BuildingChangeIncident bce = null;
         if (newValue < oldValue && newValue > 50) { // we lost a buff
-            incidents.add(bce);
+            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.LOSTBUFF);
+            System.out.println("We just lost buff " + building);
         } else if (oldValue > 50 && newValue > oldValue) { //we buffed
-            System.out.println("we just buffed building " + building);
+            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.WEBUFFED);
+            System.out.println("We just buffed building " + building);
         } else if (oldValue < 50 && newValue < oldValue) { //they buffed
             System.out.println("They just buffed building " + building);
-            //incidents.add(bce);
-        } else if (oldValue < 50 && newValue > 50) { //we took a building
-            System.out.println("we took a building");
-  
+            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.THEYBUFFED);
+
+        }
+        if (bce != null) {
+            incidents.add(bce);
         }
     }
 
