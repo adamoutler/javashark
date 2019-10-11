@@ -191,6 +191,7 @@ public class TaskedMachine {
     }
 
     synchronized public void addTask(TaskType task) {
+
         if (task.equals(TaskType.SKIP)) {
             this.forceRemoveCurrentTask();
             this.performTaskListMaintenance();
@@ -200,7 +201,7 @@ public class TaskedMachine {
             }
             this.forceRemoveCurrentTask();
         } else {
-            this.taskList.add(task);
+         
             if (taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) || this.taskComplete) {
                 this.performTaskListMaintenance();
             }

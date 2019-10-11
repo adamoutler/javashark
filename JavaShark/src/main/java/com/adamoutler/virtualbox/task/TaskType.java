@@ -89,6 +89,9 @@ public enum TaskType {
         if (taskFile.exists()) {
             try {
                 String contents = new String(Files.readAllBytes(Paths.get(fileName)));
+                if (contents.isEmpty()){
+                   return currentTask;
+                }
                 currentTask = TaskType.valueOf(contents);
                 System.out.println(vm.getVMName() + " found resumable task " + currentTask);
             } catch (IOException ex) {
