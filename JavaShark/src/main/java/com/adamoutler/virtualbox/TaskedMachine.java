@@ -62,7 +62,7 @@ public class TaskedMachine {
 
     synchronized public void performTaskListMaintenance() {
         //this is an idle task and nothing has been commanded
-        if ((taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1) {
+        if (taskList.isEmpty()||(taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1) {
             return;
             //this is a task to be removed and there are more tasks to be donet. 
         } else if ((this.taskList.get(0).equals(TaskType.IDLE) || this.taskList.get(0).equals(TaskType.POWEROFF) || this.isTaskComplete()) && taskList.size() > 1) {
@@ -89,6 +89,9 @@ public class TaskedMachine {
     }
 
     synchronized public void forceRemoveCurrentTask() {
+        if (taskList.isEmpty()){
+            return;
+        }
         if (taskList.size() < 2) {
             taskList.add(TaskType.IDLE);
         }
@@ -97,6 +100,7 @@ public class TaskedMachine {
         this.taskReady = false;
         this.taskComplete = false;
         this.taskInitialized = false;
+        
         this.taskDescription = taskList.get(0).getTaskDescription();
     }
 
@@ -108,6 +112,9 @@ public class TaskedMachine {
      * @return the currentTask
      */
     synchronized public TaskType getCurrentTask() {
+        if (taskList.isEmpty()){
+            return TaskType.IDLE;
+        }
         return taskList.get(0);
     }
 
@@ -192,19 +199,22 @@ public class TaskedMachine {
 
     synchronized public void addTask(TaskType task) {
 
-        if (task.equals(TaskType.SKIP)) {
-            this.forceRemoveCurrentTask();
-            this.performTaskListMaintenance();
-        } else if (task.equals(TaskType.CLEAR)) {
-            while (taskList.size() > 1) {
+        switch (task) {
+            case SKIP:
                 this.forceRemoveCurrentTask();
-            }
-            this.forceRemoveCurrentTask();
-        } else {
-         
-            if (taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) || this.taskComplete) {
                 this.performTaskListMaintenance();
-            }
+                break;
+            case CLEAR:
+                while (taskList.size() > 1) {
+                    this.forceRemoveCurrentTask();
+                }   this.forceRemoveCurrentTask();
+                break;
+            default:
+                if (taskList==null||taskList.isEmpty()){
+                    return;
+                }   if (taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) || this.taskComplete) {
+                    this.performTaskListMaintenance();
+                }   break;
         }
     }
 
