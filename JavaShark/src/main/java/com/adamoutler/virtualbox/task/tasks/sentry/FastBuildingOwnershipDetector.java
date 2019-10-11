@@ -60,7 +60,7 @@ public class FastBuildingOwnershipDetector {
 
         m.getData().setUsername(username).setGang(gang)
                 .setBuildings(buildings.toArray(new String[buildings.size()]))
-                .setReason(sb.toString())
+                .setReason(sb.toString().trim())
                 .setIncidents(incidents.toArray(new BuildingChangeIncident[buildings.size()]));
         String s = PapaAsync.send(m);
     }
