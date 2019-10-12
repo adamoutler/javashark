@@ -32,7 +32,7 @@ public class TaskManager {
      * List of last task so we can report task changes
      */
     private static HashMap<VirtualBoxMachine, TaskType> lastList = new HashMap<>();
-
+    
     private static AtomicBoolean testmode = new AtomicBoolean(false);
 
     /**
@@ -79,19 +79,23 @@ public class TaskManager {
             machines.add((VirtualBoxMachine) mac);
             TaskType resumeTask = TaskType.getTasks((VirtualBoxMachine) mac);
             mac.clearTasks();
-            boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
-            if (supported) {
-                System.out.println("Resuming " + resumeTask);
-            } else if (!mac.getGang().equals("development")) {
-                PapaAsync.resumeWarning((VirtualBoxMachine) mac, resumeTask);
-                mac.addTask(TaskType.POWEROFF);
+            try {
+                boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
+                if (supported) {
+                    System.out.println("Resuming " + resumeTask);
+                } else if (!mac.getGang().equals("development")) {
+                    PapaAsync.resumeWarning((VirtualBoxMachine) mac, resumeTask);
+                    mac.addTask(TaskType.POWEROFF);
+                }
+            } catch (Exception ex) {
+                mac.addTask(TaskType.IDLE);
             }
         });
         if (running.get()) {
             return;
         }
         Thread t = new Thread(() -> {
-
+            
             while (running.get()) {
                 try {
                     getStates();
@@ -136,28 +140,28 @@ public class TaskManager {
     private static void executeCurrentTask(VirtualBoxMachine vm) {
         vm.getCurrentTask().getTask().exec(vm);
     }
-
+    
     static void getStates() {
         HashMap<VirtualBoxMachine, TaskType> newList = new HashMap<>();
         getMachines().forEach((vm) -> {
             newList.put(vm, vm.getCurrentTask());
         });
-
+        
         lastList.clear();
         lastList = newList;
     }
-
+    
     public static ArrayList<VirtualBoxMachine> getGangMachines(String gang) {
         ArrayList<VirtualBoxMachine> al = new ArrayList<>();
         for (VirtualBoxMachine m : getMachines()) {
             if (m.getGang().equals(gang)) {
-
+                
                 al.add(m);
                 try {
                     m.updateStatuses();
                 } catch (Exception ex) {
                 }
-
+                
             }
         }
         return al;
@@ -176,13 +180,13 @@ public class TaskManager {
     public static void setMachines(ArrayList<VirtualBoxMachine> aMachines) {
         machines = aMachines;
     }
-
+    
     private static void runTemporaryTask(VirtualBoxMachine vm) {
         if (vm.getTemporaryTask() != null) {
             TemporaryTaskHandler.doTemporaryTask(vm);
         }
     }
-
+    
     public static VirtualBoxMachine getTaskMachine(VirtualBoxMachine vm) {
         for (VirtualBoxMachine myVm : getMachines()) {
             if (myVm.equals(vm)) {
@@ -191,15 +195,15 @@ public class TaskManager {
         }
         return null;
     }
-
+    
     private static void initializeTask(VirtualBoxMachine vm) {
         if (!vm.isTaskInitialized()) {
             System.out.println("Performing " + vm.getCurrentTask().name() + " on " + vm.getUsername() + " " + vm.getGang());
             vm.getCurrentTaskTime().setTimeStarted();
             vm.getCurrentTask().getTask().init(vm);
             TaskType.writeTaskToFile(vm);
-
+            
         }
     }
-
+    
 }
