@@ -8,8 +8,11 @@ package com.babysharks.messaging;
 import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
@@ -146,6 +149,7 @@ public class PapaAsync {
             try {
                 gang = hm.getMessage().getData().getAvailable().get(0).getGang();
             } catch (Exception exx) {
+            Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
 
             }
         }
