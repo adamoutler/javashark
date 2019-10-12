@@ -62,7 +62,7 @@ public class TaskedMachine {
 
     synchronized public void performTaskListMaintenance() {
         //this is an idle task and nothing has been commanded
-        if (taskList.isEmpty()||taskList.get(0) == null) {
+        if (taskList.isEmpty() || taskList.get(0) == null) {
             taskList.add(TaskType.IDLE);
         }
         if ((taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) && this.isTaskComplete()) && taskList.size() == 1) {
@@ -103,7 +103,6 @@ public class TaskedMachine {
         this.taskReady = false;
         this.taskComplete = false;
         this.taskInitialized = false;
-
         this.taskDescription = taskList.get(0).getTaskDescription();
     }
 
@@ -201,6 +200,11 @@ public class TaskedMachine {
     }
 
     synchronized public void addTask(TaskType task) {
+        if (taskList == null) {
+            taskList = new LinkedList<>();
+            taskList.add(TaskType.IDLE);
+
+        }
 
         if (task == null) {
             task = TaskType.IDLE;
@@ -218,9 +222,7 @@ public class TaskedMachine {
                 this.forceRemoveCurrentTask();
                 break;
             default:
-                if (taskList == null || taskList.isEmpty()) {
-                    return;
-                }
+                this.taskList.add(task);
                 if (taskList.get(0).equals(TaskType.IDLE) || taskList.get(0).equals(TaskType.POWEROFF) || this.taskComplete) {
                     this.performTaskListMaintenance();
                 }

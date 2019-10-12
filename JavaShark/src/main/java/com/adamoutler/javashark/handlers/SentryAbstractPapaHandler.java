@@ -46,7 +46,10 @@ abstract class SentryAbstractPapaHandler extends AbstractPapaHandler {
             System.out.println("added "+task+" task to" +vm.getUsername());
 
                 vm.addTask(task);
+            } else {
+                System.out.println ("null task");
             }
+            
         }
     }
 }

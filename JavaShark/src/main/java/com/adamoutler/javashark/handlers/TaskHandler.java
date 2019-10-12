@@ -21,12 +21,12 @@ public class TaskHandler extends SentryAbstractPapaHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         try {
-            if (this.request.getData().getTasks().length == 0|| this.request.getData().getTasks()[0]==null) {
-                request.getData().setErrorType(NOSUCHTASK);
-                
-                this.sendArbitrary( he, request);
-                return;
-            }
+//            if (this.request.getData().getTasks().length == 0|| this.request.getData().getTasks()[0]==null) {
+//                request.getData().setErrorType(NOSUCHTASK);
+//                
+//                this.sendArbitrary( he, request);
+//                return;
+//            }
 
             addTasks(this.request.getData().getTasks());
 
