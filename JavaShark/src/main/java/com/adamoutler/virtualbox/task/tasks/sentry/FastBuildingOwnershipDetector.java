@@ -67,7 +67,7 @@ public class FastBuildingOwnershipDetector {
         Message m = new Message();
         m.getData().setIncidents(incidents.toArray(new BuildingChangeIncident[incidents.size()]));
         incidents.stream().forEach(i -> {
-            if (m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
+            if (i.getType().equals(IncidentType.LOSTBUFF)) {
                 return;
             }
             String existingCommand = m.getCommand();
