@@ -176,6 +176,7 @@ public class FastBuildingOwnershipDetector {
             try {
                 lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot));
             } catch (NullPointerException ex) {
+            Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
 
             }
             vm.getTaskData().setNullCount(0);
