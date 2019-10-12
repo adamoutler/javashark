@@ -465,7 +465,7 @@ public class MessageData {
     }
 
     public void setIncidents(BuildingChangeIncident[] incidents) {
-        this.setIncidents(incidents);
+        this.incidents=incidents;
     }
 
     /**
