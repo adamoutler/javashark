@@ -457,14 +457,37 @@ public class MessageData {
         if (errorType.equals(ErrorType.NOERROR)){
             errorType=null;
             this.errorType=null;
-            errorMessage=null;
+            setErrorMessage(null);
             return;
         }
         this.errorType = errorType;
-        this.errorMessage=errorType.getMessage();
+        this.setErrorMessage(errorType.getMessage());
     }
 
     public void setIncidents(BuildingChangeIncident[] incidents) {
-        this.incidents=incidents;
+        this.setIncidents(incidents);
     }
+
+    /**
+     * @return the errorMessage
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * @param errorMessage the errorMessage to set
+     */
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    /**
+     * @return the incidents
+     */
+    public BuildingChangeIncident[] getIncidents() {
+        return incidents;
+    }
+
+ 
 }

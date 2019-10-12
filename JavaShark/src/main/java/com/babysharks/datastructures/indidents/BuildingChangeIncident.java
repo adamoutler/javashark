@@ -73,4 +73,9 @@ public class BuildingChangeIncident {
     public void setType(IncidentType type) {
         this.type = type;
     }
+    
+    public String toString(){
+        return "B"+this.building+"-"+this.type.name();
+    }
+    
 }

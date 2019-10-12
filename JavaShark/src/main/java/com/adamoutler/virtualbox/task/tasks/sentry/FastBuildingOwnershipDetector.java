@@ -18,7 +18,6 @@ import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType;
-import static com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType.LOSTBUFF;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
@@ -49,6 +48,7 @@ public class FastBuildingOwnershipDetector {
     final static XYCoords BUILDING6 = new XYCoords(798, 340);
 
     private static void sendPapaIncidentMessage(ArrayList<BuildingChangeIncident> incidents, String username, String gang) {
+        System.out.println("Sending incidents to papa " + incidents);
         StringBuilder sb = new StringBuilder();
         ArrayList<String> buildings = new ArrayList<>();
         incidents.stream().forEach((b) -> {
@@ -57,16 +57,15 @@ public class FastBuildingOwnershipDetector {
         });
 
         Message m = getMessageForIncidentGroup(incidents);
-
-        m.getData().setUsername(username).setGang(gang)
-                .setBuildings(buildings.toArray(new String[buildings.size()]))
-                .setReason(sb.toString().trim())
-                .setIncidents(incidents.toArray(new BuildingChangeIncident[buildings.size()]));
+        m.getData().setGang(gang).setUsername(username).setBuildings(buildings.toArray(new String[buildings.size()]));
         String s = PapaAsync.send(m);
+        System.out.println(s);
+
     }
 
     private static Message getMessageForIncidentGroup(ArrayList<BuildingChangeIncident> incidents) {
         Message m = new Message();
+        m.getData().setIncidents(incidents.toArray(new BuildingChangeIncident[incidents.size()]));
         incidents.stream().forEach(i -> {
             if (m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
                 return;
@@ -380,7 +379,6 @@ public class FastBuildingOwnershipDetector {
         vm.getTaskData().building4PercentOurCars = 0f;
         vm.getTaskData().building5PercentOurCars = 0f;
         vm.getTaskData().building6PercentOurCars = 0f;
-
     }
 
     private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, int building) {
@@ -389,21 +387,17 @@ public class FastBuildingOwnershipDetector {
             //nothing to do just return
             return;
         }
-        BuildingChangeIncident bce = null;
         if (newValue < oldValue && newValue > 50) { // we lost a buff
-            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.LOSTBUFF);
-            System.out.println("We just lost buff " + building);
+           System.out.println("We lost a buff in building " + building);
+            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
         } else if (oldValue > 50 && newValue > oldValue) { //we buffed
-            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.WEBUFFED);
-            System.out.println("We just buffed building " + building);
+           System.out.println("We just buffed buiding " + building);
+            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFED));
         } else if (oldValue < 50 && newValue < oldValue) { //they buffed
-            System.out.println("They just buffed building " + building);
-            bce = new BuildingChangeIncident(building, oldValue, newValue, BuildingChangeIncident.IncidentType.THEYBUFFED);
+           System.out.println("They just buffed building " + building);
+            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
+        }
 
-        }
-        if (bce != null) {
-            incidents.add(bce);
-        }
     }
 
 }
