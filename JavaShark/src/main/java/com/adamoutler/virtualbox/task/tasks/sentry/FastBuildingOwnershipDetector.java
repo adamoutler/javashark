@@ -57,7 +57,7 @@ public class FastBuildingOwnershipDetector {
         });
 
         Message m = getMessageForIncidentGroup(incidents);
-        m.getData().setGang(gang).setUsername(username).setBuildings(buildings.toArray(new String[buildings.size()]));
+        m.getData().setGang(gang).setReason(sb.toString()).setUsername(username).setBuildings(buildings.toArray(new String[buildings.size()]));
         String s = PapaAsync.send(m);
         System.out.println(s);
 
@@ -67,7 +67,7 @@ public class FastBuildingOwnershipDetector {
         Message m = new Message();
         m.getData().setIncidents(incidents.toArray(new BuildingChangeIncident[incidents.size()]));
         incidents.stream().forEach(i -> {
-            if (i.getType().equals(IncidentType.LOSTBUFF)) {
+            if (m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
                 return;
             }
             String existingCommand = m.getCommand();
@@ -80,7 +80,7 @@ public class FastBuildingOwnershipDetector {
 
                     break;
                 case WEBUFFED:
-                    if (existingCommand == null || existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
+                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
                         return;
                     }
                     m.setCommand(IncidentType.WEBUFFED.toString());
