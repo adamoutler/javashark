@@ -62,9 +62,7 @@ public class TaskManager {
             if (vm.isTemporaryTaskAvailable()) {
                 vm.getTemporaryTask().getTask().exec(vm);
             } else {
-                if (vm.getCurrentTask()==null){
-                    vm.clearTasks();
-                }
+
                 executeCurrentTask(vm);
             }
         });
@@ -79,6 +77,7 @@ public class TaskManager {
             machines.add((VirtualBoxMachine) mac);
             TaskType resumeTask = TaskType.getTasks((VirtualBoxMachine) mac);
             mac.clearTasks();
+
             try {
                 boolean supported = resumeTask.getTask().resume((VirtualBoxMachine) mac);
                 if (supported) {
@@ -88,6 +87,7 @@ public class TaskManager {
                     mac.addTask(TaskType.POWEROFF);
                 }
             } catch (Exception ex) {
+                mac.clearTasks();
                 mac.addTask(TaskType.IDLE);
             }
         });
