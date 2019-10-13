@@ -67,7 +67,7 @@ public class FastBuildingOwnershipDetector {
         Message m = new Message();
         m.getData().setIncidents(incidents.toArray(new BuildingChangeIncident[incidents.size()]));
         incidents.stream().forEach(i -> {
-            if (m.getCommand()!=null&& m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
+            if (m.getCommand() != null && m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
                 return;
             }
             String existingCommand = m.getCommand();
@@ -80,10 +80,10 @@ public class FastBuildingOwnershipDetector {
 
                     break;
                 case WEBUFFED:
-                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand.equals(IncidentType.NULL.toString()) ) {
-                        return;
+                    if (existingCommand == null || existingCommand.isEmpty() || existingCommand.equals(IncidentType.NULL.name())) {
+
+                        m.setCommand(IncidentType.WEBUFFED.toString());
                     }
-                    m.setCommand(IncidentType.WEBUFFED.toString());
 
                     break;
                 default:
@@ -176,7 +176,7 @@ public class FastBuildingOwnershipDetector {
             try {
                 lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot));
             } catch (NullPointerException ex) {
-            Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
 
             }
             vm.getTaskData().setNullCount(0);
@@ -389,13 +389,13 @@ public class FastBuildingOwnershipDetector {
             return;
         }
         if (newValue < oldValue && newValue > 50) { // we lost a buff
-           System.out.println("We lost a buff in building " + building);
+            System.out.println("We lost a buff in building " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
         } else if (oldValue > 50 && newValue > oldValue) { //we buffed
-           System.out.println("We just buffed buiding " + building);
+            System.out.println("We just buffed buiding " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFED));
         } else if (oldValue < 50 && newValue < oldValue) { //they buffed
-           System.out.println("They just buffed building " + building);
+            System.out.println("They just buffed building " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
         }
 
