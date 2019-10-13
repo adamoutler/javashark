@@ -14,7 +14,8 @@ public class BuildingChangeIncident {
     public enum IncidentType{
         WEBUFFED("We buffed the building "),
         THEYBUFFED("They buffed the building "),
-        LOSTBUFF("We lost a buff in building ");
+        LOSTBUFF("We lost a buff in building "),
+        NULL("No type assigned");
         String message;
         IncidentType (String s){
             this.message=s;
@@ -24,7 +25,7 @@ public class BuildingChangeIncident {
         }
     }
     
-    private IncidentType type;
+    private IncidentType type=IncidentType.NULL;
     String message;
     private final int building;
     private final float before;

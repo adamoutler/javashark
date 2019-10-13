@@ -67,7 +67,7 @@ public class FastBuildingOwnershipDetector {
         Message m = new Message();
         m.getData().setIncidents(incidents.toArray(new BuildingChangeIncident[incidents.size()]));
         incidents.stream().forEach(i -> {
-            if (m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
+            if (m.getCommand()!=null&& m.getCommand().equals(IncidentType.LOSTBUFF.toString())) {
                 return;
             }
             String existingCommand = m.getCommand();
@@ -80,7 +80,7 @@ public class FastBuildingOwnershipDetector {
 
                     break;
                 case WEBUFFED:
-                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
+                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand==IncidentType.NULL.toString()|| existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
                         return;
                     }
                     m.setCommand(IncidentType.WEBUFFED.toString());
