@@ -80,7 +80,7 @@ public class FastBuildingOwnershipDetector {
 
                     break;
                 case WEBUFFED:
-                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand==IncidentType.NULL.toString()|| existingCommand.equals(IncidentType.THEYBUFFED.toString())) {
+                    if (existingCommand == null ||existingCommand.isEmpty()|| existingCommand.equals(IncidentType.NULL.toString()) ) {
                         return;
                     }
                     m.setCommand(IncidentType.WEBUFFED.toString());
