@@ -42,7 +42,7 @@ public enum ScreenData {
     CITYKINGCAR2(new HashedPicCoords[]{new HashedPicCoords(125, 500, 30, 50, 139952256)}, new ColoredXYCoords[]{}, "City Kings, Examining Sentry Owner Car 2 "),
     CITYKINGCAR3(new HashedPicCoords[]{new HashedPicCoords(200, 500, 30, 50, -116560625)}, new ColoredXYCoords[]{}, "City Kings, Examining Sentry Owner Car 3 "),
     CITYKINGSBEGINTHEATTACK(new HashedPicCoords[]{new HashedPicCoords(460,162,3,7,1762741752)}, new ColoredXYCoords[]{}, "Begin the attack, waiting for opponent"),
-    CITYKINGSENLIST(new HashedPicCoords[]{new HashedPicCoords(903,718,6,11,-1622297252),new HashedPicCoords(903,718,6,11,729966274),new HashedPicCoords(903,718,6,11,-1467432060)}, new ColoredXYCoords[]{}, "City Kings, Enlist screen"),
+    CITYKINGSENLIST(new HashedPicCoords[]{new HashedPicCoords(392,133,55,25,1903642449)}, new ColoredXYCoords[]{}, "City Kings, Enlist screen"),
     CITYKINGS(new HashedPicCoords[]{new HashedPicCoords(10,250,30,300,-995957751), new HashedPicCoords(10, 250, 30, 300, 942357758)}, new ColoredXYCoords[]{}, "City Kings, battlefield screen"),
 
     CITYKINGSBUILDINGNOSCOUT(new HashedPicCoords[]{new HashedPicCoords(576, 311, 35, 47, -513431068), new HashedPicCoords(576, 311, 35, 47, 379408513), new HashedPicCoords(576, 311, 35, 47, 247867897)}, new ColoredXYCoords[]{}, "City Kings, building Attack Screen, no scout"),
