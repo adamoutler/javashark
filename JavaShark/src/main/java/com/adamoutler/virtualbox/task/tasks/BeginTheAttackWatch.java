@@ -47,6 +47,7 @@ public class BeginTheAttackWatch extends Task {
             case RECONNECT:
                 vm.addTask(TaskType.CLEAR);
             default:
+                vm.writeBabySharksDebug(vm, "Attempting perform BEGINTHEATTACKWATCH but I couldn't recognize screen.");
                 Message n = new Message().setCommand("BeginTheAttackFailure");
                 n.getData().setGang(vm.getGang()).setUsername(vm.getUsername())
                         .setReason("I couldn't recognize the screen while watching for Enlist Button.");
