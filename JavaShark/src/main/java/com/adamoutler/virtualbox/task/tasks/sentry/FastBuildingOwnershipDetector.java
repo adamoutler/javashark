@@ -388,6 +388,7 @@ public class FastBuildingOwnershipDetector {
             //nothing to do just return
             return;
         }
+        building++;
         if (newValue < oldValue && newValue > 50) { // we lost a buff
             System.out.println("We lost a buff in building " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
