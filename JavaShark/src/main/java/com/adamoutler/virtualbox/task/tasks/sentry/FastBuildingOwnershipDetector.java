@@ -79,10 +79,10 @@ public class FastBuildingOwnershipDetector {
                     m.setCommand(IncidentType.THEYBUFFED.toString());
 
                     break;
-                case WEBUFFED:
+                case WEBUFFEDCONTESTED:
                     if (existingCommand == null || existingCommand.isEmpty() || existingCommand.equals(IncidentType.NULL.name())) {
 
-                        m.setCommand(IncidentType.WEBUFFED.toString());
+                        m.setCommand(IncidentType.WEBUFFEDCONTESTED.toString());
                     }
 
                     break;
@@ -334,37 +334,37 @@ public class FastBuildingOwnershipDetector {
         String gang = vm.getGang();
         try {
             float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            performBuffDetection(incidents, bar1, vm.getTaskData().building1PercentOurCars, 0);
+            performBuffDetection(incidents, bar1, vm.getTaskData().building1PercentOurCars, 0,pc);
             vm.getTaskData().building1PercentOurCars = bar1;
         } catch (Exception ex) {
         }
         try {
             float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            performBuffDetection(incidents, bar2, vm.getTaskData().building2PercentOurCars, 1);
+            performBuffDetection(incidents, bar2, vm.getTaskData().building2PercentOurCars, 1,pc);
             vm.getTaskData().building2PercentOurCars = bar2;
         } catch (Exception ex) {
         }
         try {
             float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            performBuffDetection(incidents, bar3, vm.getTaskData().building3PercentOurCars, 2);
+            performBuffDetection(incidents, bar3, vm.getTaskData().building3PercentOurCars, 2,pc);
             vm.getTaskData().building3PercentOurCars = bar3;
         } catch (Exception ex) {
         }
         try {
             float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            performBuffDetection(incidents, bar4, vm.getTaskData().building4PercentOurCars, 3);
+            performBuffDetection(incidents, bar4, vm.getTaskData().building4PercentOurCars, 3,pc);
             vm.getTaskData().building4PercentOurCars = bar4;
         } catch (Exception ex) {
         }
         try {
             float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            performBuffDetection(incidents, bar5, vm.getTaskData().building5PercentOurCars, 4);
+            performBuffDetection(incidents, bar5, vm.getTaskData().building5PercentOurCars, 4,pc);
             vm.getTaskData().building5PercentOurCars = bar5;
         } catch (Exception ex) {
         }
         try {
             float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            performBuffDetection(incidents, bar6, vm.getTaskData().building6PercentOurCars, 5);
+            performBuffDetection(incidents, bar6, vm.getTaskData().building6PercentOurCars, 5,pc);
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
@@ -382,7 +382,7 @@ public class FastBuildingOwnershipDetector {
         vm.getTaskData().building6PercentOurCars = 0f;
     }
 
-    private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, int building) {
+    private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, int building,PicColors pc) {
         if (oldValue == null || oldValue == 0 || oldValue == newValue) {
             //we cant work with this or nothing happened.
             //nothing to do just return
@@ -394,7 +394,13 @@ public class FastBuildingOwnershipDetector {
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
         } else if (oldValue > 50 && newValue > oldValue) { //we buffed
             System.out.println("We just buffed buiding " + building);
-            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFED));
+            BuildingBar bb=BuildingBar.valueOf("BAR"+(building+1));
+            Integer x=pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), bb.getXY().getX()+100, bb.getXY().getY(),(bb.getXY().getX()+173));
+            if (x<1){
+                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDUNCONTESTED));
+            } else {
+                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDCONTESTED));
+            }
         } else if (oldValue < 50 && newValue < oldValue) { //they buffed
             System.out.println("They just buffed building " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));

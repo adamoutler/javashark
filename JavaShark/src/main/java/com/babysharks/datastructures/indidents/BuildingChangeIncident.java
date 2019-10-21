@@ -12,7 +12,8 @@ package com.babysharks.datastructures.indidents;
 public class BuildingChangeIncident {
 
     public enum IncidentType{
-        WEBUFFED("We buffed the building "),
+        WEBUFFEDCONTESTED("We buffed a contested building "),
+        WEBUFFEDUNCONTESTED("We buffed an uncontested building "),
         THEYBUFFED("They buffed the building "),
         LOSTBUFF("We lost a buff in building "),
         NULL("No type assigned");

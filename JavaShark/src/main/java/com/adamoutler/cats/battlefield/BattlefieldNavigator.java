@@ -20,6 +20,8 @@ public class BattlefieldNavigator {
 
     final public static XYCoords BACKBUTTON = new XYCoords(38, 747);
     final public static XYCoords GANGBUTTON = new XYCoords(911, 137);
+    final public static XYCoords COLLECTPRIZES = new XYCoords(500, 520);
+    final public static XYCoords VICTORYDEFEATBUTTON = new XYCoords(500, 725);
 
     boolean reported = false;
 
@@ -63,7 +65,7 @@ public class BattlefieldNavigator {
             return false;
         }
         ScreenData id = vm.getScreen();
-        if (id == ScreenData.CITYKINGS||id== ScreenData.CITYKINGSBEGINTHEATTACK||id== ScreenData.CITYKINGSENLIST) {
+        if (id == ScreenData.CITYKINGS || id == ScreenData.CITYKINGSBEGINTHEATTACK || id == ScreenData.CITYKINGSENLIST) {
             System.out.println(vm.getUsername() + ": I'm at " + id + " screen!");
 
             return true;
@@ -71,6 +73,7 @@ public class BattlefieldNavigator {
         if (id.toString().startsWith("CITYKINGSBUILDING")) {
             id = ScreenData.CITYKINGSBUILDINGSCREEN;
         }
+
         switch (id) {
             case CATSLOADEDULTIMATESCREEN:
             case CATSLOADEDCHAMPIONSHIPSCREEN:
@@ -83,7 +86,13 @@ public class BattlefieldNavigator {
                 vm.longTap(BACKBUTTON);
                 sleep(2000);
                 break;
+            case CITYKINGSVICTORY:
+            case CITYKINGSDEFEAT:
+                vm.longTap(VICTORYDEFEATBUTTON);
+                break;
+
             case UNKNOWN:
+                vm.longTap(COLLECTPRIZES);
                 if (!reported) {
                     vm.writeBabySharksDebug(vm, "Attempting to navigate to CK couldn't recognize screen");
                     reported = true;

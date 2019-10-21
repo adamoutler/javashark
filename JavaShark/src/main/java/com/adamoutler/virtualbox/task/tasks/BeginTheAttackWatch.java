@@ -48,7 +48,7 @@ public class BeginTheAttackWatch extends Task {
                 getScreenshot(m,vm);
                 PapaAsync.send(m);
                 vm.addTask(TaskType.CLEAR);
-                return;
+                break;
             case CITYKINGSBEGINTHEATTACK:
                 break;
             case CITYKINGS:
@@ -62,6 +62,7 @@ public class BeginTheAttackWatch extends Task {
                 Message n = new Message().setCommand("BeginTheAttackFailure");
                 n.getData().setGang(vm.getGang()).setUsername(vm.getUsername())
                         .setReason("I couldn't recognize the screen while watching for Enlist Button.");
+                getScreenshot(n,vm);
                 PapaAsync.send(n);
                 complete(vm);
         }
