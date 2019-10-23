@@ -94,7 +94,7 @@ public class FastBuildingOwnershipDetector {
                 case NULL:
                     break;
                 default:
-                    
+                    System.out.println("An unrecognized buff message was detected");
 
             }
 
