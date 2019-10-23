@@ -13,6 +13,7 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHIT
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -100,6 +101,27 @@ public class FastBuildingOwnershipDetector {
 
         });
         return m;
+    }
+
+    private void weGainedBuilding(int i) {
+        Message m = new Message().setCommand("buildingGained");
+        m.getData().setBuildings(new String[]{"" + i}).setGang(vm.getGang()).setUsername(vm.getUsername());
+        PapaAsync.send(m);
+
+    }
+
+    private void mapIsOurs() {
+        try {
+            String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+            BufferedImage image = vm.screenshot();
+            File outputFile = new File(ScreenshotHandler.OUTPUT + safeName);
+            ImageIO.write(image, "PNG", outputFile);
+            Message m = new Message().setCommand("mapisours");
+            m.getData().setBuildings(new String[]{"1", "2", "3", "4", "5", "6"}).setGang(vm.getGang()).setUsername(vm.getUsername()).setResultObject("https://javashark.baby-sharks.com/screenshots/" + safeName);
+            PapaAsync.send(m);
+        } catch (IOException ex) {
+            Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public enum BuildingBar {
@@ -228,12 +250,26 @@ public class FastBuildingOwnershipDetector {
 
     ArrayList<Integer> getAlertBuildings(OwnedBy[] current, OwnedBy[] previous) {
         ArrayList<Integer> alertBuildings = new ArrayList<>();
+        boolean buildingGained = false;
+        boolean allOurs = true;
         for (int i = 0; i < current.length; i++) {
-            if (current[i] != previous[i] && previous[i].equals(OwnedBy.US)) {
-                alertBuildings.add(i);
+            if (current[i] != previous[i]) {
+                if (previous[i].equals(OwnedBy.US)) {
+                    alertBuildings.add(i);
+                } else if (!previous[i].equals(OwnedBy.US) && current[i].equals(OwnedBy.US)) {
+                    buildingGained = true;
+                    weGainedBuilding(i);
+                }
 
             }
+            if (!current[i].equals(OwnedBy.US)) {
+                allOurs = false;
+            }
         }
+        if (allOurs && buildingGained) {
+            mapIsOurs();
+        }
+
         return alertBuildings;
     }
 
