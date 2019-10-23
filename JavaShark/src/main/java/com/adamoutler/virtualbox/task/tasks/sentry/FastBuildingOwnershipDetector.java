@@ -399,19 +399,20 @@ public class FastBuildingOwnershipDetector {
         if (newValue < oldValue && newValue > 50) { // we lost a buff
             System.out.println("We lost a buff in building " + building);
             incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
-        } else if (oldValue > 50 && newValue > oldValue) { //we buffed
-            System.out.println("We just buffed buiding " + building);
-            BuildingBar bb = BuildingBar.valueOf("BAR" + (building + 1));
-            Integer x = pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), bb.getXY().getX() + 100, bb.getXY().getY(), (bb.getXY().getX() + 173));
-            if (x < 1) {
-                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDUNCONTESTED));
-            } else {
-                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDCONTESTED));
-            }
-        } else if (oldValue < 50 && newValue < oldValue) { //they buffed
-            System.out.println("They just buffed building " + building);
-            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
         }
+//        else if (oldValue > 50 && newValue > oldValue) { //we buffed
+//            System.out.println("We just buffed buiding " + building);
+//            BuildingBar bb = BuildingBar.valueOf("BAR" + (building + 1));
+//            Integer x = pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), bb.getXY().getX() + 100, bb.getXY().getY(), (bb.getXY().getX() + 173));
+//            if (x < 1) {
+//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDUNCONTESTED));
+//            } else {
+//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDCONTESTED));
+//            }
+//        } else if (oldValue < 50 && newValue < oldValue) { //they buffed
+//            System.out.println("They just buffed building " + building);
+//            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
+//        }
 
     }
 
