@@ -8,7 +8,6 @@ package com.babysharks.messaging;
 import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
-import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
