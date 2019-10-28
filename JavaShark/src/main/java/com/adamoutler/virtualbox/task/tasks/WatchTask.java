@@ -29,8 +29,7 @@ public class WatchTask extends Task {
         try {
             FastBuildingOwnershipDetector.wipeBuildingData(vm);
             vm.getTaskData().setNullCount(0);
-            FastBuildingOwnershipDetector fbod = new FastBuildingOwnershipDetector(vm);
-            vm.getTaskData().previous = fbod.scan(vm.screenshot());
+            vm.getTaskData().previous = FastBuildingOwnershipDetector.scan(vm.screenshot());
             ready(vm);
             turnOffOtherSentries(vm);
             PapaAsync.sentryReasonWarning(vm, "monitoring");
@@ -56,7 +55,7 @@ public class WatchTask extends Task {
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-        new FastBuildingOwnershipDetector(vm).run();
+         FastBuildingOwnershipDetector.run(vm);
     }
 
     @Override

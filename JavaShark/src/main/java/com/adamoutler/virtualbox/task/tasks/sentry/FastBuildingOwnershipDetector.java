@@ -41,12 +41,12 @@ import org.springframework.web.client.RestClientException;
  */
 public class FastBuildingOwnershipDetector {
 
-    final static XYCoords BUILDING1 = new XYCoords(156, 355);
-    final static XYCoords BUILDING2 = new XYCoords(90, 505);
-    final static XYCoords BUILDING3 = new XYCoords(345, 595);
-    final static XYCoords BUILDING4 = new XYCoords(620, 607);
-    final static XYCoords BUILDING5 = new XYCoords(827, 512);
-    final static XYCoords BUILDING6 = new XYCoords(798, 340);
+    final public static XYCoords BUILDING1 = new XYCoords(156, 355);
+    final public static XYCoords BUILDING2 = new XYCoords(90, 505);
+    final public static XYCoords BUILDING3 = new XYCoords(345, 595);
+    final public static XYCoords BUILDING4 = new XYCoords(620, 607);
+    final public static XYCoords BUILDING5 = new XYCoords(827, 512);
+    final public static XYCoords BUILDING6 = new XYCoords(798, 340);
 
     private static void sendPapaIncidentMessage(ArrayList<BuildingChangeIncident> incidents, String username, String gang) {
         System.out.println("Sending incidents to papa " + incidents);
@@ -103,16 +103,16 @@ public class FastBuildingOwnershipDetector {
         return m;
     }
 
-    private void weGainedBuilding(int i) {
+    private static void weGainedBuilding(VirtualBoxMachine vm, int i) {
         Message m = new Message().setCommand("buildingGained");
         m.getData().setBuildings(new String[]{"" + i}).setGang(vm.getGang()).setUsername(vm.getUsername());
         PapaAsync.send(m);
 
     }
 
-    private void mapIsOurs() {
+    private static void mapIsOurs(VirtualBoxMachine vm) {
         try {
-            String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+            String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang() + "-") + UUID.randomUUID().toString() + ".png";
             BufferedImage image = vm.screenshot();
             File outputFile = new File(ScreenshotHandler.OUTPUT + safeName);
             ImageIO.write(image, "PNG", outputFile);
@@ -124,32 +124,237 @@ public class FastBuildingOwnershipDetector {
         }
     }
 
-    public enum BuildingBar {
-        BAR1(new XYCoords(177, 380)),
-        BAR2(new XYCoords(124, 530)),
-        BAR3(new XYCoords(369, 620)),
-        BAR4(new XYCoords(644, 630)),
-        BAR5(new XYCoords(849, 536)),
-        BAR6(new XYCoords(833, 360));
-        XYCoords xy;
+    private static void sendFinalResults(VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
 
-        BuildingBar(XYCoords xy) {
-            this.xy = xy;
-        }
+        //send final battlefield screenshot
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang() + "-") + UUID.randomUUID().toString();
+        ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
+        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
+        Message message = new Message().setCommand("finalbattlefield").setData(md);
+        PapaAsync.send(message);
 
-        public XYCoords getXY() {
-            return xy;
+        //send final score screenshot;
+        ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
+        message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
+        PapaAsync.send(message);
+    }
+
+    private static void maybeFreakOut(VirtualBoxMachine vm, ArrayList<Integer> alertBuildings) throws RestClientException {
+        if (alertBuildings.size() > 0) {
+            int[] alertBuildingsArray = alertBuildings.stream().mapToInt(i -> i).toArray();
+            freakOut(vm, alertBuildingsArray);
         }
     }
 
-    String gang;
-    String username;
-    VirtualBoxMachine vm;
+    final static ArrayList<Integer> getAlertBuildings(VirtualBoxMachine vm, OwnedBy[] current, OwnedBy[] previous) {
+        ArrayList<Integer> alertBuildings = new ArrayList<>();
+        boolean buildingGained = false;
+        boolean allOurs = true;
+        for (int i = 0; i < current.length; i++) {
+            if (current[i] != previous[i]) {
+                if (previous[i].equals(OwnedBy.US)) {
+                    alertBuildings.add(i);
+                } else if (!previous[i].equals(OwnedBy.US) && current[i].equals(OwnedBy.US)) {
+                    buildingGained = true;
+                    weGainedBuilding(vm, i);
+                }
 
-    public FastBuildingOwnershipDetector(VirtualBoxMachine vm) {
-        this.gang = vm.getGang();
-        this.username = vm.getUsername();
-        this.vm = vm;
+            }
+            if (!current[i].equals(OwnedBy.US)) {
+                allOurs = false;
+            }
+        }
+        if (allOurs && buildingGained) {
+            mapIsOurs(vm);
+        }
+
+        return alertBuildings;
+    }
+
+    private static boolean anyAreNull(OwnedBy[] current, OwnedBy[] previous) {
+
+        return current[0] == null || current[1] == null
+                || current[2] == null || current[3] == null
+                || current[4] == null || current[5] == null
+                || previous[0] == null || previous[1] == null
+                || previous[2] == null || previous[3] == null
+                || previous[4] == null || previous[5] == null;
+    }
+
+    private static void freakOut(VirtualBoxMachine vm, int[] buildings) throws RestClientException {
+        MessageData data = configureData(buildings, vm);
+        System.out.println("TIME TO FREAK OUT!!!!! OMFG");
+        Message message = new Message();
+        HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
+        String s = PapaAsync.send(hm);
+        System.out.println(s);
+
+    }
+
+    private static MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
+        //final StringBuilder sb = new StringBuilder();
+        String buildingNames = Arrays.toString(alertBuildings).replaceAll("]", "").replaceAll("\\[", "");
+        //String buildingNames = sb.toString().replaceFirst(",", "");
+
+        MessageData data = new MessageData().setAlertBuilding(alertBuildings)
+                .setText("Help").setReason("alert building(s) " + buildingNames).setBuildings(new String[]{
+            vm.getTaskData().current[0].getFriendlyname(),
+            vm.getTaskData().current[1].getFriendlyname(),
+            vm.getTaskData().current[2].getFriendlyname(),
+            vm.getTaskData().current[3].getFriendlyname(),
+            vm.getTaskData().current[4].getFriendlyname(),
+            vm.getTaskData().current[5].getFriendlyname()}
+        ).setGang(vm.getGang()).setAvailable(new ArrayList<>(Arrays.asList(vm)))
+                .setUsername(vm.getUsername());
+
+        ArrayList<Integer> weOwn = new ArrayList<>();
+        ArrayList<Integer> theyOwn = new ArrayList<>();
+        ArrayList<Integer> nobodyOwns = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            switch (vm.getTaskData().current[i]) {
+                case THEM:
+                    theyOwn.add(i);
+                    break;
+                case US:
+                    weOwn.add(i);
+                    break;
+                case NOBODY:
+                    nobodyOwns.add(i);
+                    break;
+            }
+        }
+        data.setWeOwn(weOwn.stream().mapToInt(i -> i).toArray());
+        data.setTheyOwn(theyOwn.stream().mapToInt(i -> i).toArray());
+        data.setNobodyOwns(nobodyOwns.stream().mapToInt(i -> i).toArray());
+        return data;
+    }
+
+    private static OwnedBy checkBuilding(XYCoords coords, PicColors screenshot) throws Exception {
+        return getOwnership(screenshot, coords);
+    }
+
+    private static OwnedBy getOwnership(PicColors screenshot1, XYCoords coords) throws Exception {
+        try {
+            if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.US.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.US;
+            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.THEM;
+            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.NOBODY.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
+                return OwnedBy.NOBODY;
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("Could not analyze screenshot");
+        }
+
+        return null;
+    }
+
+    final public static float getPercentOurCars(BuildingBar bar, PicColors pc) throws NullPointerException {
+        int initialXCoord = bar.getXY().getX();
+        int yCoord = bar.getXY().getY();
+        int startOfOurBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, initialXCoord, yCoord, initialXCoord + 100);
+        if (startOfOurBar == -1) {
+            return 0;
+        }
+        int endOfOurBar = pc.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, startOfOurBar, yCoord, startOfOurBar + 200);
+        int pixelsOurBar = endOfOurBar - startOfOurBar;
+        int endOfBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{WHITEBORDER.getColor()}, endOfOurBar, yCoord, initialXCoord + 200);
+        int sizeOfBar = endOfBar - startOfOurBar;
+        if (sizeOfBar < 155) {
+            throw new NullPointerException("Could not read bar size");
+        }
+        float percentOurs = ((float) pixelsOurBar / (float) sizeOfBar) * 100;
+
+        return percentOurs;
+    }
+
+    @SuppressWarnings("UseSpecificCatch")
+    final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
+        ArrayList<BuildingChangeIncident> incidents = new ArrayList<>();
+        String username = vm.getUsername();
+        String gang = vm.getGang();
+        try {
+            float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
+            performBuffDetection(incidents, bar1, vm.getTaskData().building1PercentOurCars, vm.getTaskData().building1PreviousPercentOurCars, 0, pc);
+            vm.getTaskData().building1PreviousPercentOurCars=vm.getTaskData().building1PercentOurCars;
+            vm.getTaskData().building1PercentOurCars = bar1;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
+            performBuffDetection(incidents, bar2, vm.getTaskData().building2PercentOurCars, vm.getTaskData().building2PreviousPercentOurCars, 1, pc);
+            vm.getTaskData().building2PreviousPercentOurCars=vm.getTaskData().building2PercentOurCars;
+            vm.getTaskData().building2PercentOurCars = bar2;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
+            performBuffDetection(incidents, bar3, vm.getTaskData().building3PercentOurCars, vm.getTaskData().building3PreviousPercentOurCars, 2, pc);
+            vm.getTaskData().building3PreviousPercentOurCars=vm.getTaskData().building3PercentOurCars;
+            vm.getTaskData().building3PercentOurCars = bar3;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
+            performBuffDetection(incidents, bar4, vm.getTaskData().building4PercentOurCars, vm.getTaskData().building4PreviousPercentOurCars, 3, pc);
+           vm.getTaskData().building4PreviousPercentOurCars=vm.getTaskData().building4PercentOurCars;
+            vm.getTaskData().building4PercentOurCars = bar4;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
+            performBuffDetection(incidents, bar5, vm.getTaskData().building5PercentOurCars, vm.getTaskData().building5PreviousPercentOurCars, 4, pc);
+            vm.getTaskData().building5PreviousPercentOurCars=vm.getTaskData().building5PercentOurCars;
+            vm.getTaskData().building5PercentOurCars = bar5;
+        } catch (Exception ex) {
+        }
+        try {
+            float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
+            performBuffDetection(incidents, bar6, vm.getTaskData().building6PercentOurCars, vm.getTaskData().building6PreviousPercentOurCars, 5, pc);
+            vm.getTaskData().building6PreviousPercentOurCars=vm.getTaskData().building6PercentOurCars;
+            vm.getTaskData().building6PercentOurCars = bar6;
+        } catch (Exception ex) {
+        }
+        if (incidents.size() > 0) {
+            sendPapaIncidentMessage(incidents, username, gang);
+        }
+    }
+
+    final public static void wipeBuildingData(VirtualBoxMachine vm) {
+        vm.getTaskData().building1PercentOurCars = 0f;
+        vm.getTaskData().building2PercentOurCars = 0f;
+        vm.getTaskData().building3PercentOurCars = 0f;
+        vm.getTaskData().building4PercentOurCars = 0f;
+        vm.getTaskData().building5PercentOurCars = 0f;
+        vm.getTaskData().building6PercentOurCars = 0f;
+    }
+
+    private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, Float olderValue, int building, PicColors pc) {
+        if (oldValue == null || oldValue == 0 || oldValue == newValue) {
+            //we cant work with this or nothing happened.
+            //nothing to do just return
+            return;
+        }
+        building++;
+        if (newValue == oldValue && oldValue < olderValue && olderValue > 50) { // we lost a buff
+            System.out.println("We lost a buff in building " + building);
+            incidents.add(new BuildingChangeIncident(building, olderValue, newValue, IncidentType.LOSTBUFF));
+        }
+        
+//        else if (oldValue > 50 && newValue > oldValue) { //we buffed
+//            System.out.println("We just buffed buiding " + building);
+//            BuildingBar bb = BuildingBar.valueOf("BAR" + (building + 1));
+//            Integer x = pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), bb.getXY().getX() + 100, bb.getXY().getY(), (bb.getXY().getX() + 173));
+//            if (x < 1) {
+//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDUNCONTESTED));
+//            } else {
+//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDCONTESTED));
+//            }
+//        } else if (oldValue < 50 && newValue < oldValue) { //they buffed
+//            System.out.println("They just buffed building " + building);
+//            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
+//        }
+
     }
 
     /**
@@ -159,23 +364,24 @@ public class FastBuildingOwnershipDetector {
      * @return an OwnedBy array
      * @throws Exception
      */
-    public OwnedBy[] scan(BufferedImage screenshot) throws Exception {
+    final public static OwnedBy[] scan(BufferedImage screenshot) throws Exception {
         PicColors pc = new PicColors(screenshot);
         OwnedBy[] buildings = new OwnedBy[6];
-        buildings[0] = (this.checkBuilding(BUILDING1, pc));
-        buildings[1] = (this.checkBuilding(BUILDING2, pc));
-        buildings[2] = (this.checkBuilding(BUILDING3, pc));
-        buildings[3] = (this.checkBuilding(BUILDING4, pc));
-        buildings[4] = (this.checkBuilding(BUILDING5, pc));
-        buildings[5] = (this.checkBuilding(BUILDING6, pc));
+        buildings[0] = (checkBuilding(BUILDING1, pc));
+        buildings[1] = (checkBuilding(BUILDING2, pc));
+        buildings[2] = (checkBuilding(BUILDING3, pc));
+        buildings[3] = (checkBuilding(BUILDING4, pc));
+        buildings[4] = (checkBuilding(BUILDING5, pc));
+        buildings[5] = (checkBuilding(BUILDING6, pc));
         return buildings;
     }
 
     /**
      * runs the FastBuildingOwnershipDetector. Sends notifications to Papa.
      *
+     * @param vm virtualbox machine to be used
      */
-    public void run() {
+    final public static void run(VirtualBoxMachine vm) {
         try {
             BufferedImage screenshot = vm.screenshot();
             vm.getTaskData().current = scan(screenshot);
@@ -210,7 +416,7 @@ public class FastBuildingOwnershipDetector {
             }
             vm.getTaskData().setNullCount(0);
 
-            reactToChangesInBuildingOwnership();
+            reactToChangesInBuildingOwnership(vm);
 
             vm.getTaskData().previous = vm.getTaskData().current;
 
@@ -220,236 +426,28 @@ public class FastBuildingOwnershipDetector {
         }
     }
 
-    private void sendFinalResults(VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
-
-        //send final battlefield screenshot
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString();
-        ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
-        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
-        Message message = new Message().setCommand("finalbattlefield").setData(md);
-        PapaAsync.send(message);
-
-        //send final score screenshot;
-        ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
-        message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
-        PapaAsync.send(message);
-    }
-
-    private void reactToChangesInBuildingOwnership() throws RestClientException {
+    final private static void reactToChangesInBuildingOwnership(VirtualBoxMachine vm) throws RestClientException {
         System.out.println("Ownership/" + vm.getGang() + "/" + vm.getUsername() + ": " + new Date() + " " + Arrays.asList(vm.getTaskData().current));
-        ArrayList<Integer> alertBuildings = getAlertBuildings(vm.getTaskData().current, vm.getTaskData().previous);
-        maybeFreakOut(alertBuildings);
+        ArrayList<Integer> alertBuildings = getAlertBuildings(vm, vm.getTaskData().current, vm.getTaskData().previous);
+        maybeFreakOut(vm, alertBuildings);
     }
 
-    private void maybeFreakOut(ArrayList<Integer> alertBuildings) throws RestClientException {
-        if (alertBuildings.size() > 0) {
-            int[] alertBuildingsArray = alertBuildings.stream().mapToInt(i -> i).toArray();
-            freakOut(alertBuildingsArray);
-        }
-    }
+    public static enum BuildingBar {
+        BAR1(new XYCoords(177, 380)),
+        BAR2(new XYCoords(124, 530)),
+        BAR3(new XYCoords(369, 620)),
+        BAR4(new XYCoords(644, 630)),
+        BAR5(new XYCoords(849, 536)),
+        BAR6(new XYCoords(833, 360));
+        XYCoords xy;
 
-    ArrayList<Integer> getAlertBuildings(OwnedBy[] current, OwnedBy[] previous) {
-        ArrayList<Integer> alertBuildings = new ArrayList<>();
-        boolean buildingGained = false;
-        boolean allOurs = true;
-        for (int i = 0; i < current.length; i++) {
-            if (current[i] != previous[i]) {
-                if (previous[i].equals(OwnedBy.US)) {
-                    alertBuildings.add(i);
-                } else if (!previous[i].equals(OwnedBy.US) && current[i].equals(OwnedBy.US)) {
-                    buildingGained = true;
-                    weGainedBuilding(i);
-                }
-
-            }
-            if (!current[i].equals(OwnedBy.US)) {
-                allOurs = false;
-            }
-        }
-        if (allOurs && buildingGained) {
-            mapIsOurs();
+        BuildingBar(XYCoords xy) {
+            this.xy = xy;
         }
 
-        return alertBuildings;
-    }
-
-    private static boolean anyAreNull(OwnedBy[] current, OwnedBy[] previous) {
-
-        return current[0] == null || current[1] == null
-                || current[2] == null || current[3] == null
-                || current[4] == null || current[5] == null
-                || previous[0] == null || previous[1] == null
-                || previous[2] == null || previous[3] == null
-                || previous[4] == null || previous[5] == null;
-    }
-
-    void freakOut(int[] buildings) throws RestClientException {
-        MessageData data = configureData(buildings, vm);
-        System.out.println("TIME TO FREAK OUT!!!!! OMFG");
-        Message message = new Message();
-        HashedMessage hm = new HashedMessage(message.setCommand("alert").setData(data));
-        String s = PapaAsync.send(hm);
-        System.out.println(s);
-
-    }
-
-    MessageData configureData(int[] alertBuildings, VirtualBoxMachine vm) {
-        //final StringBuilder sb = new StringBuilder();
-        String buildingNames = Arrays.toString(alertBuildings).replaceAll("]", "").replaceAll("\\[", "");
-        //String buildingNames = sb.toString().replaceFirst(",", "");
-
-        MessageData data = new MessageData().setAlertBuilding(alertBuildings)
-                .setText("Help").setReason("alert building(s) " + buildingNames).setBuildings(new String[]{
-            vm.getTaskData().current[0].getFriendlyname(),
-            vm.getTaskData().current[1].getFriendlyname(),
-            vm.getTaskData().current[2].getFriendlyname(),
-            vm.getTaskData().current[3].getFriendlyname(),
-            vm.getTaskData().current[4].getFriendlyname(),
-            vm.getTaskData().current[5].getFriendlyname()}
-        ).setGang(gang).setAvailable(new ArrayList<>(Arrays.asList(vm)))
-                .setUsername(username);
-
-        ArrayList<Integer> weOwn = new ArrayList<>();
-        ArrayList<Integer> theyOwn = new ArrayList<>();
-        ArrayList<Integer> nobodyOwns = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            switch (vm.getTaskData().current[i]) {
-                case THEM:
-                    theyOwn.add(i);
-                    break;
-                case US:
-                    weOwn.add(i);
-                    break;
-                case NOBODY:
-                    nobodyOwns.add(i);
-                    break;
-            }
+        public XYCoords getXY() {
+            return xy;
         }
-        data.setWeOwn(weOwn.stream().mapToInt(i -> i).toArray());
-        data.setTheyOwn(theyOwn.stream().mapToInt(i -> i).toArray());
-        data.setNobodyOwns(nobodyOwns.stream().mapToInt(i -> i).toArray());
-        return data;
-    }
-
-    private OwnedBy checkBuilding(XYCoords coords, PicColors screenshot) throws Exception {
-        return getOwnership(screenshot, coords);
-    }
-
-    private OwnedBy getOwnership(PicColors screenshot1, XYCoords coords) throws Exception {
-        try {
-            if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.US.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-                return OwnedBy.US;
-            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-                return OwnedBy.THEM;
-            } else if (screenshot1.scanRightXCoordinateForColorAtYCoordinate(OwnedBy.NOBODY.getColor(), coords.getX(), coords.getY(), coords.getX() + 100) > -1) {
-                return OwnedBy.NOBODY;
-            }
-        } catch (NullPointerException ex) {
-            System.out.println("Could not analyze screenshot");
-        }
-
-        return null;
-    }
-
-    public static float getPercentOurCars(BuildingBar bar, PicColors pc) throws NullPointerException {
-        int initialXCoord = bar.getXY().getX();
-        int yCoord = bar.getXY().getY();
-        int startOfOurBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, initialXCoord, yCoord, initialXCoord + 100);
-        if (startOfOurBar == -1) {
-            return 0;
-        }
-        int endOfOurBar = pc.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{OwnedBy.US.getColor()}, startOfOurBar, yCoord, startOfOurBar + 200);
-        int pixelsOurBar = endOfOurBar - startOfOurBar;
-        int endOfBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{WHITEBORDER.getColor()}, endOfOurBar, yCoord, initialXCoord + 200);
-        int sizeOfBar = endOfBar - startOfOurBar;
-        if (sizeOfBar < 155) {
-            throw new NullPointerException("Could not read bar size");
-        }
-        float percentOurs = ((float) pixelsOurBar / (float) sizeOfBar) * 100;
-
-        return percentOurs;
-    }
-
-    @SuppressWarnings("UseSpecificCatch")
-    final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
-        ArrayList<BuildingChangeIncident> incidents = new ArrayList<>();
-        String username = vm.getUsername();
-        String gang = vm.getGang();
-        try {
-            float bar1 = getPercentOurCars(BuildingBar.BAR1, pc);
-            performBuffDetection(incidents, bar1, vm.getTaskData().building1PercentOurCars, 0, pc);
-            vm.getTaskData().building1PercentOurCars = bar1;
-        } catch (Exception ex) {
-        }
-        try {
-            float bar2 = getPercentOurCars(BuildingBar.BAR2, pc);
-            performBuffDetection(incidents, bar2, vm.getTaskData().building2PercentOurCars, 1, pc);
-            vm.getTaskData().building2PercentOurCars = bar2;
-        } catch (Exception ex) {
-        }
-        try {
-            float bar3 = getPercentOurCars(BuildingBar.BAR3, pc);
-            performBuffDetection(incidents, bar3, vm.getTaskData().building3PercentOurCars, 2, pc);
-            vm.getTaskData().building3PercentOurCars = bar3;
-        } catch (Exception ex) {
-        }
-        try {
-            float bar4 = getPercentOurCars(BuildingBar.BAR4, pc);
-            performBuffDetection(incidents, bar4, vm.getTaskData().building4PercentOurCars, 3, pc);
-            vm.getTaskData().building4PercentOurCars = bar4;
-        } catch (Exception ex) {
-        }
-        try {
-            float bar5 = getPercentOurCars(BuildingBar.BAR5, pc);
-            performBuffDetection(incidents, bar5, vm.getTaskData().building5PercentOurCars, 4, pc);
-            vm.getTaskData().building5PercentOurCars = bar5;
-        } catch (Exception ex) {
-        }
-        try {
-            float bar6 = getPercentOurCars(BuildingBar.BAR6, pc);
-            performBuffDetection(incidents, bar6, vm.getTaskData().building6PercentOurCars, 5, pc);
-            vm.getTaskData().building6PercentOurCars = bar6;
-        } catch (Exception ex) {
-        }
-        if (incidents.size() > 0) {
-            sendPapaIncidentMessage(incidents, username, gang);
-        }
-    }
-
-    public static void wipeBuildingData(VirtualBoxMachine vm) {
-        vm.getTaskData().building1PercentOurCars = 0f;
-        vm.getTaskData().building2PercentOurCars = 0f;
-        vm.getTaskData().building3PercentOurCars = 0f;
-        vm.getTaskData().building4PercentOurCars = 0f;
-        vm.getTaskData().building5PercentOurCars = 0f;
-        vm.getTaskData().building6PercentOurCars = 0f;
-    }
-
-    private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, int building, PicColors pc) {
-        if (oldValue == null || oldValue == 0 || oldValue == newValue) {
-            //we cant work with this or nothing happened.
-            //nothing to do just return
-            return;
-        }
-        building++;
-        if (newValue < oldValue && newValue > 50) { // we lost a buff
-            System.out.println("We lost a buff in building " + building);
-            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.LOSTBUFF));
-        }
-//        else if (oldValue > 50 && newValue > oldValue) { //we buffed
-//            System.out.println("We just buffed buiding " + building);
-//            BuildingBar bb = BuildingBar.valueOf("BAR" + (building + 1));
-//            Integer x = pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), bb.getXY().getX() + 100, bb.getXY().getY(), (bb.getXY().getX() + 173));
-//            if (x < 1) {
-//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDUNCONTESTED));
-//            } else {
-//                incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.WEBUFFEDCONTESTED));
-//            }
-//        } else if (oldValue < 50 && newValue < oldValue) { //they buffed
-//            System.out.println("They just buffed building " + building);
-//            incidents.add(new BuildingChangeIncident(building, oldValue, newValue, IncidentType.THEYBUFFED));
-//        }
-
     }
 
 }

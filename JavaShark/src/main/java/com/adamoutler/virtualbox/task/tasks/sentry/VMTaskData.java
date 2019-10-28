@@ -36,7 +36,12 @@ public class VMTaskData {
     Float building4PercentOurCars;
     Float building5PercentOurCars;
     Float building6PercentOurCars;
-    
+    Float building1PreviousPercentOurCars;
+    Float building2PreviousPercentOurCars;
+    Float building3PreviousPercentOurCars;
+    Float building4PreviousPercentOurCars;
+    Float building5PreviousPercentOurCars;
+    Float building6PreviousPercentOurCars;
 
     /**
      * @return the lastStartCats
