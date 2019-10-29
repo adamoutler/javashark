@@ -50,7 +50,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
         //
         System.out.println(t.getRequestURI() + "\n Using machine for screenshot: " + this.username + this.gang);
         //check if the machine is powered on.  if not do the following:
-        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+        String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + this.username + this.gang.toLowerCase() + "-") + UUID.randomUUID().toString();
 
         if (vm == null || !vm.isPoweredOn()) {
             //log the machine is off.
@@ -64,14 +64,15 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
                     System.out.println(" selecting " + thisVm.getVMName());
                     vm = thisVm;
-                    safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() + ".png";
+                    safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() ;
 
                     break;
                 }
             }
         }
 
-        File outputFile = new File(OUTPUT + safeName);
+        File outputFile = new File(OUTPUT + safeName + ".png");
+        File outputFilejpg = new File(OUTPUT + safeName + ".jpg");
         BufferedImage image;
         if (vm == null) {
             request.getData().setUrl(null);
@@ -83,7 +84,9 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             image = vm.screenshot();
             ScreenData sd = ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd).setReason(vm.getUsername());
+            ImageIO.write(image, "JPG", outputFilejpg);
+
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName+".jpg").setPng("https://javashark.baby-sharks.com/screenshots/" + safeName+".png").setResultObject(sd).setReason(vm.getUsername());
             if (analyze) {
                 request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
             }

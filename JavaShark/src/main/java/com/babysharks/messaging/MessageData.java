@@ -48,6 +48,7 @@ public class MessageData {
     private ErrorType errorType;
     private String errorMessage;
     private BuildingChangeIncident[] incidents;
+    private String png;
 
     /**
      * @return the weOwn
@@ -213,7 +214,14 @@ public class MessageData {
         this.url = url;
         return this;
     }
-
+    /**
+     * @param url the url to set
+     * @return reference to this object
+     */
+    public MessageData setPng(String png) {
+        this.png = png;
+        return this;
+    }
     /**
      * @return the gang
      */
