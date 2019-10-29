@@ -30,6 +30,9 @@ public class AnalyzeScreenshotHandler extends AbstractPapaHandler {
     public void handle(HttpExchange t) throws IOException {
         String screenshotURL = request.getData().getUrl();
         String filename = screenshotURL.substring(screenshotURL.lastIndexOf("/"));
+        if (new File(ScreenshotHandler.OUTPUT + File.separator +  filename.replaceAll(".jpg", ".png")).exists()){
+            filename=filename.replaceAll(".jpg", ".png");
+        }
         File screenshotFile = new File(ScreenshotHandler.OUTPUT + File.separator + filename);
         if (!screenshotFile.exists()) {
             request.getData().setErrorType(INVALIDFILE);
