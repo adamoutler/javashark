@@ -21,12 +21,14 @@ import java.util.logging.Logger;
 public class WatchTask extends Task {
 
     public WatchTask() {
+        
         System.out.println("Sentry Watch Task initialized!");
     }
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         try {
+            vm.clearTasks();
             FastBuildingOwnershipDetector.wipeBuildingData(vm);
             vm.getTaskData().setNullCount(0);
             vm.getTaskData().previous = FastBuildingOwnershipDetector.scan(vm.screenshot());
