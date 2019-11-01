@@ -28,7 +28,7 @@ public class WatchTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         try {
-            vm.clearTasks();
+            vm.getTaskData().clearBuildingData();
             FastBuildingOwnershipDetector.wipeBuildingData(vm);
             vm.getTaskData().setNullCount(0);
             vm.getTaskData().previous = FastBuildingOwnershipDetector.scan(vm.screenshot());

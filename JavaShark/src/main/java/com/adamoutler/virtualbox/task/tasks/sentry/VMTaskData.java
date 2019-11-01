@@ -56,8 +56,7 @@ public class VMTaskData {
         building4PreviousPercentOurCars = null;
         building5PreviousPercentOurCars = null;
         building6PreviousPercentOurCars = null;
-        previous=null;
-        current=null;
+      
     }
 
     /**
