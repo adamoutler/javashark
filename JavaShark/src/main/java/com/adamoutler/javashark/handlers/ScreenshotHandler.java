@@ -57,6 +57,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
             System.out.println(this.gang + " " + this.username + " requested machine is powered off.");
             vm = null;
+
             // for each machine in the gang
             for (VirtualBoxMachine thisVm : TaskManager.getGangMachines(gang)) {
                 //check if the machine is powered on
@@ -65,8 +66,12 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
                     System.out.println(" selecting " + thisVm.getVMName());
                     vm = thisVm;
                     safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() ;
-
-                    break;
+                    ScreenData sd=vm.getScreen();
+                    
+                    //stop searching if we have a city kings match. 
+                    if (sd.equals(ScreenData.CITYKINGS)){
+                        break;
+                    }
                 }
             }
         }
