@@ -269,7 +269,7 @@ public class FastBuildingOwnershipDetector {
     }
 
     @SuppressWarnings("UseSpecificCatch")
-    final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc) {
+    final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc, boolean calibration) {
         ArrayList<BuildingChangeIncident> incidents = new ArrayList<>();
         String username = vm.getUsername();
         String gang = vm.getGang();
@@ -315,7 +315,7 @@ public class FastBuildingOwnershipDetector {
             vm.getTaskData().building6PercentOurCars = bar6;
         } catch (Exception ex) {
         }
-        if (incidents.size() > 0) {
+        if (!calibration && incidents.size() > 0) {
             sendPapaIncidentMessage(incidents, username, gang);
         }
     }
@@ -409,7 +409,7 @@ public class FastBuildingOwnershipDetector {
                 vm.getTaskData().lastValidScreenshot = screenshot;
             }
             try {
-                lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot));
+                lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot),false);
             } catch (NullPointerException ex) {
                 Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
 

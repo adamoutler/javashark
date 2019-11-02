@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
 public class WatchTask extends Task {
 
     public WatchTask() {
-        
+
         System.out.println("Sentry Watch Task initialized!");
     }
 
@@ -32,9 +33,14 @@ public class WatchTask extends Task {
             FastBuildingOwnershipDetector.wipeBuildingData(vm);
             vm.getTaskData().setNullCount(0);
             vm.getTaskData().previous = FastBuildingOwnershipDetector.scan(vm.screenshot());
+            PicColors pc = new PicColors(vm.screenshot());
+            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
+            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
+            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
             ready(vm);
             turnOffOtherSentries(vm);
             PapaAsync.sentryReasonWarning(vm, "monitoring");
+
         } catch (Exception ex) {
             Logger.getLogger(WatchTask.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,7 +63,7 @@ public class WatchTask extends Task {
 
     @Override
     synchronized public void runTask(VirtualBoxMachine vm) {
-         FastBuildingOwnershipDetector.run(vm);
+        FastBuildingOwnershipDetector.run(vm);
     }
 
     @Override
