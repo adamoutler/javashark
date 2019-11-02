@@ -387,6 +387,10 @@ public class FastBuildingOwnershipDetector {
             vm.getTaskData().current = scan(screenshot);
             if (vm.getTaskData().previous == null) {
                 vm.getTaskData().previous = new OwnedBy[]{THEM, THEM, THEM, THEM, THEM, THEM};
+                PicColors pc=new PicColors(screenshot);
+                FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
+                FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
+                FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
             }
             if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
                 System.out.println(vm.getUsername() + ": Null detected!!!!!!");
@@ -409,7 +413,7 @@ public class FastBuildingOwnershipDetector {
                 vm.getTaskData().lastValidScreenshot = screenshot;
             }
             try {
-                lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot),false);
+                lostBuffDetection(vm, new PicColors(vm.getTaskData().lastValidScreenshot), false);
             } catch (NullPointerException ex) {
                 Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
 

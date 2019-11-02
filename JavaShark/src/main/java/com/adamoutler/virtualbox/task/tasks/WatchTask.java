@@ -33,10 +33,6 @@ public class WatchTask extends Task {
             FastBuildingOwnershipDetector.wipeBuildingData(vm);
             vm.getTaskData().setNullCount(0);
             vm.getTaskData().previous = FastBuildingOwnershipDetector.scan(vm.screenshot());
-            PicColors pc = new PicColors(vm.screenshot());
-            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
-            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
-            FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
             ready(vm);
             turnOffOtherSentries(vm);
             PapaAsync.sentryReasonWarning(vm, "monitoring");
