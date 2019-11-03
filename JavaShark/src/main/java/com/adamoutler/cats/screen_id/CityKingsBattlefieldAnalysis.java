@@ -73,7 +73,7 @@ public class CityKingsBattlefieldAnalysis {
                 .setCharset("0123456789hms")
                 .crop(CityKingsBattlefieldAnalysis.TIMEREMAININGCOORDS)
                 .setMode(TesseractBuilder.Mode.SINGLELLINE).resize(9, 5)
-                .invert().greyScale()
+                .invert().resize(3,2).greyScale()
                 .brightenImage().brightenImage().brightenImage().brightenImage();
         String rawTime = tb.execute();
         tb.writePicture(rawTime);
@@ -89,7 +89,7 @@ public class CityKingsBattlefieldAnalysis {
 
     PicCoords getCoordinatesOurGaining() {
         XYCoords leftSide = getLeftSideOfOurGainingScore();
-        int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{BLUE}, leftSide.getX(), leftSide.getY(), xCoordOfOurScoreWall, 10);
+        int endOfGainingScore = picColors.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{BLUE}, leftSide.getX(), leftSide.getY(), xCoordOfOurScoreWall, 15);
         int width = endOfGainingScore - leftSide.getX();
         ourGainingCoords = new PicCoords(leftSide.getX(), leftSide.getY(), width, scoreHeight);
         return (ourGainingCoords.getW() < 1 || ourGainingCoords.getW() > 100) ? null : ourGainingCoords;

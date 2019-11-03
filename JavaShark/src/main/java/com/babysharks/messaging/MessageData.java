@@ -215,7 +215,7 @@ public class MessageData {
         return this;
     }
     /**
-     * @param url the url to set
+     * @param png picture to add for png output.
      * @return reference to this object
      */
     public MessageData setPng(String png) {

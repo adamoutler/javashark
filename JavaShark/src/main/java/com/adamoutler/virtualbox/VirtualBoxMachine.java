@@ -14,7 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -85,12 +87,31 @@ public class VirtualBoxMachine extends TaskedMachine {
         }
 
     }
+    transient List<BufferedImage> images = null;
+
+    public void DEBUGaddImages(BufferedImage... image) {
+        if (images==null){
+            images=new LinkedList<>();
+        }
+        Collections.addAll(images, image);
+    }
+
+    public void DEBUGclearImages() {
+        images = null;
+    }
 
     public BufferedImage screenshot() {
-        try {
-            return VirtualBoxScreenShot.getScreenshot(this);
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
+        if (images == null) {
+            try {
+                return VirtualBoxScreenShot.getScreenshot(this);
+            } catch (IOException | InterruptedException ex) {
+                Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            BufferedImage bi = images.get(0);
+            Collections.rotate(images, -1);
+            return bi;
+
         }
         return null;
     }
@@ -303,20 +324,6 @@ public class VirtualBoxMachine extends TaskedMachine {
     public void updateStatuses() {
         this.getScreen();
 
-    }
-
-    /**
-     * @return the screenshot
-     */
-    synchronized public byte[] getLastScreenshot() {
-        return screenshot;
-    }
-
-    /**
-     * @param screenshot the screenshot to set
-     */
-    synchronized public void setScreenshot(byte[] screenshot) {
-        this.screenshot = screenshot;
     }
 
     /**

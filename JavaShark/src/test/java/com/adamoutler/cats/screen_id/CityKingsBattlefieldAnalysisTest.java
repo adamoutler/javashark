@@ -194,6 +194,20 @@ public class CityKingsBattlefieldAnalysisTest {
             File test;
             BufferedImage bbi;
             CityKingsBattlefieldAnalysis minstance;
+            test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.3.png");
+            bbi = ImageIO.read(test);
+            minstance = new CityKingsBattlefieldAnalysis(bbi);
+            assertEquals("116", minstance.getOurGainingScore());
+            assertEquals("49098", minstance.getOurCurrentScore());
+            assertEquals("14", minstance.getHours());
+            assertEquals("34", minstance.getMinutes());
+            assertEquals("112000", minstance.getIVScore());
+            assertEquals("2582", minstance.getTheirCurrentScore());
+            assertEquals("0", minstance.getTheirGainingScore());
+
+            
+            
+            
             test = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.2.png");
             bbi = ImageIO.read(test);
             minstance = new CityKingsBattlefieldAnalysis(bbi);
@@ -204,9 +218,14 @@ public class CityKingsBattlefieldAnalysisTest {
             assertEquals("140000", minstance.getIVScore());
             assertEquals("89060", minstance.getTheirCurrentScore());
             assertEquals("64", minstance.getTheirGainingScore());
+            
+
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(CityKingsBattlefieldAnalysisTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
 
     }
 
