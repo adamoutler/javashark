@@ -22,6 +22,8 @@ public enum ErrorType {
     COULDNOTFINDREQUESTEDUSERINRECORDS("While searching for last cars, i could not find the user"),
     UNRECOGNIZEDSCREEN("I could not identify the screen"),
     INVALIDFILE("I tried to send a file, but no file exists"),
+    
+    WRONGSCREEN("The requested action could not be completed because the sentry is on the wrong screen."),
     WHATEVER("Because F you, that's why. Check the logs if you wanna know.");
 
     String message;

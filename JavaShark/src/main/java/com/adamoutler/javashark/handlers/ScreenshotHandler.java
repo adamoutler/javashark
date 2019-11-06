@@ -9,6 +9,7 @@ import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
+import com.babysharks.messaging.ErrorType;
 import static com.babysharks.messaging.ErrorType.NOSENTRIESACTIVE;
 import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
@@ -65,11 +66,11 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
 
                     System.out.println(" selecting " + thisVm.getVMName());
                     vm = thisVm;
-                    safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString() ;
-                    ScreenData sd=vm.getScreen();
-                    
+                    safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getVMName().toLowerCase() + "-") + UUID.randomUUID().toString();
+                    ScreenData sd = vm.getScreen();
+
                     //stop searching if we have a city kings match. 
-                    if (sd.equals(ScreenData.CITYKINGS)){
+                    if (sd.equals(ScreenData.CITYKINGS)) {
                         break;
                     }
                 }
@@ -83,7 +84,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             request.getData().setUrl(null);
             request.getData().setErrorType(NOSENTRIESACTIVE);
 
-            this.sendArbitrary( t, request);
+            this.sendArbitrary(t, request);
             return;
         } else {
             image = vm.screenshot();
@@ -91,9 +92,13 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             ImageIO.write(image, "PNG", outputFile);
             ImageIO.write(image, "JPG", outputFilejpg);
 
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName+".jpg").setPng("https://javashark.baby-sharks.com/screenshots/" + safeName+".png").setResultObject(sd).setReason(vm.getUsername());
+            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + ".jpg").setPng("https://javashark.baby-sharks.com/screenshots/" + safeName + ".png").setResultObject(sd).setReason(vm.getUsername());
             if (analyze) {
-                request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
+                if (!sd.equals(ScreenData.CITYKINGS)) {
+                    request.getData().setErrorType(ErrorType.WRONGSCREEN);
+                } else {
+                    request.getData().setResultObject(new CityKingsBattlefieldAnalysis(image));
+                }
             }
         }
 
