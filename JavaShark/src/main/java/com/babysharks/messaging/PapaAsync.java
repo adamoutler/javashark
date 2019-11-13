@@ -148,7 +148,8 @@ public class PapaAsync {
             try {
                 gang = hm.getMessage().getData().getAvailable().get(0).getGang();
             } catch (Exception exx) {
-            Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+                gang = "none";
+            //Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
 
             }
         }
