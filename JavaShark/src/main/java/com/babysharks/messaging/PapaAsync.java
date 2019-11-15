@@ -8,6 +8,7 @@ package com.babysharks.messaging;
 import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import java.awt.image.BufferedImage;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -63,16 +64,15 @@ public class PapaAsync {
 
     public static void enlistWarning(VirtualBoxMachine vm, String reason) {
         HashedMessage hm = null;
-        
-            hm = new HashedMessage(getM(vm).setCommand("enlist")
-                    .setData(getData(vm).setReason(reason)));
-        
+
+        hm = new HashedMessage(getM(vm).setCommand("enlist")
+                .setData(getData(vm).setReason(reason)));
 
         String s = send(hm);
         System.out.println(s);
 
     }
-    
+
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
         HashedMessage hm = null;
         if (System.currentTimeMillis() > time + 10000) {
@@ -99,6 +99,16 @@ public class PapaAsync {
 
     public static void sendToAdam(Message m) {
         m.setCommand("adam").setData(m.getData());
+        HashedMessage hm = new HashedMessage(m);
+        String s = send(hm);
+        System.out.println(s);
+
+    }
+
+    public static void sendURLToAdam(String url) {
+        Message m = new Message();
+        m.setCommand("adam").setData(m.getData());
+        m.getData().setUrl(url);
         HashedMessage hm = new HashedMessage(m);
         String s = send(hm);
         System.out.println(s);
@@ -149,7 +159,7 @@ public class PapaAsync {
                 gang = hm.getMessage().getData().getAvailable().get(0).getGang();
             } catch (Exception exx) {
                 gang = "none";
-            //Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
 
             }
         }

@@ -10,6 +10,7 @@ import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -76,17 +77,38 @@ public class VirtualBoxMachine extends TaskedMachine {
         this.getVMName();
     }
 
-    public void logUnidentifiedScreen(String name) {
+    public File logUnidentifiedScreen(String name) {
         try {
             String filename = System.getProperty("java.io.tmpdir") + "/" + name + System.currentTimeMillis() + ".png";
             System.out.println("Could not identify screen!  Wrote \"" + filename + "\" screen to logs");
-            FileOutputStream fos = new FileOutputStream(filename);
+            File f=new File(filename);
+            FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
+            return f;
+            
         } catch (IOException ex) {
             Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
 
     }
+    
+     public String writeScreenToWebServer(String name) {
+        try {
+            String filename = "/var/www/baby-sharks/screenshots/" + name + System.currentTimeMillis() + ".png";
+            System.out.println("Could not identify screen!  Wrote \"" + filename + "\" screen to logs");
+            File f=new File(filename);
+            FileOutputStream fos = new FileOutputStream(f);
+            ImageIO.write(screenshot(), "PNG", fos);
+            return "https://javashark.baby-sharks.com/screenshots/"+filename;
+            
+        } catch (IOException ex) {
+            Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
+    
     transient List<BufferedImage> images = null;
 
     public void DEBUGaddImages(BufferedImage... image) {

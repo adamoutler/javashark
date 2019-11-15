@@ -16,6 +16,8 @@ import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
+import com.adamoutler.virtualbox.VirtualBox;
+import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType;
@@ -408,6 +410,10 @@ public class FastBuildingOwnershipDetector {
                         sendFinalResults(vm, lastScreenshot);
                     }
                     PapaAsync.sentryReasonWarning(vm, "blind");
+                    boolean debug=true;
+                    if (debug){
+                        PapaAsync.sendURLToAdam(vm.writeScreenToWebServer("blind"));
+                    }
 
                 }
                 return;
