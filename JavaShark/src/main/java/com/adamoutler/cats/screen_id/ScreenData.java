@@ -52,7 +52,7 @@ public enum ScreenData {
     //    CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 782978378), new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
     CITYKINGSVICTORY(new HashedPicCoords[]{new HashedPicCoords(416, 130, 219, 81, 565959893), new HashedPicCoords(416, 130, 219, 81, -1607526986)}, new ColoredXYCoords[]{}, "City Kings, Victory Screen"),
     CITYKINGSDEFEAT(new HashedPicCoords[]{new HashedPicCoords(416, 114, 206, 82, -907069408)}, new ColoredXYCoords[]{}, ""),
-    EXITSCREEN(new HashedPicCoords[]{new HashedPicCoords(387, 576, 238, 43, -1543274817)}, new ColoredXYCoords[]{}, "Are you sure you want to quit?"),
+    EXITSCREEN(new HashedPicCoords[]{new HashedPicCoords(387,576,238,43,-832408437),new HashedPicCoords(387, 576, 238, 43, -1543274817)}, new ColoredXYCoords[]{}, "Are you sure you want to quit?"),
     FRIENDS(new HashedPicCoords[]{new HashedPicCoords(843, 44, 144, 15, -117038954), new HashedPicCoords(843, 44, 144, 15, 167789077)}, new ColoredXYCoords[]{}, "Gang Friends screen"),
     GANGFIGHTS(new HashedPicCoords[]{new HashedPicCoords(826, 698, 81, 37, -367153812)}, new ColoredXYCoords[]{}, "Gang Fights, ready for action screen"),
     GANGFIGHTSBATTLESCREEN(new HashedPicCoords[]{new HashedPicCoords(387, 576, 238, 43, 313145442)}, new ColoredXYCoords[]{}, "Gang Fights, battle screen"),
