@@ -95,9 +95,9 @@ public class VirtualBoxMachine extends TaskedMachine {
     
      public String writeScreenToWebServer(String name) {
         try {
-            String filename = "/var/www/baby-sharks/screenshots/" + name + System.currentTimeMillis() + ".png";
-            System.out.println("Could not identify screen!  Wrote \"" + filename + "\" screen to logs");
-            File f=new File(filename);
+            String filename =  name + System.currentTimeMillis() + ".png";
+            System.out.println("Could not identify screen!  Wrote \"/var/www/baby-sharks/screenshots/" + filename + "\" screen to logs");
+            File f=new File("/var/www/baby-sharks/screenshots/"+filename);
             FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
             return "https://javashark.baby-sharks.com/screenshots/"+filename;

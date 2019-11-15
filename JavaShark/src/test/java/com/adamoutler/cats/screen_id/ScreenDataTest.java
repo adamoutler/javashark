@@ -66,6 +66,9 @@ public class ScreenDataTest {
                 BufferedImage bi = ImageIO.read(f);
                 String id = f.getName().split("\\.", 2)[0];
                 ScreenData expResult = ScreenData.valueOf(id);
+                if (expResult.equals(ScreenData.EXITSCREEN)){
+                    System.out.println("exitscreen");
+                }
                 ScreenData result = ScreenData.identifyScreen(bi);
                 if (expResult.getHashes().length > 0) {
                     HashedPicCoords hpc = expResult.getHashes()[0];

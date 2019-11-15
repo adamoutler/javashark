@@ -77,7 +77,7 @@ public class PapaAsync {
         HashedMessage hm = null;
         if (System.currentTimeMillis() > time + 10000) {
             hm = new HashedMessage(getM(vm).setCommand("sentry")
-                    .setData(getData(vm).setReason(reason)));
+                    .setData(getData(vm).setReason(reason).setUrl(vm.writeScreenToWebServer(reason))));
         } else {
             hm = new HashedMessage(getM(vm).setCommand("resumesentry")
                     .setData(getData(vm).setReason(reason)));
