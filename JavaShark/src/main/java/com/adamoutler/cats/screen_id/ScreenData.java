@@ -79,7 +79,7 @@ public enum ScreenData {
     //    OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 577, 173, 47, -1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button"),
 
     UNRESPONSIVE(new HashedPicCoords[]{}, new ColoredXYCoords[]{}, "The machine did not return a screenshot"),
-    WHATCANYOUDOTODAY(new HashedPicCoords[]{new HashedPicCoords(324, 149, 56, 52, 1559680746)}, new ColoredXYCoords[]{}, "what do you want to do today"),
+    WHATCANYOUDOTODAY(new HashedPicCoords[]{new HashedPicCoords(324,149,56,52,-1491380670)}, new ColoredXYCoords[]{}, "what do you want to do today"),
     STORE(new HashedPicCoords[]{new HashedPicCoords(11, 695, 41, 48, 1553001173)}, new ColoredXYCoords[]{}, "Zepto Lab Store screen");
 
     /**
