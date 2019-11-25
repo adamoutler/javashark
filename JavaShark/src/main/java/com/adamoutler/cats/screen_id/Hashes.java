@@ -6,10 +6,14 @@
 package com.adamoutler.cats.screen_id;
 
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -21,51 +25,9 @@ import java.util.logging.Logger;
  */
 public class Hashes {
 
-    static {
+    final public static Properties PROPERTIES = new Properties();
+    final public static String HASHFILE = "/var/www/baby-sharks/CatsScreenDataHashes.properties";
 
-        try (FileInputStream fis = new FileInputStream(System.getProperty("user.home") + "/CatsScreenDataHashes.properties")) {
-            Properties p = new Properties();
-            p.load(fis);
-            Enumeration<String> properties = (Enumeration<String>) p.propertyNames();
-            while (properties.hasMoreElements()) {
-                String key = properties.nextElement();
-                System.out.println(key);
-                String value = p.getProperty(key);
-                if (value==null||value.isEmpty()) continue;
-                for (Field hashArrays : Hashes.class.getDeclaredFields()) {
-                    if (hashArrays.getName().toUpperCase().equals(key.toUpperCase())) {
-                        ArrayList<HashedPicCoords> al=new ArrayList<>();
-                        String[] values = value.split(",");
-                        if (values.length > 4) {
-                            HashedPicCoords hpc = createHashedPicCoords(values);
-                           al.add(hpc);
-                            
-                            
-                            for (int i = 5; i < values.length; i++) {
-                               al.add(createHashedPicCoords(hpc, values[i]));
-
-                            }
-                        }
-                        if (key.equals("CITYKINGS")){
-                            //System.out.println("foo");
-                        }
-                        hashArrays.set(null, al);
-                        System.out.println("loaded " + key);
-                        continue;
-                    }
-
-                }
-            }
-        } catch (IOException ex) {
-            System.out.println("error loading properties in Hashes!");
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
-       
-        }
-    }
     static ArrayList<HashedPicCoords> unknown;
     static ArrayList<HashedPicCoords> off;
     static ArrayList<HashedPicCoords> blackScreen;
@@ -98,6 +60,50 @@ public class Hashes {
     static ArrayList<HashedPicCoords> unresponsive;
     static ArrayList<HashedPicCoords> whatCanYouDoToday;
     static ArrayList<HashedPicCoords> store;
+    static {
+
+        try (FileInputStream fis = new FileInputStream(HASHFILE)) {
+            PROPERTIES.load(fis);
+            Enumeration<String> properties = (Enumeration<String>) PROPERTIES.propertyNames();
+            while (properties.hasMoreElements()) {
+                String key = properties.nextElement();
+                System.out.println(key);
+                String value = PROPERTIES.getProperty(key);
+                if (value == null || value.isEmpty()) {
+                    continue;
+                }
+                for (Field hashArrays : Hashes.class.getDeclaredFields()) {
+                    if (hashArrays.getName().toUpperCase().equals(key.toUpperCase())) {
+                        ArrayList<HashedPicCoords> al = new ArrayList<>();
+                        String[] values = value.split(",");
+                        if (values.length > 4) {
+                                if (key.equals("BLACKSCREEN")) {
+                            System.out.println("foo");
+                        }
+                            HashedPicCoords hpc = createHashedPicCoords(values);
+                            al.add(hpc);
+
+                            for (int i = 5; i < values.length; i++) {
+                                al.add(createHashedPicCoords(hpc, values[i]));
+
+                            }
+                        }
+                        if (key.equals("BLACKSCREEN")) {
+                            System.out.println("foo");
+                        }
+                        hashArrays.set(null, al);
+                        System.out.println("loaded " + key);
+                    }
+
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("error loading properties in Hashes!");
+            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private static HashedPicCoords createHashedPicCoords(HashedPicCoords hpc, String hash) {
         HashedPicCoords newValues = new HashedPicCoords(hpc.getX(),
@@ -111,8 +117,39 @@ public class Hashes {
         int y = Integer.parseInt(values[1].trim());
         int w = Integer.parseInt(values[2].trim());
         int h = Integer.parseInt(values[3].trim());
-        int hash = Integer.parseInt(values[4].trim());
+        Integer hash; 
+        try {
+        hash = Integer.parseInt(values[4].trim());
+        } catch (NumberFormatException ex){
+           hash=null;
+        }
         return new HashedPicCoords(x, y, w, h, hash);
     }
-}
 
+    public static Properties addProperty(String key, String value) {
+        PROPERTIES.setProperty(key, value);
+        return PROPERTIES;
+    }
+
+    public static Properties writeProperties() {
+        try {
+            makeFileIfNotExists();
+            try (FileOutputStream fos = new FileOutputStream(HASHFILE)) {
+                PROPERTIES.store(fos, new Date().toString());
+                return PROPERTIES;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    private static void makeFileIfNotExists() throws IOException {
+        File f = new File(HASHFILE);
+        if (!f.exists()) {
+            f.getParentFile().mkdirs();
+            f.createNewFile();
+        }
+    }
+
+}

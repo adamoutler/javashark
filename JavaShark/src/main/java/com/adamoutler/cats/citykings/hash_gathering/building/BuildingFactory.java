@@ -76,7 +76,7 @@ public class BuildingFactory {
                         continue;
                     }
                 } else {
-                    System.out.println(vm.getGang() + " " + vm.getUsername() + " " + ckb.getBuildingNumber() + " Unscouted hash:" + ScreenData.CITYKINGSBUILDINGNOSCOUT.getHashes()[0].getHash(ss) + " ParkedCar hash:" + ScreenData.PARKEDCAR.getHashes()[0].getHash(ss));
+                    System.out.println(vm.getGang() + " " + vm.getUsername() + " " + ckb.getBuildingNumber() + " Unscouted hash:" + ScreenData.CITYKINGSBUILDINGNOSCOUT.getHashes().get(0).getImageHash(ss) + " ParkedCar hash:" + ScreenData.PARKEDCAR.getHashes().get(0).getImageHash(ss));
 
                     if (!sd.equals(ScreenData.CITYKINGSBUILDINGATTACK)) {
                         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN)) {

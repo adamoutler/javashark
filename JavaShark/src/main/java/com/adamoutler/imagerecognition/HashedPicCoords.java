@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 public class HashedPicCoords extends PicCoords {
 
-    int hash;
+    Integer hash;
 
     private static boolean debug = false;
 
@@ -22,12 +22,12 @@ public class HashedPicCoords extends PicCoords {
         super(x, y, w, h);
     }
 
-    public HashedPicCoords(int x, int y, int w, int h, int hash) {
+    public HashedPicCoords(int x, int y, int w, int h, Integer hash) {
         super(x, y, w, h);
         this.hash = hash;
     }
 
-    public int getHash(BufferedImage image) {
+    public int getImageHash(BufferedImage image) {
         BufferedImage bi = image.getSubimage(x, y, getW(), getH());
         byte[] bytes = ByteImage.getPngBytes(bi);
         int imageHash = Arrays.hashCode(bytes);
@@ -37,9 +37,14 @@ public class HashedPicCoords extends PicCoords {
         }
         return imageHash;
     }
+    
+    public Integer getHash(){
+        return hash;
+    }
 
     public boolean hashMatches(BufferedImage image) {
-        int testhash = getHash(image);
+        int testhash = getImageHash(image);
+        if (hash==null) return false;
         return testhash == hash;
     }
 
@@ -60,6 +65,18 @@ public class HashedPicCoords extends PicCoords {
     public String toString() {
         return super.toString() + "," + hash;
 
+    }
+    
+    public HashedPicCoords clone(int newHash) throws CloneNotSupportedException{
+        super.clone();
+        HashedPicCoords hpc=new HashedPicCoords(x,y,this.getW(),getH(),newHash);
+        return hpc;
+    }
+    
+    public HashedPicCoords clone() throws CloneNotSupportedException{
+        super.clone();
+        HashedPicCoords hpc=new HashedPicCoords(x,y,this.getW(),getH(),hash);
+        return hpc;
     }
 
 }

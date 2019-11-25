@@ -141,7 +141,7 @@ public class Car {
             unscoutted = true;
             System.out.println("Parked Car detected");
         }
-        System.out.print("ParkedCarCoordinatesHash: " + ScreenData.PARKEDCAR.getHashes()[0].getHash(bi));
+        System.out.print("ParkedCarCoordinatesHash: " + ScreenData.PARKEDCAR.getHashes().get(0).getImageHash(bi));
         if (ScreenData.PARKEDCAR.matchesHashes(bi)) {
             parked = true;
         }
