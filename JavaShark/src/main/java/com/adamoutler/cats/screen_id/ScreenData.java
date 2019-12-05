@@ -176,11 +176,11 @@ public enum ScreenData {
                             return screen;
                         }
                     } catch (java.awt.image.RasterFormatException ex) {
-                        
+
                     }
                 }
             }
-           
+
         }
         return returnValue;
     }
@@ -223,7 +223,12 @@ public enum ScreenData {
 
     public boolean deleteHash(BufferedImage bi) {
         HashedPicCoords hpc = getNewHash(bi);
-        return getHashes().remove(hpc);
+        boolean result = getHashes().remove(hpc);
+        if (result && getHashes().size()>0) {
+            Hashes.writeProperties();
+        }
+        return result;
+
     }
 
     public HashedPicCoords addNewHash(BufferedImage bi, boolean deleteAll) {
@@ -233,6 +238,7 @@ public enum ScreenData {
         }
         if (!getHashes().contains(hpc)) {
             this.getHashes().add(hpc);
+            Hashes.writeProperties();
         }
         return hpc;
     }

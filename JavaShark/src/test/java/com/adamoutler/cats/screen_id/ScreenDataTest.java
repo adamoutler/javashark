@@ -185,9 +185,8 @@ public class ScreenDataTest {
             ScreenData instance = ScreenData.BLACKSCREEN;
             String expResult = "";
             String result = instance.getHashesPropertyEntry(bi);
-            assertEquals(expResult, result);
-            // TODO review the generated test code and remove the default call to fail.
-            fail("The test case is a prototype.");
+            assert(result.contains(id.getFirstCoordsItem().getHash()+""));
+
         } catch (IOException ex) {
             Logger.getLogger(ScreenDataTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -199,54 +198,18 @@ public class ScreenDataTest {
     @Test
     public void testGetHashesPropertyEntry_0args() {
         System.out.println("getHashesPropertyEntry");
-        ScreenData instance = null;
-        String expResult = "";
+        ScreenData instance = ScreenData.BLACKSCREEN;
+        
         String result = instance.getHashesPropertyEntry();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assert (result.length()>8);
+
     }
 
-    /**
-     * Test of identifyScreen method, of class ScreenData.
-     */
-    @Test
-    public void testIdentifyScreen_VirtualBoxMachine() {
-        System.out.println("identifyScreen");
-        VirtualBoxMachine vm = null;
-        ScreenData expResult = null;
-        ScreenData result = ScreenData.identifyScreen(vm);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+   
 
-    /**
-     * Test of identifyScreen method, of class ScreenData.
-     */
-    @Test
-    public void testIdentifyScreen_BufferedImage() {
-        System.out.println("identifyScreen");
-        BufferedImage bi = null;
-        ScreenData expResult = null;
-        ScreenData result = ScreenData.identifyScreen(bi);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+  
 
-    /**
-     * Test of clearHashes method, of class ScreenData.
-     */
-    @Test
-    public void testClearHashes() {
-        System.out.println("clearHashes");
-        ScreenData item = null;
-        ScreenData.clearHashes(item);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+   
     /**
      * Test of addHash method, of class ScreenData.
      */
@@ -268,12 +231,11 @@ public class ScreenDataTest {
     @Test
     public void testGetFirstCoordsItem() {
         System.out.println("getFirstCoordsItem");
-        ScreenData instance = null;
-        HashedPicCoords expResult = null;
+        ScreenData instance = ScreenData.BLACKSCREEN;
+        HashedPicCoords expResult = instance.getFirstCoordsItem();
         HashedPicCoords result = instance.getFirstCoordsItem();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -281,87 +243,19 @@ public class ScreenDataTest {
      */
     @Test
     public void testDeleteHash() {
-        System.out.println("deleteHash");
-        BufferedImage bi = null;
-        ScreenData instance = null;
-        boolean expResult = false;
-        boolean result = instance.deleteHash(bi);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("deleteHash");
+            BufferedImage bi = ImageIO.read(files[0]);
+            ScreenData instance = ScreenData.BLACKSCREEN;
+            boolean expResult = true;
+            boolean result = instance.deleteHash(bi);
+            assertEquals(expResult, result);
+            System.out.println(ScreenData.BLACKSCREEN.getHashesPropertyEntry());
+            ScreenData.addHash(instance, ScreenData.getNewHash(ScreenData.BLACKSCREEN, bi));
+            System.out.println(ScreenData.BLACKSCREEN.getHashesPropertyEntry());
+        } catch (IOException ex) {
+            Logger.getLogger(ScreenDataTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * Test of addNewHash method, of class ScreenData.
-     */
-    @Test
-    public void testAddNewHash() {
-        System.out.println("addNewHash");
-        BufferedImage bi = null;
-        boolean deleteAll = false;
-        ScreenData instance = null;
-        HashedPicCoords expResult = null;
-        HashedPicCoords result = instance.addNewHash(bi, deleteAll);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getNewHash method, of class ScreenData.
-     */
-    @Test
-    public void testGetNewHash_BufferedImage() {
-        System.out.println("getNewHash");
-        BufferedImage bi = null;
-        ScreenData instance = null;
-        HashedPicCoords expResult = null;
-        HashedPicCoords result = instance.getNewHash(bi);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getNewHash method, of class ScreenData.
-     */
-    @Test
-    public void testGetNewHash_ScreenData_BufferedImage() {
-        System.out.println("getNewHash");
-        ScreenData item = null;
-        BufferedImage bi = null;
-        int expResult = 0;
-        int result = ScreenData.getNewHash(item, bi);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cloneFirstItem method, of class ScreenData.
-     */
-    @Test
-    public void testCloneFirstItem() throws Exception {
-        System.out.println("cloneFirstItem");
-        ScreenData item = null;
-        int hash = 0;
-        HashedPicCoords expResult = null;
-        HashedPicCoords result = ScreenData.cloneFirstItem(item, hash);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toProperties method, of class ScreenData.
-     */
-    @Test
-    public void testToProperties() {
-        System.out.println("toProperties");
-        String expResult = "";
-        String result = ScreenData.toProperties();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }
