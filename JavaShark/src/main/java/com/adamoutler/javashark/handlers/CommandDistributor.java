@@ -38,8 +38,13 @@ public class CommandDistributor implements HttpHandler {
                 AbstractPapaHandler aph = entryPair.getValue();
                 aph.setMessage(m);
                 handleCommand(aph, t);
+                return;
             }
         }
+        m.getData().setReason(m.getCommand()+" is invalid").setComment("JavaShark had a big bowl of IDGAF for breakfast.");
+        m.setCommand("INVALID");
+        t.getResponseBody().write(m.toJson().getBytes("UTF-8"));
+        t.close();
     }
 
     private void handleCommand(AbstractPapaHandler aph, HttpExchange t) {

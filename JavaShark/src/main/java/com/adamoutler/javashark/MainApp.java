@@ -9,6 +9,7 @@ import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
 import com.adamoutler.javashark.handlers.BattlefieldScan;
 import com.adamoutler.javashark.handlers.CommandDistributor;
+import com.adamoutler.javashark.handlers.HashHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.LastCarSearchHandler;
 import com.adamoutler.javashark.handlers.MyCarsHandler;
@@ -106,8 +107,11 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("updatecats", new UpdateHandler());
         commandDistributor.register("whoauthorizedthis", new AuthorizedHandler());
         commandDistributor.register("analyzescreen", new AnalyzeScreenshotHandler());
-        commandDistributor.register("battlefieldscan", new BattlefieldScan());
-
+        commandDistributor.register("calibrate", new HashHandler());
+        commandDistributor.register("hashdelete", new HashHandler());
+        commandDistributor.register("hashReload", new HashHandler());
+        commandDistributor.register("listcalibrations", new HashHandler());
+        
         commandDistributor.register("mycars", new MyCarsHandler());
         commandDistributor.register("lastcars", new LastCarSearchHandler());
 

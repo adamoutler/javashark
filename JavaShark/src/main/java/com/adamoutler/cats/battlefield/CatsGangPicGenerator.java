@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.battlefield;
 
+import com.adamoutler.Prop;
 import com.adamoutler.cats.battlefield.building.car.Car;
 import com.adamoutler.cats.screen_id.BattlefieldFactoryOcr;
 import com.adamoutler.imagerecognition.ByteImage;
@@ -47,7 +48,7 @@ public class CatsGangPicGenerator {
         battlefields.add(battlefield);
 
         try {
-            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(battlefield.getOcrName(), "/var/www/baby-sharks/excel/", new Date());
+            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(battlefield.getOcrName(), Prop.getProp("reports"), new Date());
             if (records != null) {
                 Gson gson = new GsonBuilder().create();
                 for (File record : records) {

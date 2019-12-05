@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
+import com.adamoutler.Prop;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -59,7 +60,7 @@ public class ReportFactoryTest {
     public void testGetRepoFolder() {
         System.out.println("getRepoFolder");
         ReportFactory instance = new ReportFactory();
-        String expResult = "/var/www/baby-sharks/excel/";
+        String expResult = Prop.getProp("reports");
         String result = instance.getRepoFolder();
         assertEquals(expResult, result);
 

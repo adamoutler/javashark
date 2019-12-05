@@ -6,6 +6,7 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
+import com.adamoutler.Prop;
 import com.adamoutler.cats.citykings.hash_gathering.building.BuildingFactory;
 import com.adamoutler.cats.citykings.hash_gathering.building.CityKingsBuildingRaw;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw;
@@ -94,7 +95,7 @@ public class CityKingsMatchRaw {
                 });
                 boardScreenshot = building.getMapScreenshot();
             });
-            String OUTPUT = "/var/www/baby-sharks/screenshots/";
+            String OUTPUT = Prop.getProp("screenshots");
             Gang newGang = new Gang(gang.get_Gang_Name());
             System.out.println("adding gangsters");
             for (Gangster g : gang.getGangsters()) {
@@ -116,7 +117,7 @@ public class CityKingsMatchRaw {
 
             String filename = System.currentTimeMillis() + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString();
             this.excelFile = writeToWebServer(filename);
-            writeLocalJsonFile("/var/www/baby-sharks/excel/" + filename);
+            writeLocalJsonFile(Prop.getProp("reports") + filename);
 
             return this;
         } catch (IOException ex) {
@@ -144,7 +145,7 @@ public class CityKingsMatchRaw {
     }
 
     private String writeToWebServer(String outputUUID) throws IOException {
-        String outputFolder = "/var/www/baby-sharks/excel/";
+        String outputFolder = Prop.getProp("reports");
         File folder = new File(outputFolder);
         if (!folder.exists()) {
             folder.mkdirs();

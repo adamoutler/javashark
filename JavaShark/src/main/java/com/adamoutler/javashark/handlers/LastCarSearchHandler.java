@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark.handlers;
 
+import com.adamoutler.Prop;
 import com.adamoutler.records_search.SearchException;
 import com.adamoutler.records_search.search_assemblers.HistoricalImageSearch;
 import static com.babysharks.messaging.ErrorType.COULDNOTFINDMATCHINGRECORDS;
@@ -29,14 +30,14 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
 
         String hash = request.getData().getHashes().entrySet().iterator().next().getKey();
         try {
-            BufferedImage bi = HistoricalImageSearch.getLastCars(hash, "/var/www/baby-sharks/excel", request.getData().getGang());
+            BufferedImage bi = HistoricalImageSearch.getLastCars(hash, Prop.getProp("reports"), request.getData().getGang());
             if (bi.getWidth() == 1) {
                 request.getData().setErrorType(COULDNOTFINDREQUESTEDUSERINRECORDS);
 
                 this.sendArbitrary( he, request);
             }
 
-            String outputFolder = "/var/www/baby-sharks/screenshots/";
+            String outputFolder = Prop.getProp("screenshots");
             String safeName = "LastCars-" + request.getData().getGang() + "-"
                     + request.getData().getUsername()
                             .replaceAll("[^a-zA-Z0-9]", "")

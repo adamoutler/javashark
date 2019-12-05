@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.screen_id;
 
+import com.adamoutler.Prop;
 import com.adamoutler.imagerecognition.HashedPicCoords;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
 public class Hashes {
 
     final public static Properties PROPERTIES = new Properties();
-    final public static String HASHFILE = "/var/www/baby-sharks/CatsScreenDataHashes.properties";
+    final public static String HASHFILE = Prop.getProp("hashfile");
 
     static ArrayList<HashedPicCoords> unknown;
     static ArrayList<HashedPicCoords> off;

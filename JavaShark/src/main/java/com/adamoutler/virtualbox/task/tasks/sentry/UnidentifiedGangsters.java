@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks.sentry;
 
+import com.adamoutler.Prop;
 import com.adamoutler.cats.battlefield.Battlefield;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.datastructures.Gang;
@@ -54,7 +55,7 @@ public class UnidentifiedGangsters {
                 }
             });
         });
-        String OUTPUT = "/var/www/baby-sharks/screenshots/";
+        String OUTPUT = Prop.getProp("screenshots");
         Gang newGang = new Gang(gang.get_Gang_Name());
         System.out.println("adding gangsters");
         for (Gangster g : gang.getGangsters()) {

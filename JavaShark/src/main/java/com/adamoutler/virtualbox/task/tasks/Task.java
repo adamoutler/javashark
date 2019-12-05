@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.IfaceTask;
 import static com.adamoutler.virtualbox.task.TaskManager.getTaskMachine;
@@ -15,9 +16,8 @@ import static com.adamoutler.virtualbox.task.TaskManager.getTaskMachine;
  */
 public abstract class Task implements IfaceTask {
 
-    final static public String WEBSERVEREXCELLOCATION = "/var/www/baby-sharks/excel/";
-    final static public String WEBSERVERLOCATION = "/var/www/baby-sharks/";
-    final static public String WEBSERVERSCREENSHOTLOCATION = "/var/www/baby-sharks/screenshots/";
+    final static public String WEBSERVEREXCELLOCATION = Prop.getProp("reports");
+    final static public String WEBSERVERSCREENSHOTLOCATION = Prop.getProp("screenshots");
 
     abstract void initializeTask(VirtualBoxMachine vm);
 

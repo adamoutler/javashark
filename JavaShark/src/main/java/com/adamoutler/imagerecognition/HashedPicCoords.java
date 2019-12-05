@@ -37,14 +37,16 @@ public class HashedPicCoords extends PicCoords {
         }
         return imageHash;
     }
-    
-    public Integer getHash(){
+
+    public Integer getHash() {
         return hash;
     }
 
     public boolean hashMatches(BufferedImage image) {
         int testhash = getImageHash(image);
-        if (hash==null) return false;
+        if (hash == null) {
+            return false;
+        }
         return testhash == hash;
     }
 
@@ -66,17 +68,39 @@ public class HashedPicCoords extends PicCoords {
         return super.toString() + "," + hash;
 
     }
-    
-    public HashedPicCoords clone(int newHash) throws CloneNotSupportedException{
+
+    public HashedPicCoords clone(int newHash) throws CloneNotSupportedException {
         super.clone();
-        HashedPicCoords hpc=new HashedPicCoords(x,y,this.getW(),getH(),newHash);
+        HashedPicCoords hpc = new HashedPicCoords(x, y, this.getW(), getH(), newHash);
         return hpc;
     }
-    
-    public HashedPicCoords clone() throws CloneNotSupportedException{
+
+    public HashedPicCoords clone() throws CloneNotSupportedException {
         super.clone();
-        HashedPicCoords hpc=new HashedPicCoords(x,y,this.getW(),getH(),hash);
+        HashedPicCoords hpc = new HashedPicCoords(x, y, this.getW(), getH(), hash);
         return hpc;
+    }
+
+    @Override
+    public int hashCode() {
+        Integer i = 17;
+        i = i + (x + 356453)
+                + (y + 722119)
+                + (getW() + 627481)
+                + (getH() + 914591)
+                + (hash + 476639);
+        return i;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof HashedPicCoords) {
+            HashedPicCoords test = (HashedPicCoords) o;
+            if (test.hashCode()==hashCode()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

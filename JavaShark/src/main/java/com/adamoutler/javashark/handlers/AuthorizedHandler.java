@@ -5,6 +5,7 @@ package com.adamoutler.javashark.handlers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -29,7 +30,7 @@ import javax.imageio.ImageIO;
  */
 public class AuthorizedHandler extends SentryAbstractPapaHandler {
 
-    final static String OUTPUT = "/var/www/baby-sharks/screenshots/";
+    final static String OUTPUT = Prop.getProp("screenshots");
 
     public AuthorizedHandler() {
 

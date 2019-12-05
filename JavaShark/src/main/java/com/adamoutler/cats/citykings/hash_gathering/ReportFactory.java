@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
+import com.adamoutler.Prop;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.io.FileReader;
  */
 public class ReportFactory {
 
-    private String repoFolder = "/var/www/baby-sharks/excel/";
+    private String repoFolder = Prop.getProp("reports");
 
     public CityKingsMatchRaw getReport(String filename) throws FileNotFoundException {
         String name = filename.substring(0, filename.lastIndexOf(".")).replaceAll(".*/", "");

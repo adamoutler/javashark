@@ -49,6 +49,7 @@ public class MessageData {
     private String errorMessage;
     private BuildingChangeIncident[] incidents;
     private String png;
+    private String args;
 
     /**
      * @return the weOwn
@@ -214,6 +215,7 @@ public class MessageData {
         this.url = url;
         return this;
     }
+
     /**
      * @param png picture to add for png output.
      * @return reference to this object
@@ -222,6 +224,14 @@ public class MessageData {
         this.png = png;
         return this;
     }
+
+    /**
+     * @return png file location
+     */
+    public String getPng() {
+        return png;
+    }
+
     /**
      * @return the gang
      */
@@ -462,9 +472,9 @@ public class MessageData {
      * @param errorType the errorType to set
      */
     public void setErrorType(ErrorType errorType) {
-        if (errorType.equals(ErrorType.NOERROR)){
-            errorType=null;
-            this.errorType=null;
+        if (errorType.equals(ErrorType.NOERROR)) {
+            errorType = null;
+            this.errorType = null;
             setErrorMessage(null);
             return;
         }
@@ -473,7 +483,7 @@ public class MessageData {
     }
 
     public void setIncidents(BuildingChangeIncident[] incidents) {
-        this.incidents=incidents;
+        this.incidents = incidents;
     }
 
     /**
@@ -497,5 +507,8 @@ public class MessageData {
         return incidents;
     }
 
- 
+    public String getArgs() {
+        return args;
+    }
+
 }

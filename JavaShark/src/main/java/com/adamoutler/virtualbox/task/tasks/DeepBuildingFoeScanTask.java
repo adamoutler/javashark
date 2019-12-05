@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks;
 
+import com.adamoutler.Prop;
 import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
@@ -38,7 +39,7 @@ public class DeepBuildingFoeScanTask extends Task {
                     Message m = new Message().setCommand("deepbuildingreconcomplete");
                     m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Recon Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
 
-                    File f = new File("/var/www/baby-sharks/excel/" + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
+                    File f = new File(Prop.getProp("reports") + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
                     System.out.println();
                     try {
                         report.writeJson(f);

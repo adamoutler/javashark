@@ -131,7 +131,7 @@ public enum ScreenData {
         for (int i = 1; i < hashes.size(); i++) {
             sb.append(c).append(hashes.get(i).getHash());
         }
-        return sb.toString().replaceAll (" null,","").replaceAll(", null", ", a").trim();
+        return sb.toString().replaceAll(" null,", "").replaceAll(", null", ", a").trim();
 
     }
 
@@ -159,6 +159,7 @@ public enum ScreenData {
      * @param bi Buffered Image of screenshot
      * @return identifier for screen
      */
+    @SuppressWarnings("UnnecessaryContinue")
     public static ScreenData identifyScreen(BufferedImage bi) {
 
         ScreenData returnValue = ScreenData.UNKNOWN;
@@ -166,26 +167,20 @@ public enum ScreenData {
 
             //check color-point arrays to ensure any associated color-point matches the expectation in this image
             //check hash arrays to ensure any associated hash matches the expectation in this image
-            boolean hasHashes = false, matchHash = false;
             for (HashedPicCoords hpc : screen.getHashes()) {
-                hasHashes = true;
-
                 if (bi == null || hpc == null) {
-                    matchHash = false;
+                    continue;
                 } else {
                     try {
-                    if (hpc.hashMatches(bi)) {
-                        matchHash = true;
-                    }
-                    } catch (java.awt.image.RasterFormatException ex){
-                        matchHash=false;
+                        if (hpc.hashMatches(bi)) {
+                            return screen;
+                        }
+                    } catch (java.awt.image.RasterFormatException ex) {
+                        
                     }
                 }
             }
-            if (hasHashes && matchHash) {
-                returnValue = screen;
-                break;
-            }
+           
         }
         return returnValue;
     }
@@ -218,14 +213,34 @@ public enum ScreenData {
     }
 
     public HashedPicCoords getFirstCoordsItem() {
-        HashedPicCoords hpc = this.getHashes().get(0);
+
+        if (this.hashes != null && this.hashes.size() > 0) {
+            HashedPicCoords hpc = this.getHashes().get(0);
+            return hpc;
+        }
+        return null;
+    }
+
+    public boolean deleteHash(BufferedImage bi) {
+        HashedPicCoords hpc = getNewHash(bi);
+        return getHashes().remove(hpc);
+    }
+
+    public HashedPicCoords addNewHash(BufferedImage bi, boolean deleteAll) {
+        HashedPicCoords hpc = getNewHash(bi);
+        if (deleteAll) {
+            getHashes().clear();
+        }
+        if (!getHashes().contains(hpc)) {
+            this.getHashes().add(hpc);
+        }
         return hpc;
     }
 
     public HashedPicCoords getNewHash(BufferedImage bi) {
         HashedPicCoords hpc = getFirstCoordsItem();
         int newHash = getNewHash(this, bi);
-        HashedPicCoords newHpc = new HashedPicCoords(hpc.getX(), hpc.getY(), hpc.getW(), hpc.getY(), newHash);
+        HashedPicCoords newHpc = new HashedPicCoords(hpc.getX(), hpc.getY(), hpc.getW(), hpc.getH(), newHash);
         return newHpc;
 
     }

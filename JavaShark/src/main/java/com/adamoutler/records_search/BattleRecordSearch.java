@@ -5,6 +5,7 @@
  */
 package com.adamoutler.records_search;
 
+import com.adamoutler.Prop;
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -19,7 +20,7 @@ public class BattleRecordSearch extends FileSearch {
     private String startsWith = "";
 
     public BattleRecordSearch() {
-        this.searchPath = "/var/www/baby-sharks/excel/";
+        this.searchPath = Prop.getProp("reports");
     }
 
     public BattleRecordSearch setGang(String gang) {

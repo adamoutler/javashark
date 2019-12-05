@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox;
 
+import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -96,8 +97,8 @@ public class VirtualBoxMachine extends TaskedMachine {
      public String writeScreenToWebServer(String name) {
         try {
             String filename =  name + System.currentTimeMillis() + ".png";
-            System.out.println("Could not identify screen!  Wrote \"/var/www/baby-sharks/screenshots/" + filename + "\" screen to logs");
-            File f=new File("/var/www/baby-sharks/screenshots/"+filename);
+            System.out.println("Could not identify screen!  Wrote \""+Prop.getProp("screenshots")+"\"" + filename + "\" screen to logs");
+            File f=new File(Prop.getProp("screenshots")+filename);
             FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
             return "https://javashark.baby-sharks.com/screenshots/"+filename;

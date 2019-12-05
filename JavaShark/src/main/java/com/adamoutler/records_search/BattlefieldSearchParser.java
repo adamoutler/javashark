@@ -5,6 +5,7 @@
  */
 package com.adamoutler.records_search;
 
+import com.adamoutler.Prop;
 import com.babysharks.messaging.SearchQuery;
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class BattlefieldSearchParser {
     }
 
     public List getRecords() throws SearchException {
-        return getRecords("/var/www/baby-sharks/excel", extension, gang, ocrName, startsWith);
+        return getRecords(Prop.getProp("reports"), extension, gang, ocrName, startsWith);
     }
 
     public static List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {

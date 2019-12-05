@@ -22,8 +22,9 @@ public enum ErrorType {
     COULDNOTFINDREQUESTEDUSERINRECORDS("While searching for last cars, i could not find the user"),
     UNRECOGNIZEDSCREEN("I could not identify the screen"),
     INVALIDFILE("I tried to send a file, but no file exists"),
-    
+    FILEHASHERROR("There was a problem with hashing the file."),
     WRONGSCREEN("The requested action could not be completed because the sentry is on the wrong screen."),
+    DELETEREQUESTINVALID("The request do delete could not be accomplished.  the record did not exist. "),
     WHATEVER("Because F you, that's why. Check the logs if you wanna know.");
 
     String message;
