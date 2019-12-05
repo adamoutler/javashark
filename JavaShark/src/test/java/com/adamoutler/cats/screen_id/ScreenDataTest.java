@@ -210,21 +210,8 @@ public class ScreenDataTest {
   
 
    
-    /**
-     * Test of addHash method, of class ScreenData.
-     */
-    @Test
-    public void testAddHash() {
-        System.out.println("addHash");
-        ScreenData item = null;
-        int hash = 0;
-        HashedPicCoords expResult = null;
-        HashedPicCoords result = ScreenData.addHash(item, hash);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+ 
+    
     /**
      * Test of getFirstCoordsItem method, of class ScreenData.
      */
