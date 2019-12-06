@@ -135,10 +135,20 @@ public class Hashes {
     public static Properties writeProperties() {
         try {
             makeFileIfNotExists();
+            File backup=new File(new File(HASHFILE)
+                    .getParentFile().getAbsolutePath()+
+                    File.separator+"backup"+File.separator+
+                    System.currentTimeMillis()+".properties");
+            backup.getParentFile().mkdirs();
+            
+            try (FileOutputStream backupStream = new FileOutputStream(backup)) {
+                PROPERTIES.store(backupStream, new Date().toString());
+            }        
             try (FileOutputStream fos = new FileOutputStream(HASHFILE)) {
                 PROPERTIES.store(fos, new Date().toString());
                 return PROPERTIES;
             }
+            
         } catch (IOException ex) {
             Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
         }

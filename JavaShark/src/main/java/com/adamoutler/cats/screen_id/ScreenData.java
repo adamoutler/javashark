@@ -205,6 +205,7 @@ public enum ScreenData {
         try {
             HashedPicCoords hpc = cloneFirstItem(item, hash);
             item.getHashes().add(hpc);
+            item.updateStoredValueOnDisk();
             return hpc;
         } catch (Exception ex) {
             Logger.getLogger(ScreenData.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,11 +225,17 @@ public enum ScreenData {
     public boolean deleteHash(BufferedImage bi) {
         HashedPicCoords hpc = getNewHash(bi);
         boolean result = getHashes().remove(hpc);
-        if (result && getHashes().size()>0) {
+        if (result && getHashes().size() > 0) {
             Hashes.writeProperties();
         }
+        updateStoredValueOnDisk();
         return result;
 
+    }
+
+    public void updateStoredValueOnDisk() {
+        Hashes.addProperty(this.name(), this.getHashesPropertyEntry());
+        Hashes.writeProperties();
     }
 
     public HashedPicCoords addNewHash(BufferedImage bi, boolean deleteAll) {
@@ -240,6 +247,7 @@ public enum ScreenData {
             this.getHashes().add(hpc);
             Hashes.writeProperties();
         }
+         updateStoredValueOnDisk();
         return hpc;
     }
 
