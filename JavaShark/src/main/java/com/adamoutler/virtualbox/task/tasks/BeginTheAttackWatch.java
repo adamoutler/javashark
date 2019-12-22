@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package com.adamoutler.virtualbox.task.tasks;
-
-import com.adamoutler.cats.battlefield.BattlefieldNavigator;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.cats.battlefield.BattlefieldNavigator;
+import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGS;
+import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGSBEGINTHEATTACK;
+import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGSENLIST;
+import static com.adamoutler.cats.screen_id.ScreenData.RECONNECT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;

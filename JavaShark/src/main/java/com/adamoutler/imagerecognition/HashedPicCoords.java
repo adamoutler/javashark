@@ -22,6 +22,11 @@ public class HashedPicCoords extends PicCoords {
         super(x, y, w, h);
     }
 
+    public HashedPicCoords(PicCoords pc, Integer hash){
+        super(pc.getX(), pc.getY(), pc.getW(), pc.getH());
+        this.hash=hash;
+    }
+    
     public HashedPicCoords(int x, int y, int w, int h, Integer hash) {
         super(x, y, w, h);
         this.hash = hash;
@@ -101,6 +106,13 @@ public class HashedPicCoords extends PicCoords {
             }
         }
         return false;
+    }
+    
+    public static int getHash(PicCoords pc, BufferedImage pic){
+          BufferedImage bi = pic.getSubimage(pc.getX(), pc.getY(), pc.getW(), pc.getH());
+        byte[] bytes = ByteImage.getPngBytes(bi);
+        int imageHash = Arrays.hashCode(bytes);
+        return imageHash;
     }
 
 }

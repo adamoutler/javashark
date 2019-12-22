@@ -8,6 +8,7 @@ package com.adamoutler.cats.citykings.hash_gathering.building;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.citykings.hash_gathering.building.car.FastCarFactory;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.PicCoords;

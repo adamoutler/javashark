@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.Hashes;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.screen_id.ScreenDescription;
 import com.adamoutler.imagerecognition.HashedPicCoords;
 import com.babysharks.messaging.ErrorType;
@@ -50,7 +51,7 @@ public class HashHandler extends AbstractPapaHandler {
         if (getRequest().getCommand().equals("listcalibrations")) {
             ArrayList<ScreenDescription> al = new ArrayList<>();
             for (ScreenData screenDataItem : ScreenData.values()) {
-                al.add(new ScreenDescription(screenDataItem.name(), screenDataItem.getDescription(), screenDataItem.getFirstCoordsItem()));
+                al.add(new ScreenDescription(screenDataItem.name(), screenDataItem.getDescription(), screenDataItem.getPicCoords()));
 
             }
             this.getRequest().getData().setResultObject(al);

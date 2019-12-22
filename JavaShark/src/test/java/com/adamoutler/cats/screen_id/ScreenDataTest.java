@@ -5,8 +5,8 @@
  */
 package com.adamoutler.cats.screen_id;
 
-
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
  * @author adamo
  */
 public class ScreenDataTest {
-    
+
     public ScreenDataTest() {
     }
-    
+
     static File[] files;
 
     @BeforeClass
@@ -38,15 +38,15 @@ public class ScreenDataTest {
         System.out.println(new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/").getAbsolutePath());
         files = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/").listFiles();
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -58,7 +58,7 @@ public class ScreenDataTest {
     public void testValues() {
         System.out.println("values");
         ScreenData[] result = ScreenData.values();
-        assert(result.length>20);
+        assert (result.length > 20);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ScreenDataTest {
         ScreenData expResult = ScreenData.CITYKINGS;
         ScreenData result = ScreenData.valueOf(name);
         assertEquals(expResult, result);
- 
+
     }
 
     /**
@@ -82,11 +82,10 @@ public class ScreenDataTest {
         System.out.println("getHashes");
         ScreenData instance = ScreenData.CITYKINGS;
         ArrayList<HashedPicCoords> expResult = null;
-        ArrayList<HashedPicCoords> result  = instance.getHashes();
-        assert(result.size()>0);
+        ArrayList<HashedPicCoords> result = instance.getHashes();
+        assert (result.size() > 0);
 
     }
-
 
     /**
      * Test of getDescription method, of class ScreenDataHash.
@@ -101,10 +100,6 @@ public class ScreenDataTest {
 
     }
 
-   
-
-   
-
     /**
      * Test of matchesHashes method, of class ScreenDataHash.
      */
@@ -118,7 +113,8 @@ public class ScreenDataTest {
         assertEquals(expResult, result);
 
     }
-     /**
+
+    /**
      * Test of identifyScreen method, of class ScreenData.
      */
     @Test
@@ -135,7 +131,7 @@ public class ScreenDataTest {
                 BufferedImage bi = ImageIO.read(f);
                 String id = f.getName().split("\\.", 2)[0];
                 ScreenData expResult = ScreenData.valueOf(id);
-                if (expResult.equals(ScreenData.EXITSCREEN)){
+                if (expResult.equals(ScreenData.EXITSCREEN)) {
                     System.out.println("exitscreen");
                 }
                 ScreenData result = ScreenData.identifyScreen(bi);
@@ -143,14 +139,14 @@ public class ScreenDataTest {
                     HashedPicCoords hpc = expResult.getHashes().get(0);
                     if (!result.equals(expResult)) {
                         System.out.println("Expected values for " + id + " are as follows");
-                       System.out.println(expResult.getHashesPropertyEntry(bi));
+                        System.out.println(expResult.getHashesPropertyEntry());
                     }
                     if (expResult.name().equals("ULTIMATEGARAGE")) {
                         System.out.println(expResult);
                     }
                     System.out.println(new File(".").getAbsolutePath());
                     ///assertEquals(expResult.name(), result.name());
-                    expResult.hashes.add(expResult.getNewHash(bi));
+                    expResult.getHashes().add(expResult.getNewHash(bi));
                     //assertEquals(expResult, result);
                 }
                 if (id.equals(result.name())) {
@@ -166,7 +162,7 @@ public class ScreenDataTest {
             }
 
         }
-        
+
         System.out.println(ScreenData.toProperties());
     }
 
@@ -177,16 +173,17 @@ public class ScreenDataTest {
     public void testGetHashesPropertyEntry_BufferedImage() {
         try {
             System.out.println("getHashesPropertyEntry");
-            File f=files[0];
+            File f = files[0];
             BufferedImage bi = ImageIO.read(f);
-            ScreenData id=ScreenData.identifyScreen(bi);
-            HashedPicCoords hpc=id.getNewHash(bi);
-            
+            ScreenData id = ScreenData.identifyScreen(bi);
+             int hash= HashedPicCoords.getHash(id.getPicCoords(),bi);
+            HashedPicCoords hpc=new HashedPicCoords(id.getPicCoords(),hash);
+
             ScreenData instance = ScreenData.BLACKSCREEN;
             String expResult = "";
-            String result = instance.getHashesPropertyEntry(bi);
+            // String result = instance.getHashesPropertyEntry(bi);
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ScreenDataTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -198,19 +195,12 @@ public class ScreenDataTest {
     public void testGetHashesPropertyEntry_0args() {
         System.out.println("getHashesPropertyEntry");
         ScreenData instance = ScreenData.BLACKSCREEN;
-        
+
         String result = instance.getHashesPropertyEntry();
-        assert (result.length()>8);
+        assert (result.length() > 8);
 
     }
 
-   
-
-  
-
-   
- 
-    
     /**
      * Test of getFirstCoordsItem method, of class ScreenData.
      */
@@ -218,9 +208,13 @@ public class ScreenDataTest {
     public void testGetFirstCoordsItem() {
         System.out.println("getFirstCoordsItem");
         ScreenData instance = ScreenData.BLACKSCREEN;
-        HashedPicCoords expResult = instance.getFirstCoordsItem();
-        HashedPicCoords result = instance.getFirstCoordsItem();
-        assertEquals(expResult, result);
+        PicCoords expResult = (PicCoords) instance.getHashes().get(0);
+        PicCoords result = instance.getPicCoords();
+
+        assertEquals(expResult.getH(), result.getH());
+        assertEquals(expResult.getY(), result.getY());
+        assertEquals(expResult.getW(), result.getW());
+        assertEquals(expResult.getX(), result.getX());
 
     }
 

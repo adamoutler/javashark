@@ -5,6 +5,7 @@
  */
 package com.adamoutler.imagerecognition;
 
+
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import java.io.IOException;

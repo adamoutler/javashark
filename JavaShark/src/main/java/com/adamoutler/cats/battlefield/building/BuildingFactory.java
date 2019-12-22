@@ -10,6 +10,7 @@ import com.adamoutler.cats.battlefield.building.car.FoeCarFactory;
 import com.adamoutler.cats.battlefield.building.car.FriendlyCarFactory;
 import com.adamoutler.cats.citykings.hash_gathering.TeamOwnershipPercentageBar;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ByteImage;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;

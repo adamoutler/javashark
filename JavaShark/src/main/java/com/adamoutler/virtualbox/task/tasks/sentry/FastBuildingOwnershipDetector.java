@@ -11,6 +11,7 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
