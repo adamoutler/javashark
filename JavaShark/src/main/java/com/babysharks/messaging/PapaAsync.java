@@ -74,6 +74,7 @@ public class PapaAsync {
     }
 
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
+        reason=reason.replaceAll(" ","_");
         HashedMessage hm = null;
         if (System.currentTimeMillis() > time + 10000) {
             hm = new HashedMessage(getM(vm).setCommand("sentry")
