@@ -10,6 +10,9 @@ import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.babysharks.messaging.Message;
+import com.babysharks.messaging.MessageData;
+import com.babysharks.messaging.PapaAsync;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,6 +94,9 @@ public class BattlefieldNavigator {
             case CITYKINGSDEFEAT:
              //   vm.longTap(VICTORYDEFEATBUTTON);
                 break;
+            case COLLECTPRIZES:
+                PapaAsync.send("collectprizes", vm, vm.writeScreenToWebServer("CollectPrizes"));
+                vm.longTap(new XYCoords(425,575));
 
             case UNKNOWN:
                 vm.longTap(COLLECTPRIZES);

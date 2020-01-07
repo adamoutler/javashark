@@ -74,7 +74,7 @@ public class PapaAsync {
     }
 
     public static void sentryReasonWarning(VirtualBoxMachine vm, String reason) {
-        reason=reason.replaceAll(" ","_");
+        reason = reason.replaceAll(" ", "_");
         HashedMessage hm = null;
         if (System.currentTimeMillis() > time + 10000) {
             hm = new HashedMessage(getM(vm).setCommand("sentry")
@@ -130,6 +130,11 @@ public class PapaAsync {
     public static String send(Message message) {
         HashedMessage hm = new HashedMessage(message);
         return send(hm);
+    }
+
+    public static String send(String comand, VirtualBoxMachine vm, Object resultObject) {
+        Message message = new Message().setCommand(comand).setData(getData(vm).setResultObject(resultObject));
+        return send(message);
     }
 
     public static String send(HashedMessage hm) throws RestClientException, HttpServerErrorException {
