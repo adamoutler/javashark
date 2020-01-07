@@ -47,6 +47,7 @@ public enum ScreenData {
         //    CITYKINGSUNCLETONY(new HashedPicCoords[]{new HashedPicCoords(225, 85, 240, 54, 782978378), new HashedPicCoords(225, 85, 240, 54, 774163899)}, new ColoredXYCoords[]{}, "City Kings, Uncle Tony screen"),
         CITYKINGSVICTORY(HashedPicCoordsPropertiesAccessor.factory("CITYKINGSVICTORY"), "City Kings, Victory Screen"),
         CITYKINGSDEFEAT(HashedPicCoordsPropertiesAccessor.factory("CITYKINGSDEFEAT"), "Never happened."),
+        COLLECTPRIZES(HashedPicCoordsPropertiesAccessor.factory("COLLECTPRIZES"),"At the Gang Fights COLLECT PRIZES screen."),
         EXITSCREEN(HashedPicCoordsPropertiesAccessor.factory("EXITSCREEN"), "Are you sure you want to quit?"),
         FRIENDS(HashedPicCoordsPropertiesAccessor.factory("FRIENDS"), "Gang Friends screen"),
         GANGFIGHTS(HashedPicCoordsPropertiesAccessor.factory("GANGFIGHTS"), "Gang Fights, ready for action screen"),
@@ -95,10 +96,8 @@ public enum ScreenData {
          * @param description description of screen
          */
         ScreenData(HashedPicCoordsPropertiesAccessor hashes, String description) {
-
             this.hashes = hashes;
             this.description = description;
-
         }
 
         /**
@@ -110,6 +109,16 @@ public enum ScreenData {
             return hashes.getHpcl();
 
         }
+        
+        
+        public void addHash(BufferedImage bi){
+            HashedPicCoords hpc=this.getNewHash(bi);
+            if(!getHashes().contains(hpc)){
+               getHashes().add(hpc);
+            }
+            
+        }
+        
 
         public String getHashesPropertyEntry() {
 

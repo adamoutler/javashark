@@ -227,9 +227,15 @@ public class ScreenDataTest {
             System.out.println("deleteHash");
             BufferedImage bi = ImageIO.read(files[0]);
             ScreenData instance = ScreenData.BLACKSCREEN;
+            instance.addNewHash(bi, false);
+            int reference=instance.getHashes().size();
             instance.deleteHash(bi);
+            int test=instance.getHashes().size();
+            assert (test==reference-1);
             System.out.println(ScreenData.BLACKSCREEN.getHashesPropertyEntry());
-            ScreenData.addHash(instance, ScreenData.getNewHash(ScreenData.BLACKSCREEN, bi));
+            instance.addNewHash(bi, false);
+            int test2=instance.getHashes().size();
+            assert (test2==reference);
             System.out.println(ScreenData.BLACKSCREEN.getHashesPropertyEntry());
         } catch (IOException ex) {
             Logger.getLogger(ScreenDataTest.class.getName()).log(Level.SEVERE, null, ex);
