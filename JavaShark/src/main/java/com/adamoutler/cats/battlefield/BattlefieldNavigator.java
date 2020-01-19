@@ -82,7 +82,7 @@ public class BattlefieldNavigator {
             case CATSLOADEDULTIMATESCREEN:
             case CATSLOADEDCHAMPIONSHIPSCREEN:
                 System.out.println(vm.getUsername() + ": I'm at the home screen - Entering Battlefield");
-           //     vm.longTap(GANGBUTTON);
+                //     vm.longTap(GANGBUTTON);
                 sleep(6000);
                 break;
             case CITYKINGSBUILDINGSCREEN:
@@ -92,11 +92,15 @@ public class BattlefieldNavigator {
                 break;
             case CITYKINGSVICTORY:
             case CITYKINGSDEFEAT:
-             //   vm.longTap(VICTORYDEFEATBUTTON);
+                //   vm.longTap(VICTORYDEFEATBUTTON);
                 break;
+            case NOTRESPONDING:
+                vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+                break;
+
             case COLLECTPRIZES:
                 PapaAsync.send("collectprizes", vm, vm.writeScreenToWebServer("CollectPrizes"));
-                vm.longTap(new XYCoords(425,575));
+                vm.longTap(new XYCoords(425, 575));
 
             case UNKNOWN:
                 vm.longTap(COLLECTPRIZES);

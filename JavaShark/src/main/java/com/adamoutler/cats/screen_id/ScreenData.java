@@ -76,7 +76,9 @@ public enum ScreenData {
 
         UNRESPONSIVE(HashedPicCoordsPropertiesAccessor.factory("UNRESPONSIVE"), "The machine did not return a screenshot"),
         WHATCANYOUDOTODAY(HashedPicCoordsPropertiesAccessor.factory("WHATCANYOUDOTODAY"), "what do you want to do today"),
+        NOTRESPONDING(HashedPicCoordsPropertiesAccessor.factory("NOTRESPONDING"),"CATS is not responding"),
         STORE(HashedPicCoordsPropertiesAccessor.factory("STORE"), "Zepto Lab Store screen");
+        
 
         /**
          * hash arrays

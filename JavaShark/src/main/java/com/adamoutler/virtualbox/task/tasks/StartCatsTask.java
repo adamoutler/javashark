@@ -46,6 +46,9 @@ public class StartCatsTask extends Task {
                 vm.tap(BattlefieldNavigator.BACKBUTTON);
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+            } else if (sd.equals(ScreenData.NOTRESPONDING)) {
+                vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+
             } else {
 
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});

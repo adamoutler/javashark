@@ -57,6 +57,9 @@ public class BeginTheAttackWatch extends Task {
             case CITYKINGS:
                 complete(vm);
                 return;
+            case NOTRESPONDING:
+                vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+                break;
             case RECONNECT:
                 vm.addTask(TaskType.CLEAR);
             default:

@@ -43,6 +43,8 @@ public class PowerOnTask extends Task {
         ScreenData sd = ScreenData.identifyScreen(vm);
         if (sd.equals(ScreenData.BOOTED)) {
             complete(vm);
+        } else if (sd.equals(ScreenData.NOTRESPONDING)){
+            vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
         } else {
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
