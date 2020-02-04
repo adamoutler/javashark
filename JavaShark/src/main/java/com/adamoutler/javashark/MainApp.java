@@ -10,6 +10,7 @@ import com.adamoutler.javashark.handlers.AuthorizedHandler;
 import com.adamoutler.javashark.handlers.BattlefieldScan;
 import com.adamoutler.javashark.handlers.CommandDistributor;
 import com.adamoutler.javashark.handlers.HashHandler;
+import com.adamoutler.javashark.handlers.HistoricalSearchHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.LastCarSearchHandler;
 import com.adamoutler.javashark.handlers.MyCarsHandler;
@@ -111,6 +112,7 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("hashdelete", new HashHandler());
         commandDistributor.register("hashReload", new HashHandler());
         commandDistributor.register("listcalibrations", new HashHandler());
+        commandDistributor.register("search",new HistoricalSearchHandler());
         
         commandDistributor.register("mycars", new MyCarsHandler());
         commandDistributor.register("lastcars", new LastCarSearchHandler());
