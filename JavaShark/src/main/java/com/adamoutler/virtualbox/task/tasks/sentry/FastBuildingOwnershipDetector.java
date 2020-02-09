@@ -400,6 +400,9 @@ public class FastBuildingOwnershipDetector {
                 for (int i = 0; i < 6; i++) {
                     System.out.println("C: " + vm.getTaskData().current[i] + " P: " + vm.getTaskData().previous[i]);
                 }
+                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.NOTRESPONDING)){
+                    vm.longTap(new XYCoords(400,406));
+                }
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
@@ -408,6 +411,7 @@ public class FastBuildingOwnershipDetector {
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
                         sendFinalResults(vm, lastScreenshot);
                     }
+                    
                     PapaAsync.sentryReasonWarning(vm, "blind");
                 }
                 return;
