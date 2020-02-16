@@ -386,22 +386,32 @@ public class FastBuildingOwnershipDetector {
         try {
             BufferedImage screenshot = vm.screenshot();
             vm.getTaskData().current = scan(screenshot);
-            boolean calibration=false;
+            boolean calibration = false;
             if (vm.getTaskData().previous == null) {
                 vm.getTaskData().previous = new OwnedBy[]{THEM, THEM, THEM, THEM, THEM, THEM};
-                PicColors pc=new PicColors(screenshot);
+                PicColors pc = new PicColors(screenshot);
                 FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
                 FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
                 FastBuildingOwnershipDetector.lostBuffDetection(vm, pc, true);
-                calibration=true;
+                calibration = true;
             }
             if (anyAreNull(vm.getTaskData().current, vm.getTaskData().previous)) {
                 System.out.println(vm.getUsername() + ": Null detected!!!!!!");
                 for (int i = 0; i < 6; i++) {
                     System.out.println("C: " + vm.getTaskData().current[i] + " P: " + vm.getTaskData().previous[i]);
                 }
-                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.NOTRESPONDING)){
-                    vm.longTap(new XYCoords(400,406));
+                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.NOTRESPONDING)) {
+                    vm.longTap(new XYCoords(400, 406));
+                }
+                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.WAITUNRESPONSIVE)) {
+                    vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
+                }
+
+                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.RANDOMERROR)) {
+                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                }
+                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
+                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                 }
                 if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
@@ -411,7 +421,7 @@ public class FastBuildingOwnershipDetector {
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
                         sendFinalResults(vm, lastScreenshot);
                     }
-                    
+
                     PapaAsync.sentryReasonWarning(vm, "blind");
                 }
                 return;
@@ -426,10 +436,10 @@ public class FastBuildingOwnershipDetector {
             }
             vm.getTaskData().setNullCount(0);
 
-            if (!calibration){
-            reactToChangesInBuildingOwnership(vm);
+            if (!calibration) {
+                reactToChangesInBuildingOwnership(vm);
 
-            } 
+            }
             vm.getTaskData().previous = vm.getTaskData().current;
 
         } catch (Exception ex) {
