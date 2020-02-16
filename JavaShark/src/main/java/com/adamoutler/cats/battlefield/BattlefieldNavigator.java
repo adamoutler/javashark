@@ -101,8 +101,8 @@ public class BattlefieldNavigator {
             case WAITUNRESPONSIVE:
                 vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
                 break;
-            case RANDOMERROR:
-                vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+            case UNRESPONSIVEBACKTODISMISS:
+                vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                 break;
             case COLLECTPRIZES:
                 PapaAsync.send("collectprizes", vm, vm.writeScreenToWebServer("CollectPrizes"));

@@ -55,8 +55,12 @@ public class StartCatsTask extends Task {
                 case WAITUNRESPONSIVE:
                     vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
                     break;
+                    
                 case RANDOMERROR:
-                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                    break;
+                case UNRESPONSIVEBACKTODISMISS:
+                vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                     break;
                 default:
                     vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
