@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author adamo
  */
-public class MainApp extends ParametersImpl {
+public class MainApp extends ParametersImpl { 
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
