@@ -37,41 +37,47 @@ public class StartCatsTask extends Task {
         if (vm.getTaskData().getLastStartCats() < System.currentTimeMillis() + 100000) {
             vm.getTaskData().setLastStartCats(System.currentTimeMillis());
             ScreenData sd = vm.getScreen();
-            if (sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN)
-                    || sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN)
-                    || sd.equals(ScreenData.CITYKINGS)
-                    || sd.equals(ScreenData.RECONNECT)) {
-                complete(vm);
-            } else if (sd.equals(ScreenData.WHATCANYOUDOTODAY)) {
-                vm.tap(BattlefieldNavigator.BACKBUTTON);
-                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
-                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
-            } else if (sd.equals(ScreenData.NOTRESPONDING)) {
-                vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
-
-            } else {
-
-                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
-                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
-                vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
-                if (++vm.getTaskData().startCatsRetries % 100 == 0) {
-                    vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Retrying CATS restart");
-                    vm.adbShell(new String[]{"am", "force-stop", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(StartCatsTask.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    initializeTask(vm);
-                }
-                if (vm.getTaskData().startCatsRetries == 201) {
-                    vm.clearTasks();
-                    vm.addTask(TaskType.POWEROFF);
-                    vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
-
-                }
-
+            switch (sd) {
+                case CATSLOADEDCHAMPIONSHIPSCREEN:
+                case CATSLOADEDULTIMATESCREEN:
+                case CITYKINGS:
+                case RECONNECT:
+                    complete(vm);
+                    break;
+                case WHATCANYOUDOTODAY:
+                    vm.tap(BattlefieldNavigator.BACKBUTTON);
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                    break;
+                case NOTRESPONDING:
+                    vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+                    break;
+                case WAITUNRESPONSIVE:
+                    vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
+                    break;
+                case RANDOMERROR:
+                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                    break;
+                default:
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
+                    vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+                    if (++vm.getTaskData().startCatsRetries % 100 == 0) {
+                        vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Retrying CATS restart");
+                        vm.adbShell(new String[]{"am", "force-stop", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(StartCatsTask.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        initializeTask(vm);
+                    }   if (vm.getTaskData().startCatsRetries == 201) {
+                        vm.clearTasks();
+                        vm.addTask(TaskType.POWEROFF);
+                        vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
+                        
+                    }   break;
             }
         }
     }

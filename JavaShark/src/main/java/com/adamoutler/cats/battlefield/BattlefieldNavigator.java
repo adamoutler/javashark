@@ -98,6 +98,12 @@ public class BattlefieldNavigator {
                 vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
                 break;
 
+            case WAITUNRESPONSIVE:
+                vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
+                break;
+            case RANDOMERROR:
+                vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                break;
             case COLLECTPRIZES:
                 PapaAsync.send("collectprizes", vm, vm.writeScreenToWebServer("CollectPrizes"));
                 vm.longTap(new XYCoords(425, 575));

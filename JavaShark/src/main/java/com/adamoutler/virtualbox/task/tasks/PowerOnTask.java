@@ -41,14 +41,24 @@ public class PowerOnTask extends Task {
     void runTask(VirtualBoxMachine vm) {
         try {
         ScreenData sd = ScreenData.identifyScreen(vm);
-        if (sd.equals(ScreenData.BOOTED)) {
-            complete(vm);
-        } else if (sd.equals(ScreenData.NOTRESPONDING)){
-            vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
-        } else {
-            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
-            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
-        }
+            switch (sd) {
+                case BOOTED:
+                    complete(vm);
+                    break;
+                case NOTRESPONDING:
+                    vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+                    break;
+                case WAITUNRESPONSIVE:
+                    vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
+                    break;
+                case RANDOMERROR:
+                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                    break;
+                default:
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
+                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
+                    break;
+            }
         } catch (java.awt.image.RasterFormatException ex) {
             System.out.println("could not get image from " + vm.getUsername() + " likely still booting");
         }
