@@ -28,7 +28,6 @@ import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.babysharks.messaging.PapaAsync;
-import com.sun.javafx.application.ParametersImpl;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -41,7 +40,9 @@ import java.util.logging.Logger;
  *
  * @author adamo
  */
-public class MainApp extends ParametersImpl { 
+public class MainApp {
+
+    private static String[] args;
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
@@ -58,7 +59,7 @@ public class MainApp extends ParametersImpl {
     }
 
     MainApp(String[] args) {
-        super(args);
+        MainApp.args = args;
     }
 
     public static void main(String[] args) {
@@ -66,8 +67,21 @@ public class MainApp extends ParametersImpl {
         notifyPapa();
         MainApp server = new MainApp(args);
         TaskManager.start();
-        String port = server.getNamed().getOrDefault("port", "8000");
-        HashedMessage.setInstance(server.getNamed().getOrDefault("instance", "development"));
+        String port = null;
+        HashedMessage.setInstance("development");
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("port")) {
+                port = args[++i];
+            }
+            if (args[i].equals("instance")) {
+                HashedMessage.setInstance(args[++i]);
+            }
+        }
+
+        if (port == null) {
+            port = "8000";
+        }
+
         try {
             System.out.println("Starting server on " + port);
             server.startServer(Integer.parseInt(port));
@@ -83,7 +97,8 @@ public class MainApp extends ParametersImpl {
             try {
                 pb.start();
             } catch (IOException ex) {
-                Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainApp.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
 
         });
@@ -92,7 +107,6 @@ public class MainApp extends ParametersImpl {
     }
 
     private void startServer(int portNumber) throws IOException {
-        System.out.println(this.getRaw());
         CommandDistributor commandDistributor = new CommandDistributor();
         commandDistributor.register("time", new TimeHandler());
         commandDistributor.register("screenshot", new ScreenshotHandler());
@@ -112,8 +126,8 @@ public class MainApp extends ParametersImpl {
         commandDistributor.register("hashdelete", new HashHandler());
         commandDistributor.register("hashReload", new HashHandler());
         commandDistributor.register("listcalibrations", new HashHandler());
-        commandDistributor.register("search",new HistoricalSearchHandler());
-        
+        commandDistributor.register("search", new HistoricalSearchHandler());
+
         commandDistributor.register("mycars", new MyCarsHandler());
         commandDistributor.register("lastcars", new LastCarSearchHandler());
 
@@ -133,6 +147,7 @@ public class MainApp extends ParametersImpl {
             res.append(aToZ.charAt(randIndex));
         }
         return res.toString();
+
     }
 
     private static class DefaultExecutor implements Executor {
