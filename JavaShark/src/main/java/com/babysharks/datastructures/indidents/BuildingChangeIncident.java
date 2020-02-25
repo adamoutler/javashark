@@ -36,7 +36,7 @@ public class BuildingChangeIncident {
         this.after=newValue;
         this.before=oldValue;
         this.type=type;
-        message=type.getMessage()+ building+1;
+        message=type.getMessage()+ building;
     }
 
    
