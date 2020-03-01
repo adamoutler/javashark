@@ -138,14 +138,14 @@ public class VirtualBoxControl {
         args.add("--type");
         args.add("emergencystop");
         String executed = executeProcess(args, 4000);
-        if (System.getProperty("os.name").contains("nux")) {
-            args = new LinkedList<>();
-            args.add("kill");
-            args.add("-9");
-            args.add("$(top -b -n 1|grep VBoxHeadless|cut -d' ' -f2)");
-            executeProcess(args, 4000);
-            return true;
-        }
+//        if (System.getProperty("os.name").contains("nux")) {
+//            args = new LinkedList<>();
+//            args.add("kill");
+//            args.add("-9");
+//            args.add("$(top -b -n 1|grep VBoxHeadless|cut -d' ' -f2)");
+//            executeProcess(args, 4000);
+//            return true;
+//        }
 
         vm.setKillThread(false);
         return !(!executed.contains("0%") && !executed.contains("not currently"));
