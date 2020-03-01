@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark;
 
+import com.adamoutler.javashark.handlers.OverallStatusHandler;
 import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
 import com.adamoutler.javashark.handlers.BattlefieldScan;
@@ -133,6 +134,8 @@ public class MainApp {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
+        server.createContext("/status",new OverallStatusHandler());
+        
         server.createContext("/command", commandDistributor);
         server.setExecutor(new DefaultExecutor()); // creates a default executor
         server.start();
