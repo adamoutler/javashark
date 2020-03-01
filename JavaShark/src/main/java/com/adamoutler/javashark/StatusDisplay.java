@@ -36,18 +36,13 @@ public class StatusDisplay {
                 + "    background-color: rgba(0, 123, 255, .15);\n"
                 + "    border: 1px solid rgba(0, 123, 255, .2);\n"
                 + "}"
-                + ".sizedimg {\n"
-                + "  max-width: 100%;\n"
-                + "  position: relative;\n"
-                + "  margin-top: -70px;\n"
+                + ".img {\n"
+                + "    max-width: auto;\n"
+                + "    max-height: 100%;\n"
                 + "}"
-                + ".imagecontainer {\n"
-                + "  width: 100%;\n"
-                + "  height: 100%;\n"
-                + "  border: 1px solid #D9D9D9;\n"
-                + "  min-height: 350px;\n"
-                + "  max-height: 350px;\n"
-                + "  overflow: hidden;\n"
+                + ".smcontainer {\n"
+                + "    max-width: 300px;\n"
+                + "    max-height: 200px;\n"
                 + "}"
                 + "</style></head><body>");
         sb.append("<H1> JavaShark ").append(HashedMessage.instance).append(" Status</H1>");
@@ -66,6 +61,8 @@ public class StatusDisplay {
                 TaskType task = vm.getCurrentTask();
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
+                screenshot = "https://javashark.baby-sharks.com/screenshots/offline1582986122317.png";
+
                 sb.append("<div><div><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())
                         .append("</div><div><b>Screen:</b> ").append(screen.name())
@@ -74,11 +71,12 @@ public class StatusDisplay {
             }
             sb.append("<div><div>ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
                     .append(vm.getRdpPort()).append("</div></div>");
-            sb.append("<div><small>").append(vm.getVMName())
-                    .append("</small></div></div></tc><tc><div class=\"aside imagecontainer\">")
-                    .append("<img style=\"sizedimg\" src=\"").append(screenshot).append("\"></tc></tr></div>");
+            sb.append("<div><small>").append(vm.getVMName()).append("</small></div></div></tc><tc><div >");
+            if (!screenshot.isEmpty()) {
+                sb.append("<img  style='margin-left: 1em; height: 100%; object-fit: contain' src=\"").append(screenshot).append("\">");
+            }
 
-            sb.append("</div></div>");
+            sb.append("</div></tc></tr></div></div>");
         });
         sb.append("</div>");
         return sb.toString();
