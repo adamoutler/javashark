@@ -41,9 +41,10 @@ import java.util.logging.Logger;
  *
  * @author adamo
  */
-public class MainApp {
+public class MainApp  {
 
     private static String[] args;
+    static Parameters p;
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
@@ -61,6 +62,7 @@ public class MainApp {
 
     MainApp(String[] args) {
         MainApp.args = args;
+        p=new Parameters(args);
     }
 
     public static void main(String[] args) {
@@ -69,19 +71,9 @@ public class MainApp {
         MainApp server = new MainApp(args);
         TaskManager.start();
         String port = null;
-        HashedMessage.setInstance("development");
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("port")) {
-                port = args[++i];
-            }
-            if (args[i].equals("instance")) {
-                HashedMessage.setInstance(args[++i]);
-            }
-        }
-
-        if (port == null) {
-            port = "8000";
-        }
+        HashedMessage.setInstance(p.getNamed().getOrDefault("instance", "unnamed"));
+        port=(p.getNamed().getOrDefault("port","8000"));
+        
 
         try {
             System.out.println("Starting server on " + port);

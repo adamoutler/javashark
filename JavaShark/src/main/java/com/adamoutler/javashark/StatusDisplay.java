@@ -28,7 +28,7 @@ public class StatusDisplay {
     public String getStatus() {
         StringBuilder sb = new StringBuilder();
         ArrayList<VirtualBoxMachine> active = new VirtualBox().getMachinesList();
-        sb.append("<head><title>Hello World</title><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>"
+        sb.append("<head><title>").append(HashedMessage.instance).append(" status</title><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>"
                 + "<style> .themed-container {"
                 + "    padding: 15px;"
                 + "    margin-bottom: 30px;"
@@ -44,7 +44,7 @@ public class StatusDisplay {
                 + "    max-height: 200px;"
                 + "}"
                 + "</style></head><body>");
-        sb.append("<H1> JavaShark ").append(HashedMessage.instance).append(" Status</H1>");
+        sb.append("<H3> JavaShark ").append(HashedMessage.instance).append(" Status</H1>");
         sb.append("<div class=\"w3-white w3-padding \">");
         active.stream().sorted((VirtualBoxMachine a, VirtualBoxMachine b) -> {
             return a.getGang().compareTo(b.getGang());
@@ -52,7 +52,7 @@ public class StatusDisplay {
             String screenshot = "";
             boolean online = vm.isPoweredOn();
             sb.append("<tr><tc><div class=\"nav section w3-white w3-padding themed-container\"><div class=\"item\">")
-                    .append("<h4>")
+                    .append("<h3>")
                     .append(online ? "<span class=\"text-success\">&#x1F4F1 " : "<span class=\"text-dark\">&#x1F4F4 ")
                     .append(vm.getUsername()).append(" ")
                     .append(vm.getGang()).append("</span></h4>");
