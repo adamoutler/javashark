@@ -28,21 +28,20 @@ public class StatusDisplay {
     public String getStatus() {
         StringBuilder sb = new StringBuilder();
         ArrayList<VirtualBoxMachine> active = new VirtualBox().getMachinesList();
-        sb.append("<html>"
-                + "<head><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">"
-                + "<style> .themed-container {\n"
-                + "    padding: 15px;\n"
-                + "    margin-bottom: 30px;\n"
-                + "    background-color: rgba(0, 123, 255, .15);\n"
-                + "    border: 1px solid rgba(0, 123, 255, .2);\n"
+        sb.append("<head><title>Hello World</title><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>"
+                + "<style> .themed-container {"
+                + "    padding: 15px;"
+                + "    margin-bottom: 30px;"
+                + "    background-color: rgba(0, 123, 255, .15);"
+                + "    border: 1px solid rgba(0, 123, 255, .2);"
                 + "}"
-                + ".img {\n"
-                + "    max-width: auto;\n"
-                + "    max-height: 100%;\n"
+                + ".img {"
+                + "    max-width: auto;"
+                + "    max-height: 100%;"
                 + "}"
-                + ".smcontainer {\n"
-                + "    max-width: 300px;\n"
-                + "    max-height: 200px;\n"
+                + ".smcontainer {"
+                + "    max-width: 300px;"
+                + "    max-height: 200px;"
                 + "}"
                 + "</style></head><body>");
         sb.append("<H1> JavaShark ").append(HashedMessage.instance).append(" Status</H1>");
@@ -61,7 +60,6 @@ public class StatusDisplay {
                 TaskType task = vm.getCurrentTask();
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
-                screenshot = "https://javashark.baby-sharks.com/screenshots/offline1582986122317.png";
 
                 sb.append("<div><div><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())
