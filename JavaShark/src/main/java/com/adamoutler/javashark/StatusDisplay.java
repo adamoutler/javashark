@@ -84,7 +84,7 @@ public class StatusDisplay {
                     .append(vm.getRdpPort()).append("</div>");
             sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\">");
             if (!screenshot.isEmpty()) {
-                sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot maxwidth\"  src=\"").append(screenshot).append("\"></a>");
+                sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot\"  src=\"").append(screenshot).append("\"></a>");
             }
 
             sb.append("</tc></tr></div></div>");
