@@ -73,7 +73,7 @@ public class StatusDisplay {
                 TaskType task = vm.getCurrentTask();
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
-               // screenshot="https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
+                screenshot="https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
                 sb.append("<div class=\"machineinfo\"><div class=\"taskinfo\"><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())
                         .append("</div><div class=\"screeninfo\"><b>Screen:</b> ").append(screen.name())
@@ -82,12 +82,12 @@ public class StatusDisplay {
             }
             sb.append("<div class=\"portinfo\"><div class=\"adbinfo\">ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
                     .append(vm.getRdpPort()).append("</div>");
-            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\"><div >");
+            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\">");
             if (!screenshot.isEmpty()) {
-                sb.append("<img class=\"screenshot fiftyPercent\" style='margin-left: 1em; height: 100%; object-fit: contain' src=\"").append(screenshot).append("\">");
+                sb.append("<img class=\"screenshot fiftyPercent\"  src=\"").append(screenshot).append("\">");
             }
 
-            sb.append("</div></tc></tr></div></div>");
+            sb.append("</tc></tr></div></div>");
         });
         sb.append("</div>");
         return sb.toString();
