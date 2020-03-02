@@ -49,7 +49,7 @@ public class StatusDisplay {
                 
                 + "}"
                 + ".maxwidth{"
-                + "     max-width: 100%;"
+                + "     max-width: 99%;"
                 + "}"
                 + ".smcontainer {"
                 + "    max-width: 300px;"
@@ -63,7 +63,7 @@ public class StatusDisplay {
         }).forEach(vm -> {
             String screenshot = "";
             boolean online = vm.isPoweredOn();
-            sb.append("<div class=\"maxwidth\"><div class=\"fiftyPercent nav section w3-white w3-padding themed-container\"><tr class=\"tablerow\"><tc >")
+            sb.append("<div class=\"maxwidth useritem\"><div class=\"nav section w3-white w3-padding themed-container\"><tr class=\"maxwidth tablerow\"><tc class=\"fiftyPercent\" >")
                     .append("<h3  ")
                     .append(online ? "class=\"userheading text-success\">&#x1F4F1 " : "class=\"userheading text-dark\">&#x1F4F4 ")
                     .append(vm.getUsername()).append(" ")
