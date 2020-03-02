@@ -33,7 +33,6 @@ public class StatusDisplay {
                 + ".body {"
                 + "word-wrap: break-word;"
                 + "}"
-                
                 + " .themed-container {"
                 + "    padding: 15px;"
                 + "    margin-bottom: 30px;"
@@ -47,7 +46,6 @@ public class StatusDisplay {
                 + "    max-height: 50%;"
                 + "    display: flex; "
                 + "    object-fit: scale-down;"
-                
                 + "}"
                 + ".maxwidth{"
                 + "     max-width: 99%;"
@@ -73,7 +71,9 @@ public class StatusDisplay {
                 TaskType task = vm.getCurrentTask();
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
-                screenshot="https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
+                if (HashedMessage.instance.equals("developmenttest")) {
+                    screenshot="https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
+                }
                 sb.append("<div class=\"machineinfo\"><div class=\"taskinfo\"><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())
                         .append("</div><div class=\"screeninfo\"><b>Screen:</b> ").append(screen.name())
@@ -84,7 +84,7 @@ public class StatusDisplay {
                     .append(vm.getRdpPort()).append("</div>");
             sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\">");
             if (!screenshot.isEmpty()) {
-                sb.append("<img class=\"screenshot fiftyPercent\"  src=\"").append(screenshot).append("\">");
+                sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot fiftyPercent\"  src=\"").append(screenshot).append("\"></a>");
             }
 
             sb.append("</tc></tr></div></div>");
