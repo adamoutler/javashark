@@ -28,50 +28,62 @@ public class StatusDisplay {
     public String getStatus() {
         StringBuilder sb = new StringBuilder();
         ArrayList<VirtualBoxMachine> active = new VirtualBox().getMachinesList();
-        sb.append("<head><title>").append(HashedMessage.instance).append(" status</title><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>"
-                + "<style> .themed-container {"
+        sb.append("<html><head><title>").append(HashedMessage.instance).append(" status</title><link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>"
+                + "<style>"
+                + ".body {"
+                + "word-wrap: break-word;"
+                + "}"
+                
+                + " .themed-container {"
                 + "    padding: 15px;"
                 + "    margin-bottom: 30px;"
                 + "    background-color: rgba(0, 123, 255, .15);"
                 + "    border: 1px solid rgba(0, 123, 255, .2);"
                 + "}"
+                + ".fiftyPercent{"
+                + "    max-width:47%;"
                 + ".img {"
-                + "    max-width: auto;"
-                + "    max-height: 100%;"
+                + "    max-width: 47%;"
+                + "    max-height: 50%;"
+                + "    display: flex; "
+                
+                + "}"
+                + ".maxwidth{"
+                + "     max-width: 100%;"
                 + "}"
                 + ".smcontainer {"
                 + "    max-width: 300px;"
                 + "    max-height: 200px;"
                 + "}"
                 + "</style></head><body>");
-        sb.append("<H3> JavaShark ").append(HashedMessage.instance).append(" Status</H1>");
+        sb.append("<H2 class=\"javasharkheading\"> JavaShark ").append(HashedMessage.instance).append(" Status</H2>");
         sb.append("<div class=\"w3-white w3-padding \">");
         active.stream().sorted((VirtualBoxMachine a, VirtualBoxMachine b) -> {
             return a.getGang().compareTo(b.getGang());
         }).forEach(vm -> {
             String screenshot = "";
             boolean online = vm.isPoweredOn();
-            sb.append("<tr><tc><div class=\"nav section w3-white w3-padding themed-container\"><div class=\"item\">")
-                    .append("<h3>")
-                    .append(online ? "<span class=\"text-success\">&#x1F4F1 " : "<span class=\"text-dark\">&#x1F4F4 ")
+            sb.append("<div class=\"maxwidth\"><div class=\"fiftyPercent nav section w3-white w3-padding themed-container\"><tr class=\"tablerow\"><tc >")
+                    .append("<h3  ")
+                    .append(online ? "class=\"userheading text-success\">&#x1F4F1 " : "class=\"userheading text-dark\">&#x1F4F4 ")
                     .append(vm.getUsername()).append(" ")
-                    .append(vm.getGang()).append("</span></h4>");
+                    .append(vm.getGang()).append("</h3>");
             if (online) {
                 TaskType task = vm.getCurrentTask();
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
-
-                sb.append("<div><div><b>Task:</b> ").append(task.name())
+               // screenshot="https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
+                sb.append("<div class=\"machineinfo\"><div class=\"taskinfo\"><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())
-                        .append("</div><div><b>Screen:</b> ").append(screen.name())
+                        .append("</div><div class=\"screeninfo\"><b>Screen:</b> ").append(screen.name())
                         .append(" - ").append(screen.getDescription())
                         .append("</div></div>");
             }
-            sb.append("<div><div>ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
-                    .append(vm.getRdpPort()).append("</div></div>");
-            sb.append("<div><small>").append(vm.getVMName()).append("</small></div></div></tc><tc><div >");
+            sb.append("<div class=\"portinfo\"><div class=\"adbinfo\">ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
+                    .append(vm.getRdpPort()).append("</div>");
+            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\"><div >");
             if (!screenshot.isEmpty()) {
-                sb.append("<img  style='margin-left: 1em; height: 100%; object-fit: contain' src=\"").append(screenshot).append("\">");
+                sb.append("<img class=\"screenshot\" style='margin-left: 1em; height: 100%; object-fit: contain' src=\"").append(screenshot).append("\">");
             }
 
             sb.append("</div></tc></tr></div></div>");
