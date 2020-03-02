@@ -42,7 +42,7 @@ public class StatusDisplay {
                 + ".fiftyPercent{"
                 + "    max-width:47%;"
                 +".imgwidth{"
-                + "    max-width:100%;"
+                + "    max-width:60%;"
                 + ".img {"
                 + "    max-width: 47%;"
                 + "    max-height: 50%;"
