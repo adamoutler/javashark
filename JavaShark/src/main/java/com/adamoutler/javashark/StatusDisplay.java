@@ -41,6 +41,8 @@ public class StatusDisplay {
                 + "}"
                 + ".fiftyPercent{"
                 + "    max-width:47%;"
+                +".imgwidth{"
+                + "    max-width:100%;"
                 + ".img {"
                 + "    max-width: 47%;"
                 + "    max-height: 50%;"
@@ -84,7 +86,7 @@ public class StatusDisplay {
                     .append(vm.getRdpPort()).append("</div>");
             sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></tc><tc class=\"fiftyPercent\">");
             if (!screenshot.isEmpty()) {
-                sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot fiftyPercent\"  src=\"").append(screenshot).append("\"></a>");
+                sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot imgwidth\"  src=\"").append(screenshot).append("\"></a>");
             }
 
             sb.append("</tc></tr></div></div>");
