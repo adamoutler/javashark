@@ -412,8 +412,8 @@ public class FastBuildingOwnershipDetector {
                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
                 }
                 if (ScreenData.BOOTED.matchesHashes(screenshot)) {
-                    vm.setTemporaryTask(TaskType.STARTCATS);
-                    vm.getTaskData().nullCount=-60;
+                    vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+                    vm.getTaskData().nullCount=-100;
                 }
                 if (ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot)) {
                     vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
