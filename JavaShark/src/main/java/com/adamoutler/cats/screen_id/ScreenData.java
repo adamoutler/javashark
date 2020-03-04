@@ -74,10 +74,10 @@ public enum ScreenData {
         //    ZEPTOSCREEN(new HashedPicCoords[]{new HashedPicCoords(470, 480, 59, 10, -339401605), new HashedPicCoords(470, 480, 59, 10, 37205478)}, new ColoredXYCoords[]{}, "Zeptolab icon loading screen"),
         //    OKDEFEAT(new HashedPicCoords[]{new HashedPicCoords(430, 577, 173, 47, -1841029738)}, new ColoredXYCoords[]{}, "Defeat Screen with OK button"),
 
-        UNRESPONSIVEBACKTODISMISS(HashedPicCoordsPropertiesAccessor.factory("UNRESPONSIVEBACKTODISMISS"),"A random error"),
-        RANDOMERROR(HashedPicCoordsPropertiesAccessor.factory("RANDOMERROR"),"A random error"),
+        UNRESPONSIVEBACKTODISMISS(HashedPicCoordsPropertiesAccessor.factory("UNRESPONSIVEBACKTODISMISS"),"This is an error screen which can be dismissed with the back button. "),
+        RANDOMERROR(HashedPicCoordsPropertiesAccessor.factory("RANDOMERROR"),"A random big-size error within C.A.T.S."),
         UNRESPONSIVE(HashedPicCoordsPropertiesAccessor.factory("UNRESPONSIVE"), "The machine did not return a screenshot"),
-        WAITUNRESPONSIVE(HashedPicCoordsPropertiesAccessor.factory("WAITUNRESPONSIVE"),"A WAIT message"),
+        WAITUNRESPONSIVE(HashedPicCoordsPropertiesAccessor.factory("WAITUNRESPONSIVE"),"A WAIT message. Make sure this is nto a UNRESPONSIVEBACKTODISMISS"),
         WHATCANYOUDOTODAY(HashedPicCoordsPropertiesAccessor.factory("WHATCANYOUDOTODAY"), "what do you want to do today"),
         NOTRESPONDING(HashedPicCoordsPropertiesAccessor.factory("NOTRESPONDING"),"CATS is not responding"),
         STORE(HashedPicCoordsPropertiesAccessor.factory("STORE"), "Zepto Lab Store screen"),

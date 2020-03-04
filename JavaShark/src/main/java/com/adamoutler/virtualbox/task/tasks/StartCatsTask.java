@@ -29,6 +29,7 @@ public class StartCatsTask extends Task {
             return;
         }
         vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
+        vm.getTaskData().setLastStartCats(System.currentTimeMillis());
         ready(vm);
     }
 

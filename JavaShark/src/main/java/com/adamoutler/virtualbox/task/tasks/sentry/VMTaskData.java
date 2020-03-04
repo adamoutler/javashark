@@ -42,6 +42,7 @@ public class VMTaskData {
     Float building4PreviousPercentOurCars;
     Float building5PreviousPercentOurCars;
     Float building6PreviousPercentOurCars;
+    public long lastStarted;
 
     public void clearBuildingData() {
         building1PercentOurCars = null;

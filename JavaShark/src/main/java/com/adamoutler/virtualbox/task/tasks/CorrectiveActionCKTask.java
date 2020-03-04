@@ -7,7 +7,10 @@ package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.screen_id.ScreenData;
+import static com.adamoutler.cats.screen_id.ScreenData.UNRESPONSIVEBACKTODISMISS;
+import static com.adamoutler.cats.screen_id.ScreenData.WAITUNRESPONSIVE;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,8 +40,21 @@ public class CorrectiveActionCKTask extends Task {
         } catch (InterruptedException ex) {
             Logger.getLogger(CorrectiveActionCKTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ScreenData sd=vm.getScreen();
-        if (!sd.equals(ScreenData.CITYKINGS)&&!sd.equals(ScreenData.CITYKINGSBEGINTHEATTACK)&&!sd.equals(ScreenData.CITYKINGSENLIST)) {
+        ScreenData sd = vm.getScreen();
+        if (!sd.equals(ScreenData.CITYKINGS) && !sd.equals(ScreenData.CITYKINGSBEGINTHEATTACK) && !sd.equals(ScreenData.CITYKINGSENLIST)) {
+            if (sd.equals(ScreenData.BOOTED)) {
+                vm.setTemporaryTask(TaskType.STARTCATS);
+            }
+            if (sd.equals(WAITUNRESPONSIVE)) {
+                vm.tap(WAITUNRESPONSIVE.getPicCoords());
+            }
+            if (sd.equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+            }
+            if (sd.equals(ScreenData.RANDOMERROR)) {
+                vm.tap(ScreenData.RANDOMERROR.getPicCoords());
+            }
+
             vm.adbShell(new String[]{"input keyevent KEYCODE_BACK; sleep 1; input tap 899 87;input tap 899 87;"});
         } else {
             complete(vm);

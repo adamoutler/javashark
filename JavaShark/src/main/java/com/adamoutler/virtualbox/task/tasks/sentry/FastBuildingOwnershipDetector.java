@@ -18,6 +18,7 @@ import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
+import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident;
 import com.babysharks.datastructures.indidents.BuildingChangeIncident.IncidentType;
 import com.babysharks.messaging.HashedMessage;
@@ -409,6 +410,13 @@ public class FastBuildingOwnershipDetector {
 
                 if (ScreenData.identifyScreen(screenshot).equals(ScreenData.RANDOMERROR)) {
                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                }
+                if (ScreenData.BOOTED.matchesHashes(screenshot)) {
+                    vm.setTemporaryTask(TaskType.STARTCATS);
+                    vm.getTaskData().nullCount=-60;
+                }
+                if (ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot)) {
+                    vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
                 }
                 if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
                     vm.adbShell("input", "keyevent", "KEYCODE_BACK");
