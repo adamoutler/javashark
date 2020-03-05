@@ -22,8 +22,8 @@ public class StartCatsTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         vm.getTaskData().startCatsRetries = 0;
-        ScreenData sd=vm.getScreen();
-        if (!sd.equals(ScreenData.BOOTED) && !sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN)&& !sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN)&& !sd.equals(ScreenData.CITYKINGS)) {
+        ScreenData sd = vm.getScreen();
+        if (!sd.equals(ScreenData.BOOTED) && !sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN) && !sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN) && !sd.equals(ScreenData.CITYKINGS)) {
             vm.setTaskInitialized(false);
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
             vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_DPAD_RIGHT"});
@@ -57,12 +57,12 @@ public class StartCatsTask extends Task {
                 case WAITUNRESPONSIVE:
                     vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
                     break;
-                    
+
                 case RANDOMERROR:
-                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
                     break;
                 case UNRESPONSIVEBACKTODISMISS:
-                vm.adbShell("input", "keyevent", "KEYCODE_BACK");
+                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                     break;
                 default:
                     vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
@@ -76,14 +76,16 @@ public class StartCatsTask extends Task {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(StartCatsTask.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
+
                         initializeTask(vm);
-                    }   if (vm.getTaskData().startCatsRetries == 201) {
+                    }
+                    if (vm.getTaskData().startCatsRetries == 201) {
                         vm.clearTasks();
                         vm.addTask(TaskType.POWEROFF);
                         vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
-                        
-                    }   break;
+
+                    }
+                    break;
             }
         }
     }

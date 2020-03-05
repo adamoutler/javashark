@@ -410,12 +410,14 @@ public class FastBuildingOwnershipDetector {
                 } else if (ScreenData.BOOTED.matchesHashes(screenshot)) {
                     vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
                     vm.getTaskData().nullCount = -100;
-                } else if (ScreenData.WHATCANYOUDOTODAY.matchesHashes(screenshot) || ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot)) {
+                } else if (ScreenData.WHATCANYOUDOTODAY.matchesHashes(screenshot) || ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot) && vm.getTaskData().nullCount >0) {
+                   
                     vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
                     return;
                 } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
                     vm.adbShell("input", "keyevent", "KEYCODE_BACK");
-                } else if (vm.getTaskData().nullCount++ > 9) {
+                }
+                if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
                     BufferedImage lastScreenshot = vm.screenshot();

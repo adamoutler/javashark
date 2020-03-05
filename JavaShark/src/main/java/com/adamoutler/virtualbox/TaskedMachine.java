@@ -155,8 +155,10 @@ public class TaskedMachine {
      * @param taskComplete the taskComplete to set
      */
     synchronized public void setTaskComplete(boolean taskComplete) {
-        this.taskComplete = taskComplete;
-        if (taskList.size() > 1) {
+         if (this.temporaryTaskAvailable) {
+            removeTemporaryTask();
+        } else  if (taskList.size() > 1) {
+            this.taskComplete = taskComplete;
             this.performTaskListMaintenance();
         }
     }

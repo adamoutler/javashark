@@ -41,7 +41,10 @@ public abstract class Task implements IfaceTask {
     }
 
     void complete(VirtualBoxMachine vm) {
-        vm.setTaskComplete(true);
+       
+            vm.setTaskComplete(true);
+        
+        
     }
 
     void initialized(VirtualBoxMachine vm) {
