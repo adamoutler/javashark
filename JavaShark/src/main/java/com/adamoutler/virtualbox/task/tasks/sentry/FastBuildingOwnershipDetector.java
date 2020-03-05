@@ -403,25 +403,19 @@ public class FastBuildingOwnershipDetector {
                 }
                 if (ScreenData.identifyScreen(screenshot).equals(ScreenData.NOTRESPONDING)) {
                     vm.longTap(new XYCoords(400, 406));
-                }
-                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.WAITUNRESPONSIVE)) {
+                } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.WAITUNRESPONSIVE)) {
                     vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
-                }
-
-                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.RANDOMERROR)) {
+                } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.RANDOMERROR)) {
                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
-                }
-                if (ScreenData.BOOTED.matchesHashes(screenshot)) {
+                } else if (ScreenData.BOOTED.matchesHashes(screenshot)) {
                     vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
-                    vm.getTaskData().nullCount=-100;
-                }
-                if (ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot)) {
+                    vm.getTaskData().nullCount = -100;
+                } else if (ScreenData.WHATCANYOUDOTODAY.matchesHashes(screenshot) || ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot)) {
                     vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
-                }
-                if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
+                    return;
+                } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
                     vm.adbShell("input", "keyevent", "KEYCODE_BACK");
-                }
-                if (vm.getTaskData().nullCount++ > 9) {
+                } else if (vm.getTaskData().nullCount++ > 9) {
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
                     BufferedImage lastScreenshot = vm.screenshot();
