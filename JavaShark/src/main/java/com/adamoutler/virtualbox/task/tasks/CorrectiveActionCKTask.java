@@ -35,19 +35,23 @@ public class CorrectiveActionCKTask extends Task {
     @Override
     void runTask(VirtualBoxMachine vm) {
 
+        if (vm.getTaskData().lastCorrectiveAction>System.currentTimeMillis()-2000){
+            return;
+        }
+        vm.getTaskData().lastCorrectiveAction=System.currentTimeMillis();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(CorrectiveActionCKTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         ScreenData sd = vm.getScreen();
-        if (!sd.equals(ScreenData.CITYKINGS) && !sd.equals(ScreenData.CITYKINGSBEGINTHEATTACK) && !sd.equals(ScreenData.CITYKINGSENLIST)) {
+        
+        if (!sd.equals(ScreenData.RECONNECT) && !sd.equals(ScreenData.CITYKINGS) && !sd.equals(ScreenData.CITYKINGSBEGINTHEATTACK) && !sd.equals(ScreenData.CITYKINGSENLIST)) {
             if (sd.equals(ScreenData.BOOTED)) {
                 vm.setTemporaryTask(TaskType.STARTCATS);
-            }
-            if (sd.equals(WAITUNRESPONSIVE)) {
+            } else  if (sd.equals(WAITUNRESPONSIVE)) {
                 vm.tap(WAITUNRESPONSIVE.getPicCoords());
-            }
+            } 
             if (sd.equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
                 vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
             }

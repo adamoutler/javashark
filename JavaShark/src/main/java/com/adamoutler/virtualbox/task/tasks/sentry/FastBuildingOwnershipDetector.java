@@ -407,6 +407,8 @@ public class FastBuildingOwnershipDetector {
                     vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
                 } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.RANDOMERROR)) {
                     vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
+                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                 } else if (ScreenData.BOOTED.matchesHashes(screenshot)) {
                     vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
                     vm.getTaskData().nullCount = -100;
@@ -414,10 +416,11 @@ public class FastBuildingOwnershipDetector {
                    
                     vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
                     return;
-                } else if (ScreenData.identifyScreen(screenshot).equals(ScreenData.UNRESPONSIVEBACKTODISMISS)) {
-                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                 }
                 if (vm.getTaskData().nullCount++ > 9) {
+                    if (vm.isTemporaryTaskAvailable()){
+                        vm.removeTemporaryTask();
+                    }
                     vm.setTaskComplete(true);
                     vm.updateStatuses();
                     BufferedImage lastScreenshot = vm.screenshot();
