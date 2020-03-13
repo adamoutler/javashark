@@ -5,6 +5,7 @@
  */
 package com.adamoutler.javashark;
 
+import com.adamoutler.Prop;
 import com.adamoutler.javashark.handlers.OverallStatusHandler;
 import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
@@ -30,21 +31,32 @@ import com.babysharks.messaging.Message;
 import com.babysharks.messaging.MessageData;
 import com.babysharks.messaging.PapaAsync;
 import com.sun.net.httpserver.HttpServer;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Base64;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  *
  * @author adamo
  */
-public class MainApp  {
+public class MainApp {
 
     private static String[] args;
     static Parameters p;
+    public static Date onlineTime = new Date();
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
@@ -62,7 +74,7 @@ public class MainApp  {
 
     MainApp(String[] args) {
         MainApp.args = args;
-        p=new Parameters(args);
+        p = new Parameters(args);
     }
 
     public static void main(String[] args) {
@@ -72,8 +84,7 @@ public class MainApp  {
         TaskManager.start();
         String port = null;
         HashedMessage.setInstance(p.getNamed().getOrDefault("instance", "unnamed"));
-        port=(p.getNamed().getOrDefault("port","8000"));
-        
+        port = (p.getNamed().getOrDefault("port", "8000"));
 
         try {
             System.out.println("Starting server on " + port);
@@ -126,8 +137,8 @@ public class MainApp  {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(portNumber), 0);
         server.createContext("/test", new TestHandler());
-        server.createContext("/status",new OverallStatusHandler());
-        
+        server.createContext("/status", new OverallStatusHandler());
+
         server.createContext("/command", commandDistributor);
         server.setExecutor(new DefaultExecutor()); // creates a default executor
         server.start();
@@ -157,4 +168,26 @@ public class MainApp  {
             task.run();
         }
     }
+
+    public static Date getJenkinsBuildTime() {
+        try {
+            String url = "https://jenkins.adamoutler.com/view/The%20Baby%20Sharks/job/Baby%20Sharks%20Tools/lastBuild/api/xml?xpath=/*/timestamp";
+            URL obj = new URL(url);
+            String basicAuth = "Basic " + new String(Base64.getEncoder().encode((Prop.getProp("jenkinsusername")+":"+Prop.getProp("jenkinspass")).getBytes()));
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            con.setRequestProperty("Authorization", basicAuth);
+            con.setRequestMethod("GET");
+            String response= new BufferedReader(new InputStreamReader(con.getInputStream())).readLine().replaceAll("/","").replaceAll("<timestamp>", "");
+            return new Date(Long.parseLong(response));
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProtocolException ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new Date();
+    }
+
 }

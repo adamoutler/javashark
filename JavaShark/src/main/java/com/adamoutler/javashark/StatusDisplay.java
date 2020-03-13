@@ -12,6 +12,7 @@ import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.HashedMessage;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -53,7 +54,7 @@ public class StatusDisplay {
                 + "    "
                 + "}"
                 + "</style></head><body>");
-        sb.append("<H2 class=\"javasharkheading\"> JavaShark ").append(HashedMessage.instance).append(" Status</H2>");
+        sb.append("<H2 class=\"javasharkheading\">").append(HashedMessage.instance).append(" Status</H2>");
         sb.append("<div class=\"w3-white w3-padding \">");
         active.stream().sorted((VirtualBoxMachine a, VirtualBoxMachine b) -> {
             return a.getGang().compareTo(b.getGang());
@@ -87,8 +88,12 @@ public class StatusDisplay {
 
             sb.append("</div></tr></table></div></div>");
         });
-        sb.append("</div>");
+        sb.append("</div>").append("<small>Local Time: ").append(new Date().toString()).append(" - Online Since: ").append(MainApp.onlineTime).append(" - Built: ").append(MainApp.getJenkinsBuildTime().toString()).append("</small>");
+        
         return sb.toString();
     }
-;
+    
+    
+    
+    
 }
