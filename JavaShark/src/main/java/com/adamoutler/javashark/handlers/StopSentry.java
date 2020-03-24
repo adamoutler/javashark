@@ -35,6 +35,9 @@ public class StopSentry extends SentryAbstractPapaHandler {
                 if (otherVM == null) {
                     request.getData().setErrorType(ErrorType.NOSENTRIESACTIVE);
                     request.getData().addAvailable(vm).setReason("stopped already");
+                    this.sendSucessMessage(he, request);
+
+                    return;
                 } else {
                     tt = otherVM.getCurrentTask();
                     otherVM.addTask(TaskType.CLEAR);
