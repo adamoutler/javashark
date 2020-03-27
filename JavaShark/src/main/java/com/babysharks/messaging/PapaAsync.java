@@ -8,7 +8,17 @@ package com.babysharks.messaging;
 import com.adamoutler.Prop;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -142,14 +152,28 @@ public class PapaAsync {
         System.err.println(json);
         String gang = getGangFromMessage(hm);
         String s;
-        if (gang == null || gang.equals("staging") || gang.equals("development")) {
-            System.out.println("Sending message to Uncle Shark for gang:" + gang);
-            s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
-        } else {
-            System.out.println("Sending message to Papa Shark for gang:" + gang);
-            s = getRestTemplate().postForObject(PPAPAURL, json, String.class);
-        }
+        s = sendRequest(gang, json);
         System.out.println("Received: " + s);
+        return s;
+    }
+
+    private static String sendRequest(String gang, String json) throws RestClientException {
+        String s;
+
+        try {
+            if (gang == null || gang.equals("staging") || gang.equals("development")) {
+                System.out.println("Sending message to Uncle Shark for gang:" + gang);
+                s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
+            } else {
+                System.out.println("Sending message to Papa Shark for gang:" + gang);
+                s = getRestTemplate().postForObject(PPAPAURL, json, String.class);
+            }
+            processCache();
+        } catch (Exception ex) {
+
+            addMessageToCache(gang, json);
+            throw new RestClientException("Could not send message, trying again later");
+        }
         return s;
     }
 
@@ -180,4 +204,86 @@ public class PapaAsync {
         return template;
     }
 
+    static File cacheFile = new File(System.getProperty("user.home") + "/papaCache.json");
+
+    static String[] recognizedAddableStrings = new String[]{
+        "\"reason\": \"blind\",",
+    };
+    private static void addMessageToCache(String gang, String json) {
+        boolean addable=false;
+        for (String string:recognizedAddableStrings){
+            if (json.contains("string")){
+                addable=true;
+            }
+        }
+        if (!addable) {
+            return;
+        }
+        try {
+            ArrayList al = null;
+            Gson gson = new GsonBuilder().create();
+            try (FileReader reader = new FileReader(cacheFile)) {
+                al = gson.fromJson(reader, ArrayList.class);
+            } catch (IOException ex) {
+                Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (al == null) {
+                al = new ArrayList();
+            }
+            al.add(new MessageObject(gang, json));
+            String outputjson = gson.toJson(al);
+            cacheFile.delete();
+            cacheFile.createNewFile();
+            try (FileWriter writer = new FileWriter(cacheFile)) {
+                writer.write(outputjson);
+            } catch (IOException ex) {
+                Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static void processCache() {
+        try {
+            if (cacheFile.length() < 5) {
+                return;
+            }
+            ArrayList<MessageObject> al = new ArrayList<>();
+            Gson gson = new GsonBuilder().create();
+            try (FileReader reader = new FileReader(cacheFile)) {
+                Type collectionType = new TypeToken<ArrayList<MessageObject>>() {
+                }.getType();
+                al = gson.fromJson(reader, collectionType);
+            } catch (IOException ex) {
+                Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String outputjson = gson.toJson(al);
+            cacheFile.delete();
+            cacheFile.createNewFile();
+            for (MessageObject o : al) {
+
+                try {
+                    sendRequest(o.gang, o.json);
+                } catch (Throwable ex) {
+                    System.out.println("error while processing;");
+                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+}
+
+class MessageObject {
+
+    String gang;
+    String json;
+
+    MessageObject(String gang, String json) {
+        this.gang = gang;
+        this.json = json;
+    }
 }
