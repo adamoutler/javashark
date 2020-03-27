@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task;
 
+import com.adamoutler.virtualbox.task.tasks.ReWatchTask;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFoeScanTask;
 import com.adamoutler.virtualbox.task.tasks.BattlefieldFullFriendlylScanTask;
@@ -53,7 +54,9 @@ public enum TaskType {
     HOLD(new Idle20MinuteTask(), "Holding machine online for 20 minutes"),
     UPDATECATS(new UpdateCatsTask(), "Updating CATS."),
     MYCARS(new MyCarsTask(), "Examining my cars"), 
+    REWATCH(new ReWatchTask(),"Add corrective action and watch tasks"),
     BEGINTHEATTACK(new BeginTheAttackWatch(),"Monitoring Begin The Attack Screen");
+    
 
     private IfaceTask task;
     private String taskDescription;
