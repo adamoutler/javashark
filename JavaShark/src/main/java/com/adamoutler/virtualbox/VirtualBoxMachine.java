@@ -9,6 +9,7 @@ import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
+import static com.adamoutler.virtualbox.VirtualBox.VBOX;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -23,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -46,7 +48,6 @@ public class VirtualBoxMachine extends TaskedMachine {
     transient private String rdpPort;
     private ScreenData screenID = ScreenData.OFF;
     private String screenDescription;
-    private String adamoutlerchat = "";
     transient private byte[] screenshot = new byte[]{};
     private transient Map<String, String> hashes;
     transient private boolean killThread;
@@ -68,6 +69,49 @@ public class VirtualBoxMachine extends TaskedMachine {
             this.addTask(TaskType.POWEROFF);
         }
     }
+    private File recordingFile = null;
+
+    public void startRecording(File outputFile) {
+        this.recordingFile = outputFile;
+        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", this.machineName, "recording", "filename", recordingFile.getAbsolutePath()});
+        startProcess(pb);
+        ProcessBuilder pb2 = new ProcessBuilder(new String[]{VBOX, "controlvm", this.machineName, "recording", "on"});
+        startProcess(pb2);
+    }
+
+    private void startProcess(ProcessBuilder pb) {
+        pb.redirectError();
+        try {
+            Process p = pb.start();
+            try (BufferedInputStream is = new BufferedInputStream(p.getInputStream())) {
+                p.waitFor(1, TimeUnit.SECONDS);
+                StringBuilder sb = new StringBuilder();
+
+                while (is.available() > 0) {
+                    sb.append((char) is.read());
+                }
+                System.out.println(sb.toString());
+            } catch (InterruptedException ex) {
+
+                Logger.getLogger(VirtualBox.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(VirtualBox.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean isRecording() {
+        return recordingFile != null;
+    }
+
+    public File stopRecording() {
+        ProcessBuilder pb = new ProcessBuilder(new String[]{VBOX, "controlvm", this.machineName, "recording", "off"});
+        startProcess(pb);
+        File myfile = this.recordingFile;
+        recordingFile = null;
+        return myfile;
+
+    }
 
     public VirtualBoxMachine(String gang, String user, String port, String rdp) {
         this.gang = gang;
@@ -83,39 +127,39 @@ public class VirtualBoxMachine extends TaskedMachine {
         try {
             String filename = System.getProperty("java.io.tmpdir") + "/" + name + System.currentTimeMillis() + ".png";
             System.out.println("Could not identify screen!  Wrote \"" + filename + "\" screen to logs");
-            File f=new File(filename);
+            File f = new File(filename);
             FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
             return f;
-            
+
         } catch (IOException ex) {
             Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
 
     }
-    
-     public String writeScreenToWebServer(String name) {
+
+    public String writeScreenToWebServer(String name) {
         try {
-            String filename =  name + System.currentTimeMillis() + ".png";
-            System.out.println("Could not identify screen!  Wrote \""+Prop.getProp("screenshots")+"\"" + filename + "\" screen to logs");
-            File f=new File(Prop.getProp("screenshots")+filename);
+            String filename = name + System.currentTimeMillis() + ".png";
+            System.out.println("Could not identify screen!  Wrote \"" + Prop.getProp("screenshots") + "\"" + filename + "\" screen to logs");
+            File f = new File(Prop.getProp("screenshots") + filename);
             FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
-            return "https://javashark.baby-sharks.com/screenshots/"+filename;
-            
+            return "https://javashark.baby-sharks.com/screenshots/" + filename;
+
         } catch (IOException ex) {
             Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
 
     }
-    
+
     transient List<BufferedImage> images = null;
 
     public void DEBUGaddImages(BufferedImage... image) {
-        if (images==null){
-            images=new LinkedList<>();
+        if (images == null) {
+            images = new LinkedList<>();
         }
         Collections.addAll(images, image);
     }
@@ -371,6 +415,10 @@ public class VirtualBoxMachine extends TaskedMachine {
 
     public void longTap(XYCoords coords) {
         this.adbShell("input", "swipe", coords.getXStr(), coords.getYStr(), coords.getXStr(), coords.getYStr());
+    }
+
+    public void swipe(XYCoords start, XYCoords end, int timeInMs) {
+        this.adbShell("input", "swipe", start.getXStr(), start.getYStr(), end.getXStr(), end.getYStr(), timeInMs + "");
     }
 
     /**

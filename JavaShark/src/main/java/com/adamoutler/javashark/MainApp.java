@@ -24,6 +24,7 @@ import com.adamoutler.javashark.handlers.TaskHandler;
 import com.adamoutler.javashark.handlers.TemporaryTaskHandler;
 import com.adamoutler.javashark.handlers.TestHandler;
 import com.adamoutler.javashark.handlers.TimeHandler;
+import com.adamoutler.javashark.handlers.TrophyRecordHandler;
 import com.adamoutler.javashark.handlers.UpdateHandler;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.babysharks.messaging.HashedMessage;
@@ -131,6 +132,7 @@ public class MainApp {
         commandDistributor.register("hashReload", new HashHandler());
         commandDistributor.register("listcalibrations", new HashHandler());
         commandDistributor.register("search", new HistoricalSearchHandler());
+        commandDistributor.register("trophyrecord", new TrophyRecordHandler());
 
         commandDistributor.register("mycars", new MyCarsHandler());
         commandDistributor.register("lastcars", new LastCarSearchHandler());
@@ -173,13 +175,13 @@ public class MainApp {
         try {
             String url = "https://jenkins.adamoutler.com/view/The%20Baby%20Sharks/job/Baby%20Sharks%20Tools/lastBuild/api/xml?xpath=/*/timestamp";
             URL obj = new URL(url);
-            String basicAuth = "Basic " + new String(Base64.getEncoder().encode((Prop.getProp("jenkinsusername")+":"+Prop.getProp("jenkinspass")).getBytes()));
+            String basicAuth = "Basic " + new String(Base64.getEncoder().encode((Prop.getProp("jenkinsusername") + ":" + Prop.getProp("jenkinspass")).getBytes()));
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestProperty("Authorization", basicAuth);
             con.setRequestMethod("GET");
-            String response= new BufferedReader(new InputStreamReader(con.getInputStream())).readLine().replaceAll("/","").replaceAll("<timestamp>", "");
+            String response = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine().replaceAll("/", "").replaceAll("<timestamp>", "");
             return new Date(Long.parseLong(response));
-            
+
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProtocolException ex) {

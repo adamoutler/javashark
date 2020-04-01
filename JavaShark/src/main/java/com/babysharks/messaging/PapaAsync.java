@@ -161,7 +161,8 @@ public class PapaAsync {
         String s;
 
         try {
-            if (gang == null || gang.equals("staging") || gang.equals("development")) {
+            if (gang=="none") gang="development";
+            if (gang == null ||gang.equals("none") || gang.equals("staging") || gang.equals("development")) {
                 System.out.println("Sending message to Uncle Shark for gang:" + gang);
                 s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
             } else {

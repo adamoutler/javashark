@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 import se.vidstige.jadb.JadbDevice;
 
 /**
@@ -85,5 +86,31 @@ public class VirtualBoxMachineTest {
         return ll.toArray(new BufferedImage[ll.size()]);
     }
     
+    @Test
+    public void testRecording() throws InterruptedException{
+        try {
+            System.out.println("Test recording");
+            ArrayList<VirtualBoxMachine> allvms=new VirtualBox().getActiveMachines();
+            ArrayList<VirtualBoxMachine> vms=new ArrayList<>();
+            for (VirtualBoxMachine vm:allvms){
+                if (vm.isPoweredOn())vms.add(vm);
+            }
+            assumeTrue(!vms.isEmpty());
+            VirtualBoxMachine vm=vms.get(0);
+            File f=File.createTempFile("fasdfasdf",".WebM");
+            f.delete();
+            vm.startRecording(f);
+            
+            Thread.sleep(5000);
+            vm.stopRecording();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(VirtualBoxMachineTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+    }
     
 }

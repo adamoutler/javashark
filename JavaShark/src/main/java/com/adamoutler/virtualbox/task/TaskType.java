@@ -19,6 +19,7 @@ import com.adamoutler.virtualbox.task.tasks.IdleTask;
 import com.adamoutler.virtualbox.task.tasks.MyCarsTask;
 import com.adamoutler.virtualbox.task.tasks.PowerOnTask;
 import com.adamoutler.virtualbox.task.tasks.PoweroffTask;
+import com.adamoutler.virtualbox.task.tasks.RecordTrophiesTask;
 import com.adamoutler.virtualbox.task.tasks.StartCatsTask;
 import com.adamoutler.virtualbox.task.tasks.Task;
 import com.adamoutler.virtualbox.task.tasks.UpdateCatsTask;
