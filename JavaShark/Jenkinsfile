@@ -1,0 +1,164 @@
+#!/usr/bin/env groovy
+
+pipeline{
+    agent any
+    stages{
+        stage("Clean Workspace"){
+            steps{
+                cleanWs cleanWhenSuccess: false
+            }
+        }
+        stage("Prepare Workspace"){
+            steps{
+                sh 'mkdir JavaShark'
+            }
+        }
+        stage ("Initialize"){
+            parallel {
+                stage('source'){
+                    stages{
+                        stage ("Check Out"){
+                            steps{
+                                checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[cancelProcessOnExternalsFail: true, credentialsId: 'cbbf68a8-f8b7-428c-a4f5-d89f0033ef93', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'https://svn.adamoutler.com/Baby%20Sharks%20Projects/JavaShark']], quietOperation: false, workspaceUpdater: [$class: 'UpdateWithCleanUpdater']])
+                            }
+                        }
+                    }
+                }
+                stage("env"){
+                    stages{
+                        stage ("Prepare Properties"){
+                            steps {
+                                sh '''
+                                    set +e
+                                    mkdir JavaShark
+                                    set -e
+                                    cp /var/lib/jenkins/tools/properties.prop ./
+                               '''
+                            }
+                        }
+                    }
+                }
+                stage("info"){
+                    stages{
+                        stage ("Notify Papa"){
+                            steps {
+                                sh '''
+                                    set +e
+                                    curl -X POST -d '{
+                                        "service": "JavaShark",
+                                        "message": {
+                                            "command": "newSoftwareVersion",
+                                                "data": {
+                                                    "reason": "Javashark build '${BUILD_ID}' is being built now. '${CHANGES_SINCE_LAST_SUCCESS, reverse=true, format="<b>Changes for Build #%n</b><br>%c<br>", changesFormat="<br>[%a] - (%r) %p<br> %m<br>"}'" ,
+                                                    "comment": "'$CHANGE_TITLE'",
+                                                    "debug": false
+                                                },
+                                            "timestamp": "'$(date +%s%M)'"
+                                        }
+                                    }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
+                                    set -e
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage("Clean JavaShark"){
+            steps{
+                withMaven( maven: 'M3', jdk: 'JDK8U202', options: [artifactsPublisher(disabled: true)]) {
+                    sh 'mvn -f "pom.xml" clean' 
+                }
+                sh "echo foo"
+            }
+        }
+        stage("Build JavaShark"){
+            steps{
+                withMaven( maven: 'M3', jdk:'JDK8U202',  options: [artifactsPublisher(disabled: true)]) {
+                    sh 'mvn -f "pom.xml" -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true install' 
+                }
+                sh "echo foo"
+            }
+        }
+        stage("Test JavaShark"){
+            steps{
+                withMaven( maven: 'M3', jdk:'JDK8U202',  options: [artifactsPublisher(disabled: true)]) {
+                    sh "/usr/bin/mvn -X -f 'pom.xml' validate test;"
+                }
+            }        
+         
+          
+        }
+        stage ("Upgrade"){
+            parallel {
+                stage('wrang-2'){
+                    stages{
+                        stage("Wrangler 2 Credentials"){
+                            steps{
+                                sh 'cp /var/lib/jenkins/tools/properties.prop /opt/JavaShark/properties.prop'
+                            }
+                        }
+                        stage("Wrangler 2 JavaShark"){
+                            steps{
+                                sh 'cp target/JavaShark-1.0-SNAPSHOT.jar /opt/JavaShark/JavaShark-1.0-SNAPSHOT.jar'
+                            }
+                        }
+                        stage("Wrangler 2 Launch"){
+                            steps{
+                                sh 'sudo /bin/systemctl restart javashark'
+                            }
+                        }
+                    }
+                    
+                }
+                stage('wrang-1'){
+                    stages{
+                        stage("Wrangler 1 Credentials"){
+                            steps{
+                                sh '/usr/bin/scp /var/lib/jenkins/tools/properties.prop javashark@192.168.1.115:/opt/JavaShark/'
+                            }
+                        }
+                        stage("Wrangler 1 JavaShark"){
+                            steps{
+                                sh '/usr/bin/scp target/JavaShark-1.0-SNAPSHOT.jar javashark@192.168.1.115:/opt/JavaShark/'
+                            }
+                        }
+                        stage("Wrangler 1 Launch"){
+                            steps{
+                                sh 'sudo /bin/systemctl restart javashark'
+                            }
+                        }
+                    }
+                }
+                stage('notify'){
+                    stages{
+                        stage("Upgrade Notice"){
+                            steps{
+                                sh '''
+                                    curl -X POST -d '{
+                                        "service": "JavaShark", 
+                                        "message": {
+                                            "command": "newSoftwareVersion",
+                                            "data": {
+                                                "reason": "Javashark build '${BUILD_ID}' is coming online now." ,
+                                                "comment": "'$CHANGE_TITLE'",
+                                                "debug": false
+                                            },
+                                            "timestamp": "'$(date +%s%M)'"
+                                        }
+                                    }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
+                                '''
+                            }
+                        }
+                    }
+                    
+                }
+               
+            }
+        }
+       
+    }
+    
+    
+}
