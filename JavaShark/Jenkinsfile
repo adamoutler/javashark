@@ -130,7 +130,7 @@ pipeline{
                             }
                         }
                     }
-                }
+                } 
                 stage('notify'){
                     stages{
                         stage("Upgrade Notice"){
