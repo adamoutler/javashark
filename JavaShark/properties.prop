@@ -1,3 +1,6 @@
-productionURL=
-devURL=
-my_secret_password=  
+productionURL=https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async
+devURL=https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
+my_secret_password=Only|Mostly-Dead_FTW!
+hashfile=/var/www/baby-sharks/CatsScreenDataHashes.properties
+screenshots=/var/www/baby-sharks/screenshots/
+reports=/var/www/baby-sharks/excel/

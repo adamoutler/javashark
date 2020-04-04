@@ -11,10 +11,7 @@ import com.adamoutler.virtualbox.task.TaskType;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -161,8 +158,10 @@ public class PapaAsync {
         String s;
 
         try {
-            if (gang=="none") gang="development";
-            if (gang == null ||gang.equals("none") || gang.equals("staging") || gang.equals("development")) {
+            if (gang == "none") {
+                gang = "development";
+            }
+            if (gang == null || gang.equals("none") || gang.equals("staging") || gang.equals("development")) {
                 System.out.println("Sending message to Uncle Shark for gang:" + gang);
                 s = getRestTemplate().postForObject(UNCLEURL, json, String.class);
             } else {
@@ -208,13 +207,13 @@ public class PapaAsync {
     static File cacheFile = new File(System.getProperty("user.home") + "/papaCache.json");
 
     static String[] recognizedAddableStrings = new String[]{
-        "\"reason\": \"blind\",",
-    };
+        "\"reason\": \"blind\",",};
+
     private static void addMessageToCache(String gang, String json) {
-        boolean addable=false;
-        for (String string:recognizedAddableStrings){
-            if (json.contains("string")){
-                addable=true;
+        boolean addable = false;
+        for (String string : recognizedAddableStrings) {
+            if (json.contains("string")) {
+                addable = true;
             }
         }
         if (!addable) {
@@ -256,7 +255,7 @@ public class PapaAsync {
                 Type collectionType = new TypeToken<ArrayList<MessageObject>>() {
                 }.getType();
                 al = gson.fromJson(reader, collectionType);
-            } catch (IOException ex) {
+            } catch (Throwable ex) {
                 Logger.getLogger(PapaAsync.class.getName()).log(Level.SEVERE, null, ex);
             }
             String outputjson = gson.toJson(al);
