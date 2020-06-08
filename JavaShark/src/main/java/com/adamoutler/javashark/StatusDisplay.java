@@ -11,6 +11,8 @@ import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.babysharks.messaging.HashedMessage;
+import com.babysharks.messaging.Message;
+import com.babysharks.messaging.PapaAsync;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,7 +50,6 @@ public class StatusDisplay {
                 + "tc,\n"
                 + ".themed-container > div{\n"
                 + "    word-wrap: break-word;\n"
-                
                 + "    width:49%;\n"
                 + "    padding: 15px;\n"
                 + "    "
@@ -78,6 +79,9 @@ public class StatusDisplay {
                         .append("</div><div class=\"screeninfo\"><b>Screen:</b> ").append(screen.name())
                         .append(" - ").append(screen.getDescription())
                         .append("</div></div>");
+                Message m = new Message().setCommand("StatusDisplayBackup");
+                m.getData().setComment("Status Display Was visited on " + new Date().toString()).setPng(screenshot).setGang(vm.getGang()).setUsername(vm.getUsername()).setText(vm.getUsername() + " was performing " + vm.getTaskList().get(0) + " on screen " + vm.getScreen().name());
+                PapaAsync.send(m);
             }
             sb.append("<div class=\"portinfo\"><div class=\"adbinfo\">ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
                     .append(vm.getRdpPort()).append("</div>");
@@ -89,11 +93,8 @@ public class StatusDisplay {
             sb.append("</div></tr></table></div></div>");
         });
         sb.append("</div>").append("<small>Local Time: ").append(new Date().toString()).append(" - Online Since: ").append(MainApp.onlineTime).append(" - Built: ").append(MainApp.getJenkinsBuildTime().toString()).append("</small>");
-        
+
         return sb.toString();
     }
-    
-    
-    
-    
+
 }
