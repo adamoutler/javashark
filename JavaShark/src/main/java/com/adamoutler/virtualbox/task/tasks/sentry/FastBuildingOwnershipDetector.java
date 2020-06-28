@@ -429,7 +429,7 @@ public class FastBuildingOwnershipDetector {
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
                         sendFinalResults("finalbattlefield", vm, lastScreenshot);
                     } else {
-                        sendFinalResults("bufferedScreenShot", vm, lastScreenshot);
+                        sendFinalResults("StatusDisplayBackup", vm, lastScreenshot);
                     }
 
                     PapaAsync.sentryReasonWarning(vm, "blind");
