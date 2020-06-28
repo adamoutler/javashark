@@ -11,7 +11,6 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
@@ -126,17 +125,19 @@ public class FastBuildingOwnershipDetector {
         }
     }
 
-    private static void sendFinalResults(VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
+    private static void sendFinalResults(String command, VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
 
         //send final battlefield screenshot
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang() + "-") + UUID.randomUUID().toString();
         ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
-        Message message = new Message().setCommand("finalbattlefield").setData(md);
+        Message message = new Message().setCommand(command).setData(md);
         PapaAsync.send(message);
 
-        //send final score screenshot;
-        ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
+        if (command.equals("finalbattlefield")) //send final score screenshot;
+        {
+            ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
+        }
         message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
         PapaAsync.send(message);
     }
@@ -334,7 +335,7 @@ public class FastBuildingOwnershipDetector {
     private static void performBuffDetection(ArrayList<BuildingChangeIncident> incidents, float newValue, Float oldValue, Float olderValue, int building, PicColors pc) {
         if (oldValue == null || olderValue == null
                 || oldValue.equals(olderValue) || !oldValue.equals(newValue)) {
-            //we cant work with this or nothing happened.  Make sure buffer is full, and there was a change first. 
+            //we cant work with this or nothing happened.  Make sure buffer is full, and there was a change first.
             //nothing to do just return
             return;
         }
@@ -412,13 +413,13 @@ public class FastBuildingOwnershipDetector {
                 } else if (ScreenData.BOOTED.matchesHashes(screenshot)) {
                     vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
                     vm.getTaskData().nullCount = -100;
-                } else if (ScreenData.WHATCANYOUDOTODAY.matchesHashes(screenshot) || ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot) && vm.getTaskData().nullCount >0) {
-                   
+                } else if (ScreenData.WHATCANYOUDOTODAY.matchesHashes(screenshot) || ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN.matchesHashes(screenshot) || ScreenData.CATSLOADEDULTIMATESCREEN.matchesHashes(screenshot) && vm.getTaskData().nullCount > 0) {
+
                     vm.setTemporaryTask(TaskType.CORRECTIVEACTIONCK);
                     return;
                 }
                 if (vm.getTaskData().nullCount++ > 9) {
-                    if (vm.isTemporaryTaskAvailable()){
+                    if (vm.isTemporaryTaskAvailable()) {
                         vm.removeTemporaryTask();
                     }
                     vm.setTaskComplete(true);
@@ -426,7 +427,9 @@ public class FastBuildingOwnershipDetector {
                     BufferedImage lastScreenshot = vm.screenshot();
                     ScreenData sd = ScreenData.identifyScreen(lastScreenshot);
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
-                        sendFinalResults(vm, lastScreenshot);
+                        sendFinalResults("finalbattlefield", vm, lastScreenshot);
+                    } else {
+                        sendFinalResults("bufferedScreenShot", vm, lastScreenshot);
                     }
 
                     PapaAsync.sentryReasonWarning(vm, "blind");
