@@ -7,7 +7,6 @@ package com.adamoutler.virtualbox;
 
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
 import static com.adamoutler.virtualbox.VirtualBox.VBOX;
 import com.adamoutler.virtualbox.task.TaskType;

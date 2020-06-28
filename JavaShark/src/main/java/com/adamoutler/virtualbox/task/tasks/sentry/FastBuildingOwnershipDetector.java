@@ -126,20 +126,21 @@ public class FastBuildingOwnershipDetector {
     }
 
     private static void sendFinalResults(String command, VirtualBoxMachine vm, BufferedImage screenshot) throws IOException {
-
+        System.out.println("sending last screenshot to papa");
         //send final battlefield screenshot
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang() + "-") + UUID.randomUUID().toString();
         ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
         MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand(command).setData(md);
         PapaAsync.send(message);
+        System.out.println("last screenshot sent to papa");
 
         if (command.equals("finalbattlefield")) //send final score screenshot;
         {
             ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
+            message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
+            PapaAsync.send(message);
         }
-        message.setCommand("finalscore").getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
-        PapaAsync.send(message);
     }
 
     private static void maybeFreakOut(VirtualBoxMachine vm, ArrayList<Integer> alertBuildings) throws RestClientException {
@@ -429,6 +430,7 @@ public class FastBuildingOwnershipDetector {
                     if (sd.equals(ScreenData.CITYKINGSVICTORY) || sd.equals(ScreenData.CITYKINGSDEFEAT)) {
                         sendFinalResults("finalbattlefield", vm, lastScreenshot);
                     } else {
+                        System.out.println("sending final results");
                         sendFinalResults("StatusDisplayBackup", vm, lastScreenshot);
                     }
 
