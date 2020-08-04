@@ -28,7 +28,7 @@ public class StopSentry extends SentryAbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
         try {
             VirtualBoxControl vmControl = new VirtualBoxControl(vm);
-            TaskType tt=null;
+            TaskType tt = null;
             SentryTools st = new SentryTools(vm);
             if (vm == null || !vm.isPoweredOn()) {
                 VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
@@ -52,9 +52,15 @@ public class StopSentry extends SentryAbstractPapaHandler {
             if (tt != null && tt.equals(TaskType.WATCH)) {
                 PapaAsync.sentryReasonWarning(vm, "blind");
             }
+            final VirtualBoxControl vmc=vmControl;
             vm.setKillThread(true);
-            vmControl.stopVM();
             this.sendSucessMessage(he, request);
+            new Thread(() -> {
+                vmc.stopVM();
+                request.setCommand("SENTRY").getData().setReason("stopped");
+                PapaAsync.send(request);
+                vm.clearTasks();
+            }).start();
         } catch (Exception ex) {
             request.getData().setErrorType(WHATEVER);
 
