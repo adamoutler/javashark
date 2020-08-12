@@ -6,8 +6,6 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
-import static com.adamoutler.cats.screen_id.ScreenData.UNRESPONSIVEBACKTODISMISS;
 import static com.adamoutler.cats.screen_id.ScreenData.WAITUNRESPONSIVE;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -35,7 +33,7 @@ public class CorrectiveActionCKTask extends Task {
     @Override
     void runTask(VirtualBoxMachine vm) {
 
-        if (vm.getTaskData().lastCorrectiveAction>System.currentTimeMillis()-2000){
+        if (vm.getTaskData().lastCorrectiveAction>System.currentTimeMillis()-(3000+getRandomNumber(2000))){
             return;
         }
         vm.getTaskData().lastCorrectiveAction=System.currentTimeMillis();
@@ -70,5 +68,13 @@ public class CorrectiveActionCKTask extends Task {
     public boolean resume(VirtualBoxMachine vm) {
         return false;
     }
-
+  public int getRandomNumber(int upperLimit)
+        {
+                int v = (int) (Math.random() * upperLimit);
+                if (v < 0)
+                {
+                        v += 0;
+                }
+                return v;
+        }
 }
