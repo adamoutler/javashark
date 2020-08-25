@@ -244,7 +244,16 @@ public class Car {
     }
 
     public boolean isSameImage(Car c) {
-        return this.tieBreaker.equals(c.getTieBreaker());
+        return tieBreaker(c);
+    }
+    
+    private boolean tieBreaker(Car car){
+        TieBreaker tb1=new TieBreaker(car);
+        TieBreaker tb2=new TieBreaker(this);
+        if (tb1.equals(tb2)){
+            return true;
+        }
+        return false;
     }
 
     /**
