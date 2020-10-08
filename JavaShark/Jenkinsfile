@@ -84,7 +84,7 @@ pipeline{
         stage("Test JavaShark"){
             steps{
                 withMaven( maven: 'M3', jdk:'JDK8U202',  options: [artifactsPublisher(disabled: true)]) {
-                    sh "/usr/bin/mvn -X -f 'pom.xml' validate test;"
+                    sh "mvn -X -f 'pom.xml' validate test;"
                 }
             }        
          
