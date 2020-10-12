@@ -46,6 +46,7 @@ public class HistoricalImageSearch {
         List<File> files = BattlefieldSearchParser.getRecords(folder, "", gang, "", scan ? "scan" : "recon");
 
         Map<Date, File> map = BattlefieldSearchParser.findOneRecordForEachDate(files, dates);
+        System.out.println("Found records:"+map.size());
         return combineDatesAndImages(map, hash);
     }
 
