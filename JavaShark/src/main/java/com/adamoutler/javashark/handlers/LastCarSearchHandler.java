@@ -30,7 +30,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
 
         String hash = request.getData().getHashes().entrySet().iterator().next().getKey();
         try {
-            BufferedImage bi = HistoricalImageSearch.getLastCars(hash, Prop.getProp("reports"), request.getData().getGang());
+            BufferedImage bi = HistoricalImageSearch.getLastCars(hash, Prop.getProp("screenshots"), request.getData().getGang());
             if (bi.getWidth() == 1) {
                 request.getData().setErrorType(COULDNOTFINDREQUESTEDUSERINRECORDS);
 
