@@ -44,6 +44,7 @@ public class HistoricalImageSearch {
     public static BufferedImage getCarsByDate(String hash, String folder, String gang, Date[] dates, boolean scan) throws SearchException {
         BattlefieldSearchParser bsp = new BattlefieldSearchParser();
         List<File> files = BattlefieldSearchParser.getRecords(folder, "", gang, "", scan ? "scan" : "recon");
+        System.out.println("Searching found "+files.size()+" files.  Finding date range.");
 
         Map<Date, File> map = BattlefieldSearchParser.findOneRecordForEachDate(files, dates);
         System.out.println("Found records:"+map.size());

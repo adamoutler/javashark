@@ -63,6 +63,7 @@ public class BattlefieldSearchParser {
     public static List<File> getRecords(String folder, String fileExtension, String gang, String opponentName, String startsWith) throws SearchException {
         throwExceptionIfFolderNotSpecified(folder);
         BattleRecordSearch brs = createBattleSearch(gang, opponentName, folder, fileExtension, startsWith);
+        System.out.println("Searching "+brs.getSearchPath());
         List<File> files = brs.search();
         return files;
     }
@@ -126,6 +127,9 @@ public class BattlefieldSearchParser {
         String oGang = Optional.of(gang).orElse("");
         String oOpponentName = Optional.of(opponentName).orElse("");
         String oStartsWith = Optional.of(startsWith).orElse("");
+        System.out.println("Search must contain "+oGang);
+        System.out.println("Search must contain " + oOpponentName);
+        System.out.println("Search must start with  " + oStartsWith);
         BattleRecordSearch brs = setSearchParameters(folder, oGang, oOpponentName, fileExtension, oStartsWith);
         return brs;
     }
