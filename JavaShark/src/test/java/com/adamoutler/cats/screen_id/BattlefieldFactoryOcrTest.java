@@ -62,7 +62,6 @@ public class BattlefieldFactoryOcrTest {
             String expResult = "-IMMORTALS-";
             String result = BattlefieldFactoryOcr.setOpponentName(screenshot, battlefield);
             assertEquals(expResult, result);
-            // TODO review the generated test code and remove the default call to fail.
         } catch (IOException ex) {
             Logger.getLogger(BattlefieldFactoryOcrTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +77,6 @@ public class BattlefieldFactoryOcrTest {
             String expResult = "CAPTAINCATS";
             String result = BattlefieldFactoryOcr.setOpponentName(screenshot, battlefield);
             assertEquals(expResult, result);
-            // TODO review the generated test code and remove the default call to fail.
         } catch (IOException ex) {
             Logger.getLogger(BattlefieldFactoryOcrTest.class.getName()).log(Level.SEVERE, null, ex);
         }

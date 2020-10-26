@@ -63,7 +63,6 @@ public class CityKingsBattlefieldAnalysisTest {
     public void testWritePicture() {
         System.out.println("writePicture");
         PicCoords pc = CityKingsBattlefieldAnalysis.OURSCORECOORDS;
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**

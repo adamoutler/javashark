@@ -5,7 +5,6 @@
  */
 package com.adamoutler.virtualbox.task.tasks.sentry;
 
-import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector.BuildingBar;
 import java.awt.image.BufferedImage;
@@ -16,10 +15,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -63,7 +62,6 @@ public class FastBuildingOwnershipDetectorTest {
             float expResult =  52.531647F;
             float result = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
             assertEquals(expResult, result, 0.0);
-            // TODO review the generated test code and remove the default call to fail.
         } catch (IOException ex) {
             Logger.getLogger(FastBuildingOwnershipDetectorTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("The test case threw an error");

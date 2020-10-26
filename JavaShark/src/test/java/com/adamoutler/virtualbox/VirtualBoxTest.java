@@ -53,7 +53,6 @@ public class VirtualBoxTest {
         ArrayList<VirtualBoxMachine> al = new ArrayList<>();
         VirtualBox instance = new VirtualBox();
         instance.processVMList(value, al);
-        // TODO review the generated test code and remove the default call to fail.
         VirtualBoxMachine m0 = al.get(0);
         VirtualBoxMachine m1 = al.get(1);
         VirtualBoxMachine m2 = al.get(2);
