@@ -5,17 +5,13 @@
  */
 package com.adamoutler.javashark.handlers;
 
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.javashark.StatusDisplay;
-import static com.adamoutler.javashark.handlers.AbstractPapaHandler.convertStreamToString;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
-import com.adamoutler.virtualbox.task.TaskType;
-import com.babysharks.messaging.HashedMessage;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 /**
@@ -23,16 +19,24 @@ import java.util.ArrayList;
  * @author adamo
  */
 public class OverallStatusHandler extends AbstractPapaHandler {
-    
+
     public OverallStatusHandler() {
     }
-    
+
     @Override
     public void handle(HttpExchange t) throws IOException {
-        ArrayList<VirtualBoxMachine> active = new VirtualBox().getMachinesList();
-        StatusDisplay sd=new StatusDisplay(this);
-        String value=sd.getStatus();
-        sendSucessString(t, value);
+        try {
+            ArrayList<VirtualBoxMachine> active = new VirtualBox().getMachinesList();
+            StatusDisplay sd = new StatusDisplay(this);
+            String value = sd.getStatus();
+            sendSucessString(t, value);
+        } catch (Exception ex) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+
+            ex.printStackTrace(pw);
+            sendSucessString(t, sw.getBuffer().toString());
+        }
     }
-    
+
 }
