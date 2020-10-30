@@ -50,9 +50,10 @@ public class PowerOnTask extends Task {
     @Override
     void runTask(VirtualBoxMachine vm) {
         vm.getTaskData().poweroncounts++;
-        if (vm.getTaskData().poweroncounts % 30 == 0 && vm.isPoweredOn() == false) {
+        if (vm.getTaskData().poweroncounts % 30 == 0 && !vm.isPoweredOn()) {
             VirtualBoxControl vc = new VirtualBoxControl(vm);
             vc.stopVM();
+            vc.StopVMSoft();
             vc.startVirtualMachine();
             System.err.print("VM didn't start after 30 attempts. Retrying");
         }
