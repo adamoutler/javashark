@@ -150,7 +150,33 @@ public class VirtualBoxControl {
         vm.setKillThread(false);
         return !(!executed.contains("0%") && !executed.contains("not currently"));
     }
+ /**
+     * Terminates the machine immediately. Shutdown and kill process are issued
+     * simultaniously.
+     *
+     *
+     * @return true if stopped
+     */
+    public boolean StopVMSoft() {
+        System.out.println("Stopping VM " + vm);
+        LinkedList<String> args = new LinkedList<>();
+        args.add(VirtualBox.VBOX);
+        args.add("controlvm");
+        args.add(vm.getVMName());
+        args.add("poweroff");
+        String executed = executeProcess(args, 4000);
+//        if (System.getProperty("os.name").contains("nux")) {
+//            args = new LinkedList<>();
+//            args.add("kill");
+//            args.add("-9");
+//            args.add("$(top -b -n 1|grep VBoxHeadless|cut -d' ' -f2)");
+//            executeProcess(args, 4000);
+//            return true;
+//        }
 
+        vm.setKillThread(false);
+        return !(!executed.contains("0%") && !executed.contains("not currently"));
+    }
     // adb kill-server
     // kill -9 $(top -b -n 1|grep VBoxHeadless|cut -d' ' -f2) || echo vboxheadless shutdown
     // kill -9 $(top -b -n 1|grep VirtualBox |cut -d' ' -f2) || echo virtualbox shutdown

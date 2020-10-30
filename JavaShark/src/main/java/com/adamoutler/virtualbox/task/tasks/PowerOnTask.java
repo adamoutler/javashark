@@ -6,10 +6,11 @@
 package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.virtualbox.VirtualBoxControl;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.PapaAsync;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,18 +20,27 @@ public class PowerOnTask extends Task {
 
     @Override
     void initializeTask(final VirtualBoxMachine vm) {
-        final boolean power = vm.isPoweredOn();
         VirtualBoxControl vc = new VirtualBoxControl(vm);
         Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});
             if (value.equals("")) {
                 vc.startVirtualMachine();
             }
-            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
-            ready(vm);
-            if (!power) {
-                PapaAsync.onlineWarning(vm, false);
+            if (!vm.isPoweredOn()) {
+                vc.stopVM();
+                vc.StopVMSoft();
+                vc.startVirtualMachine();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PowerOnTask.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (!vm.isPoweredOn()){
+                    PapaAsync.onlineWarning(vm, false);
+                }
             }
+            ready(vm);
+            vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});
         });
         startMachine.setName("Start VM " + vm.getGang() + " " + vm.getUsername());
         startMachine.start();
@@ -39,11 +49,19 @@ public class PowerOnTask extends Task {
 
     @Override
     void runTask(VirtualBoxMachine vm) {
+        vm.getTaskData().poweroncounts++;
+        if (vm.getTaskData().poweroncounts % 30 == 0 && vm.isPoweredOn() == false) {
+            VirtualBoxControl vc = new VirtualBoxControl(vm);
+            vc.stopVM();
+            vc.startVirtualMachine();
+            System.err.print("VM didn't start after 30 attempts. Retrying");
+        }
         try {
-        ScreenData sd = ScreenData.identifyScreen(vm);
+            ScreenData sd = ScreenData.identifyScreen(vm);
             switch (sd) {
                 case BOOTED:
                     complete(vm);
+                    vm.getTaskData().poweroncounts = 0;
                     break;
                 case NOTRESPONDING:
                     vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
@@ -52,7 +70,7 @@ public class PowerOnTask extends Task {
                     vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
                     break;
                 case UNRESPONSIVEBACKTODISMISS:
-                vm.adbShell("input", "keyevent", "KEYCODE_BACK");
+                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
                     break;
                 default:
                     vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_HOME"});

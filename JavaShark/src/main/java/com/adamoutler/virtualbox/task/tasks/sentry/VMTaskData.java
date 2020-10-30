@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * @author adamo
  */
 public class VMTaskData {
-
+    public int poweroncounts=0;
     int nullCount = 0;
     public OwnedBy[] previous;
     public OwnedBy[] current;
