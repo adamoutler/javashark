@@ -94,17 +94,17 @@ pipeline{
             parallel {
                 stage('wrang-2'){
                    stages{
-                        stage("Wrangler 1 Credentials"){
+                        stage("Wrangler 2 Credentials"){
                             steps{
                                 sh '/usr/bin/scp $JENKINS_HOME/tools/properties.prop jenkins@192.168.1.107:/opt/JavaShark/'
                             }
                         }
-                        stage("Wrangler 1 JavaShark"){
+                        stage("Wrangler 2 JavaShark"){
                             steps{
                                 sh '/usr/bin/scp target/JavaShark-1.0-SNAPSHOT.jar jenkins@192.168.1.107:/opt/JavaShark/'
                             }
                         }
-                        stage("Wrangler 1 Launch"){
+                        stage("Wrangler 2 Launch"){
                             steps{
                                 sh 'ssh jenkins@192.168.1.107 sudo /bin/systemctl restart javashark'
                             }
@@ -126,7 +126,7 @@ pipeline{
                         }
                         stage("Wrangler 1 Launch"){
                             steps{
-                                sh 'sudo /bin/systemctl restart javashark'
+                                sh 'ssh jenkins@192.168.1.115 sudo /bin/systemctl restart javashark'
                             }
                         }
                     }
