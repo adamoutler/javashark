@@ -85,15 +85,26 @@ public class StatusDisplay {
             }
             sb.append("<div class=\"portinfo\"><div class=\"adbinfo\">ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
                     .append(vm.getRdpPort()).append("</div>");
-            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()). append(" ").append(vm.isPoweredOn()?"Powered on":"Powered off")
-                    .append ("<br>Task: ").append((vm.getCurrentTask()==null)?"error retrieving current task":vm.getCurrentTask().name())
-                    .append("<br>Assigned Tasks: ");
+            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName());
             
             try {
-                
+                 sb.append(" ").append(vm.isPoweredOn()?"Powered on":"Powered off");
+            } catch (Exception ex){
+                sb.append("Could not get poweron state");
+            }
+            try {
+                sb.append ("<br>Task: ");
+                sb.append((vm.getCurrentTask()==null)?"error retrieving current task":vm.getCurrentTask().name());
+            } catch (Exception ex){
+                sb.append("could not get current task.");
+            }
+            try {
+            sb.append("<br>Assigned Tasks: ");
             for (TaskType task:vm.getTaskList()){
                 sb.append(task.name()).append(" ");
             }
+            
+            
             } catch (Exception ex){
                 sb.append(" Error while parsing tasks. ");
             }
