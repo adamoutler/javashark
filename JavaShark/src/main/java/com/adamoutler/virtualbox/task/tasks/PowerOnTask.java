@@ -24,6 +24,7 @@ public class PowerOnTask extends Task {
         Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});
             if (value.equals("")) {
+                System.out.println(vm.getUsername() +" machine is powered off. powering on");
                 vc.startVirtualMachine();
             }
             if (!vm.isPoweredOn()) {

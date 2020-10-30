@@ -8,7 +8,6 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.Hashes;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.screen_id.ScreenDescription;
 import com.adamoutler.imagerecognition.HashedPicCoords;
 import com.babysharks.messaging.ErrorType;
@@ -42,11 +41,22 @@ import javax.imageio.ImageIO;
  *
  * @author adamo
  */
-public class HashHandler extends AbstractPapaHandler {
+public class HashHandler extends SentryAbstractPapaHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
         MessageData m = getRequest().getData();
+
+        boolean local = false;
+        if (m.getPng().equals("http://.jpg")) {
+            BufferedImage bi = vm.screenshot();
+            File f = new File(System.getProperty("java.io.tmpdir") + "/calibrate.png");
+            f.delete();
+            f.deleteOnExit();
+            ImageIO.write(bi, "png", f);
+            m.setPng(f.getAbsolutePath());
+            local = true;
+        }
 
         if (getRequest().getCommand().equals("listcalibrations")) {
             ArrayList<ScreenDescription> al = new ArrayList<>();
@@ -67,7 +77,13 @@ public class HashHandler extends AbstractPapaHandler {
         if (delete) {
             String png2 = this.getRequest().getData().getPng();
             String filename2 = png2.replaceAll(".*/", "").replace(".jpg", ".png");
-            File file2 = new File(Prop.getProp("screenshots") + filename2);
+            File file2;
+            if (!local) {
+                file2 = new File(Prop.getProp("screenshots") + filename2);
+            } else {
+                file2 = new File(png2);
+            }
+
             ScreenData sd2 = getScreenEnum(m);
             try {
                 BufferedImage bi2 = ImageIO.read(file2);
@@ -111,7 +127,13 @@ public class HashHandler extends AbstractPapaHandler {
 
                 String png = this.getRequest().getData().getPng();
                 String filename = png.replaceAll(".*/", "").replace(".jpg", ".png");
-                File file = new File(Prop.getProp("screenshots") + filename);
+                File file  ;
+
+                if (!local) {
+                    file = new File(Prop.getProp("screenshots") + filename);
+                } else {
+                    file = new File(png);
+                }
                 ScreenData sd = getScreenEnum(m);
                 BufferedImage bi = ImageIO.read(file);
                 HashedPicCoords hashedPicCords = sd.addNewHash(bi, clear);
