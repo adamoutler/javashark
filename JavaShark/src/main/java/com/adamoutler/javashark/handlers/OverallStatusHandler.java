@@ -35,7 +35,7 @@ public class OverallStatusHandler extends AbstractPapaHandler {
             PrintWriter pw = new PrintWriter(sw);
 
             ex.printStackTrace(pw);
-            sendSucessString(t, sw.getBuffer().toString());
+            sendSucessString(t, sw.toString());
         }
     }
 
