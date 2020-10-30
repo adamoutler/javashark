@@ -85,7 +85,21 @@ public class StatusDisplay {
             }
             sb.append("<div class=\"portinfo\"><div class=\"adbinfo\">ADB:").append(vm.getAdbName()).append("</div><div>RDP:")
                     .append(vm.getRdpPort()).append("</div>");
-            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName()).append("</small></div></div><div class=\"fiftyPercent\">");
+            sb.append("<divclass=\"vmname\"><small>").append(vm.getVMName())
+                    .append ("<br>Task: ").append((vm.getCurrentTask()==null)?"error retrieving current task":vm.getCurrentTask().name())
+                    .append("<br>Assigned Tasks: ");
+            
+            try {
+                
+            for (TaskType task:vm.getTaskList()){
+                sb.append(task.name()).append(" ");
+            }
+            } catch (Exception ex){
+                sb.append(" Error while parsing tasks. ");
+            }
+            
+            sb.append("</small></div></div><div class=\"fiftyPercent\">");
+            
             if (!screenshot.isEmpty()) {
                 sb.append("<a href=\"").append(screenshot).append("\">").append("<img class=\"screenshot fiftyPercent\"  src=\"").append(screenshot).append("\"></a>");
             }
