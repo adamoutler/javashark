@@ -45,7 +45,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     Battlefield report = battleFactory.scanBattleField(vm);
                     report.setBattlefield(new CityKingsBattlefieldAnalysis(report.getBoardScreenshot()));
                     if (vm.isKillThread() || report.isReportContainsFlaws()) {
-
+                        System.err.println("Report failed  killed:"+vm.isKillThread()+" flaws:"+ report.isReportContainsFlaws());
                         Message m = new Message()
                                 .setCommand("deepbuildingscanfailed")
                                 .setData(new Message().getData()
@@ -55,14 +55,14 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                             if (b.isSuspectProblem()) {
                                 m.getData().setComment(
                                         b.getSuspsectProblemReason());
-                                m.getData().setReason("SCAN ERROR!")
+                                m.getData().setReason("SCAN ERROR! Report failed killed:"+vm.isKillThread()+" flaws:"+ report.isReportContainsFlaws())
                                         .setResultObject(null);
                             }
                         }
                         if (m.getData().getReason() == null || m.getData().getReason().isEmpty()) {
                             m.getData().setReason("Scan Canceled");
                         }
-                        vm.setKillThread(false);
+                        vm.setKillThread(true);
                         PapaAsync.send(m);
                         return;
 
@@ -105,6 +105,8 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                     Logger.getLogger(BattlefieldFullFriendlylScanTask.class.getName()).log(Level.SEVERE, null, ex);
 
                 }
+               vm.completeCurrentTask();
+
             });
             vm.setKillThread(false);
             t.setName("Deep Building Scan: " + vm.getUsername() + "-" + vm.getGang());
