@@ -61,6 +61,7 @@ public class BattlefieldFullFriendlylScanTask extends Task {
                         }
                         if (m.getData().getReason() == null || m.getData().getReason().isEmpty()) {
                             m.getData().setReason("Scan Canceled");
+                            
                         }
                         vm.setKillThread(true);
                         PapaAsync.send(m);
@@ -92,7 +93,6 @@ public class BattlefieldFullFriendlylScanTask extends Task {
 
                     }
                     PapaAsync.send(m);
-                    vm.completeCurrentTask();
                     if (errored) {
                         System.out.println("Error occurred during scanning");
                         for (Building b : report.getBuildings()) {
