@@ -8,6 +8,7 @@ package com.adamoutler.virtualbox;
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.javashark.MainApp;
 import static com.adamoutler.virtualbox.VirtualBox.VBOX;
 import com.adamoutler.virtualbox.task.TaskType;
 import java.awt.image.BufferedImage;
@@ -145,7 +146,7 @@ public class VirtualBoxMachine extends TaskedMachine {
             File f = new File(Prop.getProp("screenshots") + filename);
             FileOutputStream fos = new FileOutputStream(f);
             ImageIO.write(screenshot(), "PNG", fos);
-            return "https://javashark.baby-sharks.com/screenshots/" + filename;
+            return "https://"+MainApp.serverUrl+"/screenshots/" + filename;
 
         } catch (IOException ex) {
             Logger.getLogger(VirtualBoxMachine.class.getName()).log(Level.SEVERE, null, ex);

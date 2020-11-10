@@ -6,6 +6,7 @@
 package com.adamoutler.virtualbox;
 
 import com.adamoutler.Prop;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.task.TaskType;
 import com.adamoutler.virtualbox.task.tasks.sentry.VMTaskData;
 import com.babysharks.messaging.Message;
@@ -282,7 +283,7 @@ public class TaskedMachine {
 
     public void writeBabySharksDebug(VirtualBoxMachine vm, String comment) {
         String name = VirtualBoxScreenShot.writeScreenshot(vm, Prop.getProp("screenshots"));
-        PapaAsync.send(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://javashark.baby-sharks.com/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://javashark.baby-sharks.com/screenshots/" + comment)));
+        PapaAsync.send(new Message().setCommand("system").setData(new MessageData().setGang(vm.getGang()).setUsername(vm.getUsername()).setUrl("https://"+MainApp.serverUrl+"/screenshots/" + name).setReason(comment + " Here's a screenshot " + "https://"+MainApp.serverUrl+"/screenshots/" + comment)));
     }
 
     /**

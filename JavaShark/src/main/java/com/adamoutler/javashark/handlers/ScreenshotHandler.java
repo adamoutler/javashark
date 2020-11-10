@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.cats.screen_id.ScreenData;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
 import com.babysharks.messaging.ErrorType;
@@ -93,7 +94,7 @@ public class ScreenshotHandler extends SentryAbstractPapaHandler {
             ImageIO.write(image, "PNG", outputFile);
             ImageIO.write(image, "JPG", outputFilejpg);
 
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + ".jpg").setPng("https://javashark.baby-sharks.com/screenshots/" + safeName + ".png").setResultObject(sd).setReason(vm.getUsername());
+            request.getData().setUrl("https://"+MainApp.serverUrl+"/screenshots/" + safeName + ".jpg").setPng("https://"+MainApp.serverUrl+"/screenshots/" + safeName + ".png").setResultObject(sd).setReason(vm.getUsername());
             if (analyze) {
                 if (!sd.equals(ScreenData.CITYKINGS)) {
                     request.getData().setErrorType(ErrorType.WRONGSCREEN);

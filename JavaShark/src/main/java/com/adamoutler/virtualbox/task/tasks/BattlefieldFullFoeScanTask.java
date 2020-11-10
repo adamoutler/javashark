@@ -11,6 +11,7 @@ import com.adamoutler.cats.battlefield.BattlefieldFactory;
 import com.adamoutler.cats.battlefield.CatsGangPicGenerator;
 import com.adamoutler.cats.battlefield.building.Building;
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.PapaAsync;
@@ -77,8 +78,8 @@ public class BattlefieldFullFoeScanTask extends Task {
                     m.getData().setGang(vm.getGang())
                             .setUsername(vm.getUsername())
                             .setReason("Recon Complete json")
-                            .setTeamPicture("https://javashark.baby-sharks.com/excel/" + groupPicture.getName())
-                            .setResultObject("https://javashark.baby-sharks.com/excel/" + papaJson.getName());
+                            .setTeamPicture("https://"+MainApp.serverUrl+"/excel/" + groupPicture.getName())
+                            .setResultObject("https://"+MainApp.serverUrl+"/excel/" + papaJson.getName());
                     boolean errored = false;
                     try {
                         File excelFile = new File(WEBSERVEREXCELLOCATION + name + ".xls");
@@ -125,8 +126,8 @@ public class BattlefieldFullFoeScanTask extends Task {
         } catch (Exception ex) {
             Logger.getLogger(BattlefieldFullFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        report.setExcelFile("https://javashark.baby-sharks.com/excel/" + excelFile.getName());
-        report.setJsonFile("https://javashark.baby-sharks.com/excel/" + fullJson.getName());
+        report.setExcelFile("https://"+MainApp.serverUrl+"/excel/" + excelFile.getName());
+        report.setJsonFile("https://"+MainApp.serverUrl+"/excel/" + fullJson.getName());
         report.clearScreenshots();
         try (FileOutputStream fos = new FileOutputStream(papaJson)) {
             fos.write(new GsonBuilder().setLenient().setPrettyPrinting().create().toJson(report).getBytes());

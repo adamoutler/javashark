@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering;
 
 import com.adamoutler.Prop;
+import com.adamoutler.javashark.MainApp;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -44,7 +45,7 @@ public class ReportFactoryTest {
     @Test
     public void testGetReport() throws Exception {
         System.out.println("getReport");
-        String filename = "https://javashark.baby-sharks.com/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
+        String filename = "https://"+MainApp.serverUrl+"/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
         ReportFactory instance = new ReportFactory();
         instance.setRepoFolder("src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/");
         CityKingsMatchRaw expResult = null;

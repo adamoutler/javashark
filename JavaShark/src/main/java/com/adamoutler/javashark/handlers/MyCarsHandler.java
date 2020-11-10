@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * curl -X PATCH -d
  * '{"message":{"command":"mycars","data":{"gang":"bs2","username":"Baluhu"}}}'
- * https://javashark.baby-sharks.com/api/dev/command
+ * https://"+MainApp.serverUrl+"/api/dev/command
  *
  */
 public class MyCarsHandler extends SentryAbstractPapaHandler {

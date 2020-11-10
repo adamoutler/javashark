@@ -7,6 +7,7 @@ package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.Prop;
 import com.adamoutler.cats.citykings.hash_gathering.CityKingsMatchRaw;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.messaging.Message;
 import com.babysharks.messaging.PapaAsync;
@@ -34,10 +35,10 @@ public class DeepBuildingFoeScanTask extends Task {
                 try {
                     CityKingsMatchRaw report = new CityKingsMatchRaw(false).scanBuildings(vm);
                     String s = report.getExcelFile();
-                    report.setExcelFile("https://javashark.baby-sharks.com/excel/" + s);
+                    report.setExcelFile("https://"+MainApp.serverUrl+"/excel/" + s);
                     report.clearScreenshots();
                     Message m = new Message().setCommand("deepbuildingreconcomplete");
-                    m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Recon Complete excel").setResultObject("https://javashark.baby-sharks.com/excel/" + s);
+                    m.getData().setGang(vm.getGang()).setUsername(vm.getUsername()).setReason("Recon Complete excel").setResultObject("https://"+MainApp.serverUrl+"/excel/" + s);
 
                     File f = new File(Prop.getProp("reports") + report.getExcelFile().replaceAll(".*/", "").replaceAll(".xls", ".json"));
                     System.out.println();
@@ -46,7 +47,7 @@ public class DeepBuildingFoeScanTask extends Task {
                     } catch (IOException ex) {
                         Logger.getLogger(DeepBuildingFoeScanTask.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    m.getData().setReason("Recon Complete json").setResultObject("https://javashark.baby-sharks.com/excel/" + s.replaceAll(".xls", ".json"));
+                    m.getData().setReason("Recon Complete json").setResultObject("https://"+MainApp.serverUrl+"/excel/" + s.replaceAll(".xls", ".json"));
                     PapaAsync.send(m);
                 } catch (Exception ex) {
 

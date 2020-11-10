@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package com.adamoutler.virtualbox.task.tasks;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.battlefield.BattlefieldNavigator;
+import com.adamoutler.cats.screen_id.ScreenData;
 import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGS;
 import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGSBEGINTHEATTACK;
 import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGSENLIST;
 import static com.adamoutler.cats.screen_id.ScreenData.RECONNECT;
+import com.adamoutler.javashark.MainApp;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -82,7 +83,7 @@ public class BeginTheAttackWatch extends Task {
             BufferedImage image = vm.screenshot();
             ScreenData sd = ScreenData.identifyScreen(image);
             ImageIO.write(image, "PNG", outputFile);
-            m.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(sd).setReason(vm.getUsername());
+            m.getData().setUrl("https://"+MainApp.serverUrl+"/screenshots/" + safeName).setResultObject(sd).setReason(vm.getUsername());
         } catch (IOException ex) {
             Logger.getLogger(BeginTheAttackWatch.class.getName()).log(Level.SEVERE, null, ex);
         }

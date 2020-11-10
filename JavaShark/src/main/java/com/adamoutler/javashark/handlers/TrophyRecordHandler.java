@@ -7,6 +7,7 @@ package com.adamoutler.javashark.handlers;
 
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBox;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskType;
@@ -42,7 +43,7 @@ public class TrophyRecordHandler extends SentryAbstractPapaHandler {
         vm.longTap(new XYCoords(50, 50));
         vm.longTap(new XYCoords(50, 50));
         vm.longTap(new XYCoords(50, 50));
-        request.getData().setResultObject("https://javashark.baby-sharks.com/screenshots/" + f.getName());
+        request.getData().setResultObject("https://"+MainApp.serverUrl+"/screenshots/" + f.getName());
         PapaAsync.send(request);
 
     }

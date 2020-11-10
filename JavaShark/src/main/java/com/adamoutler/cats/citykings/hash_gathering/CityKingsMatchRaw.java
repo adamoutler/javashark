@@ -13,6 +13,7 @@ import com.adamoutler.cats.citykings.hash_gathering.building.car.CityKingsCarRaw
 import com.adamoutler.cats.screen_id.CityKingsBattlefieldAnalysis;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.Screenshottable;
+import com.adamoutler.javashark.MainApp;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.babysharks.datastructures.Gang;
 import com.babysharks.datastructures.GangCar;
@@ -105,7 +106,7 @@ public class CityKingsMatchRaw {
                     String gfilename = g.getCars().get(0).getName_hash() + ".png";
                     File outputFile = new File(OUTPUT + gfilename);
                     ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
-                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/" + gfilename);
+                    g.setImageLocation("https://"+MainApp.serverUrl+"/screenshots/" + gfilename);
 
                 }
             }

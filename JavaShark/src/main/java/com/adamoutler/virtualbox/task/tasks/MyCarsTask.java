@@ -7,10 +7,10 @@ package com.adamoutler.virtualbox.task.tasks;
 
 import com.adamoutler.cats.battlefield.BattlefieldNavigator;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.ImageJoiner;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.imagerecognition.XYCoords;
+import com.adamoutler.javashark.MainApp;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.OUTPUT;
 import static com.adamoutler.javashark.handlers.ScreenshotHandler.getOnlyStrings;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
@@ -237,7 +237,7 @@ public class MyCarsTask extends Task {
         } catch (IOException ex) {
             Logger.getLogger(MyCarsTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        MessageData md = new MessageData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName + "-MYCARS.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
+        MessageData md = new MessageData().setUrl("https://"+MainApp.serverUrl+"/screenshots/" + safeName + "-MYCARS.png").setComment("pics of my cars").setTelegramid(vm.getTaskData().getTelegramid()).setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand("mycars").setData(md);
         this.nextStage(vm);
         PapaAsync.send(message);

@@ -5,6 +5,7 @@
  */
 package com.adamoutler.cats.citykings.hash_gathering;
 
+import com.adamoutler.javashark.MainApp;
 import com.babysharks.datastructures.Gangster;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -36,7 +37,7 @@ public class ReportToolsTest {
     @After
     public void tearDown() {
     }
-    String name = "https://javashark.baby-sharks.com/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
+    String name = "https://"+MainApp.serverUrl+"/excel/recon-1561226780585-development-AdamOutler-3b78f06a-0821-486f-a176-fa579af8859aOCRName-E9557;.xls";
     String repo = "src/test/java/com/adamoutler/cats/citykings/hash_gathering/resources/";
     String gangName = "staging";
 

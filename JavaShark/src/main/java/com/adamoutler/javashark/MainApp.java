@@ -6,7 +6,6 @@
 package com.adamoutler.javashark;
 
 import com.adamoutler.Prop;
-import com.adamoutler.javashark.handlers.OverallStatusHandler;
 import com.adamoutler.javashark.handlers.AnalyzeScreenshotHandler;
 import com.adamoutler.javashark.handlers.AuthorizedHandler;
 import com.adamoutler.javashark.handlers.BattlefieldScan;
@@ -16,6 +15,7 @@ import com.adamoutler.javashark.handlers.HistoricalSearchHandler;
 import com.adamoutler.javashark.handlers.JsonTestHandler;
 import com.adamoutler.javashark.handlers.LastCarSearchHandler;
 import com.adamoutler.javashark.handlers.MyCarsHandler;
+import com.adamoutler.javashark.handlers.OverallStatusHandler;
 import com.adamoutler.javashark.handlers.ScreenshotHandler;
 import com.adamoutler.javashark.handlers.SentryStatusHandler;
 import com.adamoutler.javashark.handlers.StartSentry;
@@ -35,12 +35,10 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
@@ -58,6 +56,7 @@ public class MainApp {
     private static String[] args;
     static Parameters p;
     public static Date onlineTime = new Date();
+    public static String serverUrl;
 
     private static void notifyPapa() {
         Thread t = new Thread(() -> {
@@ -86,6 +85,7 @@ public class MainApp {
         String port = null;
         HashedMessage.setInstance(p.getNamed().getOrDefault("instance", "unnamed"));
         port = (p.getNamed().getOrDefault("port", "8000"));
+        serverUrl=p.getNamed().getOrDefault("serverURL", "baby-sharks.hackedyour.info");
 
         try {
             System.out.println("Starting server on " + port);
