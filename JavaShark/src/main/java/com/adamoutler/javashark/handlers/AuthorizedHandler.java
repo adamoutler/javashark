@@ -7,7 +7,6 @@ package com.adamoutler.javashark.handlers;
  */
 import com.adamoutler.Prop;
 import com.adamoutler.cats.screen_id.ScreenData;
-import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicCoords;
 import com.adamoutler.virtualbox.VirtualBoxMachine;
 import com.adamoutler.virtualbox.task.TaskManager;
@@ -75,7 +74,7 @@ public class AuthorizedHandler extends SentryAbstractPapaHandler {
             BufferedImage whoAuthorizedThis = theirScore.getImageAtCoords(image);
             ImageIO.write(whoAuthorizedThis, "PNG", outputFile);
             ScreenData screen = ScreenData.identifyScreen(image);
-            request.getData().setUrl("https://javashark.baby-sharks.com/screenshots/" + safeName).setResultObject(screen).setText(screen.getDescription());
+            request.getData().setUrl("https://baby-sharks.hackedyour.info/screenshots/" + safeName).setResultObject(screen).setText(screen.getDescription());
         }
 
         System.out.println("sending message with URL back: " + request.getData().getUrl());
