@@ -62,7 +62,17 @@ public class HistoricalImageSearch {
 
         return datedFiles;
     }
+    public static LinkedList<File> getReconRecordsFromDayBasedOnOpponent(String gang,String opponentName, String folder, Date date) throws SearchException {
+        BattlefieldSearchParser bsp = new BattlefieldSearchParser();
+        List<File> files = BattlefieldSearchParser.getRecords(folder, "", gang, opponentName, "recon");
+        System.out.println("files found: " + files.size() + " " + files.toString());
+        if (files == null || files.isEmpty()) {
+            return null;
+        }
+        LinkedList<File> datedFiles = reduceByDate(files, date, 86400000);
 
+        return datedFiles;
+    }
     private static LinkedList<File> reduceByDate(List<File> files, Date dates, long maxDistanceFromDateMs) {
         long originDate = dates.getTime();
         LinkedList<File> reducedFiles = new LinkedList<>();

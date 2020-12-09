@@ -72,7 +72,7 @@ public class BattlefieldFullFoeScanTask extends Task {
                     String name = "recon-" + time + "-" + vm.getGang() + "-" + vm.getUsername() + "-" + UUID.randomUUID().toString() + "OCRName-" + report.getOcrName();
                     File fullJson = new File(WEBSERVEREXCELLOCATION + name);
                     File groupPicture = new File(WEBSERVEREXCELLOCATION + name + ".png");
-                    CatsGangPicGenerator.saveAllReconFromTodayToFile(groupPicture, report);
+                    CatsGangPicGenerator.saveAllReconFromTodayToFile(vm.getGang(),groupPicture, report);
                     report.setOcrNamePic(null);
                     File papaJson = new File(WEBSERVEREXCELLOCATION + name + ".json");
                     m.getData().setGang(vm.getGang())

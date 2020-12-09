@@ -42,13 +42,13 @@ import javax.imageio.ImageIO;
  */
 public class CatsGangPicGenerator {
 
-    public static boolean saveAllReconFromTodayToFile(File targetLocation, Battlefield battlefield) {
+    public static boolean saveAllReconFromTodayToFile(String gang, File targetLocation, Battlefield battlefield) {
 
         LinkedList<Battlefield> battlefields = new LinkedList<>();
         battlefields.add(battlefield);
 
         try {
-            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(battlefield.getOcrName(), Prop.getProp("reports"), new Date());
+            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(gang,battlefield.getOcrName(), Prop.getProp("reports"), new Date());
             if (records != null) {
                 Gson gson = new GsonBuilder().create();
                 for (File record : records) {
