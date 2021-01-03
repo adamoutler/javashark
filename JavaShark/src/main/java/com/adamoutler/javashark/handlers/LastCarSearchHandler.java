@@ -29,6 +29,9 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
 
         String hash = request.getData().getHashes().entrySet().iterator().next().getKey();
+        while (request.getData().getHashes().entrySet().iterator().hasNext()){
+            hash = request.getData().getHashes().entrySet().iterator().next().getKey();
+        }
         System.out.println("Searching "+hash);
         try {
             BufferedImage bi = HistoricalImageSearch.getLastCars(hash, Prop.getProp("reports"), request.getData().getGang());
