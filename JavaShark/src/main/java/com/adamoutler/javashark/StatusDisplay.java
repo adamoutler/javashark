@@ -72,7 +72,7 @@ public class StatusDisplay {
                 ScreenData screen = vm.getScreen();
                 screenshot = vm.writeScreenToWebServer(vm.getUsername() + "-" + System.currentTimeMillis() + "-status");
                 if (HashedMessage.instance.equals("developmenttest")) {
-                    screenshot = "https://javashark.baby-sharks.com/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
+                    screenshot = "https://baby-sharks.hackedyour.info/screenshots/Baluhubsa0c6f5c1-9d86-4f0e-9bef-a41231111880.jpg";
                 }
                 sb.append("<div class=\"machineinfo\"><div class=\"taskinfo\"><b>Task:</b> ").append(task.name())
                         .append(" - ").append(task.getTaskDescription())

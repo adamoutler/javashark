@@ -105,7 +105,7 @@ public class CityKingsMatchVisual {
                     String gfilename = g.getCars().get(0).getName_hash() + ".png";
                     File outputFile = new File(OUTPUT + gfilename);
                     ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
-                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/" + gfilename);
+                    g.setImageLocation("https://baby-sharks.hackedyour.info/screenshots/" + gfilename);
 
                 }
             }
@@ -154,7 +154,7 @@ public class CityKingsMatchVisual {
         new CityKingsJsonOutput().createOutputFiles(f, this, friendly);
         writeJson(new File(outputFolder + outputUUID + ".json"));
         this.jsonFile = f.getAbsolutePath();
-        this.excelFile = "https://javashark.baby-sharks.com/" + outputUUID + ".xls";
+        this.excelFile = "https://baby-sharks.hackedyour.info/" + outputUUID + ".xls";
         return f.getName();
     }
 

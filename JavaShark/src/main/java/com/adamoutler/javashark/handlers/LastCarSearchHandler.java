@@ -47,7 +47,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
             File output = new File(outputFolder + safeName);
             ImageIO.write(bi, "PNG", output);
             request.getData().setReason("Acquired images")
-                    .setUrl("https://javashark.baby-sharks.com/excel/"
+                    .setUrl("https://baby-sharks.hackedyour.info/screenshots/"
                             + output.getName());
             this.sendSucessMessage(he, request);
         } catch (SearchException ex) {

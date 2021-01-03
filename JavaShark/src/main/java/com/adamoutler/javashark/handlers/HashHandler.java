@@ -27,13 +27,13 @@ import javax.imageio.ImageIO;
  * along with descriptions curl -X PATCH -d
  * '{"message":{"command":"listhashesdecription"}}' calibrate the picture as a
  * new member of this screen name curl -X PATCH -d
- * '{"message":{"command":"hashcalibrate","data":{"png":"https://javashark.baby-sharks.com/excel/blind234234.png",
+ * '{"message":{"command":"hashcalibrate","data":{"png":"https://baby-sharks.hackedyour.info/excel/blind234234.png",
  * ScreenName:"CITYKINGSENLIST"}}}' remove all previous calibration values and
  * calibrate this picture curl -X PATCH -d
- * '{"message":{"command":"hashfreshcalibrate","data":{"png":"https://javashark.baby-sharks.com/excel/blind234234.png",
+ * '{"message":{"command":"hashfreshcalibrate","data":{"png":"https://baby-sharks.hackedyour.info/excel/blind234234.png",
  * ScreenName:"CITYKINGSENLIST"}}}' calculate and delete the hash of this
  * picture curl -X PATCH -d
- * '{"message":{"command":"hashdelete","data":{"png":"https://javashark.baby-sharks.com/excel/blind234234.png",
+ * '{"message":{"command":"hashdelete","data":{"png":"https://baby-sharks.hackedyour.info/excel/blind234234.png",
  * ScreenName:"CITYKINGSENLIST"}}}'
  *
  *

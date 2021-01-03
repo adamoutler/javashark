@@ -66,7 +66,7 @@ public class UnidentifiedGangsters {
                 File outputFile = new File(OUTPUT + gfilename);
                 try {
                     ImageIO.write(g.getAllCarsPic(), "PNG", outputFile);
-                    g.setImageLocation("https://javashark.baby-sharks.com/screenshots/" + gfilename);
+                    g.setImageLocation("https://baby-sharks.hackedyour.info/screenshots/" + gfilename);
                 } catch (IOException ex) {
                     Logger.getLogger(UnidentifiedGangsters.class.getName()).log(Level.SEVERE, null, ex);
                 }
