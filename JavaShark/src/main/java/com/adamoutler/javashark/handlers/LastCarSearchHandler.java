@@ -14,6 +14,8 @@ import com.sun.net.httpserver.HttpExchange;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,9 +31,16 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
     public void handle(HttpExchange he) throws IOException {
 
         String hash = request.getData().getHashes().entrySet().iterator().next().getKey();
+        LinkedList<Entry> al=new LinkedList();
         while (request.getData().getHashes().entrySet().iterator().hasNext()){
-            hash = request.getData().getHashes().entrySet().iterator().next().getKey();
+            Entry e=request.getData().getHashes().entrySet().iterator().next();
+            if (al.size()>0 && al.getLast().equals(e)){
+                break;
+            }
+            al.add(e);
+            
         }
+        hash = al.getLast().getKey().toString();
         System.out.println("Searching "+hash);
         try {
             BufferedImage bi = HistoricalImageSearch.getLastCars(hash, Prop.getProp("reports"), request.getData().getGang());
@@ -53,7 +62,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
                     .setUrl("https://baby-sharks.hackedyour.info/screenshots/"
                             + output.getName());
             this.sendSucessMessage(he, request);
-        } catch (SearchException ex) {
+        } catch (NullPointerException|SearchException ex) {
             request.getData().setErrorType(COULDNOTFINDMATCHINGRECORDS);
             this.sendSucessMessage(he, request);
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
