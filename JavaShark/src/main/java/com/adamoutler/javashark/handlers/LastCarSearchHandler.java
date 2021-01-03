@@ -8,6 +8,7 @@ package com.adamoutler.javashark.handlers;
 import com.adamoutler.Prop;
 import com.adamoutler.records_search.SearchException;
 import com.adamoutler.records_search.search_assemblers.HistoricalImageSearch;
+import com.babysharks.messaging.ErrorType;
 import static com.babysharks.messaging.ErrorType.COULDNOTFINDMATCHINGRECORDS;
 import static com.babysharks.messaging.ErrorType.COULDNOTFINDREQUESTEDUSERINRECORDS;
 import com.sun.net.httpserver.HttpExchange;
@@ -47,7 +48,7 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
             if (bi.getWidth() == 1) {
                 request.getData().setErrorType(COULDNOTFINDREQUESTEDUSERINRECORDS);
 
-                this.sendSucessMessage(he, request);
+                this.sendBadReq(he, request);
                 return;
             }
 
@@ -61,10 +62,11 @@ public class LastCarSearchHandler extends AbstractPapaHandler {
             request.getData().setReason("Acquired images")
                     .setUrl("https://baby-sharks.hackedyour.info/screenshots/"
                             + output.getName());
+            request.getData().setErrorType(ErrorType.NOERROR);
             this.sendSucessMessage(he, request);
         } catch (NullPointerException|SearchException ex) {
             request.getData().setErrorType(COULDNOTFINDMATCHINGRECORDS);
-            this.sendSucessMessage(he, request);
+            this.sendBadReq(he, request);
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
