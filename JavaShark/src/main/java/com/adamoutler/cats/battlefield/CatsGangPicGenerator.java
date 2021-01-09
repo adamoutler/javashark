@@ -31,7 +31,9 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -48,7 +50,7 @@ public class CatsGangPicGenerator {
         battlefields.add(battlefield);
 
         try {
-            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(gang,battlefield.getOcrName(), Prop.getProp("reports"), new Date());
+            LinkedList<File> records = HistoricalImageSearch.getReconRecordsFromDayBasedOnOpponent(gang, battlefield.getOcrName(), Prop.getProp("reports"), new Date());
             if (records != null) {
                 Gson gson = new GsonBuilder().create();
                 for (File record : records) {
@@ -102,7 +104,11 @@ public class CatsGangPicGenerator {
             cars.addAll(b.getCars());
         });
         Collections.sort(cars, (Car car1, Car car2) -> Collator.getInstance().compare(car1.getNameHash(), car2.getNameHash()));
-
+        try {
+            writeCarPicturesByHashToServer(battlefield);
+        } catch (Exception ex) {
+            Logger.getLogger(CatsGangPicGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PicCoords pc;
         if (battlefield.getBuildings()
                 .get(0).isFriendlyScan()) {
@@ -245,6 +251,23 @@ public class CatsGangPicGenerator {
         Collections.sort(newCars, (Car car1, Car car2) -> Collator.getInstance().compare(car1.getNameHash(), car2.getNameHash()));
 
         return getCarRows(newCars, pc, color);
+
+    }
+
+    private static void writeCarPicturesByHashToServer(Battlefield battlefield) throws Exception {
+        HashMap<String, LinkedList<BufferedImage>> hm = new HashMap<>();
+        LinkedList<Car> allCars = new LinkedList<>(battlefield.getAllCars());
+        allCars.forEach((c) -> {
+            String hash = c.getNameHash();
+            LinkedList<BufferedImage> list = hm.getOrDefault(hash, new LinkedList<BufferedImage>());
+            list.add(c.getCarAsJpg());
+            hm.put(hash, list);
+        });
+        for (Entry<String, LinkedList<BufferedImage>> entry : hm.entrySet()) {
+            System.out.println("Writing "+entry.getKey());
+            BufferedImage image = ImageJoiner.joinImagesSide(entry.getValue());
+            ImageIO.write(image, "PNG", new File(Prop.getProp("screenshots") + entry.getKey() + ".png"));
+        }
 
     }
 }
