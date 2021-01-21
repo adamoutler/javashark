@@ -48,7 +48,7 @@ public class HashHandler extends SentryAbstractPapaHandler {
         MessageData m = getRequest().getData();
 
         boolean local = false;
-        if (m.getPng().equals("http://.jpg")) {
+        if (m.getPng() != null && m.getPng().equals("http://.jpg")) {
             BufferedImage bi = vm.screenshot();
             File f = new File(System.getProperty("java.io.tmpdir") + "/calibrate.png");
             f.delete();
@@ -127,7 +127,7 @@ public class HashHandler extends SentryAbstractPapaHandler {
 
                 String png = this.getRequest().getData().getPng();
                 String filename = png.replaceAll(".*/", "").replace(".jpg", ".png");
-                File file  ;
+                File file;
 
                 if (!local) {
                     file = new File(Prop.getProp("screenshots") + filename);

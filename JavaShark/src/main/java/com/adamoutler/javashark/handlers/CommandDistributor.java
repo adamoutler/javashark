@@ -41,7 +41,7 @@ public class CommandDistributor implements HttpHandler {
                 return;
             }
         }
-        m.getData().setReason(m.getCommand()+" is invalid").setComment("JavaShark had a big bowl of IDGAF for breakfast.");
+        m.getData().setReason(m.getCommand() + " is invalid").setComment("JavaShark had a big bowl of IDGAF for breakfast.");
         m.setCommand("INVALID");
         t.getResponseBody().write(m.toJson().getBytes("UTF-8"));
         t.close();
@@ -49,7 +49,7 @@ public class CommandDistributor implements HttpHandler {
 
     private void handleCommand(AbstractPapaHandler aph, HttpExchange t) {
         try {
-            System.out.println("handling with " + aph.getClass().getTypeName());
+            System.out.println("handling with " + aph.getClass().getName());
             aph.handle(t);
         } catch (Exception ex) {
             sendErrorMessage(t);
