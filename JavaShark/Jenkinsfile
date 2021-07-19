@@ -78,7 +78,7 @@ pipeline{
                    stages{
                         stage("Wrangler 2 Credentials"){
                             steps{
-                                sh '/usr/bin/scp $JENKINS_HOME/tools/properties.prop javashark@192.168.1.107:/opt/JavaShark/'
+                                sh '/usr/bin/scp ~/tools/properties.prop javashark@192.168.1.107:/opt/JavaShark/'
                             }
                         }
                         stage("Wrangler 2 JavaShark"){
