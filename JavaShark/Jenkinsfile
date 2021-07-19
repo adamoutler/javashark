@@ -3,27 +3,9 @@
 pipeline{
     agent any
     stages{
-        stage("Clean Workspace"){
-            steps{
-                cleanWs cleanWhenSuccess: false
-            }
-        }
-        stage("Prepare Workspace"){
-            steps{
-                sh 'mkdir JavaShark'
-            }
-        }
+        
         stage ("Initialize"){
             parallel {
-                stage('source'){
-                    stages{
-                        stage ("Check Out"){
-                            steps{
-                                checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[cancelProcessOnExternalsFail: true, credentialsId: 'cbbf68a8-f8b7-428c-a4f5-d89f0033ef93', depthOption: 'infinity', ignoreExternalsOption: true, local: '.', remote: 'https://svn.adamoutler.com/Baby%20Sharks%20Projects/JavaShark']], quietOperation: false, workspaceUpdater: [$class: 'UpdateWithCleanUpdater']])
-                            }
-                        }
-                    }
-                }
                 stage("env"){
                     stages{
                         stage ("Prepare Properties"){
