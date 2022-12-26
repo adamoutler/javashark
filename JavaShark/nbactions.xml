@@ -10,11 +10,12 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.vmArgs>--add-opens=-jdk.httpserver/com.sun.net.httpserver</exec.vmArgs>
+                <exec.vmArgs></exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
-                <exec.appArgs>--add-opens</exec.appArgs>
+                <exec.appArgs>--port=8001</exec.appArgs>
                 <exec.mainClass>com.adamoutler.javashark.MainApp</exec.mainClass>
                 <exec.executable>java</exec.executable>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
         <action>
@@ -27,12 +28,13 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.vmArgs>--add-opens=-jdk.httpserver/com.sun.net.httpserver -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
+                <exec.vmArgs>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
-                <exec.appArgs>--add-opens</exec.appArgs>
+                <exec.appArgs>--port=8001</exec.appArgs>
                 <exec.mainClass>com.adamoutler.javashark.MainApp</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
         <action>
@@ -45,11 +47,12 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.vmArgs>--add-opens=-jdk.httpserver/com.sun.net.httpserver</exec.vmArgs>
+                <exec.vmArgs></exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.mainClass>com.adamoutler.javashark.MainApp</exec.mainClass>
                 <exec.executable>java</exec.executable>
-                <exec.appArgs>--add-opens</exec.appArgs>
+                <exec.appArgs>--port=8001</exec.appArgs>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
     </actions>
