@@ -56,7 +56,7 @@ public class BattlefieldExcelGenerator {
     }
 
     public String createOutputFiles(File f, Battlefield match, boolean friendly) throws IOException {
-        HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
+        HSSFWorkbook workbook = new HSSFWorkbookFactory().create();
         createStyles(workbook);
         HSSFSheet coverSheet = createCoversheet(workbook, match);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);

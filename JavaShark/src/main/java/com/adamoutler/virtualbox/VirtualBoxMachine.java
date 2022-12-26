@@ -69,7 +69,7 @@ public class VirtualBoxMachine extends TaskedMachine {
             this.addTask(TaskType.POWEROFF);
         }
     }
-    private File recordingFile = null;
+    private transient File recordingFile = null;
 
     public void startRecording(File outputFile) {
         this.recordingFile = outputFile;

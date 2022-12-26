@@ -43,8 +43,8 @@ public class MessageTest {
     public void testToJson() {
         System.out.println("toJson");
         Message instance = new Message();
-        String expResult = "";
         String result = instance.toJson();
+        System.out.println(result);
     }
 
 }

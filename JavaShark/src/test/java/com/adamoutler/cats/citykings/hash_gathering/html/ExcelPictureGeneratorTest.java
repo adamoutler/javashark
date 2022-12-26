@@ -6,6 +6,7 @@
 package com.adamoutler.cats.citykings.hash_gathering.html;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class ExcelPictureGeneratorTest {
             //s=ExcelToHTML.excel2Html(f);
 
             //System.out.println(s);
-            HSSFWorkbook workbook = (HSSFWorkbook) HSSFWorkbookFactory.create(f);
+            HSSFWorkbook workbook = (HSSFWorkbook) new HSSFWorkbookFactory().create(new FileInputStream(f));
 
             ToHtml.main(f.getAbsolutePath(), "a/file.html");
 

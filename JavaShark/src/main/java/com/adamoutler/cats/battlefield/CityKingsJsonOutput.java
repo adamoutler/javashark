@@ -53,7 +53,7 @@ public class CityKingsJsonOutput {
     }
 
     public String createOutputFiles(File f, CityKingsMatchVisual match, boolean friendly) throws IOException {
-        HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
+        HSSFWorkbook workbook = new HSSFWorkbookFactory().create();
         createStyles(workbook);
         HSSFSheet buildingStatistics = createStatisticsPage(workbook, match);
         HSSFSheet carsByBuilding = createCarsByBuildingSheet(workbook, match);
