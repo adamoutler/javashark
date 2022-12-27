@@ -21,6 +21,7 @@ public class StartCatsTask extends Task {
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
         vm.getTaskData().startCatsRetries = 0;
+        vm.getTaskData().startCatsTicks = 0;
         ScreenData sd = vm.getScreen();
         if (!sd.equals(ScreenData.BOOTED) && !sd.equals(ScreenData.CATSLOADEDCHAMPIONSHIPSCREEN) && !sd.equals(ScreenData.CATSLOADEDULTIMATESCREEN) && !sd.equals(ScreenData.CITYKINGS)) {
             vm.setTaskInitialized(false);
@@ -29,13 +30,13 @@ public class StartCatsTask extends Task {
             return;
         }
         vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
-        vm.getTaskData().setLastStartCats(System.currentTimeMillis());
+        vm.getTaskData().setLastStartCats(System.currentTimeMillis()-100000);
         ready(vm);
     }
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
-        if (vm.getTaskData().getLastStartCats() < System.currentTimeMillis() + 100000) {
+        if (vm.getTaskData().getLastStartCats() < System.currentTimeMillis() - 30000) {
             vm.getTaskData().setLastStartCats(System.currentTimeMillis());
             ScreenData sd = vm.getScreen();
             switch (sd) {

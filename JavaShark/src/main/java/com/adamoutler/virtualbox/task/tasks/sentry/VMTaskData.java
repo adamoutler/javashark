@@ -14,7 +14,8 @@ import java.util.LinkedList;
  * @author adamo
  */
 public class VMTaskData {
-    public int poweroncounts=0;
+
+    public int poweroncounts = 0;
     int nullCount = 0;
     public OwnedBy[] previous;
     public OwnedBy[] current;
@@ -23,6 +24,7 @@ public class VMTaskData {
     private long lastStartCats = 0;
     private long idleTime = System.currentTimeMillis();
     public int startCatsRetries = 0;
+    public int startCatsTicks = 0;
     private int[] buildingsToScan = new int[]{1, 2, 3, 4, 5, 6};
     private boolean friendlyScan = true;
     BufferedImage lastValidScreenshot;
@@ -58,7 +60,7 @@ public class VMTaskData {
         building4PreviousPercentOurCars = null;
         building5PreviousPercentOurCars = null;
         building6PreviousPercentOurCars = null;
-      
+
     }
 
     /**
