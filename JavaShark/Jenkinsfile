@@ -2,8 +2,7 @@
 
 pipeline{
     agent any
-    stages{
-        
+    stages{        
         stage ("Initialize"){
             parallel {
                 stage("env"){
