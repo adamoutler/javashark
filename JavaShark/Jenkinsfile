@@ -50,7 +50,7 @@ pipeline{
         stage("Clean JavaShark"){
             steps{
                 withMaven( maven: 'M3', jdk: 'OpenJDK-17.0.1', options: [artifactsPublisher(disabled: true)]) {
-                    sh 'mvn -f "pom.xml" clean' 
+                    sh 'mvn -f "JavaShark/pom.xml" clean' 
                 }
                 sh "echo foo"
             }
@@ -58,7 +58,7 @@ pipeline{
         stage("Build JavaShark"){
             steps{
                 withMaven( maven: 'M3', jdk:'OpenJDK-17.0.1',  options: [artifactsPublisher(disabled: true)]) {
-                    sh 'mvn -f "pom.xml" -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true install' 
+                    sh 'mvn -f "JavaShark/pom.xml" -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true install' 
                 }
                 sh "echo foo"
             }
@@ -66,7 +66,7 @@ pipeline{
         stage("Test JavaShark"){
             steps{
                 withMaven( maven: 'M3', jdk:'OpenJDK-17.0.1',  options: [artifactsPublisher(disabled: true)]) {
-                    sh "mvn -X -f 'pom.xml' validate test;"
+                    sh "mvn -X -f 'JavaShark/pom.xml' validate test;"
                 }
             }        
          
@@ -83,7 +83,7 @@ pipeline{
                         }
                         stage("Wrangler 2 JavaShark"){
                             steps{
-                                sh '/usr/bin/scp target/JavaShark-1.0-SNAPSHOT.jar javashark@192.168.1.107:/opt/JavaShark/'
+                                sh '/usr/bin/scp JavaShark/target/JavaShark-1.0-SNAPSHOT.jar javashark@192.168.1.107:/opt/JavaShark/'
                             }
                         }
                         stage("Wrangler 2 Launch"){
