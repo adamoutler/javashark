@@ -10,7 +10,7 @@ pipeline{
                     stages{
                         stage ("Prepare Properties"){
                             steps {
-                                configFileProvider([configFile(fileId: 'JavaSharkConfigFile', variable: 'CONFIG')]) {
+                                configFileProvider([configFile(fileId: '8b8ab138-7359-4307-83a4-f6744df56fcc', variable: 'CONFIG')]) {
                                         sh '''
                                             set +e
                                             mkdir -p JavaShark
