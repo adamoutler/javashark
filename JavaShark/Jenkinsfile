@@ -117,9 +117,6 @@ pipeline{
         stage('notify'){
             stages{
                 stage("Upgrade Notice"){
-                    when {
-                        expression { false }
-                    }
                     environment{
                         RELEASE_NOTES = sh (script: """git log -1 18a2e69520123fa3c7db7f935ac5c3275fcdfd75|tail -n2|sed -e 's/^[[:space:]]*//'""", returnStdout:true)
                     }

@@ -10,10 +10,16 @@ import com.adamoutler.cats.screen_id.Hashes;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.cats.screen_id.ScreenDescription;
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import com.adamoutler.imagerecognition.PicCoords;
+import com.adamoutler.javashark.MainApp;
 import com.babysharks.messaging.ErrorType;
 import com.babysharks.messaging.HashedMessage;
 import com.babysharks.messaging.MessageData;
 import com.sun.net.httpserver.HttpExchange;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +48,7 @@ import javax.imageio.ImageIO;
  * @author adamo
  */
 public class HashHandler extends SentryAbstractPapaHandler {
+    final public static String OUTPUT = Prop.getProp("screenshots");
 
     @Override
     public void handle(HttpExchange he) throws IOException {
@@ -84,8 +91,9 @@ public class HashHandler extends SentryAbstractPapaHandler {
                 file2 = new File(png2);
             }
 
-            ScreenData sd2 = getScreenEnum(m);
+
             try {
+                ScreenData sd2 = getScreenEnum(m);
                 BufferedImage bi2 = ImageIO.read(file2);
                 m.setComment("Previous entry:" + sd2.getHashesPropertyEntry());
                 boolean deleted = sd2.deleteHash(bi2);
@@ -137,8 +145,14 @@ public class HashHandler extends SentryAbstractPapaHandler {
                 ScreenData sd = getScreenEnum(m);
                 BufferedImage bi = ImageIO.read(file);
                 HashedPicCoords hashedPicCords = sd.addNewHash(bi, clear);
+                drawOutputImage(bi, sd);
+                String screenshotFilename=System.currentTimeMillis()+".png";
+                File outputFile=new File(OUTPUT+sd.name()+screenshotFilename);
+                ImageIO.write(bi, "PNG", outputFile);
+                String out="https://"+MainApp.serverUrl+"/screenshots/" + screenshotFilename;
                 m.setResultObject(hashedPicCords);
                 m.setText(sd.getHashesPropertyEntry());
+                m.setPng(out);
                 this.sendSucessMessage(he, request);
                 return;
             }
@@ -153,6 +167,15 @@ public class HashHandler extends SentryAbstractPapaHandler {
                 "invalid combination of args");
 
         this.sendSucessMessage(he, request);
+    }
+
+    private void drawOutputImage(BufferedImage bi, ScreenData sd) {
+        Graphics2D g2=bi.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.GREEN);
+        PicCoords pc=sd.getPicCoords();
+        g2.drawRect(pc.getX(),pc.getY(), pc.getW(),pc.getH());
+        g2.dispose();
     }
 
     private ScreenData getScreenEnum(MessageData m) {
