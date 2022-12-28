@@ -15,7 +15,7 @@ pipeline{
                                             set +e
                                             mkdir -p JavaShark
                                             set -e
-                                            cp $CONFIG ./properties.prop
+                                            cp "$CONFIG" ./properties.prop
                                        '''
                                 }
                             }
