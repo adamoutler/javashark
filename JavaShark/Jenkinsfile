@@ -2,9 +2,6 @@
 
 
 pipeline{
-    agent {
-        docker { image 'maven:3.8.3-openjdk-17' }
-    }
     stages{        
         stage ("Initialize"){
             parallel {
@@ -14,7 +11,7 @@ pipeline{
                             steps {
                                 sh '''
                                     set +e
-                                    mkdir JavaShark
+                                    mkdir -p JavaShark
                                     set -e
                                     cp $JENKINS_HOME/tools/properties.prop ./
                                '''
