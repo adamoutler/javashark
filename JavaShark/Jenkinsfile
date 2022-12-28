@@ -113,33 +113,31 @@ pipeline{
                         }
                     }
                 } 
-                stage('notify'){
-                    stages{
-                        stage("Upgrade Notice"){
-                            steps{
-                                sh '''
-                                    curl -X POST -d '{
-                                        "service": "JavaShark", 
-                                        "message": {
-                                            "command": "newSoftwareVersion",
-                                            "data": {
-                                                "reason": "Javashark build '${BUILD_ID}' is coming online now." ,
-                                                "comment": "'$CHANGE_TITLE'",
-                                                "debug": false
-                                            },
-                                            "timestamp": "'$(date +%s%M)'"
-                                        }
-                                    }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
-                                '''
-                            }
-                        }
-                    }
-                    
-                }
-               
             }
         }
-       
+        stage('notify'){
+            stages{
+                stage("Upgrade Notice"){
+                    steps{
+                        sh '''
+                            curl -X POST -d '{
+                                "service": "JavaShark", 
+                                "message": {
+                                    "command": "SoftwareUpdate",
+                                    "data": {
+                                        "reason": "JavaShark build '${BUILD_ID}' is now online." ,
+                                        "comment": "'$CHANGE_TITLE'",
+                                        "debug": false
+                                    },
+                                    "timestamp": "'$(date +%s%M)'"
+                                }
+                            }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
+                        '''
+                    }
+                }
+            }
+
+        }
     }
     
     
