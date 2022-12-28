@@ -119,6 +119,7 @@ pipeline{
             stages{
                 stage("Upgrade Notice"){
                     steps{
+                        RELEASE_NOTES = sh (script: """git log — format="medium" -1 ${GIT_COMMIT}""", returnStdout:true)
                         sh '''
                             curl -X POST -d '{
                                 "service": "JavaShark", 
@@ -126,7 +127,7 @@ pipeline{
                                     "command": "SoftwareUpdate",
                                     "data": {
                                         "reason": "JavaShark build '${BUILD_ID}' is now online." ,
-                                        "comment": "'$CHANGE_TITLE'",
+                                        "comment": "$RELEASE_NOTES",
                                         "debug": false
                                     },
                                     "timestamp": "'$(date +%s%M)'"
