@@ -146,8 +146,8 @@ public class HashHandler extends SentryAbstractPapaHandler {
                 BufferedImage bi = ImageIO.read(file);
                 HashedPicCoords hashedPicCords = sd.addNewHash(bi, clear);
                 drawOutputImage(bi, sd);
-                String screenshotFilename=System.currentTimeMillis()+".png";
-                File outputFile=new File(OUTPUT+sd.name()+screenshotFilename);
+                String screenshotFilename=sd.name()+System.currentTimeMillis()+".png";
+                File outputFile=new File(OUTPUT+screenshotFilename);
                 ImageIO.write(bi, "PNG", outputFile);
                 String out="https://"+MainApp.serverUrl+"/screenshots/" + screenshotFilename;
                 m.setResultObject(hashedPicCords);
