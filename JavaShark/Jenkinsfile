@@ -118,10 +118,10 @@ pipeline{
         stage('notify'){
             stages{
                 stage("Upgrade Notice"){
-                    script{
+                    environment{
+                        RELEASE_NOTES = sh (script: """git log — format="medium" -1 ${GIT_COMMIT}""", returnStdout:true)
                     }
                     steps{
-                        RELEASE_NOTES = sh (script: """git log — format="medium" -1 ${GIT_COMMIT}""", returnStdout:true)
                         sh '''
                             curl -X POST -d '{
                                 "service": "JavaShark", 
