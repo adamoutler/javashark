@@ -10,12 +10,14 @@ pipeline{
                     stages{
                         stage ("Prepare Properties"){
                             steps {
-                                sh '''
-                                    set +e
-                                    mkdir -p JavaShark
-                                    set -e
-                                    cp $JENKINS_HOME/tools/properties.prop ./
-                               '''
+                                configFileProvider([configFile(fileId: 'JavaSharkConfigFile', variable: 'CONFIG')]) {
+                                        sh '''
+                                            set +e
+                                            mkdir -p JavaShark
+                                            set -e
+                                            cp $CONFIG ./properties.prop
+                                       '''
+                                }
                             }
                         }
                     }
