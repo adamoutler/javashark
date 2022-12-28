@@ -129,7 +129,7 @@ pipeline{
                                     "command": "SoftwareUpdate",
                                     "data": {
                                         "reason": "JavaShark build '${BUILD_ID}' is now online." ,
-                                        "comment": "'$RELEASE_NOTES'",
+                                        "comment": "'"$RELEASE_NOTES"'",
                                         "debug": false
                                     },
                                     "timestamp": "'$(date +%s%M)'"
