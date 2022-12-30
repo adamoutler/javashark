@@ -5,6 +5,7 @@
  */
 package com.adamoutler.virtualbox.task.tasks.sentry;
 
+import com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.virtualbox.task.tasks.sentry.FastBuildingOwnershipDetector.BuildingBar;
 import java.awt.image.BufferedImage;
@@ -29,6 +30,7 @@ public class FastBuildingOwnershipDetectorTest {
     public FastBuildingOwnershipDetectorTest() {
     }
     File f = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGS.png");
+    File f2 = new File("src/test/java/com/adamoutler/cats/catsobjects/resources/CITYKINGSBLOCKED.png");
 
     @BeforeClass
     public static void setUpClass() {
@@ -55,17 +57,29 @@ public class FastBuildingOwnershipDetectorTest {
             System.out.println("getPercentOurCars");
             FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.BAR1;
             BufferedImage bi = ImageIO.read(f);
-            
-
             PicColors pc = new PicColors(bi);
-            
             float expResult =  52.531647F;
             float result = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
             assertEquals(expResult, result, 0.0);
+            BufferedImage bi2 = ImageIO.read(f2);
+            PicColors pc2 = new PicColors(bi2);
+            float expResult2 =  54.43037796020508F;
+            float result2 = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc2);
+            assertEquals(expResult2, result2, 0.0);
         } catch (IOException ex) {
             Logger.getLogger(FastBuildingOwnershipDetectorTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("The test case threw an error");
         }
+    }
+    
+    @Test
+    public void testOwnership() throws IOException, Exception{
+        BufferedImage bi2 = ImageIO.read(f2);
+        OwnedBy[] owned=FastBuildingOwnershipDetector.scan(bi2);
+        for (OwnedBy building:owned){
+            System.out.println(building);
+        }
+        
     }
 
 }

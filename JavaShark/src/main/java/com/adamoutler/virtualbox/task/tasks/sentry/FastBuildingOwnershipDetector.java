@@ -10,6 +10,7 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.NOBO
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
+import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WTF;
 import com.adamoutler.cats.screen_id.ScreenData;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
@@ -119,7 +120,7 @@ public class FastBuildingOwnershipDetector {
             File outputFile = new File(ScreenshotHandler.OUTPUT + safeName);
             ImageIO.write(image, "PNG", outputFile);
             Message m = new Message().setCommand("mapisours");
-            m.getData().setBuildings(new String[]{"1", "2", "3", "4", "5", "6"}).setGang(vm.getGang()).setUsername(vm.getUsername()).setResultObject("https://"+MainApp.serverUrl+"/screenshots/" + safeName);
+            m.getData().setBuildings(new String[]{"1", "2", "3", "4", "5", "6"}).setGang(vm.getGang()).setUsername(vm.getUsername()).setResultObject("https://" + MainApp.serverUrl + "/screenshots/" + safeName);
             PapaAsync.send(m);
         } catch (IOException ex) {
             Logger.getLogger(FastBuildingOwnershipDetector.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +132,7 @@ public class FastBuildingOwnershipDetector {
         //send final battlefield screenshot
         String safeName = getOnlyStrings(System.currentTimeMillis() + "-" + vm.getUsername() + vm.getGang() + "-") + UUID.randomUUID().toString();
         ImageIO.write(vm.getTaskData().lastValidScreenshot, "PNG", new File(OUTPUT + safeName + "-battle.png"));
-        MessageData md = new MessageData().setUrl("https://"+MainApp.serverUrl+"/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
+        MessageData md = new MessageData().setUrl("https://" + MainApp.serverUrl + "/screenshots/" + safeName + "-battle.png").setComment("screenshot of final battlefield").setUsername(vm.getUsername()).setGang(vm.getGang());
         Message message = new Message().setCommand(command).setData(md);
         PapaAsync.send(message);
         System.out.println("last screenshot sent to papa");
@@ -139,7 +140,7 @@ public class FastBuildingOwnershipDetector {
         if (command.equals("finalbattlefield")) //send final score screenshot;
         {
             ImageIO.write(screenshot, "PNG", new File(OUTPUT + safeName + "-score.png"));
-            message.setCommand("finalscore").getData().setUrl("https://"+MainApp.serverUrl+"/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
+            message.setCommand("finalscore").getData().setUrl("https://" + MainApp.serverUrl + "/screenshots/" + safeName + "-score.png").setResultObject(ScreenData.identifyScreen(screenshot)).setComment("screenshot of final score");
             PapaAsync.send(message);
         }
     }
@@ -378,6 +379,19 @@ public class FastBuildingOwnershipDetector {
         buildings[3] = (checkBuilding(BUILDING4, pc));
         buildings[4] = (checkBuilding(BUILDING5, pc));
         buildings[5] = (checkBuilding(BUILDING6, pc));
+        for (int i = 0; i < buildings.length; i++) {
+            if (buildings[i] != null) {
+                continue;
+            }
+            FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.valueOf("BAR" + i);
+            float ours = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
+            if (ours > 49.5) {
+                buildings[i] = US;
+            } else {
+                buildings[i] = WTF;
+            }
+
+        }
         return buildings;
     }
 
