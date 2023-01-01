@@ -123,6 +123,7 @@ pipeline{
             }
             steps{
                 sh '''
+                    RELEASE_NOTES=$(git log -1 --pretty=%B);
                     curl -X POST -d '{
                         "service": "JavaShark", 
                         "message": {
