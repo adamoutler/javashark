@@ -30,41 +30,42 @@ public class StartCatsTask extends Task {
             return;
         }
         vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
-        vm.getTaskData().setLastStartCats(System.currentTimeMillis()-100000);
+        vm.getTaskData().setLastStartCats(System.currentTimeMillis() - 100000);
         ready(vm);
     }
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
-        if (vm.getTaskData().getLastStartCats() < System.currentTimeMillis() - 30000) {
-            vm.getTaskData().setLastStartCats(System.currentTimeMillis());
-            ScreenData sd = vm.getScreen();
-            switch (sd) {
-                case CATSLOADEDCHAMPIONSHIPSCREEN:
-                case CATSLOADEDULTIMATESCREEN:
-                case CITYKINGS:
-                case RECONNECT:
-                    complete(vm);
-                    break;
-                case WHATCANYOUDOTODAY:
-                    vm.tap(BattlefieldNavigator.BACKBUTTON);
-                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
-                    vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
-                    break;
-                case NOTRESPONDING:
-                    vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
-                    break;
-                case WAITUNRESPONSIVE:
-                    vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
-                    break;
-
-                case RANDOMERROR:
-                    vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
-                    break;
-                case UNRESPONSIVEBACKTODISMISS:
-                    vm.adbShell("input", "keyevent", "KEYCODE_BACK");
-                    break;
-                default:
+        vm.getTaskData().setLastStartCats(System.currentTimeMillis());
+        ScreenData sd = vm.getScreen();
+        switch (sd) {
+            case CATSLOADEDCHAMPIONSHIPSCREEN:
+            case CATSLOADEDULTIMATESCREEN:
+            case CITYKINGS:
+            case RECONNECT:
+                complete(vm);
+                break;
+            case WHATCANYOUDOTODAY:
+                vm.tap(BattlefieldNavigator.BACKBUTTON);
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
+                break;
+            case NOTRESPONDING:
+                vm.longTap(ScreenData.NOTRESPONDING.getPicCoords()); //tap on the Wait option
+                break;
+            case WAITUNRESPONSIVE:
+                vm.longTap(ScreenData.WAITUNRESPONSIVE.getPicCoords());
+                break;
+            case RANDOMERROR:
+                vm.longTap(ScreenData.RANDOMERROR.getPicCoords());
+                break;
+            case UNRESPONSIVEBACKTODISMISS:
+                vm.adbShell("input", "keyevent", "KEYCODE_BACK");
+                break;
+            case CATSLOADINGSCREEN:
+                break;
+            default:
+                if (!hasBeen30SecondsSinceLastStart(vm)) {
                     vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_BACK"});
                     vm.adbShell(new String[]{"input", "keyevent", "KEYCODE_ENTER"});
                     vm.adbShell(new String[]{"am", "start", "com.zeptolab.cats.google/com.zeptolab.cats.CATSActivity"});
@@ -79,15 +80,19 @@ public class StartCatsTask extends Task {
 
                         initializeTask(vm);
                     }
-                    if (vm.getTaskData().startCatsRetries == 201) {
-                        vm.clearTasks();
-                        vm.addTask(TaskType.POWEROFF);
-                        vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
+                }
+                if (vm.getTaskData().startCatsRetries == 201) {
+                    vm.clearTasks();
+                    vm.addTask(TaskType.POWEROFF);
+                    vm.writeBabySharksDebug(vm, "Tried starting CATS " + vm.getTaskData().startCatsRetries + " times. Giving up.  Could not start!");
 
-                    }
-                    break;
-            }
+                }
+                break;
         }
+    }
+
+    private static boolean hasBeen30SecondsSinceLastStart(VirtualBoxMachine vm) {
+        return vm.getTaskData().getLastStartCats() < System.currentTimeMillis() - 30000;
     }
 
     @Override
