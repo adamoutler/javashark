@@ -25,12 +25,12 @@ public class DirectTesseract {
     /**
      * path to expected location of Windows Tesseract
      */
-    public static File tesseractWindows = new File("C:\\Users\\adamo\\userContent\\jTessBoxEditor\\tesseract-ocr\\tesseract.exe");
+    public static File tesseractWindows = new File(System.getProperty("user.home") + "tessdata" + File.separator + "tesseract-ocr" + File.separator + "tesseract.exe");
     /**
      * path to expected location of Linux Tesseract
      */
     public static File tesseractLinux = new File("/usr/bin/tesseract");
-    public static final String TESSDATA = System.getProperty("user.home") + File.separator + "userContent" + File.separator + "jTessBoxEditor" + File.separator + "samples" + File.separator + "vie" + File.separator + "tessdata";
+    public static final String TESSDATA = System.getProperty("user.home") + File.separator + "tessdata";
     public static final String TESSPATTERNS = TESSDATA + File.separator + "catstest.txt";
 
     public static String runTesseractSingleWord(BufferedImage bi) {

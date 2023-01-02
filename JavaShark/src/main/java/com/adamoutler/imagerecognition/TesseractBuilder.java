@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -32,17 +31,16 @@ public class TesseractBuilder {
     /**
      * path to expected location of Windows Tesseract
      */
-    public static File tesseractWindows = new File("C:\\Users\\adamo\\userContent\\jTessBoxEditor\\tesseract-ocr\\tesseract.exe");
+    public static File tesseractWindows = new File(System.getProperty("user.home") + "tessdata" + File.separator + "tesseract-ocr" + File.separator + "tesseract.exe");
     /**
      * path to expected location of Linux Tesseract
      */
     public static File tesseractLinux = new File("/usr/bin/tesseract");
 
-    boolean invert = false;
     private String charset = "";//"-c","tessedit_char_whitelist=0123456789hms+"
     String language = "eng";
 //,"-l","eng",
-    String tessdatadir = System.getProperty("user.home") + File.separator + "userContent" + File.separator + "jTessBoxEditor" + File.separator + "samples" + File.separator + "vie" + File.separator + "tessdata";
+    String tessdatadir = System.getProperty("user.home") + File.separator + "tessdata";
 //"--tessdata-dir",TESSDATA,
     private BufferedImage image;
     private Mode mode = Mode.AUTOMATIC;
@@ -103,16 +101,16 @@ public class TesseractBuilder {
     public String execute() throws IOException, InterruptedException {
         File f1 = new File(System.getProperty("java.io.tmpdir") + File.separator + "JavaSharkOCR" + System.currentTimeMillis() + ".png");
 
-        FileOutputStream fos = new FileOutputStream(f1);
-        System.out.println(image + " w:" + image.getWidth() + " h:" + image.getHeight());
-        ImageIO.write(getImage(), "png", fos);
-        fos.close();
+        try (FileOutputStream fos = new FileOutputStream(f1)) {
+            System.out.println(image + " w:" + image.getWidth() + " h:" + image.getHeight());
+            ImageIO.write(getImage(), "png", fos);
+        }
         LinkedList<String> ll = getTessArgs(f1);
 
         ProcessBuilder pb = new ProcessBuilder(ll);
         pb.redirectErrorStream(true);
         Process p = pb.start();
-        InputStream is = p.getInputStream();
+        p.getInputStream();
         p.waitFor(5, TimeUnit.SECONDS);
         StringBuilder out = new StringBuilder();
         while (p.getInputStream().available() > 0) {
@@ -124,15 +122,15 @@ public class TesseractBuilder {
         File f2 = new File(f1.getAbsolutePath() + ".txt");
         if (f2.exists()) {
 
-            FileInputStream fis = new FileInputStream(f1.getAbsolutePath() + ".txt");
-            while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
-                char i = (char) fis.read();
-                if (i == '\uffff') {
-                    break;
+            try (FileInputStream fis = new FileInputStream(f1.getAbsolutePath() + ".txt")) {
+                while (fis.available() > 0 && !sb.toString().endsWith("\n")) {
+                    char i = (char) fis.read();
+                    if (i == '\uffff') {
+                        break;
+                    }
+                    sb.append(i);
                 }
-                sb.append(i);
             }
-            fis.close();
             f2.delete();
         }
 
@@ -211,11 +209,11 @@ public class TesseractBuilder {
 
         try {
 
-            File folder=new File(System.getProperty("java.io.tmpdir") + File.separator + "citykingsbattlefieldanalysis" +File.separator );
-            if (!folder.exists()){
+            File folder = new File(System.getProperty("java.io.tmpdir") + File.separator + "citykingsbattlefieldanalysis" + File.separator);
+            if (!folder.exists()) {
                 folder.mkdirs();
             }
-            String filename = folder.getAbsolutePath()+File.separator+ name + ".png";
+            String filename = folder.getAbsolutePath() + File.separator + name + ".png";
             try (FileOutputStream fos = new FileOutputStream(filename)) {
                 ImageIO.write(pc.getImageAtCoords(image), "PNG", fos);
             }
@@ -287,7 +285,8 @@ public class TesseractBuilder {
     }
 
     /**
-     * @param mode the mode to set
+     * @param mode the mode to set.
+     * @return reference to this object.
      */
     public TesseractBuilder setMode(Mode mode) {
         this.mode = mode;
