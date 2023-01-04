@@ -25,7 +25,7 @@ public class DirectTesseract {
     /**
      * path to expected location of Windows Tesseract
      */
-    public static File tesseractWindows = new File(System.getProperty("user.home") + "tessdata" + File.separator + "tesseract-ocr" + File.separator + "tesseract.exe");
+    public static File tesseractWindows = new File(System.getProperty("user.home") + File.separator + "tessdata" + File.separator + "tesseract-ocr" + File.separator + "tesseract.exe");
     /**
      * path to expected location of Linux Tesseract
      */
