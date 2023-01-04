@@ -17,26 +17,29 @@ import static org.junit.Assert.*;
  * @author adamo
  */
 public class HashesTest {
-    
+
     public HashesTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-   
-    
+    @Test
+    public void useAHash() {
+        assert (Hashes.cityKings != null);
+    }
+
 }
