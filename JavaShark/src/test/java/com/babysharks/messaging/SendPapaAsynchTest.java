@@ -61,7 +61,7 @@ public class SendPapaAsynchTest {
     public void tearDown() {
     }
 
-    VirtualBoxMachine vm = new VirtualBox().getMachinesList().get(0);
+    VirtualBoxMachine vm = new VirtualBoxMachine("unittest_adam_2222_2222");
 
     @Test
     public void testFormat() {
