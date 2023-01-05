@@ -7,12 +7,17 @@ package com.adamoutler.cats.screen_id;
 
 import com.adamoutler.Prop;
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -28,6 +33,8 @@ public class Hashes {
 
     final public static Properties PROPERTIES = new Properties();
     final public static String HASHFILE = Prop.getProp("hashfile");
+    
+    public static String hashesFileUrl = "https://baby-sharks.hackedyour.info/CatsScreenDataHashes.properties";
 
     static ArrayList<HashedPicCoords> unknown;
     static ArrayList<HashedPicCoords> off;
@@ -61,48 +68,72 @@ public class Hashes {
     static ArrayList<HashedPicCoords> unresponsive;
     static ArrayList<HashedPicCoords> whatCanYouDoToday;
     static ArrayList<HashedPicCoords> store;
-    static {
+    static {        
+        loadHashes();
+    }
 
-        try (FileInputStream fis = new FileInputStream(HASHFILE)) {
-            PROPERTIES.load(fis);
-            Enumeration<String> properties = (Enumeration<String>) PROPERTIES.propertyNames();
-            while (properties.hasMoreElements()) {
-                String key = properties.nextElement();
-                System.out.println(key);
-                String value = PROPERTIES.getProperty(key);
-                if (value == null || value.isEmpty()) {
-                    continue;
-                }
-                for (Field hashArrays : Hashes.class.getDeclaredFields()) {
-                    if (hashArrays.getName().toUpperCase().equals(key.toUpperCase())) {
-                        ArrayList<HashedPicCoords> al = new ArrayList<>();
-                        String[] values = value.split(",");
-                        if (values.length > 4) {
-                                if (key.equals("BLACKSCREEN")) {
-                            System.out.println("foo");
-                        }
-                            HashedPicCoords hpc = createHashedPicCoords(values);
-                            al.add(hpc);
-
-                            for (int i = 5; i < values.length; i++) {
-                                al.add(createHashedPicCoords(hpc, values[i]));
-
-                            }
-                        }
-                        if (key.equals("BLACKSCREEN")) {
-                            System.out.println("foo");
-                        }
-                        hashArrays.set(null, al);
-                        System.out.println("loaded " + key);
-                    }
-
-                }
+    private static void loadHashes() throws SecurityException {        
+        // load data from web
+        try {
+            var inputStream = new URL(hashesFileUrl).openStream();
+            var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            if (text.contains("CITYKINGS"))
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
+                PROPERTIES.load(bais);
             }
         } catch (IOException ex) {
-            System.out.println("error loading properties in Hashes!");
+            System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
             Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // load from web failed ? -> try to load from local file
+        if (PROPERTIES.isEmpty()) {
+            try {
+                var fileInputStream = new FileInputStream(HASHFILE);
+                PROPERTIES.load(fileInputStream);
+            } catch (IOException ex) {
+                System.out.println("error loading file properties in Hashes (local)!");
+                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (!PROPERTIES.isEmpty()) {
+            try {
+                Enumeration<String> properties = (Enumeration<String>) PROPERTIES.propertyNames();
+                while (properties.hasMoreElements()) {
+                    String key = properties.nextElement();
+                    System.out.println(key);
+                    String value = PROPERTIES.getProperty(key);
+                    if (value == null || value.isEmpty()) {
+                        continue;
+                    }
+                    for (Field hashArrays : Hashes.class.getDeclaredFields()) {
+                        if (hashArrays.getName().toUpperCase().equals(key.toUpperCase())) {
+                            ArrayList<HashedPicCoords> al = new ArrayList<>();
+                            String[] values = value.split(",");
+                            if (values.length > 4) {
+                                if (key.equals("BLACKSCREEN")) {
+                                    System.out.println("foo");
+                                }
+                                HashedPicCoords hpc = createHashedPicCoords(values);
+                                al.add(hpc);
+
+                                for (int i = 5; i < values.length; i++) {
+                                    al.add(createHashedPicCoords(hpc, values[i]));
+                                }
+                            }
+                            if (key.equals("BLACKSCREEN")) {
+                                System.out.println("foo");
+                            }
+                            hashArrays.set(null, al);
+                            System.out.println("loaded " + key);
+                        }
+                    }
+                }
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -120,9 +151,9 @@ public class Hashes {
         int h = Integer.parseInt(values[3].trim());
         Integer hash; 
         try {
-        hash = Integer.parseInt(values[4].trim());
+            hash = Integer.parseInt(values[4].trim());
         } catch (NumberFormatException ex){
-           hash=null;
+            hash=null;
         }
         return new HashedPicCoords(x, y, w, h, hash);
     }
