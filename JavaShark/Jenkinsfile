@@ -162,9 +162,6 @@ pipeline {
             }
         }
         stage("Upgrade Notice"){
-            environment{
-                RELEASE_NOTES = sh (script: """git log -1 --pretty=%B""", returnStdout:true)
-            }
             steps{
                 script {
                     def changes = " "
