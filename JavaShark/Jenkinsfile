@@ -176,8 +176,8 @@ pipeline {
                     }
                     def safeChanges=changes.replaceAll("[^a-zA-Z-.,()!]+","")
                     sh """
-                        RELEASE_NOTES="${changes} foo";
-                        echo curl -X POST -d '{
+                        RELEASE_NOTES="${changes}";
+                        curl -X POST -d '{
                             "service": "JavaShark", 
                             "message": {
                                 "command": "SoftwareUpdate",
@@ -190,8 +190,6 @@ pipeline {
                             }
                         }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async
                     """
-fail()
-sh ' echo foo'
                 }
             }
         }
