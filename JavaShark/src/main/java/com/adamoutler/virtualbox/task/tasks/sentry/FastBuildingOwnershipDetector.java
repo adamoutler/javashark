@@ -383,14 +383,13 @@ public class FastBuildingOwnershipDetector {
             if (buildings[i] != null) {
                 continue;
             }
-            FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.valueOf("BAR" + i);
+            FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.valueOf("BAR" + (i+1));
             float ours = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
             if (ours > 49.5) {
                 buildings[i] = US;
             } else {
                 buildings[i] = WTF;
             }
-
         }
         return buildings;
     }
