@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy
+#! /usr/bin/env groovy
 pipeline {
     agent {
         docker{
@@ -24,32 +24,35 @@ pipeline {
                                         cp "${credential}" ~/.ssh/id_rsa;
                                         chmod -R 600 ~/.ssh
                                     '''
+                                    sh '/usr/bin/scp ~/tools/properties.prop javashark@192.168.1.107:/opt/JavaShark/'
+
                                 }
                             }
                         }
                     }
                 }
                 stage ("git"){
+
                     stages{
                         stage("git clone"){
                             steps{
                                 git credentialsId:'GITEA-LOGIN-JAVASHARK', url:"https://git.adamoutler.com/adamoutler/javashark.git"
                             }
                         }
-                        
+                    }
+                }
+                stage ("secret"){
+                    stages{
                          stage ("Secret Properties"){
                             steps {
                                 configFileProvider([configFile(fileId: '8b8ab138-7359-4307-83a4-f6744df56fcc', variable: 'CONFIG')]) {
                                     sh '''
-                                        set +e
-                                        mkdir -p JavaShark
-                                        set -e
                                         cp "$CONFIG" JavaShark/properties.prop
+                                        cp "$CONFIG" ./properties.prop
                                         mkdir -p ~/tools/
                                         cp "$CONFIG" ~/tools/properties.prop
                                     '''
                                 }
-
                             }
                         }
                     }
@@ -159,25 +162,35 @@ pipeline {
             }
         }
         stage("Upgrade Notice"){
-            environment{
-                RELEASE_NOTES = sh (script: """git log -1 --pretty=%B""", returnStdout:true)
-            }
             steps{
-                sh '''
-                    RELEASE_NOTES=$(git log -1 --pretty=%B);
-                    curl -X POST -d '{
-                        "service": "JavaShark", 
-                        "message": {
-                            "command": "SoftwareUpdate",
-                            "data": {
-                                "reason": "JavaShark build '${BUILD_ID}' is now online." ,
-                                "comment": "'"$RELEASE_NOTES"'",
-                                "debug": false
-                            },
-                            "timestamp": "'$(date +%s%M)'"
+                script {
+                    def changes = " "
+                    build = currentBuild
+                    while(build != null && build.result != 'SUCCESS') {
+                        for (changeLog in build.changeSets) {
+                            for(entry in changeLog.items) {
+                                changes+=entry.getMsg()+" --"+entry.getAuthor().getFullName()+"\n"
+                            }
                         }
-                    }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhh/async
-                '''
+                        build = build.previousBuild
+                    }
+                    def safeChanges=changes.replaceAll("[^a-zA-Z-.,()!]+","")
+                    sh """
+                        RELEASE_NOTES="${changes}";
+                        curl -X POST -d '{
+                            "service": "JavaShark", 
+                            "message": {
+                                "command": "SoftwareUpdate",
+                                "data": {
+                                    "reason": "JavaShark build $BUILD_ID is now online.",
+                                    "comment": "'"\$RELEASE_NOTES"'",
+                                    "debug": false
+                                },
+                                "timestamp": "'\$(date +%s%M)'"
+                            }
+                        }' https://catsbot-201602.appspot.com/adam_api/secret_shark_path_shhhhh/async
+                    """
+                }
             }
         }
     }
