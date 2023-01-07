@@ -1,0 +1,34 @@
+{
+    "name": "javashark",
+    "image": "adamoutler/ubuntu11tessmaven:3",
+    "postStartCommand": "",
+  
+    
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+		"asf.apache-netbeans-java",
+		"vscjava.vscode-maven",
+	],
+  
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [8080],
+  
+    // Use 'portsAttributes' to set default properties for specific forwarded ports. More info: https://code.visualstudio.com/docs/remote/devcontainerjson-reference.
+    "portsAttributes": {
+      "8001": {
+        "label": "Javashark Port"
+      }
+    },
+  
+    // Use 'otherPortsAttributes' to configure any ports that aren't configured using 'portsAttributes'.
+    // "otherPortsAttributes": {
+    // 		"onAutoForward": "silent"
+    // },
+  
+    // Use 'postCreateCommand' to run commands after the container is created.
+ "postCreateCommand": "curl --output ~/tessdata.tar.gz https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz;tar -xzvf ~/tessdata.tar.gz -C ~/",
+  
+    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "root"
+  }
+  
