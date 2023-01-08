@@ -135,8 +135,9 @@ pipeline {
                         stage("Wrangler 2 OCR Data"){
                             steps{
                                 sh '''
-                                    cd ~
-                                    curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv
+                                    cd /home/javashark;
+                                    curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv;
+                                    chown javashark:javashark /home/javashark/tessdata;
                                 '''
                             }
                         }
@@ -163,8 +164,9 @@ pipeline {
                         stage("Wrangler 1 OCR Data"){
                             steps{
                                 sh '''
-                                    cd ~
-                                    curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv
+                                    cd /home/javashark;
+                                    curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv;
+                                    chown javashark:javashark /home/javashark/tessdata;
                                 '''
                             }
                         }
