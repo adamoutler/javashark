@@ -135,7 +135,7 @@ pipeline {
                         stage("Wrangler 2 OCR Data"){
                             steps{
                                 sh '''
-                                    'ssh javashark@192.168.1.107 'cd /home/javashark;
+                                    ssh javashark@192.168.1.107 'cd /home/javashark;
                                     curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv;
                                     chown -R javashark:javashark /home/javashark/tessdata;'
                                 '''
