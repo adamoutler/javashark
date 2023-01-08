@@ -137,7 +137,7 @@ pipeline {
                                 sh '''
                                     cd /home/javashark;
                                     curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv;
-                                    chown javashark:javashark /home/javashark/tessdata;
+                                    chown -R javashark:javashark /home/javashark/tessdata;
                                 '''
                             }
                         }
@@ -166,7 +166,7 @@ pipeline {
                                 sh '''
                                     cd /home/javashark;
                                     curl https://baby-sharks.hackedyour.info/tesseract/tessdata.tar.gz| tar -xzv;
-                                    chown javashark:javashark /home/javashark/tessdata;
+                                    chown -R javashark:javashark /home/javashark/tessdata;
                                 '''
                             }
                         }
