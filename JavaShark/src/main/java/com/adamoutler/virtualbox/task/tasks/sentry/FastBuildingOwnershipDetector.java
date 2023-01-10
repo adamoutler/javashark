@@ -12,6 +12,7 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WTF;
 import com.adamoutler.cats.screen_id.ScreenData;
+import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGS;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.MainApp;
@@ -146,7 +147,7 @@ public class FastBuildingOwnershipDetector {
     }
 
     private static void maybeFreakOut(VirtualBoxMachine vm, ArrayList<Integer> alertBuildings) throws RestClientException {
-        if (alertBuildings.size() > 0) {
+        if (!alertBuildings.isEmpty() && vm.getScreen().equals(ScreenData.CITYKINGS)) {
             int[] alertBuildingsArray = alertBuildings.stream().mapToInt(i -> i).toArray();
             freakOut(vm, alertBuildingsArray);
         }
