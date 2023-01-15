@@ -76,7 +76,5 @@ public class BattlefieldExcelGeneratorTest {
         if (!GraphicsEnvironment.isHeadless()) {
             instance.openSheet(f);
         }
-
     }
-
 }

@@ -220,6 +220,11 @@ public class FastBuildingOwnershipDetectorTest {
         BufferedImage bi2 = ImageIO.read(f5);
         OwnedBy[] owned = FastBuildingOwnershipDetector.scan(bi2);
         System.out.println("Buildings should be null");
-        assert (owned == null);
+        assert (owned[0] == null);
+        assert (owned[1] == null);
+        assert (owned[2] == null);
+        assert (owned[3] == null);
+        assert (owned[4] == null);
+        assert (owned[5] == null);
     }
 }

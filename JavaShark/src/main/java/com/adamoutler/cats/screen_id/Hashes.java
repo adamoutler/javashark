@@ -75,21 +75,18 @@ public class Hashes {
     }
 
     private static void loadHashes() throws SecurityException {
-        var instance = MainApp.p.getNamed().get("instance");
-        if (instance != null && instance.contains("angler")) {
-            // load data from web
-            try {
-                var inputStream = new URL(hashesFileUrl).openStream();
-                var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                if (text.contains("CITYKINGS"))
-                {
-                    ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
-                    PROPERTIES.load(bais);
-                }
-            } catch (IOException ex) {
-                System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
-                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        // load data from web
+        try {
+            var inputStream = new URL(hashesFileUrl).openStream();
+            var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            if (text.contains("CITYKINGS"))
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
+                PROPERTIES.load(bais);
             }
+        } catch (IOException ex) {
+            System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
+            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // load from web failed ? -> try to load from local file
