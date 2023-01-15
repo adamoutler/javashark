@@ -44,6 +44,7 @@ public class BeginTheAttackWatch extends Task {
 
         new BattlefieldNavigator().navigateToCK(vm);
         ScreenData sd = vm.getScreen();
+        System.out.print(vm.getGang()+" "+vm.getUsername()+" BeginTheAttackWatch: "+sd.name());
         switch (sd) {
             case CITYKINGSENLIST:
                 Message m = new Message().setCommand("newround");
@@ -64,7 +65,6 @@ public class BeginTheAttackWatch extends Task {
             case RECONNECT:
                 vm.addTask(TaskType.CLEAR);
             default:
-
                 vm.writeBabySharksDebug(vm, "Attempting perform BEGINTHEATTACKWATCH but I couldn't recognize screen.");
                 Message n = new Message().setCommand("BeginTheAttackFailure");
                 n.getData().setGang(vm.getGang()).setUsername(vm.getUsername())
