@@ -7,6 +7,8 @@ package com.adamoutler.cats.screen_id;
 
 import com.adamoutler.Prop;
 import com.adamoutler.imagerecognition.HashedPicCoords;
+import com.adamoutler.javashark.MainApp;
+import com.babysharks.messaging.HashedMessage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,21 +74,24 @@ public class Hashes {
         loadHashes();
     }
 
-    private static void loadHashes() throws SecurityException {        
-        // load data from web
-        try {
-            var inputStream = new URL(hashesFileUrl).openStream();
-            var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            if (text.contains("CITYKINGS"))
-            {
-                ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
-                PROPERTIES.load(bais);
+    private static void loadHashes() throws SecurityException {
+        var instance = MainApp.p.getNamed().get("instance");
+        if (instance != null && instance.contains("angler")) {
+            // load data from web
+            try {
+                var inputStream = new URL(hashesFileUrl).openStream();
+                var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                if (text.contains("CITYKINGS"))
+                {
+                    ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
+                    PROPERTIES.load(bais);
+                }
+            } catch (IOException ex) {
+                System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
+                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         // load from web failed ? -> try to load from local file
         if (PROPERTIES.isEmpty()) {
             try {

@@ -10,9 +10,7 @@ import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.NOBO
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.THEM;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.US;
 import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WHITEBORDER;
-import static com.adamoutler.cats.citykings.hash_gathering.building.OwnedBy.WTF;
 import com.adamoutler.cats.screen_id.ScreenData;
-import static com.adamoutler.cats.screen_id.ScreenData.CITYKINGS;
 import com.adamoutler.imagerecognition.PicColors;
 import com.adamoutler.imagerecognition.XYCoords;
 import com.adamoutler.javashark.MainApp;
@@ -275,6 +273,45 @@ public class FastBuildingOwnershipDetector {
         return percentOurs;
     }
 
+    final public static float getPercentTheirCars(BuildingBar bar, PicColors pc) throws NullPointerException {
+        int initialXCoord = bar.getXY().getX();
+        initialXCoord += 160; // start checking from right
+        int yCoord = bar.getXY().getY();
+        int startOfTheirBar = pc.scanLeftXCoordinateForColorAtYCoordinate(OwnedBy.THEM.getColor(), initialXCoord, yCoord, initialXCoord - 160);
+        if (startOfTheirBar == -1) {
+            return 0;
+        }
+        int endOfTheirBar = pc.scanLeftXCoordinateForLackOfColorAtYCoordinate(new int[]{OwnedBy.THEM.getColor()}, startOfTheirBar, yCoord, startOfTheirBar - 200);
+        int pixelsTheirBar = (endOfTheirBar - startOfTheirBar) * -1;
+        int endOfBar = pc.scanLeftXCoordinateForColorAtYCoordinate(WHITEBORDER.getColor(), endOfTheirBar, yCoord, initialXCoord - 200);
+        int sizeOfBar = startOfTheirBar - endOfBar;
+        if (sizeOfBar < 155) {
+            throw new NullPointerException("Could not read bar size");
+        }
+        float percentOurs = ((float) pixelsTheirBar / (float) sizeOfBar) * 100;
+
+        return percentOurs;
+    }
+    
+    final public static float getPercentNobodyCars(BuildingBar bar, PicColors pc) throws NullPointerException {
+        int initialXCoord = bar.getXY().getX();
+        int yCoord = bar.getXY().getY();
+        int startOfNobodyBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{OwnedBy.NOBODY.getColor()}, initialXCoord, yCoord, initialXCoord + 100);
+        if (startOfNobodyBar == -1) {
+            return 0;
+        }
+        int endOfNobodyBar = pc.scanRightXCoordinateForLackOfColorAtYCoordinate(new int[]{OwnedBy.NOBODY.getColor()}, startOfNobodyBar, yCoord, startOfNobodyBar + 200);
+        int pixelsOurBar = endOfNobodyBar - startOfNobodyBar;
+        int endOfBar = pc.scanRightXCoordinateForColorAtYCoordinate(new int[]{WHITEBORDER.getColor()}, endOfNobodyBar, yCoord, initialXCoord + 200);
+        int sizeOfBar = endOfBar - startOfNobodyBar + (startOfNobodyBar-initialXCoord-1);
+        if (sizeOfBar < 155) {
+            throw new NullPointerException("Could not read bar size");
+        }
+        float percentNobody = ((float) pixelsOurBar / (float) sizeOfBar) * 100;
+
+        return percentNobody;
+    }
+    
     @SuppressWarnings("UseSpecificCatch")
     final public static void lostBuffDetection(VirtualBoxMachine vm, PicColors pc, boolean calibration) {
         ArrayList<BuildingChangeIncident> incidents = new ArrayList<>();
@@ -384,17 +421,35 @@ public class FastBuildingOwnershipDetector {
             if (buildings[i] != null) {
                 continue;
             }
-            FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.valueOf("BAR" + (i+1));
-            float ours = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
-            if (ours > 49.5) {
+            FastBuildingOwnershipDetector.BuildingBar bar = BuildingBar.valueOf("BAR" + (i + 1));
+            var barInfo = getBuildingBarInfo(bar, pc);
+            if (barInfo.percentageUs > 49.5) {
                 buildings[i] = US;
+            } else if (barInfo.percentageThem > 49.5) {
+                buildings[i] = THEM;
+            } else if (barInfo.percentageNobody > 0) {
+                buildings[i] = NOBODY;
             } else {
-                buildings[i] = WTF;
+                buildings[0] = null;
+                buildings[1] = null;
+                buildings[2] = null;
+                buildings[3] = null;
+                buildings[4] = null;
+                buildings[5] = null;
+                i = buildings.length;
             }
         }
         return buildings;
     }
 
+    private static BuildingBarInfo getBuildingBarInfo(BuildingBar bar, PicColors pc)
+    {
+        float ours = FastBuildingOwnershipDetector.getPercentOurCars(bar, pc);
+        float theirs = FastBuildingOwnershipDetector.getPercentTheirCars(bar, pc);
+        float nobody = FastBuildingOwnershipDetector.getPercentNobodyCars(bar, pc);
+        return new BuildingBarInfo(ours, theirs, nobody);
+    }
+    
     /**
      * runs the FastBuildingOwnershipDetector. Sends notifications to Papa.
      *
@@ -498,5 +553,4 @@ public class FastBuildingOwnershipDetector {
             return xy;
         }
     }
-
 }

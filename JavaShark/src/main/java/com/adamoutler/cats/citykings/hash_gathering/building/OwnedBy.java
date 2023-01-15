@@ -13,8 +13,7 @@ public enum OwnedBy {
     NOBODY(0x5e6a83, "noone"),
     US(0x90b3eb, "us"),
     THEM(0xFF6564, "them"),
-    WHITEBORDER(0xffffff,"White Border"),
-    WTF(0x000000,"wtf");
+    WHITEBORDER(0xffffff,"White Border");
     int color;
     String friendlyName;
 

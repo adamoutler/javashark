@@ -54,7 +54,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainApp {
 
     private static String[] args;
-    static Parameters p;
+    public static Parameters p;
     public static Date onlineTime = new Date();
     public static String serverUrl;
 
@@ -74,10 +74,10 @@ public class MainApp {
 
     MainApp(String[] args) {
         MainApp.args = args;
-        p = new Parameters(args);
     }
 
     public static void main(String[] args) {
+        p = new Parameters(args);
         startADB();
         notifyPapa();
         MainApp server = new MainApp(args);
