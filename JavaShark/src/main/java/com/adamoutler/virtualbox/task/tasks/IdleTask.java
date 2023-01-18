@@ -16,6 +16,7 @@ public class IdleTask extends Task {
 
     @Override
     public void initializeTask(VirtualBoxMachine vm) {
+        vm.setKillThread(false);
         vm.getTaskData().setIdleNow();
         ready(vm);
         complete(vm);

@@ -20,6 +20,7 @@ public class PowerOnTask extends Task {
 
     @Override
     void initializeTask(final VirtualBoxMachine vm) {
+        vm.setKillThread(false);        
         VirtualBoxControl vc = new VirtualBoxControl(vm);
         Thread startMachine = new Thread(() -> {
             String value = vm.adbShell(new String[]{"ls", "/"});

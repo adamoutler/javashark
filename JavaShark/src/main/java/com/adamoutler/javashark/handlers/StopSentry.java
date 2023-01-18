@@ -31,20 +31,23 @@ public class StopSentry extends SentryAbstractPapaHandler {
             TaskType tt = null;
             SentryTools st = new SentryTools(vm);
             if (vm == null || !vm.isPoweredOn()) {
+                vm.clearTasks();
                 VirtualBoxMachine otherVM = st.getCurrent(TaskType.WATCH);
                 if (otherVM == null) {
+                    vm.setKillThread(true);
                     request.getData().setErrorType(ErrorType.NOSENTRIESACTIVE);
                     request.getData().addAvailable(vm).setReason("stopped already");
                     this.sendSucessMessage(he, request);
-
                     return;
                 } else {
+                    otherVM.setKillThread(true);
                     tt = otherVM.getCurrentTask();
                     otherVM.addTask(TaskType.CLEAR);
                     vmControl = new VirtualBoxControl(otherVM);
                     request.getData().addAvailable(otherVM).setReason("stopping");
                 }
             } else {
+                vm.setKillThread(true);
                 tt = vm.getCurrentTask();
                 addTasks(TaskType.CLEAR);
                 request.getData().addAvailable(vm).setReason("stopping");

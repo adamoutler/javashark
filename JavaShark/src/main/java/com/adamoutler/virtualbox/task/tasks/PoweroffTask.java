@@ -30,9 +30,8 @@ public class PoweroffTask extends Task {
 
     @Override
     public void runTask(VirtualBoxMachine vm) {
-
         complete(vm);
-
+        vm.clearTasks();
     }
 
     @Override
