@@ -20,8 +20,8 @@ import java.util.ArrayList;
  */
 public class TeamOwnershipPercentageBar {
 
-    final public static XYCoords STARTSCAN = new XYCoords(340, 140);
-    final public static PicCoords BARLOCATION = new PicCoords(340, 120, 335, 35);
+    final public static XYCoords STARTSCAN = new XYCoords(340, 120);
+    final public static PicCoords BARLOCATION = new PicCoords(340, 100, 335, 35);
     final public static int BLUE = 0x90B3EB;
     final public static int RED = 0xFF6564;
     final public static int GREY = 0x5E6A83;
@@ -53,7 +53,6 @@ public class TeamOwnershipPercentageBar {
      * @return
      */
     private int calculateNumberOfOurSlots() {
-
         owned = new ArrayList<>();
         Screenshottable.writePic(getBi().getSubimage(BARLOCATION.getX(), BARLOCATION.getY(), BARLOCATION.getW(), BARLOCATION.getH()), "PicUsedForTOSB");
         PicColors pc = new PicColors(getBi());

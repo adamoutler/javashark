@@ -63,14 +63,12 @@ public class VirtualBoxMachineTest {
         ArrayList<VirtualBoxMachine> instanceList = new VirtualBox().getGangMachines("development");
         if (!instanceList.isEmpty()){
         VirtualBoxMachine instance=instanceList.get(0);
-        instance.DEBUGaddImages(image);
-        FastBuildingOwnershipDetector.run(instance);
-        FastBuildingOwnershipDetector.run(instance);
-        FastBuildingOwnershipDetector.run(instance);
-                FastBuildingOwnershipDetector.run(instance);
-
+            instance.DEBUGaddImages(image);
+            FastBuildingOwnershipDetector.run(instance);
+            FastBuildingOwnershipDetector.run(instance);
+            FastBuildingOwnershipDetector.run(instance);
+            FastBuildingOwnershipDetector.run(instance);
         }
-        
     }
 
     public final static String LOCATION="src/test/java/com/adamoutler/cats/catsobjects/resources/allthescreens/";

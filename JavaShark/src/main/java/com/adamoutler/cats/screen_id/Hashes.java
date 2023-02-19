@@ -181,7 +181,6 @@ public class Hashes {
                 PROPERTIES.store(fos, new Date().toString());
                 return PROPERTIES;
             }
-            
         } catch (IOException ex) {
             Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -195,5 +194,4 @@ public class Hashes {
             f.createNewFile();
         }
     }
-
 }

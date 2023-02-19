@@ -24,8 +24,8 @@ import java.util.logging.Logger;
  */
 public class BuildingFactory {
 
-    transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 390);
-    transient final public static XYCoords ATTACKBUTTON = new XYCoords(670, 390);
+    transient final public static XYCoords DEFENDBUTTON = new XYCoords(349, 320);
+    transient final public static XYCoords ATTACKBUTTON = new XYCoords(670, 320);
     private final VirtualBoxMachine vm;
     private final Building building;
 
@@ -58,8 +58,8 @@ public class BuildingFactory {
                     return false;
                 }
             }
-
         }
+        
         return !building.isSuspectProblem();
     }
 
@@ -76,7 +76,6 @@ public class BuildingFactory {
             building.setCars(FriendlyCarFactory.createBlanks(building, building.getTosb().numberTheyOwn()));
             sleep(2000);
         }
-
     }
 
     private boolean meetsFoeScanCriteria() {
@@ -146,5 +145,4 @@ public class BuildingFactory {
             return building.getTosb().numberTheyOwn() > 0;
         }
     }
-
 }
