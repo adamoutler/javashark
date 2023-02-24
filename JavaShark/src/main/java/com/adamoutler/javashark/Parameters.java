@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation class for Application parameters. This is called by the applet
@@ -45,7 +47,7 @@ public class Parameters {
     private List<String> readonlyRawArgs = null;
     private Map<String, String> readonlyNamedParams = null;
     private List<String> readonlyUnnamedParams = null;
-
+    Logger log= Logger.getLogger("Parameters");
     /**
      * Constructs an empty Parameters object.
      */
@@ -184,6 +186,7 @@ public class Parameters {
         for (String arg : rawArgs) {
             if (!isNamedParam(arg)) {
                 unnamedParams.add(arg);
+                log.log(Level.FINE, "unnamed:{0}: {1}", arg);
             }
         }
     }
@@ -200,6 +203,7 @@ public class Parameters {
                 String key = arg.substring(2, eqIdx);
                 String value = arg.substring(eqIdx + 1);
                 namedParams.put(key, value);
+                log.log(Level.FINE, "named:{0}: {1}", new Object[]{key, value});
             }
         }
     }

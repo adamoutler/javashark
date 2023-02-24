@@ -35,7 +35,7 @@ public class Hashes {
 
     final public static Properties PROPERTIES = new Properties();
     final public static String HASHFILE = Prop.getProp("hashfile");
-    
+
     public static String hashesFileUrl = "https://baby-sharks.hackedyour.info/CatsScreenDataHashes.properties";
 
     static ArrayList<HashedPicCoords> unknown;
@@ -70,43 +70,47 @@ public class Hashes {
     static ArrayList<HashedPicCoords> unresponsive;
     static ArrayList<HashedPicCoords> whatCanYouDoToday;
     static ArrayList<HashedPicCoords> store;
-    static {        
+
+    static {
         loadHashes();
     }
 
     private static void loadHashes() throws SecurityException {
         // load test screen hashes
-        if (System.getenv().getOrDefault("MAVEN_PROJECTBASEDIR",null)!=null){
-            String targetFile = System.getenv().get("MAVEN_PROJECTBASEDIR")+"/src/test/resources/catsScreenDataHashes.properties";
+        if (System.getenv().getOrDefault("MAVEN_PROJECTBASEDIR", null) != null) {
+            String targetFile = System.getenv().get("MAVEN_PROJECTBASEDIR") + "/src/test/resources/catsScreenDataHashes.properties";
             try {
                 var fileInputStream = new FileInputStream(targetFile);
                 PROPERTIES.load(fileInputStream);
+                System.out.println("Loaded file properties in Hashes from " + targetFile);
             } catch (IOException ex) {
                 System.out.println("error loading file properties in Hashes from " + targetFile);
                 Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         if (PROPERTIES.isEmpty()) {
             try {
                 var inputStream = new URL(hashesFileUrl).openStream();
                 var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                if (text.contains("CITYKINGS"))
-                {
+                if (text.contains("CITYKINGS")) {
                     ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
                     PROPERTIES.load(bais);
+                    System.out.println("Loaded file properties in Hashes from " + hashesFileUrl);
                 }
             } catch (IOException ex) {
                 System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
                 Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         // load from web failed ? -> try to load from local file
         if (PROPERTIES.isEmpty()) {
             try {
                 var fileInputStream = new FileInputStream(HASHFILE);
                 PROPERTIES.load(fileInputStream);
+                System.out.println("Loaded file properties in Hashes from " + HASHFILE);
+
             } catch (IOException ex) {
                 System.out.println("error loading file properties in Hashes (local)!");
                 Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,11 +168,11 @@ public class Hashes {
         int y = Integer.parseInt(values[1].trim());
         int w = Integer.parseInt(values[2].trim());
         int h = Integer.parseInt(values[3].trim());
-        Integer hash; 
+        Integer hash;
         try {
             hash = Integer.parseInt(values[4].trim());
-        } catch (NumberFormatException ex){
-            hash=null;
+        } catch (NumberFormatException ex) {
+            hash = null;
         }
         return new HashedPicCoords(x, y, w, h, hash);
     }
@@ -181,15 +185,15 @@ public class Hashes {
     public static Properties writeProperties() {
         try {
             makeFileIfNotExists();
-            File backup=new File(new File(HASHFILE)
-                    .getParentFile().getAbsolutePath()+
-                    File.separator+"backup"+File.separator+
-                    System.currentTimeMillis()+".properties");
+            File backup = new File(new File(HASHFILE)
+                    .getParentFile().getAbsolutePath()
+                    + File.separator + "backup" + File.separator
+                    + System.currentTimeMillis() + ".properties");
             backup.getParentFile().mkdirs();
-            
+
             try (FileOutputStream backupStream = new FileOutputStream(backup)) {
                 PROPERTIES.store(backupStream, new Date().toString());
-            }        
+            }
             try (FileOutputStream fos = new FileOutputStream(HASHFILE)) {
                 PROPERTIES.store(fos, new Date().toString());
                 return PROPERTIES;

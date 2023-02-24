@@ -39,6 +39,7 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
@@ -74,6 +75,7 @@ public class MainApp {
 
     MainApp(String[] args) {
         MainApp.args = args;
+        Logger.getLogger("MainApp").log(Level.FINE, "args: {0}", Arrays.asList(args).toString());
         p = new Parameters(args);
     }
 
