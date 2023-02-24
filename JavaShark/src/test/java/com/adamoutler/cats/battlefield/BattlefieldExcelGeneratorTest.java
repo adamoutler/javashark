@@ -67,7 +67,7 @@ public class BattlefieldExcelGeneratorTest {
      * Test of createExcelFile method, of class CityKingsJsonOutput.
      */
     @Test
-    public void testCreateExcelFile() throws Exception {
+    public void testCreateExcelFile() throws Exception {        
         System.out.println("createExcelFile");
         File f = File.createTempFile("excel", ".xls");
         Battlefield match = testSomeMethod();

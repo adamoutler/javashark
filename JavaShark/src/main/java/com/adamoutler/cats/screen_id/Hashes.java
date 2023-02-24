@@ -75,18 +75,31 @@ public class Hashes {
     }
 
     private static void loadHashes() throws SecurityException {
-        // load data from web
-        try {
-            var inputStream = new URL(hashesFileUrl).openStream();
-            var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            if (text.contains("CITYKINGS"))
-            {
-                ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
-                PROPERTIES.load(bais);
+        // load test screen hashes
+        if (System.getenv().getOrDefault("MAVEN_PROJECTBASEDIR",null)!=null){
+            String targetFile = System.getenv().get("MAVEN_PROJECTBASEDIR")+"/src/test/resources/catsScreenDataHashes.properties";
+            try {
+                var fileInputStream = new FileInputStream(targetFile);
+                PROPERTIES.load(fileInputStream);
+            } catch (IOException ex) {
+                System.out.println("error loading file properties in Hashes from " + targetFile);
+                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
-            Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (PROPERTIES.isEmpty()) {
+            try {
+                var inputStream = new URL(hashesFileUrl).openStream();
+                var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                if (text.contains("CITYKINGS"))
+                {
+                    ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
+                    PROPERTIES.load(bais);
+                }
+            } catch (IOException ex) {
+                System.out.println("error loading file properties in Hashes (remote " + hashesFileUrl + ")!");
+                Logger.getLogger(Hashes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         // load from web failed ? -> try to load from local file
