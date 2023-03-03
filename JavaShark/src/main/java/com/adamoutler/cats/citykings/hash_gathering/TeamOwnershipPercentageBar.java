@@ -60,7 +60,7 @@ public class TeamOwnershipPercentageBar {
         int maxX = BARLOCATION.getW() + BARLOCATION.getX();
 
         int currentX = pc.scanRightXCoordinateForColorAtYCoordinate(validColors, STARTSCAN.getX(), STARTSCAN.getY(), maxX, 10);
-        int topY = pc.scanUpYCoordinateForLackOfColorAtXCoordinate(validColors, currentX, STARTSCAN.getY(), BARLOCATION.getY(), 10) + 2;
+        int topY = pc.scanUpYCoordinateForLackOfColorAtXCoordinate(validColors, currentX, STARTSCAN.getY(), BARLOCATION.getY(), 10) + 1;
         while (currentX < maxX && currentX != -1) {
             currentX = pc.scanRightXCoordinateForLackOfColorAtYCoordinate(validColors, currentX, topY, maxX, 10);
             owned.add(getOwnedBy(pc, currentX - 1, topY));
