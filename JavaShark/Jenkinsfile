@@ -16,7 +16,7 @@ pipeline {
                     stages{
                         stage("Establish Credentials"){
                             steps {
-                                withCredentials([sshUserPrivateKey(credentialsId: 'javasharkOn192.168.1.115', keyFileVariable: 'credential', usernameVariable: 'user')]) {
+                                withCredentials([sshUserPrivateKey(credentialsId: 'JavasharkOn192.168.1.115', keyFileVariable: 'credential', usernameVariable: 'user')]) {
                                     sh '''
                                         mkdir -p ~/.ssh/;
                                         ssh-keyscan 192.168.1.107>~/.ssh/known_hosts;
