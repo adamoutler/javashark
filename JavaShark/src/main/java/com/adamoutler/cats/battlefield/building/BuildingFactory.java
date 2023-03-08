@@ -38,6 +38,7 @@ public class BuildingFactory {
     public boolean scan() {
         building.setTosb(new TeamOwnershipPercentageBar(ByteImage.getPngBytes(vm.screenshot())));
         ScreenData sd = ScreenData.identifyScreen(building.getTosb().getBi());
+        var tst = building.getTosb().numberWeOwn();
         if (sd.equals(ScreenData.CITYKINGSBUILDINGSCREEN) && isValidBuilding()) {
             tapAttackOrDefend();
             for (int retries = 0; retries < 5; retries++) {
