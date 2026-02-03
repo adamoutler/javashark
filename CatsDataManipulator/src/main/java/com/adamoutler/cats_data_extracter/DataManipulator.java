@@ -54,7 +54,7 @@ public class DataManipulator {
     //run with java -jar DataManipulator.jar --output=cats.xlsx --adb="C:\Program Files\Nox\bin\nox_adb.exe"
     static String machineName = "127.0.0.1:62001";
     static String fileLocation = "msgCache.bin";
-    static String outputFile = "/var/www/baby-sharks/parts/CatsParts-" + System.currentTimeMillis() + ".xlsx";
+    static String outputFile = "CatsParts-" + System.currentTimeMillis() + ".xlsx";
     public static AppParams params;
     static String adbLocation = "adb";
     ProcessBuilder connect = new ProcessBuilder(new String[]{adbLocation, "connect", machineName});

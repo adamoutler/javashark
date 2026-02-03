@@ -21,12 +21,10 @@ import org.springframework.web.client.RestTemplate;
  */
 public class Translate {
 
-    public void main(String[] args) {
+    public static String translate(String text) {
         try {
-            GoogleAuth.authExplicit("C:\\Users\\adamo\\OneDrive\\Desktop\\svn\\Baby Sharks Projects\\JavaShark\\src\\main\\resources\\JavaShark-a966035cedbc.json");
+            GoogleAuth.authExplicit("JavaShark-a966035cedbc.json");
         } catch (IOException ex) {
-            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
-        }
         new Translate().translate("hola");
     }
 

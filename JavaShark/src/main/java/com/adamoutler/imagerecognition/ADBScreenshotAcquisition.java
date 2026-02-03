@@ -24,7 +24,7 @@ import se.vidstige.jadb.RemoteFile;
 public class ADBScreenshotAcquisition {
 
     //For swiping on Gang Fights Screen: adb shell input swipe 300 760 300 289 3000
-    public static final String ADB = "C:\\Users\\adamo\\OneDrive\\Desktop\\platform-tools\\adb.exe";
+    public static final String ADB = "adb";
     private transient JadbDevice jadb;
 
     public CityKingsCarRaw acquireCityKingsImage(VirtualBoxMachine vm) {

@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="C:\Program Files (x86)\Nox\bin\nox_adb.exe" --machine="127.0.0.1:62001" --purge</exec.args>
+                <exec.args>-classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="adb" --machine="127.0.0.1:62001" --purge</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="C:\Program Files (x86)\Nox\bin\nox_adb.exe" --machine="127.0.0.1:62001" --purge</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="adb" --machine="127.0.0.1:62001" --purge</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="C:\Program Files (x86)\Nox\bin\nox_adb.exe" --machine="127.0.0.1:62001" --purge</exec.args>
+                <exec.args>-classpath %classpath com.adamoutler.cats_data_extracter.CustomPrettyPrinting "msgCache.bin" --output="file.xls" --adb="adb" --machine="127.0.0.1:62001" --purge</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
