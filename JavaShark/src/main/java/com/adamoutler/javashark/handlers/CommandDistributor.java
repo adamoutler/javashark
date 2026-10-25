@@ -52,8 +52,12 @@ public class CommandDistributor implements HttpHandler {
             System.out.println("handling with " + aph.getClass().getName());
             aph.handle(t);
         } catch (Exception ex) {
-            t.sendResponseHeaders(200, 0);
-            t.getResponseBody().write("Access denied or invalid request.".getBytes("UTF-8"));
+            try {
+                t.sendResponseHeaders(200, 0);
+                t.getResponseBody().write("Access denied or invalid request.".getBytes("UTF-8"));
+            } catch (IOException ioEx) {
+                Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ioEx);
+            }
             Logger.getLogger(CommandDistributor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             t.close();

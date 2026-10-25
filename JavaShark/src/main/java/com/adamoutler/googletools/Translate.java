@@ -21,10 +21,12 @@ import org.springframework.web.client.RestTemplate;
  */
 public class Translate {
 
-    public static String translate(String text) {
+    public void main(String[] args) {
         try {
             GoogleAuth.authExplicit("JavaShark-a966035cedbc.json");
         } catch (IOException ex) {
+            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+        }
         new Translate().translate("hola");
     }
 
@@ -48,7 +50,7 @@ public class Translate {
         String target = "en";
         String[] q = new String[1];
         String model = "nmt";
-        String key = "REPLACE_ME";
+        String key = System.getenv().getOrDefault("GOOGLE_API_KEY", System.getProperty("google.api.key", ""));
 
         Request(String text) {
             q[0] = text;

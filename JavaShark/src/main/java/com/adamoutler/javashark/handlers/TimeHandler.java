@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class TimeHandler extends AbstractPapaHandler {
 
-    final String key = "REPLACE_ME";
+    final String key = System.getenv().getOrDefault("GOOGLE_API_KEY", System.getProperty("google.api.key", ""));
 
     public TimeHandler() {
         firstContactGoogle();
